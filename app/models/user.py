@@ -9,10 +9,7 @@ class User(Document):
 
 class Admin(User):
     admin_level = IntField(default=1)
-
-    def create_learning_path(self, name):
-        # Logic to set up new LearningPaths
-        pass
+    # SRP: Admin uses CourseService
 
 class Student(User):
     xp = IntField(default=0)

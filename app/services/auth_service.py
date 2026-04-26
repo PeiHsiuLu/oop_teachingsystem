@@ -9,23 +9,22 @@ class AuthService:
 
     def register(self, username, email, password, role='student'):
         """Registers a new user (Student or Admin)."""
-        # 1. Check if user already exists
+        # Check if user already exists
         if self.user_repo.get_by_username(username):
             raise ValueError("Username already taken.")
 
-        # 2. Hash the password
+        # Hash the password
         hashed_pw = generate_password_hash(password).decode('utf-8')
 
-        # 3. Create the appropriate polymorphic object
+        # Create the appropriate polymorphic object
         if role == 'admin':
             new_user = Admin(username=username, password_hash=hashed_pw)
         else:
             new_user = Student(username=username, password_hash=hashed_pw)
             
-        # You can add the email attribute here if you added it to the User model!
-        # new_user.email = email 
 
-        # 4. Save via Repository
+
+        # Save via Repository
         return self.user_repo.save(new_user)
 
     def login(self, username, password):
@@ -33,7 +32,7 @@ class AuthService:
         user = self.user_repo.get_by_username(username)
         
         if user and check_password_hash(user.password_hash, password):
-            # login_user is a Flask-Login function that handles the session cookie
+            # login_user handles the session cookie
             login_user(user)
             return True
             

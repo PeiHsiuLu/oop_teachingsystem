@@ -15,5 +15,5 @@ class UserRepository(BaseRepository):
             user.save()
 
     def get_top_players(self, limit=10):
-        # Assuming you want to sort by XP
+        # Sort by XP
         return User.objects.order_by('-xp')[:limit]

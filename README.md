@@ -54,7 +54,7 @@ Curious about our system design, database schemas, or current development progre
 * **蔡碩恩 (Shuo-En Tsai):** Gamified Learning, Team Formation, Content Moderation.
 
 ## Contact us:
-* **呂沛修 (Pei-Hsiu Lu)'s GitHub:**
-* **高郁城 (Yu-Cheng Kao)'s GitHub:**
-* **蔡碩恩 (Shuo-En Tsai)'s GitHub:**
+* **呂沛修 (Pei-Hsiu Lu)'s GitHub:** [View Here!](https://github.com/PeiHsiuLu)  
+* **高郁城 (Yu-Cheng Kao)'s GitHub:**[View Here!](https://github.com/leokao960811)  
+* **蔡碩恩 (Shuo-En Tsai)'s GitHub:**[View Here!](https://github.com/PeiHsiuLu)  
 

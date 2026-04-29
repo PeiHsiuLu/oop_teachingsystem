@@ -7,9 +7,27 @@
 
 An interactive, AI-driven web application designed to enhance English proficiency through Spaced Repetition Systems (SRS), scenario-based AI conversations, and gamified learning. This system was developed with strict adherence to **Object-Oriented Analysis and Design (OOAD)** principles.
 
-## 🚀 Project Tracking & Architecture
-Curious about our system design, database schemas, or current development progress? 
-👉 **[📌 View our latest Checkpoint & System Architecture here!](https://github.com/PeiHsiuLu/oop_teachingsystem/blob/main/Checkpoint.md)**
+## 🚀 Project Tracking
+Curious about our current development progress? 
+👉 **[📌 View our latest Checkpoint here!](https://github.com/PeiHsiuLu/oop_teachingsystem/blob/main/Checkpoint.md)**
+
+## 📊 System Diagrams
+
+### Use Cases
+*(Replace the path below with your actual image file path)*
+![Use Cases](./images/use_cases.png)
+
+### Activity Diagram
+*(Replace the path below with your actual image file path)*
+![Activity Diagram](./images/activity_diagram.png)
+
+### Architecture Diagram
+*(Replace the path below with your actual image file path)*
+![Architecture Diagram](./images/architecture_diagram.png)
+
+### Class Diagram
+*(Replace the path below with your actual image file path)*
+![Class Diagram](./images/class_diagram.png)
 
 ## ✨ Key Features
 
@@ -53,8 +71,7 @@ Curious about our system design, database schemas, or current development progre
 * **高郁城 (Yu-Cheng Kao):** Account Management, Course Scheduling.
 * **蔡碩恩 (Shuo-En Tsai):** Gamified Learning, Team Formation, Content Moderation.
 
-## Contact us:
+## 📞 Contact us:
 * **呂沛修 (Pei-Hsiu Lu)'s GitHub:** [View Here!](https://github.com/PeiHsiuLu)  
 * **高郁城 (Yu-Cheng Kao)'s GitHub:** [View Here!](https://github.com/leokao960811)  
-* **蔡碩恩 (Shuo-En Tsai)'s GitHub:** [View Here!](https://github.com/undertaker233)  
-
+* **蔡碩恩 (Shuo-En Tsai)'s GitHub:** [View Here!](https://github.com/undertaker233)

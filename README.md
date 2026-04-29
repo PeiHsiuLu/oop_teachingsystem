@@ -7,20 +7,6 @@
 
 An interactive, AI-driven web application designed to enhance English proficiency through Spaced Repetition Systems (SRS), scenario-based AI conversations, and gamified learning. This system was developed with strict adherence to **Object-Oriented Analysis and Design (OOAD)** principles.
 
-## 📑 Catalog (Table of Contents)
-- [Project Tracking](#project-tracking)
-- [System Diagrams](#system-diagrams)
-  - [Use Cases](#use-cases)
-  - [Activity Diagram: Report Inappropriate Content](#activity-diagram-report-inappropriate-content-workflow)
-  - [Architecture Diagram: System Tech Stack & Data Flow](#architecture-diagram-system-tech-stack--data-flow)
-  - [Class Diagram: Core System Architecture](#class-diagram-core-system-architecture)
-- [Key Features](#key-features)
-- [Tech Stack](#tech-stack)
-- [Quick Start (Local Setup)](#quick-start-local-setup)
-- [Meet the Team](#meet-the-team)
-- [Contact Us](#contact-us)
-
-
 ---
 
 ## 🚀 Project Tracking

@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from app.services.course_service import CourseService
+from app.services.course_serivce import CourseService
 from flask_login import login_required, current_user
 
 course_bp = Blueprint('course', __name__)

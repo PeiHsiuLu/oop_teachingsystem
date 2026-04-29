@@ -5,7 +5,16 @@ class User(Document):
     password_hash = StringField(required=True)
     
     # Polymorphism configuration
-    meta = {'allow_inheritance': True}
+    meta = {
+        'allow_inheritance': True,
+        'indexes': ['username']
+    }
+
+    @property
+    def role(self):
+        """Dynamically determine the user's role from the class name."""
+        # The _cls field from MongoEngine holds the class name (e.g., 'User.Admin')
+        return self._cls.split('.')[-1].lower()
 
 class Admin(User):
     admin_level = IntField(default=1)

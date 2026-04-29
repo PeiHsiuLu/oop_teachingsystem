@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Review Card{% endblock %}
+
+{% block content %}
+    <div style="max-width: 500px; margin: 2rem auto; text-align: center;">
+        <h2>單字複習 (Vocabulary Review)</h2>
+
+        {% if card %}
+            <div id="flashcard-container" style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 3rem 1rem; min-height: 150px; display: flex; flex-direction: column; justify-content: center; margin-bottom: 1.5rem;">
+                <!-- Front of the card -->
+                <div id="card-front">
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #212529;">{{ card.word_text }}</div>
+                </div>
+
+                <!-- Back of the card (initially hidden) -->
+                <div id="card-back" style="display: none;">
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #212529;">{{ card.word_text }}</div>
+                    <p style="font-size: 1.2rem; color: #495057;">{{ card.definition }}</p>
+                    <small>{{ card.part_of_speech }}</small>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div id="show-answer-btn-container">
+                <button class="btn btn-primary" onclick="flipCard()">Show Answer</button>
+            </div>
+
+            <div id="review-options-container" style="display: none;">
+                <form method="POST" action="{{ url_for('srs.submit_review') }}" style="display: flex; justify-content: space-around;">
+                    <input type="hidden" name="word_id" value="{{ card.id }}">
+                    <button type="submit" name="quality" value="1" class="btn" style="background-color: #dc3545; color: white;">Forgot (不記得)</button>
+                    <button type="submit" name="quality" value="3" class="btn" style="background-color: #ffc107; color: white;">Hard (困難)</button>
+                    <button type="submit" name="quality" value="5" class="btn" style="background-color: #28a745; color: white;">Easy (簡單)</button>
+                </form>
+            </div>
+
+            <script>
+                function flipCard() {
+                    document.getElementById('card-front').style.display = 'none';
+                    document.getElementById('card-back').style.display = 'block';
+                    document.getElementById('show-answer-btn-container').style.display = 'none';
+                    document.getElementById('review-options-container').style.display = 'block';
+                }
+            </script>
+
+        {% else %}
+            <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 3rem 1rem; min-height: 150px; display: flex; flex-direction: column; justify-content: center; margin-bottom: 1.5rem;">
+                <p>Congratulations! No more words to review for now.</p>
+                <a href="{{ url_for('main.index') }}" class="btn btn-primary" style="margin-top: 1rem;">Back to Home</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

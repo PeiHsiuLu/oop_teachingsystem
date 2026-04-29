@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+    <h1>Welcome to the OOP Teaching System</h1>
+    <p>This is the main dashboard. From here you can access your learning materials and manage your profile.</p>
+    
+    {% if current_user.is_authenticated %}
+        <hr>
+        <h3>Your Dashboard</h3>
+        {% if current_user.role == 'student' %}
+            <p>Ready to learn? Start your next review session.</p>
+            <a href="{{ url_for('srs.get_next_review_word') }}" class="btn btn-primary">Start Review</a>
+        {% elif current_user.role == 'admin' %} {# This is the admin role check #}
+            <p>Manage the application content.</p>
+            <a href="{{ url_for('word.manage_words') }}" class="btn btn-secondary">Manage Words</a>
+        {% endif %}
+    {% else %}
+        <p>Please <a href="{{ url_for('auth.login') }}">log in</a> or <a href="{{ url_for('auth.register') }}">register</a> to get started.</p>
+    {% endif %}
+{% endblock %}

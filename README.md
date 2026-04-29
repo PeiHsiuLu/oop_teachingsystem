@@ -15,7 +15,9 @@ Curious about our current development progress?
 
 ### Use Cases
 We use eight use cases in the project.  
-*Use case definition: Desribe a whole process (or task) that the user (Actor) who cooperates with the system to attain a goal.*     
+
+*Use case definition: Desribe a whole process (or task) that the user (Actor) who cooperates with the system to attain a goal.*  
+  
 1. Manage the account:   
 <img width="682" height="335" alt="image" src="https://github.com/user-attachments/assets/2783505f-4cdc-4761-82ef-93c65b65c186" />
 2. Course arrange:  

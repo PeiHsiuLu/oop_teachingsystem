@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+    <h2>Welcome, {{ current_user.username }}!</h2>
+    <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card" style="padding: 1rem; background: #e9ecef;">
+            <h3>Learning Streak</h3>
+            <p>Current XP: <strong>{{ current_user.xp }}</strong></p>
+        </div>
+        <div class="card" style="padding: 1rem; background: #e9ecef;">
+            <h3>Recent Stats</h3>
+            <p>Credit Score: {{ current_user.credit_score }}</p>
+        </div>
+        <div class="card" style="padding: 1rem; background: #e9ecef;">
+            <h3>My Group</h3>
+            <a href="#" class="btn btn-primary">View Study Group</a>
+        </div>
+        <div class="card" style="padding: 1rem; background: #e9ecef;">
+            <h3>View Courses</h3>
+            <a href="#" class="btn btn-secondary">Start Learning</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_bcrypt import Bcrypt
 from mongoengine import connect
 from app.models.user import User, Student, Admin
 from app.models.course import LearningPath, Chapter, Unit
@@ -6,14 +7,18 @@ from app.models.word import Word, SentenceGeneratingRule, ReviewItem
 from app.models.dialogue import DialogueNode
 from app.models.analytics import InteractionLog
 
+bcrypt = Bcrypt()
 
 def create_app():
     # The template_folder is set to 'routes' because the HTML files are currently in that directory.
     # The standard practice is to have a 'templates' folder.
-    app = Flask(__name__, template_folder='routes')
+    # app = Flask(__name__, template_folder='routes')
+    app = Flask(__name__)
     app.config.from_object('config.Config')
     # A secret key is required for session management (e.g., for flash messages).
-    app.config['SECRET_KEY'] = 'a-super-secret-key-for-dev' # Change this for production!
+    app.config['SECRET_KEY'] = 'a-very-hard-to-guess-string' # Change this for production!
+
+    bcrypt.init_app(app)
     
     # Direct connection instead of using the wrapper
     connect(host=app.config['MONGODB_SETTINGS']['host'])
@@ -42,8 +47,10 @@ def create_app():
     from app.routes.word import word_bp
     from app.routes.main import main_bp
     from app.routes.srs import srs_bp # New: SRS routes
+    from app.routes.dashboard import dashboard_bp
     
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(dashboard_bp)
     app.register_blueprint(course_bp, url_prefix='/course')
     app.register_blueprint(word_bp, url_prefix='/word')
     app.register_blueprint(main_bp) # Register at root

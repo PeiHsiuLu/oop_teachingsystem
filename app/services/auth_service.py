@@ -1,6 +1,6 @@
 from app.repositories.user_repository import UserRepository
 from app.models.user import Student, Admin
-from flask_bcrypt import generate_password_hash, check_password_hash
+from app import bcrypt
 from flask_login import login_user, logout_user
 
 class AuthService:
@@ -14,13 +14,13 @@ class AuthService:
             raise ValueError("Username already taken.")
 
         # Hash the password
-        hashed_pw = generate_password_hash(password).decode('utf-8')
+        hashed_pw = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Create the appropriate polymorphic object
         if role == 'admin':
-            new_user = Admin(username=username, password_hash=hashed_pw)
+            new_user = Admin(username=username, email=email, password_hash=hashed_pw)
         else:
-            new_user = Student(username=username, password_hash=hashed_pw)
+            new_user = Student(username=username, email=email, password_hash=hashed_pw)
             
 
 
@@ -28,15 +28,13 @@ class AuthService:
         return self.user_repo.save(new_user)
 
     def login(self, username, password):
-        """Authenticates a user and starts a session."""
         user = self.user_repo.get_by_username(username)
         
-        if user and check_password_hash(user.password_hash, password):
-            # login_user handles the session cookie
+        if user and bcrypt.check_password_hash(user.password_hash, password):
             login_user(user)
-            return True
-            
-        return False
+            return user  # Returns the user object on success
+        
+        return None # Returns None (which is falsy) on failure
 
     def logout(self):
         """Ends the user session."""

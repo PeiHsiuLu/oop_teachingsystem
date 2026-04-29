@@ -5,6 +5,8 @@
 {% block content %}
     <h2>Register a New Account</h2>
     <form method="POST" action="{{ url_for('auth.register') }}">
+        {{ form.hidden_tag() }} <!-- for security -->
+        
         <div>
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>

@@ -1,15 +1,20 @@
+from flask_login import UserMixin
 from mongoengine import Document, StringField, IntField, ReferenceField, ListField
 
-class User(Document):
+class User(Document, UserMixin):
     username = StringField(required=True, unique=True)
     password_hash = StringField(required=True)
-    
+    email = StringField(required=True)
+
     # Polymorphism configuration
     meta = {
         'allow_inheritance': True,
         'indexes': ['username']
     }
 
+    def get_id(self):
+        return str(self.id)
+    
     @property
     def role(self):
         """Dynamically determine the user's role from the class name."""

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Student Dashboard</h1>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card">
+            <h3>Learning Streak</h3>
+            <p>{{ user.xp }} XP</p>
+        </div>
+        <div class="card">
+            <h3>View Courses</h3>
+            <a href="{{ url_for('course.view') }}" class="btn btn-primary">Go to Courses</a>
+        </div>
+    </div>
+    <!-- Add more cards for Stats and Groups -->
+{% endblock %}

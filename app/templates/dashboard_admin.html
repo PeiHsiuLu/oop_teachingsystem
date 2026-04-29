@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <h2>Admin Management Panel</h2>
+    <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card" style="padding: 1rem; background: #f0f0f0;">
+            <h3>Course Status</h3>
+            <p>Active Paths: 5</p>
+            <a href="{{ url_for('course.add_unit') }}" class="btn btn-primary">Manage Courses</a>
+        </div>
+        <div class="card" style="padding: 1rem; background: #f0f0f0;">
+            <h3>Recent Reports</h3>
+            <p>Pending Flags: 2</p>
+            <a href="#" class="btn btn-secondary">View Reports</a>
+        </div>
+    </div>
+{% endblock %}

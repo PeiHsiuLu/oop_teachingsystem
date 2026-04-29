@@ -1,6 +1,6 @@
 # 🎓 AI-Powered English Learning System (英文學習系統)
 
-![Python](https://img.shields.io/badge/Python-12+-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
 ![React](https://img.shields.io/badge/React-18.x-61dafb.svg)
 ![Flask](https://img.shields.io/badge/Flask-API-black.svg)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248.svg)

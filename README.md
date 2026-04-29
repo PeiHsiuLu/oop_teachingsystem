@@ -55,6 +55,6 @@ Curious about our system design, database schemas, or current development progre
 
 ## Contact us:
 * **呂沛修 (Pei-Hsiu Lu)'s GitHub:** [View Here!](https://github.com/PeiHsiuLu)  
-* **高郁城 (Yu-Cheng Kao)'s GitHub:**[View Here!](https://github.com/leokao960811)  
-* **蔡碩恩 (Shuo-En Tsai)'s GitHub:**[View Here!](https://github.com/undertaker233)  
+* **高郁城 (Yu-Cheng Kao)'s GitHub:** [View Here!](https://github.com/leokao960811)  
+* **蔡碩恩 (Shuo-En Tsai)'s GitHub:** [View Here!](https://github.com/undertaker233)  
 

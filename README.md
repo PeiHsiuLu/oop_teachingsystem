@@ -15,22 +15,22 @@ Curious about our current development progress?
 
 ### Use Cases
 We use eight use cases in the project.  
-*Use case definition: Desribe a whole process (or task) that the user (Actor) who cooperates with the system to attain a goal.*  
-* Manage the account:   
+*Use case definition: Desribe a whole process (or task) that the user (Actor) who cooperates with the system to attain a goal.*   
+1. Manage the account:   
 <img width="682" height="335" alt="image" src="https://github.com/user-attachments/assets/2783505f-4cdc-4761-82ef-93c65b65c186" />
-* Course arrange:  
+2. Course arrange:  
 <img width="612" height="381" alt="image" src="https://github.com/user-attachments/assets/4017029a-eb53-4625-81c2-0cb3219459bc" />
-* Database Build and Training:  
+3. Database Build and Training:  
 <img width="799" height="454" alt="image" src="https://github.com/user-attachments/assets/9ae96cb2-21b5-4bef-89ae-95f174141be6" />
-* Couse interaction:  
+4. Couse interaction:  
 <img width="800" height="501" alt="image" src="https://github.com/user-attachments/assets/71c27575-0d69-407f-ae49-fb9cbeb0cf7c" />
-* Result Analysis:  
+5. Result Analysis:  
 <img width="799" height="471" alt="image" src="https://github.com/user-attachments/assets/662b390b-e6ea-4d03-861e-5f8a4391f0a7" />
-* Learning by Game:  
+6. Learning by Game:  
 <img width="800" height="613" alt="image" src="https://github.com/user-attachments/assets/46b26a73-4cf4-48dd-aac7-129f2a5e8b6e" />
-* Team up:  
+7. Team up:  
 <img width="800" height="719" alt="image" src="https://github.com/user-attachments/assets/3cbeb4ea-3543-4bc4-98ed-e80c0027693e" />
-* Report the fault:  
+8. Report the fault:  
 <img width="701" height="548" alt="image" src="https://github.com/user-attachments/assets/ea8e1d43-8d7b-4880-93b9-837538aa388f" />
   
   

@@ -1,6 +1,7 @@
 # CHECKPOINT: English Learning System (OOAD Project)
 
 This document outlines the current state of development for the English Learning System, focusing on the backend architecture and server-rendered UI for three primary use cases: Vocabulary Bank & Training, Course Interaction, and Analytics.
+It also serves as a log for file functions and recent modifications.
 
 ## 1. File Directory & Functions
 
@@ -14,51 +15,49 @@ This section details the purpose of each file within the current project structu
 ### `app/models/` - Data Schema Layer
 Defines the BSON document structures for MongoDB using `mongoengine`.
 -   `user.py`: Defines the `User`, `Admin`, and `Student` models using polymorphic inheritance.
--   `word.py`: Defines the core vocabulary schemas: `Word` (the vocabulary itself), `SentenceGeneratingRule`, and `ReviewItem` (tracks a student's SRS progress for a word).
+-   `vocabulary.py`: Defines the `Word` (with SM-2 SRS logic) and `VocabularyBank` schemas for student vocabulary management (UC3).
 -   `course.py`: Defines schemas for `LearningPath`, `Chapter`, and `Unit`.
 -   `dialogue.py`: Defines the `DialogueNode` and `DialogueOption` schemas for building interactive conversation trees.
--   `analytics.py`: Defines the `InteractionLog` schema for recording user events for later analysis.
+-   `analytics.py`: Defines the `InteractionLog` schema for recording user behavior, correctness, and time spent (UC4_2).
+-   `team.py`: Defines the `StudyGroup` schema for students to create and join teams (UC7).
 
 ### `app/repositories/` - Data Access Layer
 Abstracts database interactions, separating business logic from data persistence logic.
 -   `base_repository.py`: An abstract base class providing a common interface for all repositories (e.g., `save`, `find_by_id`).
 -   `user_repository.py`: Handles database operations for `User` documents.
 -   `course_repository.py`: Handles database operations for `LearningPath` and `Chapter` documents.
--   `word_repository.py`: Handles database operations for `Word` and `ReviewItem` documents.
--   `sentence_rule_repository.py`: Handles database operations for `SentenceGeneratingRule` documents.
+-   `vocabulary_repository.py`: Uses MongoDB Aggregation pipelines to efficiently query words due for review.
 
 ### `app/services/` - Business Logic Layer
 Contains the core business logic and orchestrates operations between different components.
 -   `auth_service.py`: Manages user registration, login, logout, and role validation.
--   `course_serivce.py`: Manages the creation of learning paths and their components.
--   `word_service.py`: Provides methods for administrators to manage the vocabulary (`Word`) and sentence generation rules.
--   `srs_service.py`: Implements the Spaced Repetition System. It contains the `SRSManager` and the `SuperMemo2Strategy`, demonstrating the **Strategy Pattern**.
--   `dialogue_service.py`: The `DialogueEngine` for navigating scenario-based conversations defined by `DialogueNode`s.
--   `analytics_service.py`: The `AnalyticsEngine` for logging user interactions and generating reports from those logs.
+-   `course_service.py`: Manages the creation of learning paths and their components.
+-   `vocabulary_service.py`: Handles dynamic sentence generation and atomic database updates for SRS reviews (UC3).
+-   `srs_manager.py`: Analyzes `InteractionLogs` to generate weakness reports and review strategies (UC5).
+-   `dialogue_engine.py`: Handles stateful traversal of dialogue nodes and saves interaction logs upon completion (UC4).
+-   `team_service.py`: Handles the logic for creating teams and checking membership restrictions (UC7).
+-   `game_observer.py`: Implements the **Observer Pattern** to automatically grant XP to students when tasks are completed (UC6).
 
 ### `app/routes/` - Presentation & API Layer
 Contains Flask Blueprints that define the application's URLs (routes) and connect them to backend logic. This layer also includes the UI templates and components.
 -   `main.py`: Defines the route for the main home page (`/`).
 -   `auth.py`: Defines routes for user authentication (`/register`, `/login`, `/logout`).
 -   `course.py`: Defines routes for course management.
--   `word.py`: Defines routes for vocabulary management. This includes a server-rendered page for admins (`/admin/words/manage`) and several JSON API endpoints for programmatic access.
--   `srs.py`: Defines the student-facing routes for vocabulary review (`/review/next`, `/review`), which render the flashcard interface.
+-   `vocabulary_api.py`: Exposes endpoints for seeding data and submitting SRS reviews.
+-   `dialogue_api.py`: Exposes endpoints to start scenarios and make dialogue choices.
+-   `analytics_api.py`: Exposes endpoints to fetch weakness reports.
+-   `team_api.py`: Exposes endpoints to create and join study groups.
 
 #### HTML Templates (Server-Rendered UI)
--   `base.html`: The main Jinja2 template providing the site-wide layout, navigation bar, and styling.
--   `index.html`: The home page template, which dynamically shows different options based on user role.
--   `login.html` / `register.html`: User authentication forms.
--   `admin_words.html`: A dashboard for administrators to add new words and view the existing vocabulary.
--   `review_card.html`: The student-facing flashcard interface for SRS vocabulary review.
+-   `base.html`: Main layout featuring navigation links.
+-   `student_dashboard.html`: Unified dashboard displaying Gamification stats, Vocabulary Review, Course Interaction, and Result Analysis.
+-   `student_course.html`: Dedicated view for Learning Paths and Chapters.
+-   `student_dialogue.html`: Interactive chat UI for scenario practice.
+-   `student_analytics.html`: UI for displaying the weakness report and review strategy.
+-   `student_teams.html`: UI for viewing, joining, and creating study groups.
 
-#### React Components (For a Decoupled Frontend)
-*Note: These files are part of the original frontend architecture plan but are not currently integrated with the server-rendered Flask application.*
--   `SRSFlashcard.js`: A React component designed to fetch data from the SRS JSON API and render a flashcard UI.
--   `AITutor.js`: A React component designed to create a chat interface for the `DialogueEngine`.
-
-### `app/models/test_srs_service.py`
-*Note: This file is currently misplaced in the `models` directory. It should be in a dedicated `tests/` folder.*
--   `test_srs_service.py`: Contains unit tests for the `SuperMemo2Strategy` using `pytest` and `mongomock` to ensure the SRS algorithm's calculations are correct in isolation.
+### `app/utils/` - Utilities
+-   `decorators.py`: Custom decorators for route protection (`@role_required`) and browser caching prevention (`@no_cache`).
 
 ---
 
@@ -111,41 +110,36 @@ The project adheres to several key Object-Oriented Analysis and Design (OOAD) pr
     -   **File:** `app/__init__.py`
     -   **Implementation:** The `create_app()` function encapsulates the entire setup process, making the application more modular and easier to test or deploy in different configurations.
 
--   **Decorator Pattern:** Used to add cross-cutting concerns like authentication and authorization.
-    -   **File:** `app/routes/word.py`
-    -   **Implementation:** The `@admin_required` decorator wraps route functions, adding a role-checking layer before the route's primary logic is executed. This keeps the authorization logic separate from the route's main responsibility.
+-   **Observer Pattern:** Used to trigger secondary actions without tightly coupling systems.
+    -   **File:** `app/services/game_observer.py`
+    -   **Implementation:** `GamificationObserver` listens for events (like completing a dialogue or vocabulary review) from the `DialogueEngine` and `VocabularyService` to automatically award XP to the student, separating learning logic from game logic.
 
 ---
 
-## 4. New and Modified Files
+## 4. Detailed Modifications Log
 
-The following files have been created or modified during this development checkpoint.
+The following outlines how key files were recently modified to achieve the current system state.
 
-### New Files
-- `app/models/analytics.py`
-- `app/models/dialogue.py`
-- `app/models/test_srs_service.py`
-- `app/repositories/sentence_rule_repository.py`
-- `app/repositories/word_repository.py`
-- `app/routes/AITutor.js`
-- `app/routes/SRSFlashcard.js`
-- `app/routes/admin_words.html`
-- `app/routes/base.html`
-- `app/routes/index.html`
-- `app/routes/login.html`
-- `app/routes/main.py`
-- `app/routes/register.html`
-- `app/routes/review_card.html`
-- `app/services/analytics_service.py`
-- `app/services/dialogue_service.py`
-- `app/services/srs_service.py`
-- `app/services/word_service.py`
+### `app/__init__.py`
+- **Modification:** Added `register_blueprint` statements for `vocabulary_bp`, `dialogue_bp`, `analytics_bp`, and `team_bp`.
+- **Reason:** Required to make the new APIs accessible to the Flask application.
 
-### Modified Files
-- `app/__init__.py`
-- `app/models/user.py`
-- `app/models/word.py`
-- `app/routes/auth.py`
-- `app/routes/course.py`
-- `app/routes/srs.py`
-- `app/routes/word.py`
+### `app/routes/course.py`
+- **Modification:** Updated the root `/` route to automatically redirect logged-in students to `/student/dashboard`. Separated the dashboard route from the course listing route (`/student/courses`). Applied the `@no_cache` decorator to the dashboard.
+- **Reason:** Improves UX by providing a dedicated dashboard home screen, and prevents browser caching issues during development.
+
+### `app/utils/decorators.py`
+- **Modification:** Added a `@no_cache` decorator. Updated `@role_required` to evaluate roles using `.lower()`.
+- **Reason:** Ensures that API checks for roles are case-insensitive (matching the User model), and provides a utility to force browsers to fetch fresh UI data.
+
+### `app/services/vocabulary_service.py`
+- **Modification:** Refactored `process_review` to use MongoEngine's `update_one(set__...)` atomic operation. Added `GamificationObserver.on_task_completed()`.
+- **Reason:** Greatly improves database write performance by avoiding full document loads, and seamlessly integrates Use Case 6 (Gamification).
+
+### `app/services/dialogue_engine.py`
+- **Modification:** Implemented actual Node traversal logic in `start_session` and `handle_user_choice`. Added `InteractionLog.save()` and `GamificationObserver` to `finalize_session`. Added `create_node`.
+- **Reason:** Transforms the service from an empty interface into a functional engine that powers Use Case 4 and connects it to Gamification (UC6).
+
+### `app/templates/base.html`
+- **Modification:** Updated the navigation bar to include separate links for "Dashboard", "Courses", and "Teams".
+- **Reason:** Allows the student to navigate freely between the newly separated views.

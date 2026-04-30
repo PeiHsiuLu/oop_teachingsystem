@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Learning Path</h2>
+
+{% for path in paths %}
+    <h3>{{ path.path_name }}</h3>
+    {% for chapter in path.chapters %}
+        <div class="card {% if not chapter.is_unlocked(user) %}locked{% endif %}">
+            <h4>
+                {{ chapter.title }}
+                {% if not chapter.is_unlocked(user) %}
+                    <span class="badge">🔒 Locked (Req: {{ chapter.unlock_rule_type }})</span>
+                {% endif %}
+            </h4>
+            
+            {% if chapter.is_unlocked(user) %}
+                <ul>
+                    {% for unit in chapter.units %}
+                        <li><a href="#">{{ unit.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Complete more chapters to unlock!</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endfor %}
+{% endblock %}

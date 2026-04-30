@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Course Management</h2>
+
+{% for path in paths %}
+    <div class="path-block" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px;">
+        <h3>{{ path.path_name }}
+            <!-- Delete Path Button -->
+            <form action="{{ url_for('course.delete_path') }}" method="POST" style="display:inline;">
+                {{ path_form.hidden_tag() }}
+                <input type="hidden" name="path_id" value="{{ path.id|string }}">
+                <button type="submit" style="color:red;" onclick="return confirm('Delete this entire path?')">Delete Path</button>
+            </form>
+        </h3>
+
+        {% for chapter in path.chapters %}
+            <div style="margin-left: 20px; border-left: 2px solid #aaa; padding-left: 10px;">
+                <h4>Chapter: {{ chapter.title }}
+                    <!-- Delete Chapter Button -->
+                    <form action="{{ url_for('course.delete_chapter') }}" method="POST" style="display:inline;">
+                        {{ chapter_form.hidden_tag() }}
+                        <input type="hidden" name="path_id" value="{{ path.id|string }}">
+                        <input type="hidden" name="chapter_id" value="{{ chapter.id|string }}">
+                        <button type="submit" style="color:red;" onclick="return confirm('Delete this chapter?')">Delete</button>
+                    </form>
+                </h4>
+                
+                <ul>
+                    {% for unit in chapter.units %}
+                        <li>{{ unit.title }}
+                            <!-- Delete Unit Button -->
+                            <form action="{{ url_for('course.delete_unit') }}" method="POST" style="display:inline;">
+                                {{ unit_form.hidden_tag() }}
+                                <input type="hidden" name="chapter_id" value="{{ chapter.id|string }}">
+                                <input type="hidden" name="unit_id" value="{{ unit.id|string }}">
+                                <button type="submit" style="font-size: 0.7rem; color:red;" onclick="return confirm('Delete this unit?')">Delete</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            <!-- Add Unit Form -->
+            <form action="{{ url_for('course.add_unit') }}" method="POST">
+                {{ unit_form.hidden_tag() }}
+                <input type="hidden" name="chapter_id" value="{{ chapter.id|string }}">
+                {{ unit_form.title(placeholder="New Unit Title") }}
+                <button type="submit">Add Unit</button>
+            </form>
+        </div>
+    {% endfor %}
+    
+    <!-- Add Chapter Form -->
+    <form action="{{ url_for('course.add_chapter') }}" method="POST">
+        {{ chapter_form.hidden_tag() }}
+        <input type="hidden" name="path_id" value="{{ path.id|string }}">
+        
+        {{ chapter_form.title(placeholder="Chapter Title") }}
+        
+        <!-- Rule Selection -->
+        <select name="rule_type">
+            <option value="none">No Unlock Rule</option>
+            <option value="level">Level Required</option>
+            <option value="score">Score Required</option>
+        </select>
+        
+        <input type="number" name="threshold" placeholder="Threshold" min="0" style="width: 80px;">
+        
+        <button type="submit">Add Chapter</button>
+    </form>
+{% endfor %}
+
+<hr>
+<h3>Create New Learning Path</h3>
+<form action="{{ url_for('course.create_path') }}" method="POST">
+    {{ path_form.hidden_tag() }}
+    {{ path_form.name(placeholder="New Path Name") }}
+    <button type="submit">Create Path</button>
+</form>
+{% endblock %}

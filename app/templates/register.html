@@ -5,31 +5,25 @@
 {% block content %}
     <h2>Register a New Account</h2>
     <form method="POST" action="{{ url_for('auth.register') }}">
-        {{ form.hidden_tag() }} <!-- for security -->
-        
-        <div>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <br>
-        <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <br>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <br>
-        <div>
-            <label for="role">Role</label>
-            <select id="role" name="role">
-                <option value="student" selected>Student</option>
-                <option value="admin">Admin</option>
-            </select>
-        </div>
-        <br>
-        <button type="submit" class="btn btn-primary">Register</button>
+    {{ form.hidden_tag() }}
+    
+    <div>
+        {{ form.username.label }} {{ form.username() }}
+    </div>
+    <br>
+    <div>
+        {{ form.email.label }} {{ form.email() }}
+    </div>
+    <br>
+    <div>
+        {{ form.password.label }} {{ form.password() }}
+    </div>
+    <br>
+    <div>
+        {{ form.role.label }} {{ form.role() }}
+    </div>
+    <br>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
     </form>
 {% endblock %}

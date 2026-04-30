@@ -21,8 +21,6 @@ class AuthService:
             new_user = Admin(username=username, email=email, password_hash=hashed_pw)
         else:
             new_user = Student(username=username, email=email, password_hash=hashed_pw)
-            
-
 
         # Save via Repository
         return self.user_repo.save(new_user)

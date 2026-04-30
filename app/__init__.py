@@ -48,6 +48,10 @@ def create_app():
     from app.routes.main import main_bp
     from app.routes.srs import srs_bp # New: SRS routes
     from app.routes.dashboard import dashboard_bp
+    from app.routes.team_api import team_bp
+    from app.routes.dialogue_api import dialogue_bp
+    from app.routes.analytics_api import analytics_bp
+    from app.routes.vocabulary_api import vocabulary_bp
     
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(dashboard_bp)
@@ -55,7 +59,10 @@ def create_app():
     app.register_blueprint(word_bp, url_prefix='/word')
     app.register_blueprint(main_bp) # Register at root
     app.register_blueprint(srs_bp, url_prefix='/srs') # New: SRS routes
-    # You would also register dialogue and analytics blueprints here
+    app.register_blueprint(team_bp)
+    app.register_blueprint(dialogue_bp)
+    app.register_blueprint(analytics_bp)
+    app.register_blueprint(vocabulary_bp)
 
     # Initialize Flask-Login (assuming this exists in the full __init__.py)
     from flask_login import LoginManager

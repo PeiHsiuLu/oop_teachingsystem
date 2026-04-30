@@ -1,25 +1,23 @@
-from mongoengine import Document, ReferenceField, DateTimeField, StringField, DynamicField, CASCADE
-import datetime
+from mongoengine import Document, ReferenceField, DateTimeField, IntField, ListField, StringField
+from datetime import datetime
 
 class InteractionLog(Document):
     """
-    Logs a specific user interaction for later analysis.
-    This collection can grow very large, so indexing is critical.
+    Records the interaction behavior of a student (Use Case 4_2).
     """
-    user = ReferenceField('User', required=True, reverse_delete_rule=CASCADE)
-    timestamp = DateTimeField(default=datetime.datetime.utcnow)
-    
-    # Type of event, e.g., 'WORD_REVIEW', 'DIALOGUE_CHOICE', 'SENTENCE_GENERATED'
-    event_type = StringField(required=True)
-    
-    # Flexible field to store event-specific details
-    details = DynamicField()
+    user_id = ReferenceField('Student', required=True)
+    unit_id = ReferenceField('Unit', required=False) # Optional for global practice
+    timestamp = DateTimeField(default=datetime.utcnow)
+    correctness_score = IntField(default=0)
+    time_spent = IntField(default=0) # Recorded in seconds
+    clicked_options = ListField(StringField())
 
-    meta = {
-        'collection': 'interaction_logs',
-        'indexes': [
-            'user',
-            'timestamp',
-            'event_type'
-        ]
-    }
+    def to_dict(self):
+        return {
+            "user_id": str(self.user_id.id),
+            "unit_id": str(self.unit_id.id) if self.unit_id else None,
+            "timestamp": self.timestamp.isoformat(),
+            "correctness_score": self.correctness_score,
+            "time_spent": self.time_spent,
+            "clicked_options": self.clicked_options
+        }

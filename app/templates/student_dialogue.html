@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Scenario Dialogue Play (Use Case 4)</h2>
+<p>Choose your responses carefully to navigate the conversation.</p>
+
+<div style="border: 2px solid #28a745; border-radius: 8px; padding: 20px; background-color: #fdfdfd; max-width: 700px; margin: 0 auto;">
+    <div id="dialogue-box" style="height: 350px; border: 1px solid #ddd; border-radius: 4px; padding: 15px; overflow-y: auto; background-color: white; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px;">
+        <p style="color: #666; text-align: center; width: 100%;">Starting conversation...</p>
+    </div>
+    
+    <div id="options-container" style="display: flex; flex-direction: column; gap: 10px;">
+        <!-- Options will be injected here by JavaScript -->
+    </div>
+</div>
+
+<script>
+    const dialogueBox = document.getElementById('dialogue-box');
+    const optionsContainer = document.getElementById('options-container');
+    let currentNodeId = null; // State to track the current node
+
+    function addMessage(sender, text, isNpc = false) {
+        const msgDiv = document.createElement('div');
+        msgDiv.style.alignSelf = isNpc ? 'flex-start' : 'flex-end';
+        msgDiv.innerHTML = `<span style="background-color: ${isNpc ? '#e9ecef' : '#007bff'}; color: ${isNpc ? 'black' : 'white'}; padding: 10px 15px; border-radius: 15px; display: inline-block; max-width: 80%;">${text}</span>`;
+        dialogueBox.appendChild(msgDiv);
+        dialogueBox.scrollTop = dialogueBox.scrollHeight;
+    }
+
+    function updateUIWithNode(nodeData) {
+        addMessage('NPC', nodeData.npc_text, true);
+        currentNodeId = nodeData.node_id;
+        optionsContainer.innerHTML = '';
+
+        if (nodeData.options && nodeData.options.length > 0) {
+            nodeData.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'btn btn-primary';
+                button.style.textAlign = 'left';
+                button.innerText = option.text;
+                button.onclick = () => selectOption(index, option.text);
+                optionsContainer.appendChild(button);
+            });
+        } else {
+            optionsContainer.innerHTML = `<a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary text-center">Dialogue Finished! Return to Dashboard</a>`;
+        }
+    }
+
+    async function startDialogueSession(scenarioId) {
+        dialogueBox.innerHTML = '';
+        addMessage('System', `Starting scenario: ${scenarioId}...`, true);
+
+        const response = await fetch('/api/dialogue/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ scenario_id: scenarioId })
+        });
+
+        if (!response.ok) {
+            addMessage('System', 'Sorry, this dialogue scenario is currently unavailable. Please try again later.', true);
+            return;
+        }
+
+        const data = await response.json();
+        updateUIWithNode(data.current_node);
+    }
+
+    async function selectOption(optionIndex, optionText) {
+        addMessage('You', optionText, false);
+        optionsContainer.innerHTML = '<p><i>Waiting for response...</i></p>';
+
+        const response = await fetch('/api/dialogue/choice', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ node_id: currentNodeId, option_index: optionIndex })
+        });
+
+        const data = await response.json();
+        if (data.status === 'ongoing') {
+            updateUIWithNode(data.current_node);
+        } else {
+            addMessage('NPC', data.message, true);
+            
+            // Auto-finish dialogue to grant XP and record interaction log
+            await fetch('/api/dialogue/finish', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({})
+            });
+            
+            optionsContainer.innerHTML = `<a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary text-center">Return to Dashboard</a>`;
+        }
+    }
+    startDialogueSession('restaurant_order_start');
+</script>
+{% endblock %}

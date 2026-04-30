@@ -3,9 +3,22 @@ from app.models.course import LearningPath
 from app.services.course_service import CourseService
 from app.models.forms import CreatePathForm, AddChapterForm, AddUnitForm
 from flask_login import login_required, current_user
+from app.repositories.vocabulary_repository import VocabularyRepository
+from app.services.vocabulary_service import VocabularyService
+from app.utils.decorators import no_cache
 
 course_bp = Blueprint('course', __name__)
 course_service = CourseService()
+vocab_repo = VocabularyRepository()
+vocab_service = VocabularyService()
+
+@course_bp.route('/')
+def home():
+    if current_user.is_authenticated:
+        if current_user.role == 'student':
+            return redirect(url_for('course.student_course_dashboard'))
+        return redirect(url_for('course.admin_course_dashboard'))
+    return redirect(url_for('auth.login'))
 
 @course_bp.route('/admin/dashboard')
 @login_required
@@ -84,12 +97,33 @@ def delete_unit():
 
 @course_bp.route('/student/dashboard')
 @login_required
+@no_cache
 def student_course_dashboard():
     # Only students allowed
     if current_user.role != 'student':
         return "Unauthorized", 403
     
-    all_paths = LearningPath.objects.all()
+    # --- Add Use Case 3 Logic ---
+    # Fetch the words due for review and their generated sentences for the dashboard.
+    due_words = vocab_repo.get_words_due_for_review(current_user.id)
+    review_data = []
+    for w in due_words:
+        sentence = vocab_service.generate_dynamic_sentence(w.word)
+        review_data.append({
+            'word': w.word,
+            'definition': w.definition,
+            'example_sentence': sentence
+        })
+    # ----------------------------
     
-    # We don't change the data; we just determine accessibility for the view
+    return render_template('student_dashboard.html', user=current_user, review_data=review_data)
+
+@course_bp.route('/student/courses')
+@login_required
+def student_learning_paths():
+    # Only students allowed
+    if current_user.role != 'student':
+        return "Unauthorized", 403
+    
+    all_paths = LearningPath.objects.all()
     return render_template('student_course.html', paths=all_paths, user=current_user)

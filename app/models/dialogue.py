@@ -1,26 +1,13 @@
-from mongoengine import Document, StringField, ListField, EmbeddedDocument, EmbeddedDocumentField
-
-class DialogueOption(EmbeddedDocument):
-    """Represents a choice a user can make in a dialogue."""
-    text = StringField(required=True)
-    # The ID of the DialogueNode to go to next
-    next_node_id = StringField(required=True) 
+from mongoengine import Document, StringField, ListField, DictField
 
 class DialogueNode(Document):
     """
-    Represents a single point in a conversation tree.
-    A collection of nodes with the same scenario_id forms a complete dialogue scenario.
+    Represents a single node in a scenario dialogue (Use Case 4).
     """
-    scenario_id = StringField(required=True) # e.g., "restaurant_ordering"
-    node_id = StringField(required=True) # e.g., "start", "ask_for_menu", "order_drink"
-    speaker = StringField(default="system") # Who is speaking, "system" or "user"
-    text = StringField(required=True) # The dialogue text
-    options = ListField(EmbeddedDocumentField(DialogueOption)) # User's choices from this node
+    node_id = StringField(required=True, unique=True)
+    npc_text = StringField(required=True)
+    # List of dictionaries to hold text and hidden attributes (UC4_4)
+    list_of_options = ListField(DictField()) 
 
-    meta = {
-        'collection': 'dialogue_nodes',
-        'indexes': [
-            # Create a compound index for efficient lookup of a specific node in a scenario
-            {'fields': ('scenario_id', 'node_id'), 'unique': True}
-        ]
-    }
+    def get_options(self):
+        return self.list_of_options

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Review</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f7f6; }
+        h1 { color: #333; }
+        .card { 
+            background: #fff; 
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .word-title { color: #0056b3; margin-top: 0; }
+        .sentence { background: #e9ecef; padding: 10px; border-left: 4px solid #0056b3; font-style: italic; }
+        .rating-btn { 
+            margin-right: 10px; 
+            padding: 10px 15px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+        .btn-fail { background-color: #dc3545; }
+        .btn-hard { background-color: #ffc107; color: #333; }
+        .btn-easy { background-color: #28a745; }
+    </style>
+</head>
+<body>
+    <h1>Spaced Repetition Review (UC3)</h1>
+    <div id="review-container">
+        <p>Loading your vocabulary words...</p>
+    </div>
+
+    <script>
+        const reviewContainer = document.getElementById('review-container');
+
+        async function loadReviewSession() {
+            try {
+                const response = await fetch('/api/vocabulary/review');
+
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        reviewContainer.innerHTML = '<p>Unauthorized. Please log in as a Student to view this page.</p>';
+                    } else {
+                        reviewContainer.innerHTML = `<p>Error loading words: Server responded with status ${response.status}.</p><p><b>Developer Note:</b> Have you registered the 'vocabulary_bp' Blueprint in your main Flask app?</p>`;
+                    }
+                    return;
+                }
+                
+                const words = await response.json();
+                reviewContainer.innerHTML = '';
+                
+                if (words.length === 0) {
+                    reviewContainer.innerHTML = '<p>No words are due for review right now. Great job!</p>';
+                    return;
+                }
+
+                words.forEach(wordObj => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.id = `card-${wordObj.word}`; // Add an ID for easy removal
+                    card.innerHTML = `
+                        <h2 class="word-title">${wordObj.word}</h2>
+                        <p><strong>Definition:</strong> ${wordObj.definition}</p>
+                        <p class="sentence"><strong>Dynamic Example:</strong> ${wordObj.example_sentence}</p>
+                        <p>How well did you remember this word?</p>
+                        <div>
+                            <button class="rating-btn btn-fail" onclick="submitReview('${wordObj.word}', 0)">0 - Forgot it completely</button>
+                            <button class="rating-btn btn-hard" onclick="submitReview('${wordObj.word}', 3)">3 - Remembered with effort</button>
+                            <button class="rating-btn btn-easy" onclick="submitReview('${wordObj.word}', 5)">5 - Easy to remember</button>
+                        </div>
+                    `;
+                    reviewContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Failed to fetch review session:', error);
+                reviewContainer.innerHTML = '<p>A network error occurred. Please check your connection and try again.</p>';
+            }
+        }
+
+        async function submitReview(word, rating) {
+            const response = await fetch('/api/vocabulary/review', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ word: word, rating: rating })
+            });
+
+            if (response.ok) {
+                // Fade out and remove the card for a better user experience
+                const card = document.getElementById(`card-${word}`);
+                card.style.opacity = '0';
+                setTimeout(() => card.remove(), 500);
+            } else {
+                alert('Failed to submit review. Please try again.');
+                return;
+            }
+        }
+
+        // Auto-load on page start
+        loadReviewSession();
+    </script>
+</body>
+</html>

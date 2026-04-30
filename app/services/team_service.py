@@ -1,0 +1,25 @@
+from app.models.team import StudyGroup
+
+class TeamService:
+    def create_group(self, name: str, description: str, user) -> StudyGroup:
+        """UC7: Create a new Study Group."""
+        # Check if name exists
+        if StudyGroup.objects(name=name).first():
+            raise ValueError("A team with this name already exists.")
+            
+        new_group = StudyGroup(name=name, description=description, leader=user)
+        new_group.members.append(user) # Leader is automatically a member
+        new_group.save()
+        return new_group
+
+    def join_group(self, group_id: str, user) -> bool:
+        """UC7: Join an existing Study Group."""
+        group = StudyGroup.objects(id=group_id).first()
+        if not group:
+            return False
+            
+        group.add_member(user)
+        return True
+
+    def get_all_groups(self):
+        return StudyGroup.objects.all()

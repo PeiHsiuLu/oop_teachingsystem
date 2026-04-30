@@ -25,6 +25,11 @@
         <a href="{{ url_for('main.index') }}" class="brand">Teaching System</a>
         <div>
             {% if current_user.is_authenticated %}
+                {% if current_user.role == 'student' %}
+                    <a href="{{ url_for('course.student_course_dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('course.student_learning_paths') }}">Courses</a>
+                    <a href="{{ url_for('team.teams_dashboard') }}">Teams</a>
+                {% endif %}
                 <span style="margin-right: 1rem;">Hello, {{ current_user.username }}!</span>
                 <a href="{{ url_for('auth.logout') }}">Logout</a>
             {% else %}

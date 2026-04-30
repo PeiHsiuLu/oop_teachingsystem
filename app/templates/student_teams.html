@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Team Up (Use Case 7)</h2>
+<p>Join an existing study group or create your own to learn together!</p>
+
+<div class="card" style="margin-bottom: 2rem; padding: 1.5rem; border: 1px solid #ddd; border-radius: 8px; background-color: #fdfdfd;">
+    <h3>Create a New Team</h3>
+    <form action="{{ url_for('team.create_team') }}" method="POST">
+        <div style="margin-bottom: 1rem;">
+            <label for="name">Team Name:</label><br>
+            <input type="text" id="name" name="name" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <div style="margin-bottom: 1rem;">
+            <label for="description">Description:</label><br>
+            <input type="text" id="description" name="description" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <button type="submit" class="btn btn-primary">Create Team</button>
+    </form>
+</div>
+
+<h3>Available Study Groups</h3>
+{% if groups %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+    {% for group in groups %}
+        <div class="card" style="border: 1px solid #007bff; padding: 1rem; border-radius: 6px;">
+            <h4 style="margin-top: 0; color: #007bff;">{{ group.name }}</h4>
+            <p style="min-height: 40px;">{{ group.description }}</p>
+            <p><small><strong>Members:</strong> {{ group.members|length }}</small></p>
+            <form action="{{ url_for('team.join_team', group_id=group.id) }}" method="POST">
+                <button type="submit" class="btn btn-secondary">Join Team</button>
+            </form>
+        </div>
+    {% endfor %}
+    </div>
+{% else %}
+    <p style="color: #6c757d;">No study groups available yet. Be the first to create one!</p>
+{% endif %}
+
+{% endblock %}

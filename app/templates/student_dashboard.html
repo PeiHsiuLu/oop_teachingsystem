@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Student Dashboard</h2>
+<p>Welcome back, <strong>{{ user.username }}</strong>! Here is your daily learning overview.</p>
+
+<!-- Gamification Stats (Use Case 6) -->
+<div style="background-color: #fff3cd; color: #856404; padding: 10px 15px; border-radius: 4px; border: 1px solid #ffeeba; margin-bottom: 20px; display: inline-block;">
+    <strong>🏆 Level:</strong> {{ user.level | default(1) }} &nbsp;|&nbsp; <strong>⭐ XP:</strong> {{ user.xp | default(0) }}
+</div>
+
+<!-- Vocabulary Review Section (Use Case 3) -->
+<div style="border: 2px solid #007bff; border-radius: 8px; padding: 20px; margin-bottom: 30px; background-color: #fdfdfd;">
+    <div style="border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 15px;">
+        <h3 style="color: #007bff; margin: 0;">Vocabulary Review (Use Case 3)</h3>
+    </div>
+    <div id="review-container">
+        {% if review_data %}
+            {% for wordObj in review_data %}
+            <div id="card-{{ wordObj.word }}" style="border: 1px solid #ddd; padding: 15px; border-radius: 6px; margin-bottom: 15px; background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <h4 style="color: #0056b3; margin-top: 0;">{{ wordObj.word }}</h4>
+                <p><strong>Definition:</strong> {{ wordObj.definition }}</p>
+                <p style="background-color: #f8f9fa; padding: 10px; border-left: 4px solid #007bff; font-style: italic;">
+                    <strong>Dynamic Example:</strong> {{ wordObj.example_sentence }}
+                </p>
+                <p style="margin-bottom: 10px;">How well did you remember this word?</p>
+                <button style="background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; margin-right: 5px;" onclick="submitReview('{{ wordObj.word }}', 0)">0 - Forgot it completely</button>
+                <button style="background-color: #ffc107; color: black; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; margin-right: 5px;" onclick="submitReview('{{ wordObj.word }}', 3)">3 - Remembered with effort</button>
+                <button style="background-color: #28a745; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;" onclick="submitReview('{{ wordObj.word }}', 5)">5 - Easy to remember</button>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: #28a745; font-weight: bold;">Great job! You have no words due for review right now.</p>
+        {% endif %}
+        
+        <div style="margin-top: 20px;">
+            <button onclick="seedVocabulary()" style="background-color: #6c757d; color: white; border: none; padding: 8px 12px; border-radius: 4px; font-size: 14px; cursor: pointer;">Seed Test Words (If empty)</button>
+        </div>
+    </div>
+</div>
+
+<!-- Course Interaction Section (Use Case 4) -->
+<div style="border: 2px solid #28a745; border-radius: 8px; padding: 20px; margin-bottom: 30px; background-color: #fdfdfd;">
+    <div style="border-bottom: 2px solid #28a745; padding-bottom: 10px; margin-bottom: 15px;">
+        <h3 style="color: #28a745; margin: 0;">Course Interaction (Use Case 4)</h3>
+    </div>
+    <p>Engage in scenario dialogue play to practice your English!</p>
+    <a href="{{ url_for('dialogue.student_dialogue_page') }}" style="background-color: #28a745; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; display: inline-block;">Start Dialogue Scenario</a>
+</div>
+
+<!-- Result Analysis Section (Use Case 5) -->
+<div style="border: 2px solid #17a2b8; border-radius: 8px; padding: 20px; margin-bottom: 30px; background-color: #fdfdfd;">
+    <div style="border-bottom: 2px solid #17a2b8; padding-bottom: 10px; margin-bottom: 15px;">
+        <h3 style="color: #17a2b8; margin: 0;">Result Analysis (Use Case 5)</h3>
+    </div>
+    <p>View your weakness reports and overall learning performance.</p>
+    <a href="{{ url_for('analytics.student_analytics_page') }}" style="background-color: #17a2b8; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; display: inline-block;">View Performance Report</a>
+</div>
+
+<script>
+    async function seedVocabulary() {
+        try {
+            const response = await fetch('/api/vocabulary/seed');
+            const data = await response.json();
+            alert(data.message); // Show the success or "already added" message
+            if (response.ok) {
+                location.reload(); // Refresh the dashboard to show the new words
+            }
+        } catch (error) {
+            alert('An error occurred while communicating with the server.');
+        }
+    }
+
+    async function submitReview(word, rating) {
+        const response = await fetch('/api/vocabulary/review', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ word: word, rating: rating })
+        });
+
+        if (response.ok) {
+            const card = document.getElementById(`card-${word}`);
+            card.style.transition = 'opacity 0.4s ease';
+            card.style.opacity = '0';
+            setTimeout(() => card.remove(), 400);
+        } else {
+            alert('Failed to submit review. Please try again.');
+        }
+    }
+</script>
+
+{% endblock %}

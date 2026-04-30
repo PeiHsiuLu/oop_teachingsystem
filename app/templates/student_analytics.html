@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Result Analysis (Use Case 5)</h2>
+<p>Your personalized weakness report and overall learning performance.</p>
+
+<div id="analytics-container" style="border: 2px solid #17a2b8; padding: 20px; border-radius: 8px; background-color: #fdfdfd;">
+    <h3 style="color: #17a2b8; margin-top: 0;" id="status-title">Loading Report...</h3>
+    <div style="font-size: 1.1rem; margin-bottom: 20px;">
+        <p><strong>Total Interactions Completed:</strong> <span id="total-interactions">--</span></p>
+        <p><strong>Average Accuracy Score:</strong> <span id="avg-score">--</span></p>
+    </div>
+    <hr style="border: 1px solid #eee;">
+    <h4 style="color: #333;">Recommended Review Strategy</h4>
+    <p id="review-strategy">Fetching strategy...</p>
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+<script>
+    async function loadAnalytics() {
+        try {
+            const response = await fetch('/api/analytics/report');
+            if (!response.ok) {
+                document.getElementById('status-title').innerText = 'Error loading report.';
+                return;
+            }
+            
+            const data = await response.json();
+            const report = data.report;
+            
+            if (report.status === "No Data") {
+                document.getElementById('status-title').innerText = 'Overall Status: Needs Data';
+                document.getElementById('review-strategy').innerText = report.message;
+            } else {
+                document.getElementById('status-title').innerText = `Overall Status: ${report.overall_status}`;
+                document.getElementById('total-interactions').innerText = report.total_interactions_completed;
+                document.getElementById('avg-score').innerText = report.average_score;
+                document.getElementById('review-strategy').innerText = data.strategy;
+            }
+        } catch (error) {
+            console.error("Failed to load analytics", error);
+        }
+    }
+    loadAnalytics();
+</script>
+
+{% endblock %}

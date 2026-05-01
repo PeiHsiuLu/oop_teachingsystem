@@ -23,3 +23,24 @@ class TeamService:
 
     def get_all_groups(self):
         return StudyGroup.objects.all()
+    def compute_leaderboard(self, group_id: str):
+        group = StudyGroup.objects(id=group_id).first()
+        
+        if not group:
+            raise ValueError("Group not found.")
+
+        # 依照 XP 排序
+        members = sorted(
+            group.members,
+            key=lambda user: getattr(user, "xp", 0),
+            reverse=True
+        )
+
+        return [
+            {
+                "username": member.username,
+                "xp": getattr(member, "xp", 0),
+                "level": getattr(member, "level", 1)
+            }
+            for member in members
+        ]

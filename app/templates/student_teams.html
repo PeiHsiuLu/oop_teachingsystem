@@ -20,6 +20,7 @@
 </div>
 
 <h3>Available Study Groups</h3>
+
 {% if groups %}
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
     {% for group in groups %}
@@ -27,14 +28,77 @@
             <h4 style="margin-top: 0; color: #007bff;">{{ group.name }}</h4>
             <p style="min-height: 40px;">{{ group.description }}</p>
             <p><small><strong>Members:</strong> {{ group.members|length }}</small></p>
-            <form action="{{ url_for('team.join_team', group_id=group.id) }}" method="POST">
+
+            <form action="{{ url_for('team.join_team', group_id=group.id) }}" method="POST" style="display:inline;">
                 <button type="submit" class="btn btn-secondary">Join Team</button>
             </form>
+
+            <button class="btn btn-primary" style="margin-top: 10px;" onclick="loadLeaderboard('{{ group.id }}')">
+                View Leaderboard
+            </button>
+
+            <div id="leaderboard-{{ group.id }}" style="margin-top: 10px;"></div>
         </div>
     {% endfor %}
     </div>
 {% else %}
     <p style="color: #6c757d;">No study groups available yet. Be the first to create one!</p>
 {% endif %}
+
+<script>
+async function loadLeaderboard(groupId) {
+    const box = document.getElementById(`leaderboard-${groupId}`);
+    box.innerHTML = "Loading leaderboard...";
+
+    const response = await fetch(`/api/teams/${groupId}/leaderboard`);
+
+    if (!response.ok) {
+        box.innerHTML = "<p style='color:red;'>Failed to load leaderboard.</p>";
+        return;
+    }
+
+    const data = await response.json();
+
+    if (data.length === 0) {
+        box.innerHTML = "<p>No members yet.</p>";
+        return;
+    }
+
+    let html = "<ol>";
+    data.forEach(member => {
+        html += `<li>${member.username} - XP: ${member.xp}, Level: ${member.level}</li>`;
+    });
+    html += "</ol>";
+
+    box.innerHTML = html;
+}
+</script>
+
+<script>
+async function loadLeaderboard(groupId) {
+    const box = document.getElementById(`leaderboard-${groupId}`);
+    box.innerHTML = "Loading leaderboard...";
+
+    const response = await fetch(`/api/teams/${groupId}/leaderboard`);
+    if (!response.ok) {
+        box.innerHTML = "<p style='color:red;'>Failed to load leaderboard.</p>";
+        return;
+    }
+
+    const data = await response.json();
+    if (data.length === 0) {
+        box.innerHTML = "<p>No members yet.</p>";
+        return;
+    }
+
+    let html = "<ol>";
+    data.forEach(member => {
+        html += `<li>${member.username} - XP: ${member.xp}, Level: ${member.level}</li>`;
+    });
+    html += "</ol>";
+
+    box.innerHTML = html;
+}
+</script>
 
 {% endblock %}

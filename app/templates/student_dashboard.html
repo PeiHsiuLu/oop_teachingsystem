@@ -57,6 +57,39 @@
     <a href="{{ url_for('analytics.student_analytics_page') }}" style="background-color: #17a2b8; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; display: inline-block;">View Performance Report</a>
 </div>
 
+<!-- Team Up Section (Use Case 7) -->
+<div style="border: 2px solid #6f42c1; border-radius: 8px; padding: 20px; margin-bottom: 30px; background-color: #fdfdfd;">
+    <div style="border-bottom: 2px solid #6f42c1; padding-bottom: 10px; margin-bottom: 15px;">
+        <h3 style="color: #6f42c1; margin: 0;">Team Up (Use Case 7)</h3>
+    </div>
+    <p>Create or join a study group and compare learning progress with teammates.</p>
+    <a href="{{ url_for('team.teams_dashboard') }}" style="background-color: #6f42c1; color: white; text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; display: inline-block;">
+        Go to Teams
+    </a>
+</div>
+
+<!-- Report Section (Use Case 8) -->
+<div style="border: 2px solid #dc3545; border-radius: 8px; padding: 20px; margin-bottom: 30px; background-color: #fdfdfd;">
+    <div style="border-bottom: 2px solid #dc3545; padding-bottom: 10px; margin-bottom: 15px;">
+        <h3 style="color: #dc3545; margin: 0;">Report Inappropriate Content (Use Case 8)</h3>
+    </div>
+    <p>If you find inappropriate content or behavior, you can submit a report for admin review.</p>
+
+    <form method="POST" action="{{ url_for('report.create_report') }}">
+        <input type="hidden" name="target_type" value="user">
+        <input type="hidden" name="target_id" value="{{ user.id }}">
+        <input type="hidden" name="target_user_id" value="{{ user.id }}">
+
+        <label for="reason">Reason:</label><br>
+        <input type="text" id="reason" name="reason" placeholder="Enter report reason" required
+               style="width: 100%; padding: 0.5rem; margin: 0.5rem 0 1rem 0; border: 1px solid #ccc; border-radius: 4px;">
+
+        <button type="submit" style="background-color: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer;">
+            Submit Report
+        </button>
+    </form>
+</div>
+
 <script>
     async function seedVocabulary() {
         try {
@@ -90,3 +123,4 @@
 </script>
 
 {% endblock %}
+

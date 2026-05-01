@@ -40,3 +40,13 @@ def join_team(group_id):
     else:
         flash('Team not found.', 'error')
     return redirect(url_for('team.teams_dashboard'))
+
+@team_bp.route('/api/teams/<group_id>/leaderboard', methods=['GET'])
+@login_required
+@role_required('Student')
+def team_leaderboard(group_id):
+    try:
+        data = team_service.compute_leaderboard(group_id)
+        return jsonify(data), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404

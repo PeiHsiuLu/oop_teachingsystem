@@ -71,3 +71,16 @@ class TeamService:
             return challenge
     def get_group_by_id(self, group_id):
         return StudyGroup.objects(id=group_id).first()
+    
+    def leave_group(self, group_id: str, user) -> bool:
+        group = StudyGroup.objects(id=group_id).first()
+        if not group:
+            return False
+
+        # leader 不建議直接退出，避免 team 沒有管理者
+        if str(group.leader.id) == str(user.id):
+            raise ValueError("Team leader cannot leave the team.")
+
+        group.members = [m for m in group.members if str(m.id) != str(user.id)]
+        group.save()
+        return True

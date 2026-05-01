@@ -31,9 +31,27 @@
             <p style="min-height: 40px;">{{ group.description }}</p>
             <p><small><strong>Members:</strong> {{ group.members|length }}</small></p>
     
-            <form action="{{ url_for('team.join_team', group_id=group.id) }}" method="POST" style="display:inline;">
-                <button type="submit" class="btn btn-secondary">Join Team</button>
-            </form>
+            {% set ns = namespace(is_member=false) %}
+
+            {% for member in group.members %}
+                {% if member.id|string == current_user.id|string %}
+                    {% set ns.is_member = true %}
+                {% endif %}
+            {% endfor %}
+
+            {% if ns.is_member %}
+                <form action="{{ url_for('team.leave_team', group_id=group.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn" style="background-color:#dc3545; color:white;">
+                        Leave Team
+                    </button>
+                </form>
+            {% else %}
+                <form action="{{ url_for('team.join_team', group_id=group.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-secondary">
+                        Join Team
+                    </button>
+                </form>
+            {% endif %}
     
             <button class="btn btn-primary" style="margin-top: 10px;" onclick="loadLeaderboard('{{ group.id }}')">
                 View Leaderboard

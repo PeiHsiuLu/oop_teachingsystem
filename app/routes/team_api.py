@@ -73,9 +73,10 @@ def create_challenge(group_id):
         flash(str(e), "error")
 
     return redirect(url_for("team.teams_dashboard"))
+
+
 @team_bp.route('/student/teams/<group_id>', methods=['GET'])
 @login_required
-@role_required('Student')
 def team_detail(group_id):
     group = team_service.get_group_by_id(group_id)
 
@@ -83,4 +84,24 @@ def team_detail(group_id):
         flash('Team not found.', 'error')
         return redirect(url_for('team.teams_dashboard'))
 
+    is_member = any(str(member.id) == str(current_user.id) for member in group.members)
+
+    if current_user.role != "admin" and not is_member:
+        flash("You are not allowed to view this team.", "error")
+        return redirect(url_for('team.teams_dashboard'))
+
     return render_template('team_detail.html', group=group, user=current_user)
+
+@team_bp.route('/api/teams/leave/<group_id>', methods=['POST'])
+@login_required
+@role_required('Student')
+def leave_team(group_id):
+    try:
+        if team_service.leave_group(group_id, current_user._get_current_object()):
+            flash('You left the team.', 'success')
+        else:
+            flash('Team not found.', 'error')
+    except ValueError as e:
+        flash(str(e), 'error')
+
+    return redirect(url_for('team.teams_dashboard'))

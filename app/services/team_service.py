@@ -44,3 +44,27 @@ class TeamService:
             }
             for member in members
         ]
+
+from app.models.team_challenge import TeamChallenge
+
+def create_challenge(self, group_id, user, title, description, target_xp, deadline):
+    group = StudyGroup.objects(id=group_id).first()
+
+    if not group:
+        raise ValueError("Group not found.")
+
+    # 🔥 權限檢查
+    if user.role != "admin" and group.leader != user:
+        raise ValueError("You are not allowed to create a challenge.")
+
+    challenge = TeamChallenge(
+        group=group,
+        created_by=user,
+        title=title,
+        description=description,
+        target_xp=target_xp,
+        deadline=deadline
+    )
+    challenge.save()
+
+    return challenge

@@ -19,6 +19,17 @@
             <form method="POST" action="{{ url_for('report.archive_report', report_id=report.id) }}" style="display:inline;">
                 <button type="submit" class="btn btn-secondary">Archive</button>
             </form>
+            {% if report.target_user %}
+            <form method="POST" action="{{ url_for('report.apply_sanction', user_id=report.target_user.id) }}" style="display:inline;">
+                <input type="hidden" name="action_type" value="warning">
+                <button type="submit" class="btn" style="background-color:#ffc107; color:black;">Warning</button>
+            </form>
+
+            <form method="POST" action="{{ url_for('report.apply_sanction', user_id=report.target_user.id) }}" style="display:inline;">
+                <input type="hidden" name="action_type" value="mute">
+                <button type="submit" class="btn" style="background-color:#dc3545; color:white;">Mute</button>
+            </form>
+{% endif %}
         </div>
     {% endfor %}
 {% else %}

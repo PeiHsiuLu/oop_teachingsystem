@@ -1,14 +1,16 @@
-from mongoengine import Document, StringField, DateTimeField
+from mongoengine import Document, StringField, DateTimeField, ReferenceField
 from datetime import datetime
+
+
 class Report(Document):
-    report_id = StringField(required=True, unique=True)
-    reporter_id = StringField(required=True)
-    target_user_id = StringField(required=True)
-    target_type = StringField(required=True)  # post, comment, user
+    reporter = ReferenceField("User", required=True)
+    target_user = ReferenceField("User")
+
+    target_type = StringField(required=True)  # post, comment, user, team
     target_id = StringField(required=True)
     reason = StringField(required=True)
     status = StringField(default="pending")  # pending, resolved, archived
-    created_at = DateTimeField(default=datetime.now)
+    created_at = DateTimeField(default=datetime.utcnow)
 
     def archive(self):
         self.status = "archived"

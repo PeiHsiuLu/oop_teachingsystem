@@ -50,3 +50,26 @@ def team_leaderboard(group_id):
         return jsonify(data), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
+    
+@team_bp.route('/api/teams/<group_id>/challenge/create', methods=['POST'])
+@login_required
+def create_challenge(group_id):
+    title = request.form.get("title")
+    description = request.form.get("description")
+    target_xp = int(request.form.get("target_xp"))
+    deadline = request.form.get("deadline")
+
+    try:
+        team_service.create_challenge(
+            group_id,
+            current_user._get_current_object(),
+            title,
+            description,
+            target_xp,
+            deadline
+        )
+        flash("Challenge created successfully!", "success")
+    except ValueError as e:
+        flash(str(e), "error")
+
+    return redirect(url_for("team.teams_dashboard"))

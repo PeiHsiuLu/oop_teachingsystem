@@ -1,5 +1,12 @@
 # CHECKPOINT: English Learning System (OOAD Project)
 
+## 🌟 Latest Updates (Recent Commit)
+*   **Vocabulary API (`vocabulary_api.py`)**: Added student SRS review endpoints (`/api/vocabulary/review`), admin rule-setting endpoints, and a database seeder.
+*   **Dialogue API (`dialogue_api.py`)**: Created endpoints for starting, stepping through, and finishing conversational scenarios (UC4). Added admin endpoints for node creation (`/api/admin/dialogue/create`).
+*   **Admin Word Management (`word.py` & `word_service.py`)**: Implemented full CRUD operations for `Word` and `SentenceGeneratingRule` with `@admin_required` role protection. Added a dynamic `generate_sentence` placeholder.
+*   **SRS & Analytics Integration (`srs.py`)**: Connected the `SuperMemo2Strategy` logic directly to the user review routes (`/review/next` and `/review`), properly logging events into the `AnalyticsEngine`.
+---
+
 This document outlines the current state of development for the English Learning System, focusing on the backend architecture and server-rendered UI for three primary use cases: Vocabulary Bank & Training, Course Interaction, and Analytics.
 It also serves as a log for file functions and recent modifications.
 
@@ -37,16 +44,19 @@ Contains the core business logic and orchestrates operations between different c
 -   `dialogue_engine.py`: Handles stateful traversal of dialogue nodes and saves interaction logs upon completion (UC4).
 -   `team_service.py`: Handles the logic for creating teams and checking membership restrictions (UC7).
 -   `game_observer.py`: Implements the **Observer Pattern** to automatically grant XP to students when tasks are completed (UC6).
+-   `word_service.py`: Contains CRUD logic for words and sentence rules, plus logic for getting review words and generating dynamic sentences (UC3).
 
 ### `app/routes/` - Presentation & API Layer
 Contains Flask Blueprints that define the application's URLs (routes) and connect them to backend logic. This layer also includes the UI templates and components.
 -   `main.py`: Defines the route for the main home page (`/`).
 -   `auth.py`: Defines routes for user authentication (`/register`, `/login`, `/logout`).
 -   `course.py`: Defines routes for course management.
--   `vocabulary_api.py`: Exposes endpoints for seeding data and submitting SRS reviews.
--   `dialogue_api.py`: Exposes endpoints to start scenarios and make dialogue choices.
+-   `vocabulary_api.py`: Exposes endpoints for UC3 (Vocabulary Bank), including `/api/vocabulary/review` for SRS data, `/api/admin/vocabulary/rules`, and testing seeders.
+-   `dialogue_api.py`: Exposes endpoints to start scenarios, make dialogue choices, finish dialogues (UC4), and admin routes for creating nodes (`/api/admin/dialogue/create`).
 -   `analytics_api.py`: Exposes endpoints to fetch weakness reports.
 -   `team_api.py`: Exposes endpoints to create and join study groups.
+-   `word.py`: Admin-protected routes (`@admin_required`) for managing vocabulary words and dynamic sentence generation rules.
+-   `srs.py`: Core routing for the Spaced Repetition System (`/review/next`, `/review`), integrating `SRSManager` and `SuperMemo2Strategy`.
 
 #### HTML Templates (Server-Rendered UI)
 -   `base.html`: Main layout featuring navigation links.
@@ -143,3 +153,15 @@ The following outlines how key files were recently modified to achieve the curre
 ### `app/templates/base.html`
 - **Modification:** Updated the navigation bar to include separate links for "Dashboard", "Courses", and "Teams".
 - **Reason:** Allows the student to navigate freely between the newly separated views.
+
+### `app/routes/vocabulary_api.py` & `app/routes/dialogue_api.py`
+- **Modification:** Added full RESTful API endpoints for UC3 (Vocabulary Review & Admin Rules) and UC4 (Dialogue Traversal & Admin Node Creation). Also added `/seed` routes for both to generate test data quickly.
+- **Reason:** Allows the frontend React components to fetch review data, submit answers, and progress through AI scenarios. Provides testing data for the development team.
+
+### `app/services/word_service.py` & `app/routes/word.py`
+- **Modification:** Implemented the `WordService` with complete CRUD logic for `Word` and `SentenceGeneratingRule`. Added `@admin_required` decorators to `word.py` endpoints. Implemented a basic `generate_sentence` placeholder.
+- **Reason:** Solidifies the Admin's ability to manage the dictionary and dynamic sentence templates (UC3_3 & UC3_4).
+
+### `app/routes/srs.py`
+- **Modification:** Linked the `/review/next` and `/review` POST routes to `SRSManager` (using `SuperMemo2Strategy`) and the `AnalyticsEngine`.
+- **Reason:** Completes the feedback loop where a user's flashcard response updates their SRS metrics in the database and simultaneously logs the interaction for weakness analysis.

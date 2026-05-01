@@ -10,8 +10,8 @@
         <hr>
         <h3>Your Dashboard</h3>
         {% if current_user.role == 'student' %}
-            <p>Ready to learn? Start your next review session.</p>
-            <a href="{{ url_for('srs.get_next_review_word') }}" class="btn btn-primary">Start Review</a>
+            <p>Ready to learn? Head over to your student dashboard to see your progress.</p>
+            <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
         {% elif current_user.role == 'admin' %} {# This is the admin role check #}
             <p>Manage the application content.</p>
             <a href="{{ url_for('word.manage_words') }}" class="btn btn-secondary">Manage Words</a>

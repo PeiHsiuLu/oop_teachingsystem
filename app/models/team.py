@@ -16,3 +16,7 @@ class StudyGroup(Document):
         if user not in self.members:
             self.members.append(user)
             self.save()
+    def remove_member(self, user):
+        if user in self.members:
+            self.members.remove(user)
+            self.save()

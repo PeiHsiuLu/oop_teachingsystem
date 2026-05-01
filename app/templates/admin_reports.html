@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Report Management</h2>
+
+{% if reports %}
+    {% for report in reports %}
+        <div style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
+            <p><strong>Reporter:</strong> {{ report.reporter.username }}</p>
+            <p><strong>Target Type:</strong> {{ report.target_type }}</p>
+            <p><strong>Target ID:</strong> {{ report.target_id }}</p>
+            <p><strong>Reason:</strong> {{ report.reason }}</p>
+            <p><strong>Status:</strong> {{ report.status }}</p>
+
+            <form method="POST" action="{{ url_for('report.resolve_report', report_id=report.id) }}" style="display:inline;">
+                <button type="submit" class="btn btn-primary">Resolve</button>
+            </form>
+
+            <form method="POST" action="{{ url_for('report.archive_report', report_id=report.id) }}" style="display:inline;">
+                <button type="submit" class="btn btn-secondary">Archive</button>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No pending reports.</p>
+{% endif %}
+
+{% endblock %}

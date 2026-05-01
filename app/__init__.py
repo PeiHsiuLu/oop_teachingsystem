@@ -6,6 +6,8 @@ from app.models.course import LearningPath, Chapter, Unit
 from app.models.word import Word, SentenceGeneratingRule, ReviewItem
 from app.models.dialogue import DialogueNode
 from app.models.analytics import InteractionLog
+from app.models.game import Badge, GameEvent
+from app.models.report import Report
 
 bcrypt = Bcrypt()
 
@@ -41,6 +43,10 @@ def create_app():
     DialogueNode.ensure_indexes()
     InteractionLog.ensure_indexes()
 
+    Badge.ensure_indexes()
+    GameEvent.ensure_indexes()
+    Report.ensure_indexes()
+
     # Register blueprints (assuming these exist in the full __init__.py)
     from app.routes.auth import auth_bp
     from app.routes.course import course_bp
@@ -52,7 +58,11 @@ def create_app():
     from app.routes.dialogue_api import dialogue_bp
     from app.routes.analytics_api import analytics_bp
     from app.routes.vocabulary_api import vocabulary_bp
-    
+    from app.routes.game_api import game_bp
+    from app.routes.report_api import report_bp
+
+    app.register_blueprint(game_bp)
+    app.register_blueprint(report_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(course_bp, url_prefix='/course')

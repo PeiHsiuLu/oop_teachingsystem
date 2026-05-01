@@ -25,17 +25,26 @@
         <a href="{{ url_for('main.index') }}" class="brand">Teaching System</a>
         <div>
             {% if current_user.is_authenticated %}
-                {% if current_user.role == 'student' %}
-                    <a href="{{ url_for('course.student_course_dashboard') }}">Dashboard</a>
-                    <a href="{{ url_for('course.student_learning_paths') }}">Courses</a>
-                    <a href="{{ url_for('team.teams_dashboard') }}">Teams</a>
-                {% endif %}
-                <span style="margin-right: 1rem;">Hello, {{ current_user.username }}!</span>
-                <a href="{{ url_for('auth.logout') }}">Logout</a>
-            {% else %}
-                <a href="{{ url_for('auth.login') }}">Login</a>
-                <a href="{{ url_for('auth.register') }}">Register</a>
+    
+            {% if current_user.role == 'student' %}
+                <a href="{{ url_for('course.student_course_dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('course.student_learning_paths') }}">Courses</a>
+                <a href="{{ url_for('team.teams_dashboard') }}">Teams</a>
+
+            {% elif current_user.role == 'admin' %}
+                <a href="{{ url_for('dashboard.index') }}">Dashboard</a>
+                <a href="{{ url_for('course.admin_course_dashboard') }}">Courses</a>
+                <a href="{{ url_for('word.manage_words') }}">Words</a>
+                <a href="{{ url_for('report.admin_reports') }}">Reports</a>
             {% endif %}
+
+            <span style="margin-right: 1rem;">Hello, {{ current_user.username }}!</span>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+
+{% else %}
+    <a href="{{ url_for('auth.login') }}">Login</a>
+    <a href="{{ url_for('auth.register') }}">Register</a>
+{% endif %}
         </div>
     </nav>
 

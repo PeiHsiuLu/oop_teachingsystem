@@ -40,3 +40,68 @@ def join_team(group_id):
     else:
         flash('Team not found.', 'error')
     return redirect(url_for('team.teams_dashboard'))
+
+@team_bp.route('/api/teams/<group_id>/leaderboard', methods=['GET'])
+@login_required
+@role_required('Student')
+def team_leaderboard(group_id):
+    try:
+        data = team_service.compute_leaderboard(group_id)
+        return jsonify(data), 200
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+    
+@team_bp.route('/api/teams/<group_id>/challenge/create', methods=['POST'])
+@login_required
+def create_challenge(group_id):
+    title = request.form.get("title")
+    description = request.form.get("description")
+    target_xp = int(request.form.get("target_xp"))
+    deadline = request.form.get("deadline")
+
+    try:
+        team_service.create_challenge(
+            group_id,
+            current_user._get_current_object(),
+            title,
+            description,
+            target_xp,
+            deadline
+        )
+        flash("Challenge created successfully!", "success")
+    except ValueError as e:
+        flash(str(e), "error")
+
+    return redirect(url_for("team.teams_dashboard"))
+
+
+@team_bp.route('/student/teams/<group_id>', methods=['GET'])
+@login_required
+def team_detail(group_id):
+    group = team_service.get_group_by_id(group_id)
+
+    if not group:
+        flash('Team not found.', 'error')
+        return redirect(url_for('team.teams_dashboard'))
+
+    is_member = any(str(member.id) == str(current_user.id) for member in group.members)
+
+    if current_user.role != "admin" and not is_member:
+        flash("You are not allowed to view this team.", "error")
+        return redirect(url_for('team.teams_dashboard'))
+
+    return render_template('team_detail.html', group=group, user=current_user)
+
+@team_bp.route('/api/teams/leave/<group_id>', methods=['POST'])
+@login_required
+@role_required('Student')
+def leave_team(group_id):
+    try:
+        if team_service.leave_group(group_id, current_user._get_current_object()):
+            flash('You left the team.', 'success')
+        else:
+            flash('Team not found.', 'error')
+    except ValueError as e:
+        flash(str(e), 'error')
+
+    return redirect(url_for('team.teams_dashboard'))

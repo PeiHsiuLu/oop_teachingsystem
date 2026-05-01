@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>{{ group.name }}</h2>
+<p>{{ group.description }}</p>
+
+<div style="border: 1px solid #007bff; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+    <h3>Team Information</h3>
+    <p><strong>Leader:</strong> {{ group.leader.username }}</p>
+    <p><strong>Members:</strong> {{ group.members|length }}</p>
+</div>
+
+<div style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px;">
+    <h3>Members</h3>
+    <ul>
+        {% for member in group.members %}
+            <li>{{ member.username }} - XP: {{ member.xp | default(0) }} - Level: {{ member.level | default(1) }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<br>
+<a href="{{ url_for('team.teams_dashboard') }}" class="btn btn-secondary">Back to Teams</a>
+
+{% endblock %}

@@ -61,3 +61,16 @@ def archive_report(report_id):
     report.archive()
     flash("Report archived.", "success")
     return redirect(url_for("report.admin_reports"))
+
+@report_bp.route("/api/reports/sanction/<user_id>", methods=["POST"])
+@login_required
+@role_required("admin")
+def apply_sanction(user_id):
+    action_type = request.form.get("action_type")
+    try:
+        message = mod_service.apply_sanction(user_id, action_type)
+        flash(message, "success")
+    except ValueError as e:
+        flash(str(e), "error")
+
+    return redirect(url_for("report.admin_reports"))

@@ -38,6 +38,10 @@
             <button class="btn btn-primary" style="margin-top: 10px;" onclick="loadLeaderboard('{{ group.id }}')">
                 View Leaderboard
             </button>
+            
+            <a href="{{ url_for('team.team_detail', group_id=group.id) }}" class="btn btn-primary" style="margin-top: 10px;">
+                View Team Page
+            </a>
     
             <div id="leaderboard-{{ group.id }}" style="margin-top: 10px;"></div>
     

@@ -1,4 +1,6 @@
 from app.models.team import StudyGroup
+from datetime import datetime
+from app.models.team_challenge import TeamChallenge
 
 class TeamService:
     def create_group(self, name: str, description: str, user) -> StudyGroup:
@@ -45,26 +47,27 @@ class TeamService:
             for member in members
         ]
 
-from app.models.team_challenge import TeamChallenge
 
-def create_challenge(self, group_id, user, title, description, target_xp, deadline):
-    group = StudyGroup.objects(id=group_id).first()
 
-    if not group:
-        raise ValueError("Group not found.")
+    def create_challenge(self, group_id, user, title, description, target_xp, deadline):
+            group = StudyGroup.objects(id=group_id).first()
 
-    # 🔥 權限檢查
-    if user.role != "admin" and group.leader != user:
-        raise ValueError("You are not allowed to create a challenge.")
+            if not group:
+                raise ValueError("Group not found.")
 
-    challenge = TeamChallenge(
-        group=group,
-        created_by=user,
-        title=title,
-        description=description,
-        target_xp=target_xp,
-        deadline=deadline
-    )
-    challenge.save()
+            if user.role != "admin" and str(group.leader.id) != str(user.id):
+                raise ValueError("You are not allowed to create a challenge.")
 
-    return challenge
+            challenge = TeamChallenge(
+                group=group,
+                created_by=user,
+                title=title,
+                description=description,
+                target_xp=int(target_xp),
+                deadline=datetime.strptime(deadline, "%Y-%m-%d")
+            )
+
+            challenge.save()
+            return challenge
+    def get_group_by_id(self, group_id):
+        return StudyGroup.objects(id=group_id).first()

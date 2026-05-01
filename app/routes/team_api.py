@@ -73,3 +73,14 @@ def create_challenge(group_id):
         flash(str(e), "error")
 
     return redirect(url_for("team.teams_dashboard"))
+@team_bp.route('/student/teams/<group_id>', methods=['GET'])
+@login_required
+@role_required('Student')
+def team_detail(group_id):
+    group = team_service.get_group_by_id(group_id)
+
+    if not group:
+        flash('Team not found.', 'error')
+        return redirect(url_for('team.teams_dashboard'))
+
+    return render_template('team_detail.html', group=group, user=current_user)

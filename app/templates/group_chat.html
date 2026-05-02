@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ group.name }} - Group Chat</h2>
+
+<div style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px; height: 400px; overflow-y: auto; margin-bottom: 1rem;">
+    {% if messages %}
+    {% for message in messages %}
+    {% set is_mine = (message.sender.id|string == current_user.id|string) %}
+
+    <div style="
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: {% if is_mine %}flex-end{% else %}flex-start{% endif %};
+    ">
+        <div style="font-size: 0.85rem; color: gray; margin-bottom: 0.25rem;">
+            {% if is_mine %}
+                You
+            {% else %}
+                {{ message.sender.username }}
+            {% endif %}
+            · {{ message.created_at.strftime('%Y-%m-%d %H:%M') }}
+        </div>
+
+        <div style="
+            max-width: 70%;
+            padding: 0.6rem 0.8rem;
+            border-radius: 12px;
+            background-color: {% if is_mine %}#007bff{% else %}#f1f1f1{% endif %};
+            color: {% if is_mine %}white{% else %}black{% endif %};
+            text-align: left;
+        ">
+            {{ message.content }}
+        </div>
+    </div>
+{% endfor %}
+    {% else %}
+        <p>No messages yet. Start the conversation!</p>
+    {% endif %}
+</div>
+
+<form method="POST">
+    <div style="display: flex; gap: 0.5rem;">
+        <input type="text"
+               name="content"
+               placeholder="Type your message..."
+               required
+               style="flex: 1; padding: 0.5rem;">
+
+        <button type="submit" class="btn btn-primary">
+            Send
+        </button>
+    </div>
+</form>
+
+<br>
+
+<a href="{{ url_for('team.team_detail', group_id=group.id) }}" class="btn btn-secondary">
+    Back to Team
+</a>
+
+{% endblock %}

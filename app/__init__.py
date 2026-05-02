@@ -61,7 +61,7 @@ def create_app():
     from app.routes.vocabulary_api import vocabulary_bp
     from app.routes.game_api import game_bp
     from app.routes.report_api import report_bp
-
+    from app.routes.group_chat import group_chat_bp
     app.register_blueprint(game_bp)
     app.register_blueprint(report_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -75,7 +75,7 @@ def create_app():
     app.register_blueprint(analytics_bp)
     app.register_blueprint(vocabulary_bp)
     app.register_blueprint(team_challenge_bp)
-
+    app.register_blueprint(group_chat_bp)
     # Initialize Flask-Login (assuming this exists in the full __init__.py)
     from flask_login import LoginManager
     login_manager = LoginManager()

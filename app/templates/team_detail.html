@@ -8,6 +8,13 @@
     <h3>Team Information</h3>
     <p><strong>Leader:</strong> {{ group.leader.username }}</p>
     <p><strong>Members:</strong> {{ group.members|length }}</p>
+
+    {% if current_user.id == group.leader.id %}
+    <a href="{{ url_for('team_challenge.create_challenge_for_team', team_id=group.id) }}"
+       class="btn btn-primary">
+        Create Team Challenge
+    </a>
+    {% endif %}
 </div>
 
 <div style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px;">

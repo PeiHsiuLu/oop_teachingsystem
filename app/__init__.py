@@ -8,6 +8,7 @@ from app.models.dialogue import DialogueNode
 from app.models.analytics import InteractionLog
 from app.models.game import Badge, GameEvent
 from app.models.report import Report
+from app.routes.team_challenge import team_challenge_bp
 
 bcrypt = Bcrypt()
 
@@ -73,6 +74,7 @@ def create_app():
     app.register_blueprint(dialogue_bp)
     app.register_blueprint(analytics_bp)
     app.register_blueprint(vocabulary_bp)
+    app.register_blueprint(team_challenge_bp)
 
     # Initialize Flask-Login (assuming this exists in the full __init__.py)
     from flask_login import LoginManager

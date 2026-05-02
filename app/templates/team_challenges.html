@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Team Challenges</h2>
+
+<a href="{{ url_for('team_challenge.create_challenge') }}">
+    Create New Challenge
+</a>
+
+<br><br>
+
+{% for challenge in challenges %}
+<div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 16px; border-radius: 8px;">
+    <h3>{{ challenge.title }}</h3>
+
+    <p>{{ challenge.description }}</p>
+
+    <p>
+        <strong>Team:</strong>
+        {{ challenge.team.name }}
+    </p>
+
+    <p>
+        <strong>Goal:</strong>
+        {{ challenge.current_value }} / {{ challenge.target_value }} XP
+    </p>
+
+    <div style="width: 100%; background-color: #eee; border-radius: 8px;">
+        <div style="
+            width: {{ challenge.progress_percent() }}%;
+            background-color: #4caf50;
+            color: white;
+            text-align: center;
+            padding: 4px;
+            border-radius: 8px;">
+            {{ challenge.progress_percent() }}%
+        </div>
+    </div>
+
+    <p>
+        <strong>Reward:</strong>
+        +{{ challenge.reward_xp }} XP,
+        +{{ challenge.reward_credit }} Credit
+    </p>
+
+    <p>
+        <strong>Status:</strong>
+        {{ challenge.status }}
+    </p>
+
+    <p>
+        <strong>Deadline:</strong>
+        {{ challenge.deadline.strftime('%Y-%m-%d') }}
+    </p>
+
+    {% if challenge.status == "completed" %}
+        <a href="{{ url_for('team_challenge.claim_reward', challenge_id=challenge.id) }}">
+            Claim Reward
+        </a>
+    {% else %}
+        <p>Challenge in progress...</p>
+    {% endif %}
+</div>
+{% endfor %}
+
+{% endblock %}

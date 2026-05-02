@@ -4,6 +4,9 @@ from app.models.team import StudyGroup
 
 
 class TeamChallenge(Document):
+    meta = {
+        "strict": False
+    }
     title = StringField(required=True)
     description = StringField()
 

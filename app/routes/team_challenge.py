@@ -18,16 +18,22 @@ team_challenge_bp = Blueprint(
 def list_challenges():
     challenges = TeamChallenge.objects().order_by("-created_at")
 
+    valid_challenges = []
+
     for challenge in challenges:
+        if challenge.team is None:
+            continue
+
         if challenge.goal_type == "xp":
             total_xp = calculate_team_total_xp(challenge.team)
             challenge.update_progress(total_xp)
 
+        valid_challenges.append(challenge)
+
     return render_template(
         "team_challenges.html",
-        challenges=challenges
+        challenges=valid_challenges
     )
-
 
 @team_challenge_bp.route("/create", methods=["GET", "POST"])
 @login_required
@@ -159,6 +165,6 @@ def create_challenge_for_team(team_id):
         return redirect(url_for("team_challenge.list_challenges"))
 
     return render_template(
-        "create_team_challenge.html",
+        "create_team_challenge_for_team.html",
         team=team
     )

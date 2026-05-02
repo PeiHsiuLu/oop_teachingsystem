@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Create Challenge for {{ team.name }}</h2>
+
+<form method="POST">
+    <div>
+        <label>Challenge Title:</label><br>
+        <input type="text" name="title" required>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Description:</label><br>
+        <input type="text" name="description">
+    </div>
+
+    <br>
+
+    <div>
+        <label>Target XP:</label><br>
+        <input type="number" name="target_value" required>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Reward XP:</label><br>
+        <input type="number" name="reward_xp" value="0">
+    </div>
+
+    <br>
+
+    <div>
+        <label>Reward Credit:</label><br>
+        <input type="number" name="reward_credit" value="0">
+    </div>
+
+    <br>
+
+    <div>
+        <label>Deadline:</label><br>
+        <input type="date" name="deadline" required>
+    </div>
+
+    <br>
+
+    <button type="submit" class="btn btn-primary">Create Challenge</button>
+
+    <a href="{{ url_for('team.team_detail', group_id=team.id) }}" class="btn btn-secondary">
+        Cancel
+    </a>
+</form>
+
+{% endblock %}

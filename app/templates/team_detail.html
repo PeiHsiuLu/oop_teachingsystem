@@ -25,7 +25,62 @@
         {% endfor %}
     </ul>
 </div>
+<div style="border: 1px solid #28a745; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+    <h3>Team Challenges</h3>
 
+    {% if challenges %}
+        {% for challenge in challenges %}
+            <div style="border: 1px solid #ddd; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h4>{{ challenge.title }}</h4>
+                <p>{{ challenge.description }}</p>
+
+                <p>
+                    <strong>Progress:</strong>
+                    {{ challenge.current_value }} / {{ challenge.target_value }} XP
+                </p>
+
+                <div style="width: 100%; background-color: #eee; border-radius: 8px; overflow: hidden;">
+                    <div style="
+                        width: {{ challenge.progress_percent() }}%;
+                        background-color: #28a745;
+                        color: white;
+                        text-align: center;
+                        padding: 6px 0;">
+                        {{ challenge.progress_percent() }}%
+                    </div>
+                </div>
+
+                <p style="margin-top: 0.5rem;">
+                    <strong>Status:</strong> {{ challenge.status }}
+                </p>
+
+                <p>
+                    <strong>Deadline:</strong>
+                    {{ challenge.deadline.strftime('%Y-%m-%d') }}
+                </p>
+
+                <p>
+                    <strong>Reward:</strong>
+                    +{{ challenge.reward_xp }} XP,
+                    +{{ challenge.reward_credit }} Credit
+                </p>
+
+                {% if challenge.status == "completed" and challenge.reward_claimed == "no" %}
+                    <a href="{{ url_for('team_challenge.claim_reward', challenge_id=challenge.id) }}"
+                       class="btn btn-success">
+                        Claim Reward
+                    </a>
+                {% elif challenge.reward_claimed == "yes" %}
+                    <p style="color: gray;">Reward already claimed.</p>
+                {% else %}
+                    <p style="color: gray;">Challenge in progress...</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No team challenges yet.</p>
+    {% endif %}
+</div>
 <br>
 <a href="{{ url_for('team.teams_dashboard') }}" class="btn btn-secondary">Back to Teams</a>
 

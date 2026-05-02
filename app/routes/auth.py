@@ -34,7 +34,7 @@ def login():
         print(f"DEBUG: User object returned: {user}")
         
         if user:
-            return redirect(url_for('dashboard.index'))
+            return redirect("/course/student/dashboard")
         else:
             flash('Invalid username or password.', 'error')
     else:

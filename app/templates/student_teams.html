@@ -4,6 +4,9 @@
 <h2>Team Up (Use Case 7)</h2>
 <p>Join an existing study group or create your own to learn together!</p>
 
+<a href="{{ url_for('team.leaderboard') }}" class="btn btn-primary" style="margin-bottom: 1rem;">
+    View Team Leaderboard
+</a>
 <div class="card" style="margin-bottom: 2rem; padding: 1.5rem; border: 1px solid #ddd; border-radius: 8px; background-color: #fdfdfd;">
     <h3>Create a New Team</h3>
     <form action="{{ url_for('team.create_team') }}" method="POST">

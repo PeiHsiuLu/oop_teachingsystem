@@ -84,3 +84,24 @@ class TeamService:
         group.members = [m for m in group.members if str(m.id) != str(user.id)]
         group.save()
         return True
+    
+    def get_team_leaderboard(self):
+        groups = StudyGroup.objects()
+
+        ranking = []
+
+        for group in groups:
+            total_xp = 0
+
+            for member in group.members:
+                total_xp += getattr(member, "xp", 0)
+
+            ranking.append({
+                "group": group,
+                "total_xp": total_xp,
+                "member_count": len(group.members)
+            })
+
+        ranking.sort(key=lambda x: x["total_xp"], reverse=True)
+
+        return ranking

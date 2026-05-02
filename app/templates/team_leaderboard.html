@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Team Leaderboard</h2>
+<p>Teams are ranked by the total XP of all members.</p>
+
+<div style="margin-bottom: 1.5rem;">
+    <a href="{{ url_for('team.teams_dashboard') }}" class="btn btn-secondary">
+        Back to Teams
+    </a>
+</div>
+
+{% if ranking %}
+    <div style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #343a40; color: white;">
+                    <th style="padding: 0.75rem; text-align: left;">Rank</th>
+                    <th style="padding: 0.75rem; text-align: left;">Team Name</th>
+                    <th style="padding: 0.75rem; text-align: left;">Members</th>
+                    <th style="padding: 0.75rem; text-align: left;">Total XP</th>
+                    <th style="padding: 0.75rem; text-align: left;">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in ranking %}
+                    <tr style="border-bottom: 1px solid #ddd; background-color: {% if loop.index == 1 %}#fff3cd{% else %}white{% endif %};">
+                        <td style="padding: 0.75rem;">
+                            {% if loop.index == 1 %}
+                                🥇 {{ loop.index }}
+                            {% elif loop.index == 2 %}
+                                🥈 {{ loop.index }}
+                            {% elif loop.index == 3 %}
+                                🥉 {{ loop.index }}
+                            {% else %}
+                                {{ loop.index }}
+                            {% endif %}
+                        </td>
+
+                        <td style="padding: 0.75rem; font-weight: bold;">
+                            {{ item.group.name }}
+                        </td>
+
+                        <td style="padding: 0.75rem;">
+                            {{ item.member_count }}
+                        </td>
+
+                        <td style="padding: 0.75rem;">
+                            <strong>{{ item.total_xp }}</strong> XP
+                        </td>
+
+                        <td style="padding: 0.75rem;">
+                            <a href="{{ url_for('team.team_detail', group_id=item.group.id) }}" class="btn btn-primary">
+                                View Team
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div style="border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px; background-color: #fdfdfd;">
+        <p style="color: #6c757d;">No teams available yet.</p>
+    </div>
+{% endif %}
+
+{% endblock %}

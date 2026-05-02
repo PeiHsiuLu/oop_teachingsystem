@@ -105,3 +105,9 @@ def leave_team(group_id):
         flash(str(e), 'error')
 
     return redirect(url_for('team.teams_dashboard'))
+
+@team_bp.route('/leaderboard')
+@login_required
+def leaderboard():
+    ranking = team_service.get_team_leaderboard()
+    return render_template("team_leaderboard.html", ranking=ranking)

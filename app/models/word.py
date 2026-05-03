@@ -3,7 +3,7 @@ import datetime
 
 class Word(Document):
     """Represents a single word in the vocabulary database."""
-    word_text = StringField(required=True, unique=True)
+    word_text = StringField(required=True)
     definition = StringField(required=True)
     part_of_speech = StringField() # e.g., 'noun', 'verb', 'adjective'
     example_sentences = ListField(StringField()) # Example sentences for the word

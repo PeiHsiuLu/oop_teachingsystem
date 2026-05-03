@@ -20,7 +20,7 @@
 
     <!-- Word Management embedded into the Admin Dashboard -->
     <div style="background-color: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 2rem;">
-        <h3>Manage Vocabulary (Word Use Case)</h3>
+        <h3>Manage Vocabulary</h3>
 
         <h4>Add New Word</h4>
         <form method="POST" action="{{ url_for('word.manage_words') }}" style="display: flex; flex-direction: column; gap: 1rem;">
@@ -72,7 +72,8 @@
                 </tbody>
             </table>
         {% else %}
-            <p>No words found in the database. (Note: make sure your Python dashboard route passes the <strong>words</strong> variable into this template!)</p>
+            <p>No words found in the database.</p>
+            <!-- (Note: make sure your Python dashboard route passes the <strong>words</strong> variable into this template!)-->
         {% endif %}
     </div>
 

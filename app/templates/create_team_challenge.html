@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Create Team Challenge</h2>
+
+<form method="POST">
+    <div>
+        <label>Challenge Title:</label><br>
+        <input type="text" name="title" required>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Description:</label><br>
+        <input type="text" name="description">
+    </div>
+
+    <br>
+
+    <div>
+        <label>Select Team:</label><br>
+        <select name="team_id" required>
+            {% for team in teams %}
+                <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Target XP:</label><br>
+        <input type="number" name="target_value" required>
+    </div>
+
+    <br>
+
+    <div>
+        <label>Reward XP:</label><br>
+        <input type="number" name="reward_xp" value="0">
+    </div>
+
+    <br>
+
+    <div>
+        <label>Reward Credit:</label><br>
+        <input type="number" name="reward_credit" value="0">
+    </div>
+
+    <br>
+
+    <div>
+        <label>Deadline:</label><br>
+        <input type="date" name="deadline" required>
+    </div>
+
+    <br>
+
+    <button type="submit">Create Challenge</button>
+</form>
+
+{% endblock %}

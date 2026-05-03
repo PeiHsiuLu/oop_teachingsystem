@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from mongoengine import connect
+from pymongo.errors import OperationFailure
 from app.models.user import User, Student, Admin
 from app.models.course import LearningPath, Chapter, Unit
 from app.models.word import Word, SentenceGeneratingRule, ReviewItem
@@ -36,7 +37,11 @@ def create_app():
     Unit.ensure_indexes()
     
     # New: Word database models
-    Word.ensure_indexes()
+    try:
+        Word.ensure_indexes()
+    except OperationFailure:
+        Word._get_collection().drop_indexes()
+        Word.ensure_indexes()
     SentenceGeneratingRule.ensure_indexes()
     ReviewItem.ensure_indexes()
 

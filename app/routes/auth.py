@@ -34,12 +34,11 @@ def login():
         print(f"DEBUG: User object returned: {user}")
         
         if user:
-            return redirect("/course/student/dashboard")
-        else:
-            flash('Invalid username or password.', 'error')
-    else:
-        print(f"DEBUG: Form errors: {form.errors}")
-            
+            if user.role == "Admin" or user.role == "admin":
+                return redirect("/dashboard")
+            elif user.role == "Student" or user.role == "student":
+                return redirect("/course/student/dashboard")
+                    
     return render_template('login.html', form=form)
 
 @auth_bp.route('/logout')

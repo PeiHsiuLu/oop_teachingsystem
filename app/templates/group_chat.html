@@ -6,36 +6,77 @@
 
 <div style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px; height: 400px; overflow-y: auto; margin-bottom: 1rem;">
     {% if messages %}
-    {% for message in messages %}
-    {% set is_mine = (message.sender.id|string == current_user.id|string) %}
+        {% for message in messages %}
+            {% set is_mine = (message.sender.id|string == current_user.id|string) %}
 
-    <div style="
-        margin-bottom: 1rem;
-        display: flex;
-        flex-direction: column;
-        align-items: {% if is_mine %}flex-end{% else %}flex-start{% endif %};
-    ">
-        <div style="font-size: 0.85rem; color: gray; margin-bottom: 0.25rem;">
-            {% if is_mine %}
-                You
-            {% else %}
-                {{ message.sender.username }}
-            {% endif %}
-            · {{ message.created_at.strftime('%Y-%m-%d %H:%M') }}
-        </div>
+            <div style="
+                margin-bottom: 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: {% if is_mine %}flex-end{% else %}flex-start{% endif %};
+            ">
+                <div style="font-size: 0.85rem; color: gray; margin-bottom: 0.25rem;">
+                    {% if is_mine %}
+                        You
+                    {% else %}
+                        {{ message.sender.username }}
+                    {% endif %}
+                    · {{ message.created_at.strftime('%Y-%m-%d %H:%M') }}
+                </div>
 
-        <div style="
-            max-width: 70%;
-            padding: 0.6rem 0.8rem;
-            border-radius: 12px;
-            background-color: {% if is_mine %}#007bff{% else %}#f1f1f1{% endif %};
-            color: {% if is_mine %}white{% else %}black{% endif %};
-            text-align: left;
-        ">
-            {{ message.content }}
-        </div>
-    </div>
-{% endfor %}
+                <div style="
+                    max-width: 70%;
+                    padding: 0.6rem 0.8rem;
+                    border-radius: 12px;
+                    background-color: {% if is_mine %}#007bff{% else %}#f1f1f1{% endif %};
+                    color: {% if is_mine %}white{% else %}black{% endif %};
+                    text-align: left;
+                ">
+                    {{ message.content }}
+                </div>
+
+                {% if not is_mine %}
+                    <div style="margin-top: 0.4rem;">
+                        <button type="button"
+                                class="btn btn-sm btn-danger"
+                                onclick="showReportForm('{{ message.id }}')"
+                                id="report-btn-{{ message.id }}"
+                                style="padding: 0.25rem 0.5rem;">
+                            Report
+                        </button>
+
+                        <form action="{{ url_for('report.create_report') }}"
+                              method="POST"
+                              id="report-form-{{ message.id }}"
+                              style="display: none; margin-top: 0.4rem; max-width: 70%; gap: 0.4rem;">
+
+                            <input type="hidden" name="target_user_id" value="{{ message.sender.id }}">
+                            <input type="hidden" name="target_type" value="chat_message">
+                            <input type="hidden" name="target_id" value="{{ message.id }}">
+
+                            <input type="text"
+                                   name="reason"
+                                   placeholder="Reason"
+                                   required
+                                   style="padding: 0.3rem; font-size: 0.85rem;">
+
+                            <button type="submit"
+                                    class="btn btn-sm btn-danger"
+                                    style="padding: 0.25rem 0.5rem;">
+                                Submit
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-sm btn-secondary"
+                                    onclick="hideReportForm('{{ message.id }}')"
+                                    style="padding: 0.25rem 0.5rem;">
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
     {% else %}
         <p>No messages yet. Start the conversation!</p>
     {% endif %}
@@ -60,5 +101,23 @@
 <a href="{{ url_for('team.team_detail', group_id=group.id) }}" class="btn btn-secondary">
     Back to Team
 </a>
+
+<script>
+    function showReportForm(messageId) {
+        const form = document.getElementById("report-form-" + messageId);
+        const button = document.getElementById("report-btn-" + messageId);
+
+        form.style.display = "flex";
+        button.style.display = "none";
+    }
+
+    function hideReportForm(messageId) {
+        const form = document.getElementById("report-form-" + messageId);
+        const button = document.getElementById("report-btn-" + messageId);
+
+        form.style.display = "none";
+        button.style.display = "inline-block";
+    }
+</script>
 
 {% endblock %}

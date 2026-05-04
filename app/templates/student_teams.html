@@ -66,16 +66,6 @@
     
             <div id="leaderboard-{{ group.id }}" style="margin-top: 10px;"></div>
     
-            {% if current_user.role == 'admin' or group.leader.id|string == current_user.id|string %}
-                <hr>
-                <h4>Create Team Challenge</h4>
-                <form method="POST" action="{{ url_for('team.create_challenge', group_id=group.id) }}">
-                    <input type="text" name="title" placeholder="Challenge Title" required>
-                    <input type="number" name="target_xp" placeholder="Target XP" required>
-                    <input type="date" name="deadline" required>
-                    <button type="submit" class="btn btn-primary">Create Challenge</button>
-                </form>
-            {% endif %}
         </div>
     {% endfor %}
     </div>

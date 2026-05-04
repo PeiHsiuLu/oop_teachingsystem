@@ -3,12 +3,17 @@ from datetime import datetime
 
 
 class Report(Document):
+    meta = {
+        "strict": False
+    }
+
     reporter = ReferenceField("User", required=True)
     target_user = ReferenceField("User")
 
-    target_type = StringField(required=True)  # post, comment, user, team
+    target_type = StringField(required=True)  # post, comment, user, team, chat_message
     target_id = StringField(required=True)
     reason = StringField(required=True)
+
     status = StringField(default="pending")  # pending, resolved, archived
     created_at = DateTimeField(default=datetime.utcnow)
 

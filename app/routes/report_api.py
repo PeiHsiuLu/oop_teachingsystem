@@ -1,8 +1,10 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
+
 from app.services.report_service import ModService
 from app.models.report import Report
 from app.utils.decorators import role_required
+
 
 report_bp = Blueprint("report", __name__)
 mod_service = ModService()
@@ -22,11 +24,12 @@ def create_report():
     }
 
     try:
-        report = mod_service.process_report(report_event)
+        mod_service.process_report(report_event)
         flash("Report submitted successfully.", "success")
-        return redirect(url_for("main.index"))
+        return redirect(request.referrer or url_for("main.index"))
     except ValueError as e:
-        return jsonify({"error": str(e)}), 400
+        flash(str(e), "error")
+        return redirect(request.referrer or url_for("main.index"))
 
 
 @report_bp.route("/admin/reports", methods=["GET"])
@@ -42,8 +45,10 @@ def admin_reports():
 @role_required("admin")
 def resolve_report(report_id):
     report = Report.objects(id=report_id).first()
+
     if not report:
-        return jsonify({"error": "Report not found"}), 404
+        flash("Report not found.", "error")
+        return redirect(url_for("report.admin_reports"))
 
     report.resolve()
     flash("Report resolved.", "success")
@@ -55,18 +60,22 @@ def resolve_report(report_id):
 @role_required("admin")
 def archive_report(report_id):
     report = Report.objects(id=report_id).first()
+
     if not report:
-        return jsonify({"error": "Report not found"}), 404
+        flash("Report not found.", "error")
+        return redirect(url_for("report.admin_reports"))
 
     report.archive()
     flash("Report archived.", "success")
     return redirect(url_for("report.admin_reports"))
+
 
 @report_bp.route("/api/reports/sanction/<user_id>", methods=["POST"])
 @login_required
 @role_required("admin")
 def apply_sanction(user_id):
     action_type = request.form.get("action_type")
+
     try:
         message = mod_service.apply_sanction(user_id, action_type)
         flash(message, "success")

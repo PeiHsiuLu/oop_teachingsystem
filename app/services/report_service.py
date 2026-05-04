@@ -42,6 +42,7 @@ class ModService:
         if action_type == "mute":
             if hasattr(user, "credit_score"):
                 user.credit_score = max(0, user.credit_score - 20)
+                user.xp = max(0, user.credit_score - 20)
 
             if hasattr(user, "is_muted"):
                 user.is_muted = True
@@ -52,7 +53,7 @@ class ModService:
         if action_type == "warning":
             if hasattr(user, "credit_score"):
                 user.credit_score = max(0, user.credit_score - 5)
-
+                user.xp = max(0, user.credit_score - 5)
             user.save()
             return "Warning applied."
 

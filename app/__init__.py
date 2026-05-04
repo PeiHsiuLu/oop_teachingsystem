@@ -67,6 +67,8 @@ def create_app():
     from app.routes.game_api import game_bp
     from app.routes.report_api import report_bp
     from app.routes.group_chat import group_chat_bp
+    from app.routes.achievement import achievement_bp
+    app.register_blueprint(achievement_bp)
     app.register_blueprint(game_bp)
     app.register_blueprint(report_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -86,7 +88,10 @@ def create_app():
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login' # Redirect to auth.login if not logged in
+    from app.services.achievement_service import AchievementService
 
+    achievement_service = AchievementService()
+    #achievement_service.seed_default_badges()
     @login_manager.user_loader
     def load_user(user_id):
         # user_id is the string representation of the ObjectId

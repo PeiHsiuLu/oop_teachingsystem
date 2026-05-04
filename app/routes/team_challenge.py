@@ -4,7 +4,11 @@ from datetime import datetime
 
 from app.models.team import StudyGroup
 from app.models.team_challenge import TeamChallenge
+from app.services.level_system import LevelSystem
+from app.services.achievement_service import AchievementService
 
+achievement_service = AchievementService()
+level_system = LevelSystem()
 
 team_challenge_bp = Blueprint(
     "team_challenge",
@@ -128,6 +132,14 @@ def give_team_reward(challenge):
             member.credit_score += challenge.reward_credit
 
         member.save()
+        level_system.update_user_level(member)
+
+        achievement_service.unlock_badge(
+            member,
+            "team_challenge_completed"
+        )
+
+        achievement_service.check_level_badge(member)
 
 @team_challenge_bp.route("/create/<team_id>", methods=["GET", "POST"])
 @login_required

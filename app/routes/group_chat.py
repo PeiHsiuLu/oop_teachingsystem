@@ -3,7 +3,9 @@ from flask_login import login_required, current_user
 
 from app.models.team import StudyGroup
 from app.models.group_chat import GroupChat, ChatMessage
+from app.services.achievement_service import AchievementService
 
+achievement_service = AchievementService()
 
 group_chat_bp = Blueprint(
     "group_chat",
@@ -51,6 +53,10 @@ def chat_room(group_id):
         )
 
         message.save()
+        achievement_service.unlock_badge(
+            current_user._get_current_object(),
+            "first_message"
+        )
 
         return redirect(url_for("group_chat.chat_room", group_id=group.id))
 

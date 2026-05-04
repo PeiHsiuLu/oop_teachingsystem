@@ -1,8 +1,12 @@
 from app.models.report import Report
 from app.models.user import User
+from app.services.level_system import LevelSystem
 
 
 class ModService:
+    def __init__(self):
+        self.level_system = LevelSystem()
+
     def process_report(self, report_event):
         reporter = User.objects(id=report_event.get("reporter_id")).first()
         target_user = None
@@ -42,19 +46,28 @@ class ModService:
         if action_type == "mute":
             if hasattr(user, "credit_score"):
                 user.credit_score = max(0, user.credit_score - 20)
-                user.xp = max(0, user.credit_score - 20)
+
+            if hasattr(user, "xp"):
+                user.xp = max(0, user.xp - 20)
 
             if hasattr(user, "is_muted"):
                 user.is_muted = True
 
             user.save()
-            return "User muted / credit score reduced."
+            self.level_system.update_user_level(user)
+
+            return "User muted / credit score and XP reduced."
 
         if action_type == "warning":
             if hasattr(user, "credit_score"):
                 user.credit_score = max(0, user.credit_score - 5)
-                user.xp = max(0, user.credit_score - 5)
+
+            if hasattr(user, "xp"):
+                user.xp = max(0, user.xp - 5)
+
             user.save()
-            return "Warning applied."
+            self.level_system.update_user_level(user)
+
+            return "Warning applied / credit score and XP reduced."
 
         return "No action applied."

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>My Achievements</h2>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+    {% for badge in all_badges %}
+        {% set unlocked = badge.id in unlocked_badge_ids %}
+
+        <div style="
+            border: 1px solid {% if unlocked %}#28a745{% else %}#ccc{% endif %};
+            border-radius: 8px;
+            padding: 1rem;
+            background-color: {% if unlocked %}#f0fff4{% else %}#f8f8f8{% endif %};
+            opacity: {% if unlocked %}1{% else %}0.5{% endif %};
+        ">
+            <div style="font-size: 2rem;">{{ badge.icon }}</div>
+            <h4>{{ badge.name }}</h4>
+            <p>{{ badge.description }}</p>
+
+            {% if unlocked %}
+                <p style="color: green;"><strong>Unlocked</strong></p>
+            {% else %}
+                <p style="color: gray;">Locked</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

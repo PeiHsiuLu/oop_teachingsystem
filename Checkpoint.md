@@ -5,6 +5,8 @@
 *   **Dialogue API (`dialogue_api.py`)**: Created endpoints for starting, stepping through, and finishing conversational scenarios (UC4). Added admin endpoints for node creation (`/api/admin/dialogue/create`).
 *   **Admin Word Management (`word.py` & `word_service.py`)**: Implemented full CRUD operations for `Word` and `SentenceGeneratingRule` with `@admin_required` role protection. Added a dynamic `generate_sentence` placeholder.
 *   **SRS & Analytics Integration (`srs.py`)**: Connected the `SuperMemo2Strategy` logic directly to the user review routes (`/review/next` and `/review`), properly logging events into the `AnalyticsEngine`.
+*   **Frontend React Integration (`SRSFlashcard.js`)**: Implemented the interactive flashcard UI for the Spaced Repetition System, fetching and submitting review qualities (0-5 rating) to the Flask API.
+*   **Vocabulary Seed Data (`word_list.json`)**: Added a comprehensive JSON vocabulary list containing words with definitions, parts of speech, and CEFR levels for database seeding.
 ---
 
 This document outlines the current state of development for the English Learning System, focusing on the backend architecture and server-rendered UI for three primary use cases: Vocabulary Bank & Training, Course Interaction, and Analytics.
@@ -58,7 +60,8 @@ Contains Flask Blueprints that define the application's URLs (routes) and connec
 -   `word.py`: Admin-protected routes (`@admin_required`) for managing vocabulary words and dynamic sentence generation rules.
 -   `srs.py`: Core routing for the Spaced Repetition System (`/review/next`, `/review`), integrating `SRSManager` and `SuperMemo2Strategy`.
 
-#### HTML Templates (Server-Rendered UI)
+#### Frontend Components & UI Templates
+-   `SRSFlashcard.js`: A React component managing the flashcard UI state (front/back) and handling HTTP requests to the `/srs` API endpoints.
 -   `base.html`: Main layout featuring navigation links.
 -   `student_dashboard.html`: Unified dashboard displaying Gamification stats, Vocabulary Review, Course Interaction, and Result Analysis.
 -   `student_course.html`: Dedicated view for Learning Paths and Chapters.
@@ -82,8 +85,8 @@ This flow demonstrates the **Vocabulary Bank & Training** and **Analytics** use 
 2.  **Routing:** The request is handled by `get_next_review_word` in `app/routes/srs.py`.
 3.  **Business Logic (SRS):** The route calls `srs_manager.get_words_for_review()`. The `SRSManager` (`srs_service.py`) queries the database via the `WordRepository` to find words that are due for review.
 4.  **Data Access:** The `WordRepository` (`word_repository.py`) executes a `find` query on the `review_items` collection in MongoDB.
-5.  **Response (Render):** The route receives the word data and renders the `review_card.html` template, passing the word information to it.
-6.  **User Interaction:** The student views the flashcard, reveals the answer, and clicks a performance button ("Forgot", "Hard", "Easy"). This submits an HTML form via a `POST` request to `/srs/review`.
+5.  **Response (Render/API):** The route provides the word data to the frontend, which mounts the `SRSFlashcard.js` React component.
+6.  **User Interaction:** The student views the flashcard, reveals the answer, and clicks a performance button ("Forgot", "Hard", "Easy"). The React component submits the rating via a `POST` request to `/srs/review`.
 7.  **Business Logic (Update & Analytics):**
     *   The `submit_review` route in `srs.py` is triggered.
     *   It calls `srs_manager.process_review_result()`. The `SRSManager` delegates the complex calculation to its configured strategy (`SuperMemo2Strategy`), which computes the new `due_date`, `interval`, and `ease_factor`. The result is saved to the `review_items` collection.

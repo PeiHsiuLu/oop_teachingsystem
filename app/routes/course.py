@@ -4,10 +4,11 @@ from app.services.course_service import CourseService
 from app.models.forms import CreatePathForm, AddChapterForm, AddUnitForm
 from flask_login import login_required, current_user
 from app.utils.decorators import no_cache
+from app.services.leaderboard_service import LeaderboardService
 
 course_bp = Blueprint('course', __name__)
 course_service = CourseService()
-
+leaderboard_service = LeaderboardService()
 @course_bp.route('/')
 def home():
     if current_user.is_authenticated:
@@ -98,8 +99,14 @@ def student_course_dashboard():
     # Only students allowed
     if current_user.role != 'student':
         return "Unauthorized", 403
+
+    user_leaderboard = leaderboard_service.get_user_leaderboard(limit=10)
     
-    return render_template('student_dashboard.html', user=current_user)
+    return render_template(
+        'student_dashboard.html',
+        user=current_user,
+        user_leaderboard=user_leaderboard
+    )
 
 @course_bp.route('/student/courses')
 @login_required

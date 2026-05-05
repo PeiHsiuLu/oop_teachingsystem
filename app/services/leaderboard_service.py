@@ -3,17 +3,29 @@ from app.models.user import User
 
 class LeaderboardService:
     def get_user_leaderboard(self, limit=10):
-        users = User.objects()
+        collection = User._get_collection()
+
+        users = list(collection.find())
+
+        print("DEBUG raw user count:", len(users))
 
         ranking = []
 
         for user in users:
+            username = user.get("username", "Unknown")
+            role = user.get("role", "Unknown")
+            xp = user.get("xp", 0) or 0
+            level = user.get("level", 1) or 1
+            credit_score = user.get("credit_score", 100) or 100
+
+            print("DEBUG raw user:", username, role, xp, level, credit_score)
+
             ranking.append({
-                "username": getattr(user, "username", "Unknown"),
-                "role": getattr(user, "role", "Unknown"),
-                "xp": getattr(user, "xp", 0),
-                "level": getattr(user, "level", 1),
-                "credit_score": getattr(user, "credit_score", 100)
+                "username": username,
+                "role": role,
+                "xp": xp,
+                "level": level,
+                "credit_score": credit_score
             })
 
         ranking.sort(key=lambda item: item["xp"], reverse=True)

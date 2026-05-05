@@ -7,7 +7,7 @@ from app.models.course import LearningPath, Chapter, Unit
 from app.models.word import Word, SentenceGeneratingRule, ReviewItem
 from app.models.dialogue import DialogueNode
 from app.models.analytics import InteractionLog
-from app.models.game import Badge, GameEvent
+from app.models.game import Badge as GameBadge, GameEvent
 from app.models.report import Report
 from app.routes.team_challenge import team_challenge_bp
 
@@ -49,7 +49,7 @@ def create_app():
     DialogueNode.ensure_indexes()
     InteractionLog.ensure_indexes()
 
-    Badge.ensure_indexes()
+    GameBadge.ensure_indexes()
     GameEvent.ensure_indexes()
     Report.ensure_indexes()
 
@@ -98,3 +98,5 @@ def create_app():
         return User.objects(id=user_id).first()
 
     return app
+#Badge.ensure_indexes()
+#badge_id

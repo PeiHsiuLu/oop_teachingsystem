@@ -5,6 +5,36 @@
 
 <h2>Student Dashboard</h2>
 <p>Welcome back, <strong>{{ current_user.username }}</strong>! Here is your daily learning overview.</p>
+<div style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px; margin-top: 1.5rem;">
+    <h3>Account Leaderboard</h3>
+    <p>Ranking all users by XP.</p>
+
+    {% if user_leaderboard %}
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr style="background-color: #f2f2f2;">
+                <th style="padding: 8px; border: 1px solid #ddd;">Rank</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Username</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Role</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">XP</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Level</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Credit Score</th>
+            </tr>
+
+            {% for item in user_leaderboard %}
+                <tr {% if item.username == current_user.username %}style="background-color: #fff3cd;"{% endif %}>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ loop.index }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ item.username }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ item.role }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ item.xp }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ item.level }}</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">{{ item.credit_score }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+</div>
 
 <!-- Dashboard Grid -->
 <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">

@@ -3,6 +3,11 @@ from datetime import datetime
 
 
 class Badge(Document):
+    meta = {
+        "collection": "achievement_badge",
+        "strict": False
+    }
+
     name = StringField(required=True, unique=True)
     description = StringField(required=True)
     icon = StringField(default="🏅")
@@ -13,16 +18,17 @@ class Badge(Document):
 
 
 class AchievementRecord(Document):
-    user = ReferenceField("User", required=True)
-    badge = ReferenceField(Badge, required=True)
-
-    unlocked_at = DateTimeField(default=datetime.utcnow)
-
     meta = {
+        "collection": "achievement_record",
         "indexes": [
             {
                 "fields": ["user", "badge"],
                 "unique": True
             }
-        ]
+        ],
+        "strict": False
     }
+
+    user = ReferenceField("User", required=True)
+    badge = ReferenceField(Badge, required=True)
+    unlocked_at = DateTimeField(default=datetime.utcnow)

@@ -35,6 +35,11 @@ class Chapter(Document):
             return True 
         return rule.evaluate(user, self)
 
+    def get_rule_description(self):
+        if self.unlock_rule_type == "none":
+            return "No requirements"
+        return f"User {self.unlock_rule_type.capitalize()} {self.unlock_threshold}"
+
 class LearningPath(Document):
     path_name = StringField(required=True)
     chapters = ListField(ReferenceField(Chapter)) # Path is composed of many chapters

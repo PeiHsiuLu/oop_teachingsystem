@@ -16,6 +16,7 @@
         {% for chapter in path.chapters %}
             <div style="margin-left: 20px; border-left: 2px solid #aaa; padding-left: 10px;">
                 <h4>Chapter: {{ chapter.title }}
+                    <a href="{{ url_for('course.edit_chapter', chapter_id=chapter.id|string) }}">Edit Rule</a>
                     <!-- Delete Chapter Button -->
                     <form action="{{ url_for('course.delete_chapter') }}" method="POST" style="display:inline;">
                         {{ chapter_form.hidden_tag() }}

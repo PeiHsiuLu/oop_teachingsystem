@@ -1,10 +1,11 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
-from app.models.course import LearningPath, Unit
+from app.models.course import LearningPath, Chapter, Unit
 from app.services.course_service import CourseService
 from app.models.forms import CreatePathForm, AddChapterForm, AddUnitForm, EditUnitForm
 from flask_login import login_required, current_user
 from app.utils.decorators import no_cache
 from app.services.leaderboard_service import LeaderboardService
+import markdown
 
 course_bp = Blueprint('course', __name__)
 course_service = CourseService()
@@ -83,6 +84,24 @@ def delete_chapter():
     course_service.delete_chapter(path_id, chapter_id)
     return redirect(url_for('course.admin_course_dashboard'))
 
+@course_bp.route('/admin/edit-chapter/<chapter_id>', methods=['GET', 'POST'])
+@login_required
+def edit_chapter(chapter_id):
+    if current_user.role != 'admin': return "Unauthorized", 403
+    
+    chapter = Chapter.objects.get(id=chapter_id)
+    
+    if request.method == 'POST':
+        # Grab new values from form
+        chapter.title = request.form.get('title')
+        chapter.unlock_rule_type = request.form.get('rule_type')
+        chapter.unlock_threshold = int(request.form.get('threshold', 0))
+        chapter.save()
+        flash("Chapter updated!", "success")
+        return redirect(url_for('course.admin_course_dashboard'))
+        
+    return render_template('edit_chapter.html', chapter=chapter)
+
 @course_bp.route('/admin/edit-unit/<unit_id>', methods=['GET', 'POST'])
 @login_required
 def edit_unit(unit_id):
@@ -140,9 +159,9 @@ def view_unit(unit_id):
         return "Unauthorized", 403
     
     unit = Unit.objects.get(id=unit_id)
-    
-    # 1. Log progress immediately
     course_service.mark_unit_complete(current_user.id, unit.id)
     
-    # 2. Show content
-    return render_template('view_unit.html', unit=unit)
+    # Convert Markdown stored in database to HTML
+    html_content = markdown.markdown(unit.content, extensions=['fenced_code', 'tables'])
+    
+    return render_template('view_unit.html', unit=unit, html_content=html_content)

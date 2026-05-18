@@ -28,7 +28,8 @@
                 <ul>
                     {% for unit in chapter.units %}
                         <li>{{ unit.title }}
-                            <!-- Delete Unit Button -->
+                             <a href="{{ url_for('course.edit_unit', unit_id=unit.id|string) }}">Edit</a>
+                             <!-- Delete Unit Button -->
                             <form action="{{ url_for('course.delete_unit') }}" method="POST" style="display:inline;">
                                 {{ unit_form.hidden_tag() }}
                                 <input type="hidden" name="chapter_id" value="{{ chapter.id|string }}">

@@ -17,7 +17,11 @@
             {% if chapter.is_unlocked(user) %}
                 <ul>
                     {% for unit in chapter.units %}
-                        <li><a href="#">{{ unit.title }}</a></li>
+                        <li>
+                            <a href="{{ url_for('course.view_unit', unit_id=unit.id|string) }}">
+                                {{ unit.title }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </ul>
             {% else %}

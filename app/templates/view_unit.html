@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="padding: 2rem;">
+    <h2>{{ unit.title }}</h2>
+    <hr>
+    <div class="content-body">
+        <!-- This renders the actual study material -->
+        {{ unit.content }}
+    </div>
+    <br>
+    <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+{% endblock %}

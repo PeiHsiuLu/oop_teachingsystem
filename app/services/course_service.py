@@ -1,4 +1,5 @@
 from app.models.course import LearningPath, Chapter, Unit
+from app.models.analytics import Progress
 from app.repositories.course_repository import CourseRepository
 
 class CourseService:
@@ -38,6 +39,36 @@ class CourseService:
     
     def delete_unit(self, chapter_id, unit_id):
         self.repo.remove_unit_from_chapter(chapter_id, unit_id)
+    
+    def update_unit(self, unit_id, new_content):
+        unit = Unit.objects.get(id=unit_id)
+        unit.content = new_content
+        unit.save()
 
     def delete_chapter(self, path_id, chapter_id):
         self.repo.remove_chapter_from_path(path_id, chapter_id)
+
+    def get_chapter_status(self, student, chapter):
+        # Get all units in this chapter
+        unit_ids = [u.id for u in chapter.units]
+        # Count how many of these units the student has in Progress
+        completed_count = Progress.objects(student=student, unit__in=unit_ids).count()
+    
+        return completed_count >= len(unit_ids)
+
+    def is_chapter_finished(self, student, chapter):
+        # Get all unit IDs for this chapter
+        chapter_unit_ids = [unit.id for unit in chapter.units]
+    
+        # Get all units this student has completed
+        completed_units = Progress.objects(student=student, unit__in=chapter_unit_ids)
+    
+        # If the counts match, the chapter is finished!
+        return len(completed_units) >= len(chapter_unit_ids)
+    
+    def mark_unit_complete(self, student_id, unit_id):
+        # Check if already completed to avoid duplicate logs
+        existing = Progress.objects(student=student_id, unit=unit_id).first()
+        if not existing:
+            progress = Progress(student=student_id, unit=unit_id)
+            progress.save()

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField, HiddenField, IntegerField
+from wtforms import StringField, PasswordField, SelectField, SubmitField, HiddenField, IntegerField,TextAreaField
 from wtforms.validators import DataRequired, Email, Length # Add Email here
 
 class RegistrationForm(FlaskForm):
@@ -27,3 +27,7 @@ class AddChapterForm(FlaskForm):
 class AddUnitForm(FlaskForm):
     title = StringField('Unit Title', validators=[DataRequired()])
     submit = SubmitField('Add Unit')
+
+class EditUnitForm(FlaskForm):
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Save Changes')

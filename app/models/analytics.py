@@ -21,3 +21,8 @@ class InteractionLog(Document):
             "time_spent": self.time_spent,
             "clicked_options": self.clicked_options
         }
+
+class Progress(Document):
+    student = ReferenceField('Student')
+    unit = ReferenceField('Unit')
+    completed_at = DateTimeField(default=datetime.utcnow)

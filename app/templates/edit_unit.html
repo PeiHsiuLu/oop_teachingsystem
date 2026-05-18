@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Edit Unit: {{ unit.title }}</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    
+    <div class="form-group">
+        {{ form.content.label }}
+        {{ form.content(rows=10, cols=50, class="form-control") }}
+    </div>
+    
+    <br>
+    {{ form.submit(class="btn btn-primary") }}
+    <a href="{{ url_for('course.admin_course_dashboard') }}">Cancel</a>
+</form>
+{% endblock %}

@@ -3,7 +3,12 @@ from app.services.unlock_rules import LevelRule, ScoreRule
 
 class Unit(Document):
     title = StringField(required=True)
-    content = StringField() # Or link to a static asset
+    content = StringField() 
+    unit_type = StringField(default="text") # e.g., 'text', 'video', 'quiz'
+    
+    # New method to help the UI
+    def get_template(self):
+        return f"units/{self.unit_type}.html"
 
 class Chapter(Document):
     title = StringField(required=True)

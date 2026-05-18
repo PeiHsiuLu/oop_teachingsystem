@@ -5,7 +5,7 @@
     <hr>
     <div class="content-body">
         <!-- This renders the actual study material -->
-        {{ unit.content }}
+        {{ html_content|safe }}
     </div>
     <br>
     <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>

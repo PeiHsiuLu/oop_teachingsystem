@@ -1,16 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Edit Unit: {{ unit.title }}</h2>
+
+<!-- EasyMDE Styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+
 <form method="POST">
     {{ form.hidden_tag() }}
-    
     <div class="form-group">
         {{ form.content.label }}
-        {{ form.content(rows=10, cols=50, class="form-control") }}
+        {{ form.content(id="markdown-editor") }}
     </div>
-    
     <br>
     {{ form.submit(class="btn btn-primary") }}
     <a href="{{ url_for('course.admin_course_dashboard') }}">Cancel</a>
 </form>
+
+<!-- EasyMDE Script -->
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script>
+    const easyMDE = new EasyMDE({element: document.getElementById('markdown-editor')});
+</script>
 {% endblock %}

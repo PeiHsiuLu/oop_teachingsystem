@@ -44,20 +44,23 @@ def import_words_to_db(json_filepath):
             word_list = json.load(f)
 
         print("Formatting and importing words to Atlas...")
-        level_map = {'A1': 1, 'A2': 2, 'B1': 3, 'B2': 4, 'C1': 5, 'Unclassified': 1}
-        words_to_insert = [
-            Word(
+        words_to_insert = []
+        for item in word_list:
+            example_en = item.get('example_en', '')
+            example_zh = item.get('example_zh', '')
+            examples = [f"{example_en} ({example_zh})"] if example_en else []
+            
+            words_to_insert.append(Word(
                 word_text=item.get('word'),
                 definition=item.get('definition'),
                 part_of_speech=item.get('type'),
-                example_sentences=[item.get('example')] if item.get('example') else [],
-                difficulty_level=level_map.get(item.get('level', 'A1'), 1)
-            ) for item in word_list
-        ]
+                example_sentences=examples,
+                difficulty_level=item.get('level', 'Unclassified')
+            ))
         
         Word.objects.insert(words_to_insert)
         print(f"Success! {len(words_to_insert)} words have been imported to MongoDB Atlas.")
 
 if __name__ == "__main__":
-    json_path = os.path.join(current_dir, 'word_list.json')
+    json_path = os.path.join(current_dir, 'final_result.json')
     import_words_to_db(json_path)

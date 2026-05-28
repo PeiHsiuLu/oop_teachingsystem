@@ -15,6 +15,14 @@ class WordRepository(BaseRepository):
         """Retrieves all words."""
         return Word.objects()
 
+    def find_exact_word(self, word_text, definition, part_of_speech):
+        """Finds a word by the exact combination of word_text, definition, and part_of_speech."""
+        return Word.objects(
+            word_text=word_text,
+            definition=definition,
+            part_of_speech=part_of_speech
+        ).first()
+
     # --- ReviewItem specific methods ---
     def get_review_item(self, user_id, word_id):
         """Retrieves a specific review item for a user and word."""

@@ -5,11 +5,13 @@ from app.models.forms import CreatePathForm, AddChapterForm, AddUnitForm, EditUn
 from flask_login import login_required, current_user
 from app.utils.decorators import no_cache
 from app.services.leaderboard_service import LeaderboardService
+from app.services.vocabulary_service import VocabularyService
 import markdown
 
 course_bp = Blueprint('course', __name__)
 course_service = CourseService()
 leaderboard_service = LeaderboardService()
+vocab_service = VocabularyService()
 @course_bp.route('/')
 def home():
     if current_user.is_authenticated:
@@ -165,3 +167,38 @@ def view_unit(unit_id):
     html_content = markdown.markdown(unit.content, extensions=['fenced_code', 'tables'])
     
     return render_template('view_unit.html', unit=unit, html_content=html_content)
+
+@course_bp.route('/admin/vocabulary')
+@login_required
+def admin_vocabulary():
+    if current_user.role != 'admin':
+        return "Unauthorized", 403
+    
+    vocabs = vocab_service.get_all_vocabulary()
+    return render_template('admin_vocabulary.html', vocabs=vocabs)
+
+@course_bp.route('/admin/vocabulary/import', methods=['POST'])
+@login_required
+def import_vocabulary():
+    if current_user.role != 'admin':
+        return "Unauthorized", 403
+        
+    if 'file' not in request.files:
+        flash('沒有上傳檔案', 'danger')
+        return redirect(url_for('course.admin_vocabulary'))
+        
+    file = request.files['file']
+    if file.filename == '':
+        flash('未選擇檔案', 'danger')
+        return redirect(url_for('course.admin_vocabulary'))
+        
+    if file and file.filename.endswith('.json'):
+        try:
+            count = vocab_service.import_from_json(file)
+            flash(f'成功匯入 {count} 筆單字！', 'success')
+        except Exception as e:
+            flash(f'匯入失敗: {str(e)}', 'danger')
+    else:
+        flash('請上傳 JSON 檔案格式', 'danger')
+        
+    return redirect(url_for('course.admin_vocabulary'))

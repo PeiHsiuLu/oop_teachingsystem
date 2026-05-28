@@ -13,10 +13,11 @@ class WordService:
         self.user_repo = UserRepository() # For potentially fetching student-specific data
 
     # --- Admin Functions ---
-    def add_word(self, word_text, definition, part_of_speech, example_sentences=None, difficulty_level=1):
+    def add_word(self, word_text, definition, part_of_speech, example_sentences=None, difficulty_level='Unclassified'):
         """Adds a new word to the database."""
-        if self.word_repo.get_by_word_text(word_text):
-            raise ValueError(f"Word '{word_text}' already exists.")
+        # 檢查完全相同的單字、定義與詞性組合是否存在
+        if self.word_repo.find_exact_word(word_text, definition, part_of_speech):
+            raise ValueError(f"完全相同的單字、定義與詞性組合 '{word_text}' ({part_of_speech}) 已經存在。")
         
         new_word = Word(
             word_text=word_text,
@@ -40,7 +41,7 @@ class WordService:
 
     def delete_word(self, word_id):
         """Deletes a word by ID."""
-        return self.word_repo.delete(word_id)
+        return self.word_repo.delete_by_id(word_id)
 
     def get_all_words(self):
         """Retrieves all words."""
@@ -72,7 +73,7 @@ class WordService:
 
     def delete_sentence_rule(self, rule_id):
         """Deletes a sentence generation rule by ID."""
-        return self.rule_repo.delete(rule_id)
+        return self.rule_repo.delete_by_id(rule_id)
 
     def get_all_sentence_rules(self):
         """Retrieves all sentence generation rules."""

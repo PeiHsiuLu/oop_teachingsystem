@@ -7,7 +7,7 @@ class Word(Document):
     definition = StringField(required=True)
     part_of_speech = StringField() # e.g., 'noun', 'verb', 'adjective'
     example_sentences = ListField(StringField()) # Example sentences for the word
-    difficulty_level = IntField(default=1, min_value=1, max_value=5) # 1: easy, 5: hard
+    difficulty_level = StringField(default="Unclassified") # e.g., 'A1', 'B2', 'Unclassified'
 
     meta = {
         'collection': 'words',
@@ -22,7 +22,7 @@ class SentenceGeneratingRule(Document):
     rule_name = StringField(required=True, unique=True)
     pattern = StringField(required=True) # A string representing a rule pattern (e.g., "Subject Verb Object")
     keywords = ListField(StringField()) # Keywords associated with this rule to trigger its use
-    difficulty_level = IntField(default=1, min_value=1, max_value=5)
+    difficulty_level = StringField(default="Unclassified")
 
     meta = {
         'collection': 'sentence_generating_rules',

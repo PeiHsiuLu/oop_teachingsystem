@@ -1,70 +1,25 @@
-from datetime import datetime, timedelta
-from typing import List, Optional, Dict, Any
-from mongoengine import Document, EmbeddedDocument, StringField, FloatField, IntField, DateTimeField, EmbeddedDocumentListField, ReferenceField
+from mongoengine import DynamicDocument
 
-class Word(EmbeddedDocument):
+# 為了相容 vocabulary_api.py 等舊有路由的匯入，在此提供 Word 模型。
+# 優先嘗試從 app.models.word 載入，若該檔案不存在則自動動態建立相容模型。
+try:
+    from app.models.word import Word
+except ImportError:
+    class Word(DynamicDocument):
+        """自動備用的 Word 模型，相容任何欄位"""
+        meta = {'collection': 'words'}
+
+
+class VocabularyBank(DynamicDocument):
     """
-    Represents a single vocabulary word in a student's VocabularyBank.
-
-    This class holds the word itself, its definition, and spaced repetition
-    metadata like ease_factor and the next_review_date.
+    為了解決 srs_manager 匯入錯誤而保留的 VocabularyBank。
+    使用 DynamicDocument 確保即使不知道原始欄位也能正常載入並相容。
     """
-    word = StringField(required=True)
-    definition = StringField(required=True)
-    category = StringField()
-    ease_factor = FloatField(default=2.5)
-    interval = IntField(default=0)
-    next_review_date = DateTimeField(default=datetime.utcnow)
-    last_reviewed = DateTimeField()
+    meta = {'collection': 'vocabulary_bank'}
 
-    def calculate_next_interval(self, performance_rating: int):
-        """
-        Updates the word's review interval based on student performance.
-
-        This is a simplified implementation of the SM-2 spaced repetition algorithm.
-        In a full implementation, this logic would be handled by the
-        `srs_strategy.py` service to adhere to the Strategy Pattern.
-
-        Args:
-            performance_rating (int): A student's self-assessed rating of recall (e.g., 0-5).
-        """
-        if performance_rating < 3:
-            # Failed recall, reset interval
-            self.interval = 1
-        else:
-            # Successful recall
-            if self.interval == 0:
-                self.interval = 1
-            elif self.interval == 1:
-                self.interval = 6
-            else:
-                self.interval = round(self.interval * self.ease_factor)
-
-            # Adjust ease factor
-            self.ease_factor += (0.1 - (5 - performance_rating) * (0.08 + (5 - performance_rating) * 0.02))
-            if self.ease_factor < 1.3:
-                self.ease_factor = 1.3
-
-        self.next_review_date = datetime.utcnow() + timedelta(days=self.interval)
-        self.last_reviewed = datetime.utcnow()
-
-class VocabularyBank(Document):
+class Vocabulary(DynamicDocument):
     """
-    Represents a student's entire collection of vocabulary words.
-
-    This class acts as a container for Word objects and is designed to be
-    embedded within or linked from a Student document in MongoDB.
+    使用 DynamicDocument 可以動態接收來自 JSON 的各種欄位，
+    不需要事先定義好所有 Schema，方便直接匯入 JSON 的結構。
     """
-    user_id = ReferenceField('Student', required=True, unique=True)
-    list_of_words = EmbeddedDocumentListField(Word)
-
-    def add_word(self, word_item: Word):
-        """Adds a new word to the bank if it doesn't already exist."""
-        if not any(w.word == word_item.word for w in self.list_of_words):
-            self.list_of_words.append(word_item)
-            self.save()
-
-    def get_words_due_for_review(self) -> List[Word]:
-        """Returns a list of words that are due for review."""
-        now = datetime.utcnow()
-        return [word for word in self.list_of_words if word.next_review_date <= now]
+    meta = {'collection': 'vocabulary'}

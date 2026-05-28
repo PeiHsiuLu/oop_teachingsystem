@@ -1,0 +1,58 @@
+{% extends "base.html" %} <!-- 假設您的基礎模板叫做 base.html，若沒有請移除 -->
+
+{% block content %}
+<div class="container mt-4">
+    <h2>管理員單字庫 (Vocabulary Management)</h2>
+    
+    <!-- 顯示訊息 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- 上傳 final_result.json 的表單 -->
+    <div class="card my-4">
+        <div class="card-body">
+            <h5 class="card-title">匯入單字庫</h5>
+            <form action="{{ url_for('course.import_vocabulary') }}" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="file" class="form-label">請選擇 final_result.json</label>
+                    <input class="form-control" type="file" id="file" name="file" accept=".json" required>
+                </div>
+                <button type="submit" class="btn btn-primary">開始匯入</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 顯示單字列表 -->
+    <h4>現有單字列表</h4>
+    <table class="table table-bordered table-striped mt-2">
+        <thead>
+            <tr>
+                <th>內容 (JSON Data)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vocab in vocabs %}
+            <tr>
+                <td>
+                    <ul class="mb-0">
+                        <!-- 動態印出扣除掉 _id 以後的所有欄位 -->
+                        {% for key, value in vocab.to_mongo().to_dict().items() if key != '_id' %}
+                            <li><strong>{{ key }}:</strong> {{ value }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td class="text-center text-muted">目前沒有單字，請先匯入。</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

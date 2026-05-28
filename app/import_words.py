@@ -11,21 +11,8 @@ if parent_dir not in sys.path:
 def import_words_to_db(json_filepath):
     """
     讀取 JSON 檔案，並透過 Flask 應用程式的設定 (包含 Atlas 連線) 將單字寫入資料庫
+    保留原有的單字，僅新增不存在的單字與詞性組合。
     """
-    # 1. 繞過 Flask 啟動檢查，直接用 PyMongo 清除舊的、有衝突的索引
-    from pymongo import MongoClient
-    from dotenv import load_dotenv
-    
-    load_dotenv(os.path.join(parent_dir, '..', '.env'))
-    mongo_uri = os.getenv("MONGO_URI")
-    if mongo_uri:
-        print("Step 1: Cleaning up old collections directly via PyMongo...")
-        client = MongoClient(mongo_uri)
-        db = client['test'] # 因為 MONGO_URI 沒指定名字，預設存在 test 資料庫
-        db.words.drop()
-        print("Old 'words' collection dropped successfully.")
-
-    # 2. 確定資料庫乾淨後，再載入 Flask 與 MongoEngine
     from app import create_app
     from app.models.word import Word
 
@@ -33,7 +20,7 @@ def import_words_to_db(json_filepath):
     app = create_app()
     
     with app.app_context():
-        print("Step 2: Connecting to MongoDB Atlas via Flask...")
+        print("Connecting to MongoDB Atlas via Flask...")
 
         if not os.path.exists(json_filepath):
             print(f"Error: 找不到檔案 {json_filepath}")
@@ -41,25 +28,42 @@ def import_words_to_db(json_filepath):
             
         print(f"Reading data from {json_filepath}...")
         with open(json_filepath, 'r', encoding='utf-8') as f:
-            word_list = json.load(f)
+            data = json.load(f)
 
         print("Formatting and importing words to Atlas...")
+        
+        # 取得目前資料庫中已有的 (單字, 詞性) 組合
+        existing_entries = set(
+            (w.word_text, w.part_of_speech) for w in Word.objects.only('word_text', 'part_of_speech')
+        )
+        
         words_to_insert = []
-        for item in word_list:
+        for item in data:
+            word_text = item.get('word')
+            if not word_text: 
+                continue
+                
+            entry_key = (word_text, item.get('type', ''))
+            if entry_key in existing_entries:
+                continue
+
             example_en = item.get('example_en', '')
-            example_zh = item.get('example_zh', '')
-            examples = [f"{example_en} ({example_zh})"] if example_en else []
+            examples = [example_en] if example_en else []
             
             words_to_insert.append(Word(
-                word_text=item.get('word'),
+                word_text=word_text,
                 definition=item.get('definition'),
                 part_of_speech=item.get('type'),
                 example_sentences=examples,
                 difficulty_level=item.get('level', 'Unclassified')
             ))
+            existing_entries.add(entry_key)
         
-        Word.objects.insert(words_to_insert)
-        print(f"Success! {len(words_to_insert)} words have been imported to MongoDB Atlas.")
+        if words_to_insert:
+            Word.objects.insert(words_to_insert)
+            print(f"✅ 成功！已新增 {len(words_to_insert)} 筆單字進 MongoDB Atlas (已略過重複)。")
+        else:
+            print("✅ JSON 檔案中的單字皆已存在於資料庫中，無新增資料。")
 
 if __name__ == "__main__":
     json_path = os.path.join(current_dir, 'final_result.json')

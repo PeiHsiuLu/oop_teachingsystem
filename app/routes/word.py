@@ -22,58 +22,6 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# 建立一個全域標記，確保自動讀取機制在伺服器啟動後只會執行一次
-_db_initialized = False
-
-@word_bp.before_request
-def auto_import_words_once():
-    """伺服器啟動後，自動檢查並直接從 final_result.json 讀取單字存入 MongoDB Cluster，無需手動執行腳本"""
-    global _db_initialized
-    if not _db_initialized:
-        _db_initialized = True
-        try:
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            json_path = os.path.join(current_dir, '..', 'final_result.json')
-            
-            if os.path.exists(json_path):
-                with open(json_path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                
-                # 改用 (單字, 詞性) 來判斷重複，解決同單字不同詞性被忽略的問題
-                existing_entries = set(
-                    (w.word_text, w.part_of_speech) for w in Word.objects.only('word_text', 'part_of_speech')
-                )
-                
-                words_to_insert = []
-                
-                for item in data:
-                    word_text = item.get('word')
-                    if not word_text: 
-                        continue
-                    
-                    # 如果該單字與詞性的組合已經在資料庫中，則跳過
-                    entry_key = (word_text, item.get('type', ''))
-                    if entry_key in existing_entries:
-                        continue
-                        
-                    diff_level = item.get('level', 'Unclassified')
-                    example_en = item.get('example_en', '')
-                    examples = [example_en] if example_en else [] # 依需求僅儲存英文例句
-                    
-                    words_to_insert.append(Word(
-                        word_text=word_text, definition=item.get('definition', ''),
-                        part_of_speech=item.get('type', ''), example_sentences=examples, difficulty_level=diff_level
-                    ))
-                    existing_entries.add(entry_key)
-                    
-                if words_to_insert:
-                    Word.objects.insert(words_to_insert) # 自動批次寫入資料庫
-                    print(f"✅ 系統已自動從 final_result.json 讀取並新增了 {len(words_to_insert)} 筆單字進 MongoDB Cluster (已略過重複)!")
-                else:
-                    print("✅ final_result.json 中的單字皆已存在於資料庫中，無新增資料。")
-        except Exception as e:
-            print(f"❌ 自動讀取單字失敗: {e}")
-
 # --- Admin Endpoints for Words ---
 @word_bp.route('/admin/words/manage', methods=['GET', 'POST'])
 @admin_required
@@ -175,6 +123,11 @@ def manage_words():
             .search-form .clear-btn { padding: 9px 15px; text-decoration: none; background-color: #e0e0e0; color: #333; border-radius: 4px; margin-left: 5px; }
             .pagination { margin-top: 30px; text-align: center; font-size: 1.2em; padding-bottom: 50px; }
             .pagination a { padding: 8px 15px; background: #0277bd; color: white; text-decoration: none; border-radius: 4px; margin: 0 5px; }
+            /* 編輯 Modal 樣式 */
+            .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+            .modal-content { background-color: #fff; margin: 5% auto; padding: 25px; border-radius: 8px; width: 80%; max-width: 800px; border-top: 5px solid #f57c00; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+            .close:hover { color: black; }
         </style>
     </head>
     <body>
@@ -248,6 +201,7 @@ def manage_words():
             </div>
         </div>
         
+        {% if total_words > 0 %}
         <table>
             <tr><th>單字</th><th>定義</th><th>詞性</th><th>難度</th><th>英文例句</th><th>操作</th></tr>
             {% for w in words %}
@@ -257,11 +211,70 @@ def manage_words():
                 <td>{{ w.part_of_speech }}</td>
                 <td>{{ w.difficulty_level }}</td>
                 <td><em style="color: #555;">{{ w.example_sentences[0] if w.example_sentences else '無' }}</em></td>
-                <td><button onclick="deleteWord('{{ w.id }}')" style="background: #d32f2f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor:pointer;">刪除</button></td>
+                <td>
+                    <div style="display: flex; gap: 12px;">
+                        <button data-id="{{ w.id }}" data-word="{{ w.word_text }}" data-def="{{ w.definition }}" data-pos="{{ w.part_of_speech }}" data-diff="{{ w.difficulty_level }}" data-ex="{{ w.example_sentences[0] if w.example_sentences else '' }}" onclick="openEditModal(this)" style="background: #f57c00; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor:pointer;">編輯</button>
+                        <button onclick="deleteWord('{{ w.id }}')" style="background: #d32f2f; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor:pointer;">刪除</button>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </table>
+        {% else %}
+        <div style="text-align: center; padding: 40px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-top: 20px;">
+            <h3 style="color: #666; margin: 0;">{% if search %}找不到符合條件的單字。{% else %}目前尚未有任何單字在資料庫內{% endif %}</h3>
+        </div>
+        {% endif %}
         
+        <!-- 編輯單字 Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeEditModal()">&times;</span>
+                <h3 style="margin-top:0; color: #f57c00;">✏️ 編輯單字</h3>
+                <input type="hidden" id="edit_id">
+                <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                    <div class="form-group" style="flex: 1;"><label>單字 (Word):</label><input type="text" id="edit_word_text" required></div>
+                    <div class="form-group" style="flex: 2;"><label>中文定義 (Definition):</label><input type="text" id="edit_definition" required></div>
+                </div>
+                <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>詞性 (Part of Speech):</label>
+                        <select id="edit_part_of_speech">
+                            <option value="noun">noun (名詞)</option>
+                            <option value="verb">verb (動詞)</option>
+                            <option value="auxiliary verb">auxiliary verb (助動詞)</option>
+                            <option value="modal verb">modal verb (情態動詞)</option>
+                            <option value="adjective">adjective (形容詞)</option>
+                            <option value="adverb">adverb (副詞)</option>
+                            <option value="preposition">preposition (介系詞)</option>
+                            <option value="conjunction">conjunction (連接詞)</option>
+                            <option value="pronoun">pronoun (代名詞)</option>
+                            <option value="determiner">determiner (限定詞)</option>
+                            <option value="indefinite article">indefinite article (不定冠詞)</option>
+                            <option value="definite article">definite article (定冠詞)</option>
+                            <option value="exclamation">exclamation (感嘆詞)</option>
+                            <option value="number">number (數詞)</option>
+                            <option value="other">other (其他)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 2;"><label>英文例句 (Example Sentences):</label><input type="text" id="edit_example_sentences"></div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>難度 (CEFR):</label>
+                        <select id="edit_difficulty_level">
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                            <option value="C1">C1</option>
+                            <option value="C2">C2</option>
+                            <option value="Unclassified">Unclassified</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="submitEdit()" class="btn" style="background-color: #f57c00;">更新單字 (Update Word)</button>
+            </div>
+        </div>
+
         <div class="pagination">
             {% if page > 1 %}<a href="{{ url_for('word.manage_words', page=page-1, search=search) }}">⬅️ 上一頁</a>{% endif %}
             <span style="margin: 0 15px;"> 第 {{ page }} 頁 / 共 {{ total_pages }} 頁 </span>
@@ -282,6 +295,87 @@ def manage_words():
                             location.reload();
                         });
                 }
+            }
+
+            function openEditModal(btn) {
+                document.getElementById('edit_id').value = btn.getAttribute('data-id');
+                document.getElementById('edit_word_text').value = btn.getAttribute('data-word');
+                document.getElementById('edit_definition').value = btn.getAttribute('data-def');
+                document.getElementById('edit_part_of_speech').value = btn.getAttribute('data-pos');
+                document.getElementById('edit_difficulty_level').value = btn.getAttribute('data-diff');
+                document.getElementById('edit_example_sentences').value = btn.getAttribute('data-ex');
+                document.getElementById('editModal').style.display = "block";
+            }
+
+            function closeEditModal() {
+                document.getElementById('editModal').style.display = "none";
+            }
+
+            // 點擊 Modal 外部關閉
+            window.onclick = function(event) {
+                if (event.target == document.getElementById('editModal')) {
+                    closeEditModal();
+                }
+            }
+
+            function submitEdit() {
+                const id = document.getElementById('edit_id').value;
+                const wordInput = document.getElementById('edit_word_text').value.trim();
+                const definitionInput = document.getElementById('edit_definition').value.trim();
+                const posInput = document.getElementById('edit_part_of_speech').value;
+                const diffInput = document.getElementById('edit_difficulty_level').value;
+                const exampleInput = document.getElementById('edit_example_sentences').value.trim();
+
+                const englishRegex = /^[a-zA-Z\- ]+$/;
+                const chineseRegex = /[\u4e00-\u9fa5]/;
+                const definitionFormatRegex = /^[\u4e00-\u9fa5a-zA-Z0-9\s，。！？、；：「」『』（）\(\)\[\]"\'\.,\-]+$/;
+                const exampleFormatRegex = /^[a-zA-Z0-9\s.,:;!?\'"\(\)\-\$%]+$/;
+
+                if (!englishRegex.test(wordInput)) {
+                    alert('「單字」欄位僅能輸入英文字母。');
+                    return;
+                } else if (!chineseRegex.test(definitionInput)) {
+                    alert('「中文定義」欄位必須包含中文字。');
+                    return;
+                } else if (!definitionFormatRegex.test(definitionInput)) {
+                    alert('「中文定義」欄位包含不允許的特殊符號。');
+                    return;
+                } else if (exampleInput) {
+                    if (!exampleFormatRegex.test(exampleInput)) {
+                        alert('「英文例句」欄位僅能包含英文、數字與基本標點符號 (如 6:00)。');
+                        return;
+                    } else if (wordInput && !exampleInput.toLowerCase().includes(wordInput.toLowerCase())) {
+                        alert('「英文例句」中必須包含您正在編輯的單字。');
+                        return;
+                    }
+                }
+
+                const data = {
+                    word_text: wordInput,
+                    definition: definitionInput,
+                    part_of_speech: posInput,
+                    difficulty_level: diffInput,
+                    example_sentences: exampleInput ? [exampleInput] : []
+                };
+
+                fetch('/word/admin/words/' + id, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.message === "Word updated successfully") {
+                        alert("更新成功！");
+                        location.reload();
+                    } else {
+                        alert("更新失敗：" + (data.error || data.message));
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("發生錯誤，請稍後再試。");
+                });
             }
 
             // 前端即時驗證
@@ -519,7 +613,7 @@ def display_words():
             {% endif %}
         </div>
         {% else %}
-        <h3 style="text-align: center; color: #666;">找不到符合條件的單字。</h3>
+        <h3 style="text-align: center; color: #666;">{% if search %}找不到符合條件的單字。{% else %}目前尚未有任何單字在資料庫內{% endif %}</h3>
         {% endfor %}
         
         <div class="pagination">

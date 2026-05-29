@@ -32,10 +32,15 @@ def start_dialogue():
 @dialogue_bp.route('/api/dialogue/choice', methods=['POST'])
 @login_required
 def handle_choice():
-    """API endpoint to process a user's choice and get the next node."""
+    if current_user.role == "student" and current_user.is_muted():
+        return jsonify({
+            "error": "You are muted and cannot continue dialogue practice."
+        }), 403
+
     data = request.json
     node_id = data.get('node_id')
     option_index = data.get('option_index')
+
     try:
         next_node_data = dialogue_engine.handle_user_choice(node_id, option_index)
         return jsonify(next_node_data), 200

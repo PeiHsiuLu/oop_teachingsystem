@@ -43,27 +43,33 @@ class ModService:
         if not user:
             raise ValueError("User not found.")
 
+        # 避免 action_type 是 None 或大小寫不同
+        action_type = (action_type or "").lower().strip()
+
+        # 目前只有 Student 有 credit_score / xp
+        if user.role != "student":
+            raise ValueError("Only students can receive sanctions.")
+
         if action_type == "mute":
-            if hasattr(user, "credit_score"):
-                user.credit_score = max(0, user.credit_score - 20)
+            print("Before:", user.credit_score, user.xp)
 
-            if hasattr(user, "xp"):
-                user.xp = max(0, user.xp - 20)
-
-            if hasattr(user, "is_muted"):
-                user.is_muted = True
-
+            user.credit_score = 0
+            user.xp = max(0, user.xp - 20)
             user.save()
+
+            updated_user = User.objects(id=user_id).first()
+            print("After save:", updated_user.credit_score, updated_user.xp)
+
             self.level_system.update_user_level(user)
 
-            return "User muted / credit score and XP reduced."
+            updated_user = User.objects(id=user_id).first()
+            print("After level update:", updated_user.credit_score, updated_user.xp)
+
+            return "User muted / credit score set to 0 and XP reduced."
 
         if action_type == "warning":
-            if hasattr(user, "credit_score"):
-                user.credit_score = max(0, user.credit_score - 5)
-
-            if hasattr(user, "xp"):
-                user.xp = max(0, user.xp - 5)
+            user.credit_score = max(0, user.credit_score - 5)
+            user.xp = max(0, user.xp - 5)
 
             user.save()
             self.level_system.update_user_level(user)

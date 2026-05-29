@@ -39,6 +39,10 @@ def chat_room(group_id):
         chat.save()
 
     if request.method == "POST":
+        if current_user.role == "student" and current_user.is_muted():
+            flash("You are muted and cannot send messages.", "error")
+            return redirect(url_for("group_chat.chat_room", group_id=group.id))
+
         content = request.form.get("content")
 
         if not content or content.strip() == "":

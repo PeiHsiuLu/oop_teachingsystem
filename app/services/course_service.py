@@ -34,9 +34,35 @@ class CourseService:
         chapter.save()
         return new_unit
     
-    def delete_path(self, chapter_id, unit_id):
-        self.repo.delete_path(chapter_id, unit_id)
+    def delete_path(self, path_id):
+        path = LearningPath.objects(id=path_id).first()
+        if not path:
+            raise ValueError("Learning Path not found")
+        path.delete()
+        return True
     
+    def update_path(self, path_id, new_name):
+        path = LearningPath.objects(id=path_id).first()
+        if not path:
+            raise ValueError("Learning Path not found")
+        path.path_name = new_name
+        path.save()
+        return path
+
+    def update_chapter_title(self, chapter_id, new_title):
+        chapter = Chapter.objects(id=chapter_id).first()
+        if chapter:
+            chapter.title = new_title
+            chapter.save()
+        return chapter
+
+    def update_unit_title(self, unit_id, new_title):
+        unit = Unit.objects(id=unit_id).first()
+        if unit:
+            unit.title = new_title
+            unit.save()
+        return unit
+
     def delete_unit(self, chapter_id, unit_id):
         self.repo.remove_unit_from_chapter(chapter_id, unit_id)
     

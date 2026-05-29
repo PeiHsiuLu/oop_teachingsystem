@@ -82,6 +82,45 @@ def delete_path():
     course_service.delete_path(request.form.get('path_id'))
     return redirect(url_for('course.admin_course_dashboard'))
 
+@course_bp.route('/admin/update-path', methods=['POST'])
+@login_required
+def update_path():
+    if current_user.role != 'admin': return "Unauthorized", 403
+    path_id = request.form.get('path_id')
+    new_name = request.form.get('new_name')
+    try:
+        if path_id and new_name:
+            course_service.update_path(path_id, new_name)
+    except Exception as e:
+        flash(str(e), "error")
+    return redirect(url_for('course.admin_course_dashboard'))
+
+@course_bp.route('/admin/update-chapter', methods=['POST'])
+@login_required
+def update_chapter():
+    if current_user.role != 'admin': return "Unauthorized", 403
+    chapter_id = request.form.get('chapter_id')
+    new_title = request.form.get('new_title')
+    try:
+        if chapter_id and new_title:
+            course_service.update_chapter_title(chapter_id, new_title)
+    except Exception as e:
+        flash(str(e), "error")
+    return redirect(url_for('course.admin_course_dashboard'))
+
+@course_bp.route('/admin/update-unit-title', methods=['POST'])
+@login_required
+def update_unit_title():
+    if current_user.role != 'admin': return "Unauthorized", 403
+    unit_id = request.form.get('unit_id')
+    new_title = request.form.get('new_title')
+    try:
+        if unit_id and new_title:
+            course_service.update_unit_title(unit_id, new_title)
+    except Exception as e:
+        flash(str(e), "error")
+    return redirect(url_for('course.admin_course_dashboard'))
+
 @course_bp.route('/admin/delete-chapter', methods=['POST'])
 @login_required
 def delete_chapter():
@@ -116,13 +155,18 @@ def edit_unit(unit_id):
     if current_user.role != 'admin': return "Unauthorized", 403
     
     unit = Unit.objects.get(id=unit_id)
-    form = EditUnitForm(data={'content': unit.content}) # Pre-fill the form
+    # On POST, form is populated from request.form. On GET, it's empty.
+    form = EditUnitForm()
     
     if form.validate_on_submit():
+        # This block runs on a successful POST request
         course_service.update_unit(unit_id, form.content.data)
         flash("Unit updated successfully!", "success")
         return redirect(url_for('course.admin_course_dashboard'))
-        
+    elif request.method == 'GET':
+        # On GET, pre-fill the form with existing data
+        form.content.data = unit.content
+
     return render_template('edit_unit.html', unit=unit, form=form)
 
 @course_bp.route('/admin/delete-unit', methods=['POST'])

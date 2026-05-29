@@ -75,7 +75,7 @@
 <h3>Create New Learning Path</h3>
 <form action="{{ url_for('course.create_path') }}" method="POST">
     {{ path_form.hidden_tag() }}
-    {{ path_form.name(placeholder="New Path Name") }}
+    {{ path_form.title(placeholder="New Path Name") }}
     <button type="submit">Create Path</button>
 </form>
 {% endblock %}

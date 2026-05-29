@@ -43,7 +43,7 @@ def admin_course_dashboard():
 @course_bp.route('/admin/create-path', methods=['POST'])
 @login_required
 def create_path():
-    name = request.form.get('name') 
+    name = request.form.get('title') 
     course_service.create_learning_path(name)
     return redirect(url_for('course.admin_course_dashboard'))
 
@@ -56,8 +56,8 @@ def add_chapter():
     path_id = request.form.get('path_id')
     title = request.form.get('title')
     rule_type = request.form.get('rule_type')
-    threshold = int(request.form.get('threshold', 0)) # Default to 0
-    
+    raw_threshold = request.form.get('threshold')
+    threshold = int(raw_threshold) if raw_threshold and raw_threshold.strip() else 0
     # Pass these to the service
     course_service.add_chapter_to_path(path_id, title, rule_type, threshold)
     
@@ -102,7 +102,8 @@ def edit_chapter(chapter_id):
         # Grab new values from form
         chapter.title = request.form.get('title')
         chapter.unlock_rule_type = request.form.get('rule_type')
-        chapter.unlock_threshold = int(request.form.get('threshold', 0))
+        raw_threshold = request.form.get('threshold')
+        chapter.unlock_threshold = int(raw_threshold) if raw_threshold and raw_threshold.strip() else 0
         chapter.save()
         flash("Chapter updated!", "success")
         return redirect(url_for('course.admin_course_dashboard'))

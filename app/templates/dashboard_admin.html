@@ -6,12 +6,12 @@
     <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
         <div class="card" style="padding: 1rem; background: #f0f0f0;">
             <h3>Course Status</h3>
-            <p>Active Paths: 5</p>
+            <p>Active Paths: {{ active_paths }}</p>
             <a href="{{ url_for('course.admin_course_dashboard') }}" class="btn btn-primary">Manage Courses</a>
         </div>
         <div class="card" style="padding: 1rem; background: #f0f0f0;">
             <h3>Recent Reports</h3>
-            <p>Pending Flags: 2</p>
+            <p>Pending Flags: {{ pending_reports }}</p>
             <a href="/admin/reports" class="btn btn-secondary">View Reports</a>
         </div>
         <div class="card" style="padding: 1rem; background: #f0f0f0;">

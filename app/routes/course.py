@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash
 from app.models.course import LearningPath, Chapter, Unit
 from app.services.course_service import CourseService
 from app.models.forms import CreatePathForm, AddChapterForm, AddUnitForm, EditUnitForm
+from app.models.report import Report
 from flask_login import login_required, current_user
 from app.utils.decorators import no_cache
 from app.services.leaderboard_service import LeaderboardService
@@ -23,6 +24,10 @@ def home():
 @course_bp.route('/admin/dashboard')
 @login_required
 def admin_course_dashboard():
+
+    active_paths_count = LearningPath.objects.count()
+    pending_reports_count = Report.objects(status="pending").count()
+    
     # Instantiate the forms
     path_form = CreatePathForm()
     chapter_form = AddChapterForm()

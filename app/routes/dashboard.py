@@ -2,6 +2,8 @@ from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 
 from app.services.leaderboard_service import LeaderboardService
+from app.models.course import LearningPath
+from app.models.report import Report
 
 
 dashboard_bp = Blueprint('dashboard', __name__)
@@ -23,10 +25,16 @@ def index():
         )
 
     elif current_user.role == 'admin':
+
+        active_paths_count = LearningPath.objects.count()
+        pending_reports_count = Report.objects(status="pending").count()
+
         return render_template(
             'dashboard_admin.html',
             user=current_user,
-            user_leaderboard=user_leaderboard
+            user_leaderboard=user_leaderboard,
+            active_paths=active_paths_count,
+            pending_reports=pending_reports_count
         )
 
     return "Unknown Role", 403

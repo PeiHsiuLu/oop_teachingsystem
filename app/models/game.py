@@ -2,34 +2,34 @@ from mongoengine import Document, StringField, IntField, DateTimeField, Referenc
 from datetime import datetime
 
 
-class Badge(Document):
-    """
-    Represents an achievement badge that students can earn.
-    """
-    badge_id = StringField(required=True, unique=True)
-    name = StringField(required=True)
-    description = StringField()
-    criteria = StringField(required=True)
-    icon_url = StringField()
+# class Badge(Document):
+#     """
+#     Represents an achievement badge that students can earn.
+#     """
+#     badge_id = StringField(required=True, unique=True)
+#     name = StringField(required=True)
+#     description = StringField()
+#     criteria = StringField(required=True)
+#     icon_url = StringField()
 
-    created_at = DateTimeField(default=datetime.utcnow)
+#     created_at = DateTimeField(default=datetime.utcnow)
 
-    def is_earned(self, user_history):
-        """
-        Check whether the user meets the badge criteria.
-        This can be expanded later based on XP, streak, completed tasks, etc.
-        """
-        return False
+#     def is_earned(self, user_history):
+#         """
+#         Check whether the user meets the badge criteria.
+#         This can be expanded later based on XP, streak, completed tasks, etc.
+#         """
+#         return False
 
-    def to_dict(self):
-        return {
-            "badge_id": self.badge_id,
-            "name": self.name,
-            "description": self.description,
-            "criteria": self.criteria,
-            "icon_url": self.icon_url,
-            "created_at": self.created_at.isoformat() if self.created_at else None
-        }
+#     def to_dict(self):
+#         return {
+#             "badge_id": self.badge_id,
+#             "name": self.name,
+#             "description": self.description,
+#             "criteria": self.criteria,
+#             "icon_url": self.icon_url,
+#             "created_at": self.created_at.isoformat() if self.created_at else None
+#         }
 
 
 class GameEvent(Document):

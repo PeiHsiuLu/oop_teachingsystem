@@ -1,13 +1,13 @@
 from app.repositories.base_repository import BaseRepository
-from app.models.game import Badge, GameEvent
-
+from app.models.game import GameEvent
+from app.models.badge import Badge
 
 class BadgeRepository(BaseRepository):
     def __init__(self):
         super().__init__(Badge)
 
-    def find_by_badge_id(self, badge_id):
-        return Badge.objects(badge_id=badge_id).first()
+    def find_by_name(self, name):
+        return Badge.objects(name=name).first()
 
 
 class GameEventRepository(BaseRepository):

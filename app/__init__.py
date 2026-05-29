@@ -7,7 +7,8 @@ from app.models.course import LearningPath, Chapter, Unit
 from app.models.word import Word, SentenceGeneratingRule, ReviewItem
 from app.models.dialogue import DialogueNode
 from app.models.analytics import InteractionLog
-from app.models.game import Badge as GameBadge, GameEvent
+from app.models.game import GameEvent
+from app.models.badge import Badge as GameBadge
 from app.models.report import Report
 from app.routes.team_challenge import team_challenge_bp
 

@@ -1,8 +1,13 @@
 from app.models.user import User
-from app.models.game import GameEvent, Badge
+from app.models.game import GameEvent
+from app.models.badge import Badge
+from app.services.achievement_service import AchievementService
 
 
 class GameManager:
+    def __init__(self):
+        self.achievement_service = AchievementService()
+
     def process_event(self, event_type, user_id, data=None):
         user = User.objects(id=user_id).first()
         if not user:
@@ -23,20 +28,18 @@ class GameManager:
         )
         event.save()
 
-        self.check_and_award_badge(user)
+        self.achievement_service.unlock_badge(user, event_type)
 
         return event
 
     def calculate_points(self, event_type, data=None):
-        if event_type == "vocabulary_review":
-            return 10
-        if event_type == "dialogue_finished":
-            return 20
-        if event_type == "join_team":
-            return 5
-        if event_type == "create_team":
-            return 10
-        return 1
+        points_map = {
+            "vocabulary_review": 10,
+            "dialogue_finished": 20,
+            "join_team": 5,
+            "create_team": 10
+        }
+        return points_map.get(event_type, 1)
 
     def check_and_award_badge(self, user):
         badges = Badge.objects.all()

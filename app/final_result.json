@@ -94,7 +94,7 @@
         "type": "adverb",
         "level": "A1",
         "definition": "多於",
-        "example_en": "The number of students in this class above 30.",
+        "example_en": "The number of students in this class is above 30.",
         "example_zh": "本班學生人數30人以上。",
         "weird": 0
     },
@@ -446,7 +446,7 @@
         "type": "adverb",
         "level": "C1",
         "definition": "因此",
-        "example_en": "Accordingly , he decided to take up painting as his new career path .",
+        "example_en": "Accordingly , he decided to take up painting as his new career path.",
         "example_zh": "於是，他決定將繪畫作為自己新的職業道路。",
         "weird": 0
     },
@@ -1699,9 +1699,9 @@
         "word": "alcoholic",
         "type": "adjective",
         "level": "B1",
-        "definition": "酗酒的",
-        "example_en": "The alcoholic was arrested for driving under the influence of alcohol.",
-        "example_zh": "這名酒鬼因酒後駕車被捕。",
+        "definition": "含酒精的",
+        "example_en": "Could I have something non-alcoholic, like orange juice, please?",
+        "example_zh": "能給我來些不含酒精的飲料嗎，比如柳橙汁甚麼的？",
         "weird": 0
     },
     {
@@ -1789,7 +1789,7 @@
         "level": "A2",
         "definition": "活",
         "example_en": "The baby was born alive and kicking.",
-        "example_zh": "嬰兒生下來還活著，還能踢。",
+        "example_zh": "嬰兒出生時健康活潑。", 
         "weird": 0
     },
     {
@@ -1799,7 +1799,7 @@
         "type": "adverb",
         "level": "A2",
         "definition": "全部",
-        "example_en": "All of them were in attendance at the meeting.",
+        "example_en": "All personnel were in attendance at the meeting.",
         "example_zh": "全體人員均出席了會議。",
         "weird": 0
     },
@@ -2096,8 +2096,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "業餘",
-        "example_en": "He was not satisfied with his amateur work and decided to improve it further.",
-        "example_zh": "他對自己的業餘工作並不滿意，決定進一步改進。",
+        "example_en": "He played really well today, considering he's an amateur.",
+        "example_zh": "考量到他是業餘選手，他今天打得非常好。",
         "weird": 0
     },
     {
@@ -2295,7 +2295,7 @@
         "level": "C1",
         "definition": "錨",
         "example_en": "The ship's anchor was dropped in order to prevent it from drifting into dangerous waters.",
-        "example_zh": "為了防止船隻漂入危險水域，船隻拋錨了。",
+        "example_zh": "為了防止漂入危險水域，船隻拋錨了。",
         "weird": 0
     },
     {
@@ -2403,7 +2403,7 @@
         "word": "ankle",
         "type": "noun",
         "level": "A2",
-        "definition": "踝",
+        "definition": "腳踝",
         "example_en": "The child was crying because her ankle had been injured in the accident.",
         "example_zh": "孩子在哭，因為她的腳踝在事故中受傷了。",
         "weird": 0
@@ -2887,7 +2887,7 @@
         "word": "appoint",
         "type": "verb",
         "level": "C1",
-        "definition": "委",
+        "definition": "委任",
         "example_en": "The president appointed her as his special envoy to the conference.",
         "example_zh": "總統任命她為會議特使。",
         "weird": 0
@@ -2965,8 +2965,8 @@
         "type": "adverb",
         "level": "B2",
         "definition": "適當地",
-        "example_en": "The speaker spoke inappropriately and was immediately removed from the stage.",
-        "example_zh": "演講者因發表不當言論，立即被帶下講台。",
+        "example_en": "She didn't think we were appropriately dressed for a wedding.",
+        "example_zh": "她認為我們的穿著不適合參加婚禮。",
         "weird": 0
     },
     {
@@ -3153,7 +3153,7 @@
         "level": "C1",
         "definition": "手臂",
         "example_en": "The arm was wrapped in bandages and held by crutches.",
-        "example_zh": "手臂纏著繃帶，拄著拐杖。",
+        "example_zh": "手臂被繃帶包紮，並被支撐撐著。",
         "weird": 0
     },
     {
@@ -3252,7 +3252,7 @@
         "level": "A1",
         "definition": "到達",
         "example_en": "The plane will arrive at 6:00 p.m. today.",
-        "example_zh": "飛機將於下午 6:00 抵達。今天。",
+        "example_zh": "飛機將於今天下午 6:00 抵達。",
         "weird": 0
     },
     {
@@ -3263,7 +3263,7 @@
         "level": "B2",
         "definition": "箭",
         "example_en": "The archer released his arrow with deadly precision and it struck its target in one clean arc.",
-        "example_zh": "弓箭手以致命的精準射出了箭，一道乾淨俐落的弧線擊中了目標。",
+        "example_zh": "弓箭手以致命的精準度射出了箭矢，以一道乾淨俐落的弧線擊中了目標。",
         "weird": 0
     },
     {
@@ -3703,7 +3703,7 @@
         "level": "C1",
         "definition": "庇護",
         "example_en": "The asylum for refugees was overwhelmed by the influx of people seeking safety and protection in Europe.",
-        "example_zh": "難民庇護所因湧入歐洲尋求安全和保護而不堪負荷。",
+        "example_zh": "難民庇護所因湧入歐洲尋求安全和保護的人們而不堪負荷。",
         "weird": 0
     },
     {
@@ -3736,7 +3736,7 @@
         "level": "B1",
         "definition": "氣氛",
         "example_en": "The atmosphere of this place was very welcoming and friendly.",
-        "example_zh": "這個地方的氣氛非常熱情和友好。",
+        "example_zh": "這個地方的氣氛非常熱情和友善。",
         "weird": 0
     },
     {
@@ -3758,7 +3758,7 @@
         "level": "B2",
         "definition": "依戀",
         "example_en": "The attachment to his parents was strong and unshakable.",
-        "example_zh": "對父母的依戀是強烈的、不可動搖的。",
+        "example_zh": "他對父母的依戀是強烈的、不可動搖的。",
         "weird": 0
     },
     {
@@ -3791,7 +3791,7 @@
         "level": "C1",
         "definition": "達到",
         "example_en": "The company has attained its goal of profitability for 2019.",
-        "example_zh": "公司已達成2019年獲利目標。",
+        "example_zh": "公司已達成2019年的獲利目標。",
         "weird": 0
     },
     {
@@ -4032,8 +4032,8 @@
         "type": "verb",
         "level": "C1",
         "definition": "授權",
-        "example_en": "The board authorized him to sign on behalf lol of the company.",
-        "example_zh": "董事會授權他代表公司簽字哈哈。",
+        "example_en": "The board authorized him to sign on behalf of the company.",
+        "example_zh": "董事會授權他代表公司簽字。",
         "weird": 0
     },
     {
@@ -4066,7 +4066,7 @@
         "level": "B2",
         "definition": "自動地",
         "example_en": "The system will automatically log you out after 30 minutes of inactivity.",
-        "example_zh": "30 分鐘不活動後，系統將自動登出您。",
+        "example_zh": "30 分鐘閒置後，系統將自動將您登出。",
         "weird": 0
     },
     {
@@ -4559,7 +4559,7 @@
         "word": "bare",
         "type": "adjective",
         "level": "C1",
-        "definition": "裸",
+        "definition": "赤裸的",
         "example_en": "The bare facts of the case are these...",
         "example_zh": "案件的基本事實就是這些…",
         "weird": 0
@@ -4768,9 +4768,9 @@
         "word": "bathroom",
         "type": "noun",
         "level": "A1",
-        "definition": "浴室",
+        "definition": "浴室、廁所",
         "example_en": "I need to use the bathroom.",
-        "example_zh": "我需要使用浴室。",
+        "example_zh": "我需要上廁所。",
         "weird": 0
     },
     {
@@ -4803,7 +4803,7 @@
         "level": "B2",
         "definition": "戰鬥",
         "example_en": "The battle against poverty will be long and hard to win.",
-        "example_zh": "脫貧攻堅戰將是長期而艱鉅的。",
+        "example_zh": "脫貧之戰將是長期而艱鉅的。",
         "weird": 0
     },
     {
@@ -4835,7 +4835,7 @@
         "type": "auxiliary verb",
         "level": "A1",
         "definition": "是",
-        "example_en": "It be cold outside today.",
+        "example_en": "It is(be) cold outside today.",
         "example_zh": "今天外面很冷。",
         "weird": 0
     },
@@ -4868,7 +4868,7 @@
         "type": "noun",
         "level": "A2",
         "definition": "豆",
-        "example_en": "The bean plants are growing well in this pot of soil.",
+        "example_en": "The beans are growing well in this pot of soil.",
         "example_zh": "豆子在這盆土裡長得很好。",
         "weird": 0
     },
@@ -4889,9 +4889,9 @@
         "word": "bear",
         "type": "verb",
         "level": "B2",
-        "definition": "熊",
-        "example_en": "The bear was so big and strong it could easily have crushed me in its paws if I had not been able to escape quickly.",
-        "example_zh": "這頭熊又大又壯，如果我不能迅速逃脫，它很容易就會把我壓在爪子裡。",
+        "definition": "忍受",
+        "example_en": "Tell me now! I can't bear the suspense!",
+        "example_zh": "現在告訴我吧！ 我等不及了！",
         "weird": 0
     },
     {
@@ -4912,7 +4912,7 @@
         "type": "noun",
         "level": "B2",
         "definition": "打",
-        "example_en": "The boxer was knocked out by his opponent's devastating beating of him in the eighth round.",
+        "example_en": "The boxer was knocked out by his opponent's devastating beating in the eighth round.",
         "example_zh": "這位拳擊手在第八回合被對手毀滅性的毆打擊倒。",
         "weird": 0
     },
@@ -5439,9 +5439,9 @@
         "word": "better",
         "type": "adverb",
         "level": "A2",
-        "definition": "更好的",
-        "example_en": "The better to see you with.",
-        "example_zh": "能和你見面就更好了。",
+        "definition": "更好地",
+        "example_en": "The next time he took the test, he was better prepared.",
+        "example_zh": "下次他參加考試時，準備得更充分了。",
         "weird": 0
     },
     {
@@ -5452,7 +5452,7 @@
         "level": "A2",
         "definition": "之間",
         "example_en": "The two countries are in between them and they have to make some decisions about it.",
-        "example_zh": "兩國夾在中間，必須做出一些決定。",
+        "example_zh": "他們夾在兩國中間，必須做出一些決定。",
         "weird": 0
     },
     {
@@ -5615,7 +5615,7 @@
         "word": "biscuit",
         "type": "noun",
         "level": "A2",
-        "definition": "餅乾",
+        "definition": "餅乾（英）鬆餅乾（美）",
         "example_en": "The biscuit was very hard and dry.",
         "example_zh": "餅乾又硬又乾。",
         "weird": 0
@@ -5682,7 +5682,7 @@
         "type": "adjective",
         "level": "A1",
         "definition": "黑色的",
-        "example_en": "The black cat sat on the windowsill.",
+        "example_en": "The black cat sat on the windows.",
         "example_zh": "黑貓坐在窗台上。",
         "weird": 0
     },
@@ -5694,7 +5694,7 @@
         "level": "C1",
         "definition": "刀刃",
         "example_en": "The blade of his knife was razor-sharp and gleamed in the sunlight.",
-        "example_zh": "他的刀鋒利如剃刀，在陽光下閃閃發光。",
+        "example_zh": "他的刀非常尖利，在陽光下閃閃發光。",
         "weird": 0
     },
     {
@@ -5705,7 +5705,7 @@
         "level": "B2",
         "definition": "責備",
         "example_en": "The blame for this incident should be shared by all parties involved.",
-        "example_zh": "此次事件的責任應由有關各方共同承擔。",
+        "example_zh": "此次事件的責任應由各方共同承擔。",
         "weird": 0
     },
     {
@@ -5726,8 +5726,8 @@
         "type": "noun",
         "level": "A2",
         "definition": "空白的",
-        "example_en": "The [blank].  ( \"page\", )",
-        "example_zh": "[空白]。  （ “頁”， ）",
+        "example_en": "Please sign your name in the blank space at the bottom of the form.",
+        "example_zh": "請在表格底部的空白處簽名。",
         "weird": 0
     },
     {
@@ -5837,7 +5837,7 @@
         "level": "A1",
         "definition": "部落格",
         "example_en": "I have my own personal blog where I can share what's on my mind with others.",
-        "example_zh": "我有自己的個人博客，可以與他人分享我的想法。",
+        "example_zh": "我有自己的個人部落格，可以與他人分享我的想法。",
         "weird": 0
     },
     {
@@ -5869,8 +5869,8 @@
         "type": "noun",
         "level": "B2",
         "definition": "吹",
-        "example_en": "The wind was blowing fiercely through the trees.",
-        "example_zh": "風猛烈地吹過樹林。",
+        "example_en": "It took him three blows to get all the candles out.",
+        "example_zh": "他吹了三次才把所有的蠟燭吹滅。",
         "weird": 0
     },
     {
@@ -6616,7 +6616,7 @@
         "word": "broadcast",
         "type": "noun",
         "level": "B2",
-        "definition": "pod送",
+        "definition": "廣播",
         "example_en": "The pod was broadcast from space and landed in Antarctica.",
         "example_zh": "該吊艙從太空廣播並降落在南極洲。",
         "weird": 0
@@ -6627,7 +6627,7 @@
         "word": "broadcast",
         "type": "verb",
         "level": "B2",
-        "definition": "pod送",
+        "definition": "廣播",
         "example_en": "The company broadcasts its message to all employees via email and intranet systems.",
         "example_zh": "該公司透過電子郵件和內部網路系統向所有員工廣播其訊息。",
         "weird": 0
@@ -6638,9 +6638,9 @@
         "word": "broadcaster",
         "type": "noun",
         "level": "B2",
-        "definition": "廣播公司",
+        "definition": "廣播員",
         "example_en": "The broadcaster was interviewed on national television last night.",
-        "example_zh": "該廣播公司昨晚接受了國家電視台的採訪。",
+        "example_zh": "該廣播員昨晚接受了國家電視台的採訪。",
         "weird": 0
     },
     {
@@ -6748,9 +6748,9 @@
         "word": "buck",
         "type": "noun",
         "level": "C1",
-        "definition": "巴克",
-        "example_en": "The buck stops with me.",
-        "example_zh": "責任由我承擔。",
+        "definition": "（美）元",
+        "example_en": "He charged me 20 bucks for a new hubcap.",
+        "example_zh": "他向我收取了20美元的費用來換新的輪胎蓋。",
         "weird": 0
     },
     {
@@ -7036,7 +7036,7 @@
         "level": "B2",
         "definition": "艙",
         "example_en": "The cabin was so small and dark inside it made him feel claustrophobic.",
-        "example_zh": "小屋又小又黑，讓他有種幽閉恐懼症的感覺。",
+        "example_zh": "小屋又小又黑，讓他有種幽閉恐懼的感覺。",
         "weird": 0
     },
     {
@@ -7168,7 +7168,7 @@
         "level": "A1",
         "definition": "相機",
         "example_en": "The camera was very expensive and it cost me $2000.",
-        "example_zh": "相機很貴，我花了2000美元。",
+        "example_zh": "相機很貴，花了我2000美元。",
         "weird": 0
     },
     {
@@ -7639,9 +7639,9 @@
         "word": "cast",
         "type": "noun",
         "level": "B2",
-        "definition": "投擲",
-        "example_en": "The cast of characters in this play are so vivid and well-developed that they come to life on stage.",
-        "example_zh": "這部劇的人物塑造得栩栩如生，栩栩如生，在舞台上栩栩如生。",
+        "definition": "全體演員",
+        "example_en": "After the final performance the director threw a party for the cast.",
+        "example_zh": "最後一場演出過後，導演為全體演員舉辦了一個聚會。",
         "weird": 0
     },
     {
@@ -7695,7 +7695,7 @@
         "type": "noun",
         "level": "A1",
         "definition": "貓",
-        "example_en": "The cat was sitting on the windowsill.",
+        "example_en": "The cat was sitting on the windows.",
         "example_zh": "那隻貓坐在窗台上。",
         "weird": 0
     },
@@ -7783,7 +7783,7 @@
         "type": "adjective",
         "level": "C1",
         "definition": "謹慎",
-        "example_en": "The cautious driver was able finagling his way through traffic without incident.",
+        "example_en": "The cautious driver was able to weave his way through traffic without incident.",
         "example_zh": "謹慎的司機能夠巧妙地穿越交通，沒有發生任何事故。",
         "weird": 0
     },
@@ -7911,22 +7911,22 @@
     {
         "new_id": 719,
         "id": 786,
-        "word": "centre",
+        "word": "center",
         "type": "noun",
         "level": "A1",
         "definition": "中心",
-        "example_en": "The centre of town was packed with shoppers on Black Friday.",
+        "example_en": "The center of town was packed with shoppers on Black Friday.",
         "example_zh": "黑色星期五那天，鎮中心擠滿了購物者。",
         "weird": 0
     },
     {
         "new_id": 720,
         "id": 787,
-        "word": "centre",
+        "word": "center",
         "type": "verb",
         "level": "B1",
         "definition": "中心",
-        "example_en": "The centre of gravity was in the middle of the ship's hull.",
+        "example_en": "The center of gravity was in the middle of the ship's hull.",
         "example_zh": "重心位於船體的中間。",
         "weird": 0
     },
@@ -8013,9 +8013,9 @@
         "word": "chair",
         "type": "verb",
         "level": "B2",
-        "definition": "椅子",
-        "example_en": "The chair was placed in front of her desk.",
-        "example_zh": "椅子放在她的辦公桌前。",
+        "definition": "主持",
+        "example_en": "Would you like to chair tomorrow's meeting?",
+        "example_zh": "你願意主持明天的會議嗎？",
         "weird": 0
     },
     {
@@ -8025,8 +8025,8 @@
         "type": "noun",
         "level": "B1",
         "definition": "挑戰",
-        "example_en": "The company has issued a challenge to its employees for them to come up subpar performance in 2019.",
-        "example_zh": "該公司向員工發出挑戰，要求他們在 2019 年表現不佳。",
+        "example_en": "You know me - I like a challenge.",
+        "example_zh": "你懂我的——我喜歡挑戰。",
         "weird": 0
     },
     {
@@ -8299,9 +8299,9 @@
         "word": "cheat",
         "type": "noun",
         "level": "B1",
-        "definition": "欺騙",
-        "example_en": "The teacher was shocked to discover cheating on his exam paper.",
-        "example_zh": "老師驚訝地發現他的考卷作弊。",
+        "definition": "騙子",
+        "example_en": "Trouble broke out in the match when one of the players called a member of the other team a cheat.",
+        "example_zh": "比賽中，一名隊員叫對方一名隊員騙子，糾紛就此爆發。",
         "weird": 0
     },
     {
@@ -8310,7 +8310,7 @@
         "word": "cheat",
         "type": "verb",
         "level": "B1",
-        "definition": "欺騙",
+        "definition": "作弊",
         "example_en": "The teacher caught him cheating on the exam and gave him detention.",
         "example_zh": "老師發現他考試作弊並給他留校察看。",
         "weird": 0
@@ -8333,8 +8333,8 @@
         "type": "verb",
         "level": "A1",
         "definition": "查看",
-        "example_en": "I'll check on it as soon forget to do something important.",
-        "example_zh": "一旦忘記做一些重要的事情，我會立即檢查它。",
+        "example_en": "I'll check on it as soon as possible.",
+        "example_zh": "我會盡快檢查它。",
         "weird": 0
     },
     {
@@ -8398,7 +8398,7 @@
         "word": "chemical",
         "type": "adjective",
         "level": "B1",
-        "definition": "化學",
+        "definition": "化學的",
         "example_en": "The chemical composition of this substance was analyzed by spectroscopy and found to be consistent with previous studies.",
         "example_zh": "透過光譜分析該物質的化學成分，發現與先前的研究一致。",
         "weird": 0
@@ -8497,7 +8497,7 @@
         "word": "chocolate",
         "type": "noun",
         "level": "A1",
-        "definition": "朱古力",
+        "definition": "巧克力",
         "example_en": "I like to eat chocolate cake for dessert.",
         "example_zh": "我喜歡吃巧克力蛋糕當甜點。",
         "weird": 0
@@ -8618,9 +8618,9 @@
         "word": "circle",
         "type": "verb",
         "level": "A2",
-        "definition": "圓圈",
-        "example_en": "The children drew pictures of circles and squares on their worksheets.",
-        "example_zh": "孩子們在作業本上畫了圓形和正方形。",
+        "definition": "繞…轉圈",
+        "example_en": "The plane circled for an hour before receiving permission to land.",
+        "example_zh": "飛機在獲得降落許可前盤旋了整整一小時。",
         "weird": 0
     },
     {
@@ -8983,7 +8983,7 @@
         "level": "B1",
         "definition": "點選",
         "example_en": "The button was clicked and the window popped up with instructions on how to proceed.",
-        "example_zh": "點擊按鈕，彈出窗口，其中包含有關如何繼續操作的說明。",
+        "example_zh": "按鈕被點擊後，窗口彈出，其中包含有關如何繼續操作的說明。",
         "weird": 0
     },
     {
@@ -10290,9 +10290,9 @@
         "word": "compose",
         "type": "verb",
         "level": "B2",
-        "definition": "撰寫",
-        "example_en": "The composer wrote his symphony in just three weeks.",
-        "example_zh": "作曲家在短短三週內寫出了他的交響曲。",
+        "definition": "作曲",
+        "example_en": "The music was specially composed for the film.",
+        "example_zh": "這音樂是專門為該電影創作的。",
         "weird": 0
     },
     {
@@ -10402,7 +10402,7 @@
         "level": "A1",
         "definition": "電腦",
         "example_en": "The computer was very slow and didnt work properly.",
-        "example_zh": "計算機速度非常慢並且無法正常工作。",
+        "example_zh": "電腦速度非常慢並且無法正常工作。",
         "weird": 0
     },
     {
@@ -11216,7 +11216,7 @@
         "level": "C1",
         "definition": "諮詢",
         "example_en": "The patient and her family were scheduled for a consultation with Dr. Smith to discuss treatment options.",
-        "example_zh": "患者及其家人計劃與史密斯醫生會診，討論治療方案。",
+        "example_zh": "患者及其家人計劃與史密斯醫生會診，進行治療方案的討論。",
         "weird": 0
     },
     {
@@ -11392,7 +11392,7 @@
         "level": "B2",
         "definition": "競賽",
         "example_en": "The contest was open to all students in the school.",
-        "example_zh": "比賽開放全校所有學生。",
+        "example_zh": "比賽開放全校所有學生參加。",
         "weird": 0
     },
     {
@@ -11764,9 +11764,9 @@
         "word": "cook",
         "type": "verb",
         "level": "A1",
-        "definition": "廚師",
-        "example_en": "The cook was very proud of his new restaurant.",
-        "example_zh": "廚師對他的新餐廳感到非常自豪。",
+        "definition": "做飯",
+        "example_en": "He cooked us a huge dinner.",
+        "example_zh": "他為我們做了一頓豐盛的晚餐。",
         "weird": 0
     },
     {
@@ -11897,8 +11897,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "銅",
-        "example_en": "The copper of his teeth was very bad and he needed to see a dentist soon.",
-        "example_zh": "他的牙齒銅質很差，他需要盡快去看牙醫。",
+        "example_en": "They mine a lot of copper around these parts.",
+        "example_zh": "他們在這些地方挖掘大量的銅。",
         "weird": 0
     },
     {
@@ -11940,7 +11940,7 @@
         "word": "core",
         "type": "adjective",
         "level": "B2",
-        "definition": "核",
+        "definition": "核心",
         "example_en": "The core of his argument was based on empirical evidence.",
         "example_zh": "他的論點的核心是基於經驗證據。",
         "weird": 0
@@ -11951,7 +11951,7 @@
         "word": "core",
         "type": "noun",
         "level": "B2",
-        "definition": "核",
+        "definition": "核心",
         "example_en": "The core of my argument can be summed up in one sentence: education should not just focus on academic achievement but also nurture character and critical thinking skills.",
         "example_zh": "我的核心觀點可以用一句話來概括：教育不應只注重學業成績，也應培養品格和批判性思考能力。",
         "weird": 0
@@ -12149,9 +12149,9 @@
         "word": "cost",
         "type": "verb",
         "level": "A1",
-        "definition": "成本",
-        "example_en": "The cost of renting this apartment for one year will be 3000.",
-        "example_zh": "租這間公寓一年的費用是3000。",
+        "definition": "花費",
+        "example_en": "It costs a lot to buy a house in this part of Sydney.",
+        "example_zh": "在雪梨的這一地區買棟房子要花很多錢。",
         "weird": 0
     },
     {
@@ -12413,9 +12413,9 @@
         "word": "cover",
         "type": "noun",
         "level": "B1",
-        "definition": "覆蓋",
+        "definition": "覆蓋物",
         "example_en": "The cover of this book contains some interesting illustrations.",
-        "example_zh": "這本書的封麵包含一些有趣的插圖。",
+        "example_zh": "這本書的封面包含一些有趣的插圖。",
         "weird": 0
     },
     {
@@ -12908,9 +12908,9 @@
         "word": "cry",
         "type": "noun",
         "level": "B2",
-        "definition": "哭",
-        "example_en": "The child was crying for his mother to take him home.",
-        "example_zh": "孩子哭著要媽媽帶他回家。",
+        "definition": "喊叫聲",
+        "example_en": "They were wakened by cries of \"Fire!\" from the next room.",
+        "example_zh": "他們被隔壁房間傳來的「著火了！」喊聲驚醒。",
         "weird": 0
     },
     {
@@ -13194,7 +13194,7 @@
         "word": "cut",
         "type": "noun",
         "level": "B1",
-        "definition": "切",
+        "definition": "剪裁",
         "example_en": "The cut of her dress was very flattering to her figure.",
         "example_zh": "她的裙子的剪裁非常適合她的身材。",
         "weird": 0
@@ -13372,7 +13372,7 @@
         "level": "A1",
         "definition": "舞者",
         "example_en": "The dancer was very graceful and elegant in her performance.",
-        "example_zh": "舞蹈演員的表演非常優美、優雅。",
+        "example_zh": "舞者的表演非常優美、優雅。",
         "weird": 0
     },
     {
@@ -13460,7 +13460,7 @@
         "level": "A2",
         "definition": "數據",
         "example_en": "The data shows that more than 50% of people in this city are underweight.",
-        "example_zh": "數據顯示，這座城市50%以上的人體重不足。",
+        "example_zh": "數據顯示，這座城市50%以上的人體重過輕。",
         "weird": 0
     },
     {
@@ -13746,7 +13746,7 @@
         "level": "C1",
         "definition": "宣言",
         "example_en": "The declaration of independence was signed on July 4th, 1776.",
-        "example_zh": "1776年7月4日簽署獨立宣言。",
+        "example_zh": "獨立宣言於1776年7月4日簽署。",
         "weird": 0
     },
     {
@@ -13888,7 +13888,7 @@
         "type": "adverb",
         "level": "B2",
         "definition": "深",
-        "example_en": "The book was so deeply engrossing that I couldnky read it in one sitting.",
+        "example_en": "The book was so deeply engrossing that I couldn't read it in one sitting.",
         "example_zh": "這本書是如此引人入勝，以至於我無法一口氣讀完。",
         "weird": 0
     },
@@ -13998,8 +13998,8 @@
         "type": "verb",
         "level": "B1",
         "definition": "定義",
-        "example_en": "The dictionary defines it as \"a person who works in a library.",
-        "example_zh": "字典將其定義為“在圖書館工作的人。",
+        "example_en": "The dictionary defines it as \"a person who works in a library.\"",
+        "example_zh": "字典將其定義為“在圖書館工作的人。”",
         "weird": 0
     },
     {
@@ -14031,7 +14031,7 @@
         "type": "noun",
         "level": "B1",
         "definition": "定義",
-        "example_en": "The definition of \"love\" can vary greatly from person to prson.",
+        "example_en": "The definition of \"love\" can vary greatly from person to person.",
         "example_zh": "「愛」的定義因人而異。",
         "weird": 0
     },
@@ -14307,7 +14307,7 @@
         "level": "C1",
         "definition": "稠密",
         "example_en": "The dense fog made it difficult to see anything outside.",
-        "example_zh": "濃濃的霧氣讓外面什麼都看不清楚。",
+        "example_zh": "濃濃的霧讓外面什麼都看不清楚。",
         "weird": 0
     },
     {
@@ -14559,7 +14559,7 @@
         "type": "verb",
         "level": "A1",
         "definition": "描述",
-        "example_en": "I describe my job as \"a mix of art and science.",
+        "example_en": "I describe my job as \"a mix of art and science.\"",
         "example_zh": "我將我的工作描述為「藝術與科學的結合」。",
         "weird": 0
     },
@@ -15042,9 +15042,9 @@
         "word": "dictate",
         "type": "verb",
         "level": "C1",
-        "definition": "聽寫",
+        "definition": "規定",
         "example_en": "The teacher dictated the text to be copied by hand.",
-        "example_zh": "老師口授了要手抄的課文。",
+        "example_zh": "老師規定了要手抄的課文。",
         "weird": 0
     },
     {
@@ -15341,7 +15341,7 @@
         "level": "B2",
         "definition": "殘障",
         "example_en": "The disabled person was not allowed to enter the building because of its inaccessible design.",
-        "example_zh": "由於大樓設計不便，殘障人士不得進入大樓。",
+        "example_zh": "由於大樓設計不便，那位殘障人士不得進入大樓。",
         "weird": 0
     },
     {
@@ -15405,9 +15405,9 @@
         "word": "disappoint",
         "type": "verb",
         "level": "B2",
-        "definition": "負",
-        "example_en": "The disappointment of not being able to see her was almost unbearable for him.",
-        "example_zh": "無法見到她的失望幾乎讓他難以忍受。",
+        "definition": "使失望",
+        "example_en": "I'm sorry to disappoint you, but I'm afraid I can't come after all.",
+        "example_zh": "很抱歉讓你失望，但恐怕我真的來不了。",
         "weird": 0
     },
     {
@@ -15439,7 +15439,7 @@
         "type": "noun",
         "level": "B2",
         "definition": "失望",
-        "example_en": "The disappointment of not being able forget her past mistakes was still with her.",
+        "example_en": "The disappointment of not being able to forget her past mistakes was still with her.",
         "example_zh": "無法忘記過去的錯誤的失望仍然伴隨著她。",
         "weird": 0
     },
@@ -15484,7 +15484,7 @@
         "level": "C1",
         "definition": "丟棄",
         "example_en": "The company has decided to discard all old inventory and start anew with fresh products.",
-        "example_zh": "該公司決定丟棄所有舊庫存，並以新鮮產品重新開始。",
+        "example_zh": "該公司決定丟棄所有舊庫存，並以新產品重新開始。",
         "weird": 0
     },
     {
@@ -15572,7 +15572,7 @@
         "level": "A2",
         "definition": "發現",
         "example_en": "The children discovered their new home was haunted by spirits.",
-        "example_zh": "孩子們發現他們的新家被鬼魂困擾。",
+        "example_zh": "孩子們發現他們的新家鬧鬼了。",
         "weird": 0
     },
     {
@@ -15671,7 +15671,7 @@
         "level": "B2",
         "definition": "磁碟",
         "example_en": "The disk was full of data and needed to be formatted before it could be used again.",
-        "example_zh": "該磁碟已滿數據，需要格式化才能再次使用。",
+        "example_zh": "該磁碟已占滿資料，需要格式化才能再次使用。",
         "weird": 0
     },
     {
@@ -16439,7 +16439,7 @@
         "word": "dozen",
         "type": "determiner",
         "level": "B2",
-        "definition": "打",
+        "definition": "一打",
         "example_en": "A dozen of them are in hospital.",
         "example_zh": "其中有十幾人正在醫院接受治療。",
         "weird": 0
@@ -16484,7 +16484,7 @@
         "type": "verb",
         "level": "B2",
         "definition": "拖",
-        "example_en": "The old man was dragging his feet as he walked up to the podium and began speaking in front forgetful audience.",
+        "example_en": "The old man was dragging his feet as he walked up to the podium and began speaking in front of the forgetful audience.",
         "example_zh": "這位老人拖著腳步走上講台，開始在健忘的觀眾面前演講。",
         "weird": 0
     },
@@ -16571,9 +16571,9 @@
         "word": "dress",
         "type": "verb",
         "level": "A1",
-        "definition": "裙子",
-        "example_en": "She wore a dress to hide her scars.",
-        "example_zh": "她穿了一件衣服來隱藏傷疤。",
+        "definition": "穿衣服",
+        "example_en": "He left very early and had to dress in the dark.",
+        "example_zh": "他很早出門，所以只好摸黑穿上衣服。",
         "weird": 0
     },
     {
@@ -16593,9 +16593,9 @@
         "word": "drink",
         "type": "noun",
         "level": "A1",
-        "definition": "喝",
-        "example_en": "I need to go and get some drink.",
-        "example_zh": "我得去喝點東西。",
+        "definition": "飲料",
+        "example_en": "I need to go and get some drinks.",
+        "example_zh": "我得去拿點飲料喝。",
         "weird": 0
     },
     {
@@ -16802,9 +16802,9 @@
         "word": "dumb",
         "type": "adjective",
         "level": "C1",
-        "definition": "啞的",
-        "example_en": "The dumb ox was not as smart as it looked.",
-        "example_zh": "啞牛並不像看起來那麼聰明。",
+        "definition": "啞的、愚蠢的",
+        "example_en": "Are they brave or just dumb?",
+        "example_zh": "他們是勇敢還是愚蠢而已？",
         "weird": 0
     },
     {
@@ -16815,7 +16815,7 @@
         "level": "B2",
         "definition": "傾倒",
         "example_en": "The dump truck dumped its load of garbage into the landfill site.",
-        "example_zh": "自卸車將滿載的垃圾傾倒到垃圾掩埋場。",
+        "example_zh": "垃圾車將滿載的垃圾傾倒到垃圾掩埋場。",
         "weird": 0
     },
     {
@@ -17165,7 +17165,7 @@
         "word": "edition",
         "type": "noun",
         "level": "B2",
-        "definition": "版",
+        "definition": "版本",
         "example_en": "The book has been reprinted in several editions since its first publication.",
         "example_zh": "該書自首次出版以來已再版多個版本。",
         "weird": 0
@@ -17429,7 +17429,7 @@
         "word": "elbow",
         "type": "noun",
         "level": "B2",
-        "definition": "彎頭",
+        "definition": "手肘",
         "example_en": "The elbow of his coat was worn out and needed to be replaced.",
         "example_zh": "他外套的肘部已經磨損了，需要更換。",
         "weird": 0
@@ -17541,7 +17541,7 @@
         "level": "B1",
         "definition": "元素",
         "example_en": "The element of surprise was lost on them.",
-        "example_zh": "他們失去了驚訝的元素。",
+        "example_zh": "他們不理解此事的出其不意。",
         "weird": 0
     },
     {
@@ -17650,7 +17650,7 @@
         "type": "verb",
         "level": "A1",
         "definition": "電子郵件",
-        "example_en": "I sent you an email yesterday about our meeting tomorrow.",
+        "example_en": "I emailed you yesterday about our meeting tomorrow.",
         "example_zh": "我昨天給你發了一封電子郵件，介紹我們明天的會議。",
         "weird": 0
     },
@@ -17924,9 +17924,9 @@
         "word": "empty",
         "type": "verb",
         "level": "B1",
-        "definition": "空的",
-        "example_en": "The empty shelves were soon filled with fresh produce from local farmers' markets.",
-        "example_zh": "空蕩蕩的貨架很快就擺滿了來自當地農夫市集的新鮮農產品。",
+        "definition": "倒空",
+        "example_en": "Would you mind emptying (out) your pockets?",
+        "example_zh": "你介意把口袋掏空嗎？",
         "weird": 0
     },
     {
@@ -18023,9 +18023,9 @@
         "word": "end",
         "type": "verb",
         "level": "A1",
-        "definition": "結尾",
-        "example_en": "The end of summer arrives with September's arrival.",
-        "example_zh": "隨著九月的到來，夏季也隨之結束。",
+        "definition": "結束",
+        "example_en": "When is your meeting due to end?",
+        "example_zh": "你的會議預計什麼時候結束？",
         "weird": 0
     },
     {
@@ -18328,7 +18328,7 @@
     {
         "new_id": 1666,
         "id": 1813,
-        "word": "enrol",
+        "word": "enroll",
         "type": "verb",
         "level": "C1",
         "definition": "註冊",
@@ -18443,7 +18443,7 @@
         "level": "B2",
         "definition": "熱情的",
         "example_en": "The enthusiastic reception of his lecture was unexpected but welcome.",
-        "example_zh": "他的演講受到了熱烈的歡迎，這出乎意料但令人歡迎。",
+        "example_zh": "他的演講受到了意料之外的熱烈歡迎，令人欣喜。",
         "weird": 0
     },
     {
@@ -18474,9 +18474,9 @@
         "word": "entitle",
         "type": "verb",
         "level": "C1",
-        "definition": "賦予",
-        "example_en": "The book entitled \"A New Approach to Teaching English\" was published last year.",
-        "example_zh": "這本書名為《英語教學新方法》，去年出版。",
+        "definition": "賦予權利",
+        "example_en": "Being unemployed entitles you to free medical treatment.",
+        "example_zh": "失業時，你有權享受免費醫療。",
         "weird": 0
     },
     {
@@ -18562,9 +18562,9 @@
         "word": "epidemic",
         "type": "noun",
         "level": "C1",
-        "definition": "流行性",
-        "example_en": "The country has been suffering from an epidemic of corruption for years now.",
-        "example_zh": "該國多年來一直深受腐敗之害。",
+        "definition": "流行病",
+        "example_en": "The country has been suffering from an epidemic for years now.",
+        "example_zh": "該國多年來一直深受流行病之害。",
         "weird": 0
     },
     {
@@ -18595,7 +18595,7 @@
         "word": "equal",
         "type": "noun",
         "level": "B2",
-        "definition": "平等的",
+        "definition": "平等",
         "example_en": "Equality between men and women has been achieved in many countries around the world.",
         "example_zh": "世界上許多國家已經實現了男女平等。",
         "weird": 0
@@ -18606,9 +18606,9 @@
         "word": "equal",
         "type": "verb",
         "level": "B1",
-        "definition": "平等的",
-        "example_en": "The new law will ensure equal treatment for all citizens.",
-        "example_zh": "新法將確保所有公民受到平等待遇。",
+        "definition": "相等",
+        "example_en": "16 ounces equals one pound.",
+        "example_zh": "16盎司等於1磅。",
         "weird": 0
     },
     {
@@ -18793,7 +18793,7 @@
         "word": "establishment",
         "type": "noun",
         "level": "C1",
-        "definition": "設立",
+        "definition": "機構",
         "example_en": "The company's new establishment in New York City has already attracted considerable interest from potential investors.",
         "example_zh": "該公司在紐約市的新公司已經引起了潛在投資者的極大興趣。",
         "weird": 0
@@ -18937,8 +18937,8 @@
         "type": "adverb",
         "level": "A1",
         "definition": "甚至",
-        "example_en": "Even though it was raining, we went for a walk anyway.",
-        "example_zh": "儘管下著雨，我們還是出去散步了。",
+        "example_en": "It's a very difficult job - it might even take a year to finish it.",
+        "example_zh": "這是項非常困難的工作——甚至可能需要一年的時間才能完成。",
         "weird": 0
     },
     {
@@ -19090,9 +19090,9 @@
         "word": "evil",
         "type": "noun",
         "level": "B2",
-        "definition": "邪惡的",
-        "example_en": "The evil eye can bring bad luck to those who are not aware of it.",
-        "example_zh": "邪眼會為那些不自知的人帶來厄運。",
+        "definition": "邪惡",
+        "example_en": "Drug addiction is one of today's great social evils.",
+        "example_zh": "吸毒成癮是現今社會的一大罪惡。",
         "weird": 0
     },
     {
@@ -19124,8 +19124,8 @@
         "type": "adjective",
         "level": "C1",
         "definition": "進化的",
-        "example_en": "The evolutionary theory of natural selection was first proposed by Charles Darwin in 1859.",
-        "example_zh": "自然選擇的進化論最早由查爾斯·達爾文於1859年提出。",
+        "example_en": "The change has been evolutionary rather than revolutionary.",
+        "example_zh": "這種變革是漸進的，而不是革命性的。",
         "weird": 0
     },
     {
@@ -19157,8 +19157,8 @@
         "type": "adverb",
         "level": "A2",
         "definition": "確切地",
-        "example_en": "The exact time of departure was 10:30 exactly.",
-        "example_zh": "出發的具體時間是10點30分整。",
+        "example_en": "The exact time of arrival was 10:30 exactly.",
+        "example_zh": "到達的具體時間是10點30分整。",
         "weird": 0
     },
     {
@@ -19344,8 +19344,8 @@
         "type": "adjective",
         "level": "A1",
         "definition": "令人興奮的",
-        "example_en": "The party was exciting!",
-        "example_zh": "聚會很精彩！",
+        "example_en": "It was a really exciting match.",
+        "example_zh": "這真是一場精彩的比賽。",
         "weird": 0
     },
     {
@@ -19387,7 +19387,7 @@
         "word": "exclusively",
         "type": "adverb",
         "level": "C1",
-        "definition": "只",
+        "definition": "僅僅",
         "example_en": "The company sells its products exclusively to major retailers and distributors in North America.",
         "example_zh": "該公司專門向北美的主要零售商和分銷商銷售其產品。",
         "weird": 0
@@ -19398,9 +19398,9 @@
         "word": "excuse",
         "type": "noun",
         "level": "B2",
-        "definition": "原諒",
-        "example_en": "I must excuse myself to answer my mobile phone for just a moment.",
-        "example_zh": "我必須原諒自己暫時接聽手機。",
+        "definition": "藉口",
+        "example_en": "He'd better have a good excuse for being late.",
+        "example_zh": "他最好有個合理的理由解釋為什麼遲到。",
         "weird": 0
     },
     {
@@ -19410,8 +19410,8 @@
         "type": "verb",
         "level": "B2",
         "definition": "原諒",
-        "example_en": "I'm sorry to have kept you waiting so long but I had some unexpected problems and couldn't get here earlier.",
-        "example_zh": "很抱歉讓您久等了，但我遇到了一些意想不到的問題，無法早點到達這裡。",
+        "example_en": "Nothing can excuse that sort of behaviour.",
+        "example_zh": "無論如何那種行為都是不可原諒的。",
         "weird": 0
     },
     {
@@ -19442,9 +19442,9 @@
         "word": "executive",
         "type": "adjective",
         "level": "B2",
-        "definition": "管理人員",
-        "example_en": "The company's executive will be in charge of its operations and development.",
-        "example_zh": "該公司的高層將負責其營運和發展。",
+        "definition": "決策的",
+        "example_en": "His executive skills will be very useful to the company.",
+        "example_zh": "他的管理技能對公司將會非常有幫助。",
         "weird": 0
     },
     {
@@ -19497,9 +19497,9 @@
         "word": "exhibit",
         "type": "verb",
         "level": "B2",
-        "definition": "展覽",
-        "example_en": "The museum will be exhibiting some of its most prized artifacts next month.",
-        "example_zh": "博物館將於下個月展出一些最珍貴的文物。",
+        "definition": "展示",
+        "example_en": "He frequently exhibits at the art gallery.",
+        "example_zh": "他經常在藝廊展出作品。",
         "weird": 0
     },
     {
@@ -19618,7 +19618,7 @@
         "word": "expedition",
         "type": "noun",
         "level": "B1",
-        "definition": "遠徵",
+        "definition": "遠征",
         "example_en": "The expedition was led by Captain John Smith and his crew of 20 men.",
         "example_zh": "這次探險由約翰史密斯船長和他的 20 名船員領導。",
         "weird": 0
@@ -19640,7 +19640,7 @@
         "word": "expense",
         "type": "noun",
         "level": "B2",
-        "definition": "費用",
+        "definition": "支出",
         "example_en": "The company has to cut its expenses in order to survive.",
         "example_zh": "為了生存，公司必須削減開支。",
         "weird": 0
@@ -19794,7 +19794,7 @@
         "word": "explode",
         "type": "verb",
         "level": "B1",
-        "definition": "霹靂",
+        "definition": "爆炸",
         "example_en": "The bomb exploded with tremendous force and sent debris flying everywhere.",
         "example_zh": "炸彈爆炸威力巨大，碎片飛濺得到處都是。",
         "weird": 0
@@ -19849,7 +19849,7 @@
         "word": "explosion",
         "type": "noun",
         "level": "B1",
-        "definition": "霹靂",
+        "definition": "爆炸",
         "example_en": "The explosion was heard for miles around.",
         "example_zh": "方圓數英里內都能聽到爆炸聲。",
         "weird": 0
@@ -19860,7 +19860,7 @@
         "word": "explosive",
         "type": "adjective",
         "level": "C1",
-        "definition": "霹靂",
+        "definition": "爆炸的",
         "example_en": "The situation was explosive and could not be ignored any longer.",
         "example_zh": "局勢一觸即發，不能再被忽視了。",
         "weird": 0
@@ -19871,7 +19871,7 @@
         "word": "explosive",
         "type": "noun",
         "level": "C1",
-        "definition": "霹靂",
+        "definition": "爆炸物",
         "example_en": "The explosive situation in Syria has raised concerns about potential civil war.",
         "example_zh": "敘利亞的爆炸性局勢引發了人們對潛在內戰的擔憂。",
         "weird": 0
@@ -20124,7 +20124,7 @@
         "word": "fabulous",
         "type": "adjective",
         "level": "B2",
-        "definition": "神話般的",
+        "definition": "極好的",
         "example_en": "The story was so fabulous it could have been straight out of Greek mythology.",
         "example_zh": "這個故事非常精彩，簡直就像是希臘神話中的故事。",
         "weird": 0
@@ -20146,7 +20146,7 @@
         "word": "face",
         "type": "verb",
         "level": "B1",
-        "definition": "臉",
+        "definition": "面對",
         "example_en": "I can't face it anymore.",
         "example_zh": "我無法再面對它了。",
         "weird": 0
@@ -20190,7 +20190,7 @@
         "word": "faction",
         "type": "noun",
         "level": "C1",
-        "definition": "派",
+        "definition": "派系",
         "example_en": "The political faction was determined to oust him from power.",
         "example_zh": "政治派別決心將他趕下台。",
         "weird": 0
@@ -20223,7 +20223,7 @@
         "word": "faculty",
         "type": "noun",
         "level": "C1",
-        "definition": "學院",
+        "definition": "全體教師",
         "example_en": "The university faculty was divided over the issue of tuition increases.",
         "example_zh": "大學教師在學費上漲問題上有分歧。",
         "weird": 0
@@ -20333,9 +20333,9 @@
         "word": "fall",
         "type": "noun",
         "level": "A2",
-        "definition": "落下",
-        "example_en": "The leaves are falling from the trees in autumn.",
-        "example_zh": "秋天，樹葉從樹上飄落。",
+        "definition": "下降",
+        "example_en": "There was a fall in support for the party at the last election.",
+        "example_zh": "在上一次選舉中，該政黨的支持率下跌了。",
         "weird": 0
     },
     {
@@ -20411,8 +20411,8 @@
         "type": "adjective",
         "level": "A1",
         "definition": "著名的",
-        "example_en": "The famous singer was in town for her concert last night.",
-        "example_zh": "這位著名歌手昨晚來到城裡參加她的音樂會。",
+        "example_en": "Marie Curie is famous for her contribution to science.",
+        "example_zh": "瑪麗·居里以其對科學的貢獻而聞名。",
         "weird": 0
     },
     {
@@ -20598,8 +20598,8 @@
         "type": "adverb",
         "level": "A1",
         "definition": "快速地",
-        "example_en": "They arrived at their destination quickly and efficiently (). efficientlyquicklyefficientlyThe workers",
-        "example_zh": "他們快速有效率地到達目的地（）。高效率 快速 高效率 工人",
+        "example_en": "They arrived at their destination quickly and efficiently",
+        "example_zh": "他們快速有效率地到達目的地。",
         "weird": 0
     },
     {
@@ -20630,9 +20630,9 @@
         "word": "fat",
         "type": "noun",
         "level": "A2",
-        "definition": "胖的",
-        "example_en": "The fat lady sang at last.",
-        "example_zh": "胖女人終於唱起了歌。",
+        "definition": "脂肪；動物油，植物油",
+        "example_en": "This product contains no animal fat.",
+        "example_zh": "本產品不含動物脂肪。",
         "weird": 0
     },
     {
@@ -20852,7 +20852,7 @@
         "level": "A1",
         "definition": "感覺",
         "example_en": "I have this feeling I'm forgetting something important.",
-        "example_zh": "我有一種感覺，我忘了一些重要的事情。",
+        "example_zh": "我總感覺忘了一些重要的事情。",
         "weird": 0
     },
     {
@@ -21345,7 +21345,7 @@
         "word": "firmly",
         "type": "adverb",
         "level": "B2",
-        "definition": "牢牢",
+        "definition": "牢牢地",
         "example_en": "The firmament was firmly covered with clouds.",
         "example_zh": "天空被雲層牢牢地覆蓋著。",
         "weird": 0
@@ -21939,9 +21939,9 @@
         "word": "following",
         "type": "noun",
         "level": "B1",
-        "definition": "下列的",
-        "example_en": "There were several things following him in his wake as he walked down the street alone.",
-        "example_zh": "當他獨自走在街上時，有幾件事跟著他走。",
+        "definition": "追隨者",
+        "example_en": "She has attracted a large following among the rich and famous.",
+        "example_zh": "她在富賈名流中有一大批追隨者。",
         "weird": 0
     },
     {
@@ -22005,7 +22005,7 @@
         "word": "footage",
         "type": "noun",
         "level": "C1",
-        "definition": "鏡頭",
+        "definition": "錄影、影像",
         "example_en": "The footage of his arrest was broadcast on national television and went viral overnight.",
         "example_zh": "他被捕的影片在國家電視台播出，並在一夜之間瘋傳。",
         "weird": 0
@@ -22148,7 +22148,7 @@
         "word": "fork",
         "type": "noun",
         "level": "A2",
-        "definition": "叉",
+        "definition": "叉子",
         "example_en": "The fork was placed on his right hand side at dinner time.",
         "example_zh": "晚餐時，叉子放在他的右手邊。",
         "weird": 0
@@ -22304,7 +22304,7 @@
         "level": "A1",
         "definition": "四十",
         "example_en": "There are forty people in my class today.",
-        "example_zh": "今天我班有四十個人。",
+        "example_zh": "今天我的班級有四十個人。",
         "weird": 0
     },
     {
@@ -22324,9 +22324,9 @@
         "word": "forward",
         "type": "adjective",
         "level": "B2",
-        "definition": "向前",
-        "example_en": "The forward was in front of me and I could see his face clearly through my binoculars.",
-        "example_zh": "前鋒就在我前面，我透過雙筒望遠鏡可以清楚地看到他的臉。",
+        "definition": "前方的",
+        "example_en": "The forward section of the plane is for first-class passengers.",
+        "example_zh": "飛機的前部是頭等艙乘客的區域。",
         "weird": 0
     },
     {
@@ -22336,8 +22336,8 @@
         "type": "adverb",
         "level": "A2",
         "definition": "向前",
-        "example_en": "The forward player scored three goals in this match.",
-        "example_zh": "這位前鋒在這場比賽中打進了三球。",
+        "example_en": "She leaned forward to whisper something in my ear.",
+        "example_zh": "她傾身向前，對我耳語了一番。",
         "weird": 0
     },
     {
@@ -22555,9 +22555,9 @@
         "word": "free",
         "type": "verb",
         "level": "B2",
-        "definition": "自由的",
-        "example_en": "The free market system has been criticized for its lack of social justice and equality.",
-        "example_zh": "自由市場體係因缺乏社會正義和平等而受到​​批評。",
+        "definition": "使自由",
+        "example_en": "After a ten-hour siege the gunman agreed to free the hostages.",
+        "example_zh": "經過十小時的圍困後，槍手同意釋放人質。",
         "weird": 0
     },
     {
@@ -22610,7 +22610,7 @@
         "word": "frequent",
         "type": "adjective",
         "level": "B2",
-        "definition": "常",
+        "definition": "常常、頻繁的",
         "example_en": "The frequent occurrence of such incidents has raised serious concerns among local authorities.",
         "example_zh": "此類事件的頻繁發生引起了地方政府的嚴重關注。",
         "weird": 0
@@ -22753,9 +22753,9 @@
         "word": "front",
         "type": "adjective",
         "level": "A1",
-        "definition": "正面",
-        "example_en": "The front of the car was damaged in the accident.",
-        "example_zh": "事故中汽車前部受損。",
+        "definition": "前面的",
+        "example_en": "I'd like seats on the front row.",
+        "example_zh": "我想要前排的座位。",
         "weird": 0
     },
     {
@@ -22820,7 +22820,7 @@
         "type": "noun",
         "level": "C1",
         "definition": "挫折",
-        "example_en": "The frustration of not being able lol to understand what was going on led her to give up and walk away.",
+        "example_en": "The frustration of not being able to understand what was going on led her to give up and walk away.",
         "example_zh": "無法理解正在發生的事情的挫敗感導致她放棄並走開。",
         "weird": 0
     },
@@ -22886,7 +22886,7 @@
         "type": "adverb",
         "level": "B2",
         "definition": "全日制",
-        "example_en": "He has been working full time for several years now.",
+        "example_en": "He has been working full-time for several years now.",
         "example_zh": "他已經全職工作好幾年了。",
         "weird": 0
     },
@@ -22908,8 +22908,8 @@
         "type": "adjective",
         "level": "A2",
         "definition": "樂趣",
-        "example_en": "The party was so much fun!",
-        "example_zh": "聚會真是太有趣了！",
+        "example_en": "There are lots of fun things to do here.",
+        "example_zh": "這裡有很多有趣的事情可做。",
         "weird": 0
     },
     {
@@ -23081,7 +23081,7 @@
         "new_id": 2098,
         "id": 2282,
         "word": "future",
-        "type": "adjective",
+        "type": "noun",
         "level": "A2",
         "definition": "未來",
         "example_en": "The future of this company looks very bright indeed.",
@@ -23162,7 +23162,7 @@
         "level": "B2",
         "definition": "幫派",
         "example_en": "The gang was arrested for armed robbery and drug trafficking.",
-        "example_zh": "該團夥因武裝搶劫和販毒被捕。",
+        "example_zh": "該幫派因武裝搶劫和販毒被捕。",
         "weird": 0
     },
     {
@@ -23270,7 +23270,7 @@
         "word": "gaze",
         "type": "verb",
         "level": "C1",
-        "definition": "目光",
+        "definition": "凝視",
         "example_en": "The child gazed at his mother with wide eyes as she entered the room.",
         "example_zh": "當母親走進房間時，孩子睜大眼睛看著她。",
         "weird": 0
@@ -23283,7 +23283,7 @@
         "level": "C1",
         "definition": "齒輪",
         "example_en": "The gear was made of steel and brass.",
-        "example_zh": "齒輪由鋼和黃銅製成。",
+        "example_zh": "該齒輪由鋼和黃銅製成。",
         "weird": 0
     },
     {
@@ -23326,7 +23326,7 @@
         "type": "adverb",
         "level": "B1",
         "definition": "一般來說",
-        "example_en": "Generally speaking, it's not advisable to eat too much sugar.",
+        "example_en": "Generally speaking, it's not advisable to eat too much carbohydrates.",
         "example_zh": "一般來說，不宜吃太多醣類。",
         "weird": 0
     },
@@ -23371,7 +23371,7 @@
         "level": "B1",
         "definition": "慷慨的",
         "example_en": "The generous donor made a large donation to charity last year.",
-        "example_zh": "這位慷慨的捐款者去年向慈善機構捐款一大筆。",
+        "example_zh": "這位慷慨的捐款者去年向慈善機構捐款一大筆錢。",
         "weird": 0
     },
     {
@@ -23491,8 +23491,8 @@
         "type": "verb",
         "level": "A1",
         "definition": "得到",
-        "example_en": "I get it! I understand now.",
-        "example_zh": "我得到它！我現在明白了。",
+        "example_en": "He went to the shop to get some milk.",
+        "example_zh": "他到那家小店買牛奶去了。",
         "weird": 0
     },
     {
@@ -23523,9 +23523,9 @@
         "word": "giant",
         "type": "noun",
         "level": "B1",
-        "definition": "巨大的",
-        "example_en": "The giant was so big he could fit in any room.",
-        "example_zh": "這個巨人太大了，任何房間都可以放進去。",
+        "definition": "巨人",
+        "example_en": "The giant was so big he couldn't fit in any room.",
+        "example_zh": "這個巨人太大了，任何房間都進不去。",
         "weird": 0
     },
     {
@@ -23688,9 +23688,9 @@
         "word": "go",
         "type": "noun",
         "level": "B1",
-        "definition": "去",
-        "example_en": "He went to see his old schoolmate yesterday.",
-        "example_zh": "昨天他去探望他的老同學了。",
+        "definition": "嘗試",
+        "example_en": "I've never done this before but I'll give it a go.",
+        "example_zh": "我從來沒做過這個，但我會嘗試一下。",
         "weird": 0
     },
     {
@@ -23732,7 +23732,7 @@
         "word": "gold",
         "type": "adjective",
         "level": "A2",
-        "definition": "金子",
+        "definition": "金色的",
         "example_en": "The gold of his eyes shone with excitement as he looked at her.",
         "example_zh": "當他看著她時，他的金色眼眸閃爍著興奮的光芒。",
         "weird": 0
@@ -23799,7 +23799,7 @@
         "type": "exclamation",
         "level": "A1",
         "definition": "再見",
-        "example_en": "Good-bye! Bye-ya! Adios! Au revoir!",
+        "example_en": "Goodbye! Bye-ya! Adios! Au revoir!",
         "example_zh": "再見！再見！再見！再見！",
         "weird": 0
     },
@@ -23854,8 +23854,8 @@
         "type": "verb",
         "level": "B2",
         "definition": "治理",
-        "example_en": "The government has to be accountable for its actions and decisions.",
-        "example_zh": "政府必須對其行為和決定負責。",
+        "example_en": "The country is governed by military regimes.",
+        "example_zh": "這個國家現在由軍事政權治理。",
         "weird": 0
     },
     {
@@ -23864,9 +23864,9 @@
         "word": "governance",
         "type": "noun",
         "level": "C1",
-        "definition": "治理",
-        "example_en": "The government has taken steps to address this issue.",
-        "example_zh": "政府已採取措施解決這個問題。",
+        "definition": "管理體系",
+        "example_en": "We aim to promote and maintain the highest standards of directorship and corporate governance.",
+        "example_zh": "我們致力於推廣和維護董事會和企業治理的最高標準。",
         "weird": 0
     },
     {
@@ -23950,7 +23950,7 @@
         "new_id": 2177,
         "id": 2365,
         "word": "graduate",
-        "type": "noun",
+        "type": "verb",
         "level": "B1",
         "definition": "畢業",
         "example_en": "He graduated from university last year.",
@@ -23961,9 +23961,9 @@
         "new_id": 2178,
         "id": 2366,
         "word": "graduate",
-        "type": "verb",
+        "type": "noun",
         "level": "B1",
-        "definition": "畢業",
+        "definition": "畢業生",
         "example_en": "The graduate was delighted to receive his degree from the university ceremony.",
         "example_zh": "這位畢業生很高興在大學典禮上獲得學位。",
         "weird": 0
@@ -24029,7 +24029,7 @@
         "word": "grant",
         "type": "noun",
         "level": "B2",
-        "definition": "授予",
+        "definition": "贈款",
         "example_en": "The grant was used to fund further research into renewable energy sources.",
         "example_zh": "這筆贈款用於資助再生能源的進一步研究。",
         "weird": 0
@@ -24074,8 +24074,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "抓牢",
-        "example_en": "The child grasped his mother's hand tightly as they walked down the street together.",
-        "example_zh": "孩子緊緊握住媽媽的手，一起走在街上。",
+        "example_en": "He shook my hand with a very firm grasp.",
+        "example_zh": "他非常有力地和我握了握手。",
         "weird": 0
     },
     {
@@ -24118,8 +24118,8 @@
         "type": "adjective",
         "level": "C1",
         "definition": "嚴重",
-        "example_en": "The situation was grave and required immediate attention.",
-        "example_zh": "情況很嚴重，需要立即註意。",
+        "example_en": "The grave consequences of his actions were not lost on him.",
+        "example_zh": "他並沒有忽視他的行為所帶來的嚴重後果。",
         "weird": 0
     },
     {
@@ -24128,9 +24128,9 @@
         "word": "grave",
         "type": "noun",
         "level": "C1",
-        "definition": "嚴重",
-        "example_en": "The grave consequences of his actions were not lost on him.",
-        "example_zh": "他並沒有忽視他的行為所帶來的嚴重後果。",
+        "definition": "墓地",
+        "example_en": "He was buried in the local grave.",
+        "example_zh": "他被埋葬在當地的墓地。",
         "weird": 0
     },
     {
@@ -24139,7 +24139,7 @@
         "word": "gravity",
         "type": "noun",
         "level": "C1",
-        "definition": "重力",
+        "definition": "嚴重性",
         "example_en": "The gravity of this situation cannot be overstated.",
         "example_zh": "這種情況的嚴重性怎麼強調都不為過。",
         "weird": 0
@@ -24202,22 +24202,22 @@
     {
         "new_id": 2200,
         "id": 2389,
-        "word": "grey",
+        "word": "gray",
         "type": "adjective",
         "level": "A1",
         "definition": "灰色的",
-        "example_en": "The sky was grey and overcast today.",
+        "example_en": "The sky was gray and overcast today.",
         "example_zh": "今天的天空是灰色的，陰沉的。",
         "weird": 0
     },
     {
         "new_id": 2201,
         "id": 2390,
-        "word": "grey",
+        "word": "gray",
         "type": "noun",
         "level": "A1",
         "definition": "灰色的",
-        "example_en": "The grey of his eyes was unusual.",
+        "example_en": "The gray of his eyes was unusual.",
         "example_zh": "他眼睛的灰色很不尋常。",
         "weird": 0
     },
@@ -24249,7 +24249,7 @@
         "word": "grin",
         "type": "noun",
         "level": "C1",
-        "definition": "咧嘴笑",
+        "definition": "笑容",
         "example_en": "The grin on his face was unmistakable as he won first prize in the competition.",
         "example_zh": "當他在比賽中獲得一等獎時，他臉上的笑容是顯而易見的。",
         "weird": 0
@@ -24260,7 +24260,7 @@
         "word": "grin",
         "type": "verb",
         "level": "C1",
-        "definition": "咧嘴笑",
+        "definition": "微笑",
         "example_en": "The children grinned at her as she handed out candy for Halloween.",
         "example_zh": "當她分發萬聖節糖果時，孩子們對她微笑。",
         "weird": 0
@@ -24294,8 +24294,8 @@
         "type": "verb",
         "level": "C1",
         "definition": "緊握",
-        "example_en": "The firm grip of her hand tightened as she grasped my arm with all its might.",
-        "example_zh": "當她用盡全力抓住我的手臂時，她的手變得更緊了。",
+        "example_en": "The baby gripped my finger with her tiny hand.",
+        "example_zh": "嬰兒的小手緊緊握住我的手指。",
         "weird": 0
     },
     {
@@ -24392,9 +24392,9 @@
         "word": "guard",
         "type": "verb",
         "level": "B1",
-        "definition": "警衛",
-        "example_en": "The guards were on high alert as they searched for any suspicious activity around the perimeter of the building.",
-        "example_zh": "警衛人員保持高度戒備，在大樓週邊搜尋任何可疑活動。",
+        "definition": "保衛",
+        "example_en": "Soldiers guard the main doors of the embassy.",
+        "example_zh": "大使館的主要門口都有士兵把守。",
         "weird": 0
     },
     {
@@ -24415,8 +24415,8 @@
         "type": "noun",
         "level": "A1",
         "definition": "猜測",
-        "example_en": "The children guessed what was in their birthday presents.",
-        "example_zh": "孩子們猜出他們的生日禮物裡面有什麼。",
+        "example_en": "Both teams made some wild guesses, none of which were right.",
+        "example_zh": "兩隊都是瞎猜一通，沒有一個猜對的。",
         "weird": 0
     },
     {
@@ -24458,7 +24458,7 @@
         "word": "guide",
         "type": "noun",
         "level": "A2",
-        "definition": "指導",
+        "definition": "指南",
         "example_en": "The guide was very helpful and informative throughout our visit to the museum.",
         "example_zh": "在我們參觀博物館的整個過程中，指南非常有幫助且資訊豐富。",
         "weird": 0
@@ -24492,8 +24492,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "有罪",
-        "example_en": "The guilty conscience of her actions made it impossible for her to sleep at night.",
-        "example_zh": "她的行為的愧疚感讓她晚上睡不著覺。",
+        "example_en": "He suffered such feelings of guilt over leaving his children.",
+        "example_zh": "他因為拋棄了孩子而感到深深的愧疚。",
         "weird": 0
     },
     {
@@ -24536,8 +24536,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "腸道",
-        "example_en": "The patient's gut was in turmoil as he waited for news of his test results.",
-        "example_zh": "當病人等待檢測結果的消息時，他的內心一片混亂。",
+        "example_en": "Meat stays in the gut longer than vegetable matter.",
+        "example_zh": "和蔬菜相比，肉類在消化道中停留的時間更長。",
         "weird": 0
     },
     {
@@ -24547,7 +24547,7 @@
         "type": "noun",
         "level": "A2",
         "definition": "傢伙",
-        "example_en": "The guy was so drunk he couldn lolled into his own vomit.",
+        "example_en": "The guy was so drunk he lazily lay in his own vomit.",
         "example_zh": "這傢伙喝得太醉了，他懶洋洋地躺在自己的嘔吐物裡。",
         "weird": 0
     },
@@ -24634,7 +24634,7 @@
         "word": "halfway",
         "type": "adverb",
         "level": "C1",
-        "definition": "半",
+        "definition": "一半",
         "example_en": "I was halfway through my book when I realized it wasn't what I expected.",
         "example_zh": "當我的書讀到一半時，我意識到這不是我所期望的。",
         "weird": 0
@@ -24909,9 +24909,9 @@
         "word": "harvest",
         "type": "verb",
         "level": "C1",
-        "definition": "收成",
-        "example_en": "The harvest of this year's crops was bountiful and timely.",
-        "example_zh": "今年的農作物豐收又及時。",
+        "definition": "收割",
+        "example_en": "In the US, winter wheat is harvested in the early summer.",
+        "example_zh": "在美國，冬小麥一般在初夏收割。",
         "weird": 0
     },
     {
@@ -24965,8 +24965,8 @@
         "type": "verb",
         "level": "A1",
         "definition": "有",
-        "example_en": "I have to go now.",
-        "example_zh": "我現在得走了。",
+        "example_en": "They have a beautiful home.",
+        "example_zh": "他們有一個漂亮的家。",
         "weird": 0
     },
     {
@@ -24977,7 +24977,7 @@
         "level": "A2",
         "definition": "有",
         "example_en": "I have not seen it before.",
-        "example_zh": "我以前沒見過。",
+        "example_zh": "我以前沒見過這個。",
         "weird": 0
     },
     {
@@ -25008,7 +25008,7 @@
         "word": "head",
         "type": "noun",
         "level": "A1",
-        "definition": "頭",
+        "definition": "頭部",
         "example_en": "The head of the company will be in charge of this project.",
         "example_zh": "公司負責人將負責該專案。",
         "weird": 0
@@ -25064,8 +25064,8 @@
         "type": "noun",
         "level": "A1",
         "definition": "健康",
-        "example_en": "The doctor said she had no health problems and was in good shape for her age.",
-        "example_zh": "醫生表示，她沒有任何健康問題，對於她的年齡來說，身體狀況良好。",
+        "example_en": "I had to give up drinking for health reasons.",
+        "example_zh": "我因健康之故而不得不戒酒。",
         "weird": 0
     },
     {
@@ -25085,7 +25085,7 @@
         "word": "healthy",
         "type": "adjective",
         "level": "A1",
-        "definition": "健康",
+        "definition": "健康的",
         "example_en": "The baby was born healthy and strong.",
         "example_zh": "寶寶出生時健康強壯。",
         "weird": 0
@@ -25129,7 +25129,7 @@
         "word": "heat",
         "type": "noun",
         "level": "A2",
-        "definition": "熱",
+        "definition": "熱度",
         "example_en": "The heat of summer was intense and oppressive.",
         "example_zh": "夏季酷熱難耐。",
         "weird": 0
@@ -25140,9 +25140,9 @@
         "word": "heat",
         "type": "verb",
         "level": "A2",
-        "definition": "熱",
-        "example_en": "The heat of the sun can be very intense at times.",
-        "example_zh": "太陽的熱量有時會非常強烈。",
+        "definition": "加熱",
+        "example_en": "Shall I heat up some soup for lunch?",
+        "example_zh": "我是不是應該熱點湯當午餐呢？",
         "weird": 0
     },
     {
@@ -25350,8 +25350,8 @@
         "type": "adverb",
         "level": "A1",
         "definition": "這裡",
-        "example_en": "Here we go!",
-        "example_zh": "開始了！",
+        "example_en": "Come here - I've got something to show you.",
+        "example_zh": "過來這裡 - 我有東西要給你看。",
         "weird": 0
     },
     {
@@ -25383,8 +25383,8 @@
         "type": "pronoun",
         "level": "A2",
         "definition": "她的",
-        "example_en": "Her sister was very upset about it.",
-        "example_zh": "她的姐姐為此非常不高興。",
+        "example_en": "Nicky and I both have red hair but hers is lighter than mine.",
+        "example_zh": "Nicky和我都有紅色頭髮，但她的顏色比我的淺一些。",
         "weird": 0
     },
     {
@@ -25427,8 +25427,8 @@
         "type": "exclamation",
         "level": "A1",
         "definition": "你好",
-        "example_en": "Hi!  ( greeting)",
-        "example_zh": "你好！  （問候語）",
+        "example_en": "Hi! (greeting)",
+        "example_zh": "你好！（問候語）",
         "weird": 0
     },
     {
@@ -25437,7 +25437,7 @@
         "word": "hidden",
         "type": "adjective",
         "level": "B2",
-        "definition": "隱",
+        "definition": "隱藏的",
         "example_en": "The hidden danger was not immediately apparent to all those present at the meeting.",
         "example_zh": "所有出席會議的人並沒有立即意識到這一隱患。",
         "weird": 0
@@ -25448,9 +25448,9 @@
         "word": "hierarchy",
         "type": "noun",
         "level": "C1",
-        "definition": "等級制度",
+        "definition": "階級制度",
         "example_en": "The company's strict hierarchy was designed to ensure loyalty and prevent rebellion among its employees.",
-        "example_zh": "公司嚴格的等級制度旨在確保員工的忠誠度並防止員工叛逆。",
+        "example_zh": "公司嚴格的階級制度旨在確保員工的忠誠度並防止員工叛逆。",
         "weird": 0
     },
     {
@@ -25470,9 +25470,9 @@
         "word": "high",
         "type": "adverb",
         "level": "A2",
-        "definition": "高的",
-        "example_en": "The sky was high and blue today.",
-        "example_zh": "今天的天空又高又藍。",
+        "definition": "高地",
+        "example_en": "The new jet flew much higher than most planes.",
+        "example_zh": "這種新的噴射機飛得比大多數飛機都高很多。",
         "weird": 0
     },
     {
@@ -25481,9 +25481,9 @@
         "word": "high",
         "type": "noun",
         "level": "B2",
-        "definition": "高的",
-        "example_en": "The height of the building was 100 meters.",
-        "example_zh": "建築物的高度為100公尺。",
+        "definition": "高潮",
+        "example_en": "Interest rates have reached an all-time/record high.",
+        "example_zh": "利率已達到歷史新高。",
         "weird": 0
     },
     {
@@ -25538,7 +25538,7 @@
         "level": "B2",
         "definition": "搞笑的",
         "example_en": "The movie was hilariously funny and I couldn't stop laughing at it.",
-        "example_zh": "這部電影非常搞笑，我忍不住笑了。",
+        "example_zh": "這部電影非常搞笑，讓我笑不停。",
         "weird": 0
     },
     {
@@ -25592,8 +25592,8 @@
         "type": "verb",
         "level": "C1",
         "definition": "暗示",
-        "example_en": "The hint was so subtle it took some time to realize what he meant.",
-        "example_zh": "這個暗示是如此微妙，以至於花了一些時間才明白他的意思。",
+        "example_en": "Mom's hinted (that) she might pay for my trip to Mexico.",
+        "example_zh": "媽媽暗示她或許可以資助我的墨西哥之行。",
         "weird": 0
     },
     {
@@ -25613,9 +25613,9 @@
         "word": "hire",
         "type": "noun",
         "level": "B2",
-        "definition": "聘請",
-        "example_en": "The company has decided to hire more staff for its new office in London.",
-        "example_zh": "該公司已決定為其倫敦新辦事處僱用更多員工。",
+        "definition": "僱員",
+        "example_en": "She's our latest hire.",
+        "example_zh": "她是我們最新的雇員。",
         "weird": 0
     },
     {
@@ -25735,8 +25735,8 @@
         "type": "noun",
         "level": "B2",
         "definition": "抓住",
-        "example_en": "The police held him in custody for questioning.",
-        "example_zh": "警方將他拘留審問。",
+        "example_en": "Keep a tight hold on your tickets.",
+        "example_zh": "拿好你們的票。",
         "weird": 0
     },
     {
@@ -25780,7 +25780,7 @@
         "level": "B2",
         "definition": "空洞的",
         "example_en": "The hollow expression on his face suggested he was not paying attention to what I said.",
-        "example_zh": "他臉上空洞的表情顯示他沒有註意我說的話。",
+        "example_zh": "他臉上空洞的表情顯示他沒有注意我說的話。",
         "weird": 0
     },
     {
@@ -25800,9 +25800,9 @@
         "word": "home",
         "type": "adjective",
         "level": "A2",
-        "definition": "家",
-        "example_en": "The home of my childhood was in a small village near London.",
-        "example_zh": "我童年的家在倫敦附近的一個小村莊。",
+        "definition": "家庭的",
+        "example_en": "His home life is affecting his work.",
+        "example_zh": "他的家庭生活影響了他的工作。",
         "weird": 0
     },
     {
@@ -25812,8 +25812,8 @@
         "type": "adverb",
         "level": "A1",
         "definition": "家",
-        "example_en": "I'm going home now.",
-        "example_zh": "我現在要回家了。",
+        "example_en": "Don't worry, I'll be home soon.",
+        "example_zh": "別擔心，我很快就會回家。",
         "weird": 0
     },
     {
@@ -25885,22 +25885,22 @@
     {
         "new_id": 2353,
         "id": 2555,
-        "word": "honour",
+        "word": "honor",
         "type": "noun",
         "level": "B2",
         "definition": "榮譽",
-        "example_en": "The honour of his family was at stake.",
+        "example_en": "The honor of his family was at stake.",
         "example_zh": "他的家人的榮譽受到威脅。",
         "weird": 0
     },
     {
         "new_id": 2354,
         "id": 2556,
-        "word": "honour",
+        "word": "honor",
         "type": "verb",
         "level": "B2",
-        "definition": "榮譽",
-        "example_en": "The company will honour its promise to deliver within 30 days and provide excellent customer service.",
+        "definition": "致敬、兌現",
+        "example_en": "The company will honor its promise to deliver within 30 days and provide excellent customer service.",
         "example_zh": "本公司將兌現30天內交貨的承諾，並提供優質的客戶服務。",
         "weird": 0
     },
@@ -25921,9 +25921,9 @@
         "word": "hook",
         "type": "verb",
         "level": "C1",
-        "definition": "鉤",
-        "example_en": "The hook of his argument was its lack of evidence.",
-        "example_zh": "他的論點的要點在於缺乏證據。",
+        "definition": "鉤住",
+        "example_en": "He hooked the trailer to his car.",
+        "example_zh": "他把拖車掛在他的車上。",
         "weird": 0
     },
     {
@@ -26042,9 +26042,9 @@
         "word": "host",
         "type": "verb",
         "level": "B2",
-        "definition": "主持人",
-        "example_en": "The show's host was very excited to be on air again after her recent illness.",
-        "example_zh": "該節目的主持人在最近生病後能夠再次播出感到非常興奮。",
+        "definition": "主持",
+        "example_en": "Which country is hosting the next Olympic Games?",
+        "example_zh": "哪個國家將主辦下一屆奧運會？",
         "weird": 0
     },
     {
@@ -26109,8 +26109,8 @@
         "type": "noun",
         "level": "A1",
         "definition": "小時",
-        "example_en": "I have to go now or I'll be late for my hour meeting with Mr. Smith.",
-        "example_zh": "我現在必須走了，否則我和史密斯先生的會面就會遲到。",
+        "example_en": "The exam lasted an hour and a half.",
+        "example_zh": "考試持續了一個半小時。",
         "weird": 0
     },
     {
@@ -26248,11 +26248,11 @@
     {
         "new_id": 2386,
         "id": 2590,
-        "word": "humour",
+        "word": "humor",
         "type": "noun",
         "level": "B2",
         "definition": "幽默",
-        "example_en": "The play was full of humour and laughter.",
+        "example_en": "The play was full of humor and laughter.",
         "example_zh": "整部劇充滿了幽默和笑聲。",
         "weird": 0
     },
@@ -26351,8 +26351,8 @@
         "type": "adjective",
         "level": "A2",
         "definition": "傷害",
-        "example_en": "The wound was still hurting badly after all this time.",
-        "example_zh": "過了這麼久，傷口還是痛得很厲害。",
+        "example_en": "Put that knife away before someone gets hurt.",
+        "example_zh": "把那把刀收起來以免傷到人。",
         "weird": 0
     },
     {
@@ -26812,7 +26812,7 @@
         "word": "implementation",
         "type": "noun",
         "level": "C1",
-        "definition": "執行",
+        "definition": "實施",
         "example_en": "The implementation of this policy will take several years to complete.",
         "example_zh": "這項政策的實施需要數年時間才能完成。",
         "weird": 0
@@ -27132,8 +27132,8 @@
         "type": "preposition",
         "level": "A2",
         "definition": "包括",
-        "example_en": "The book includes many examples of good writing.",
-        "example_zh": "這本書包含許多優秀寫作的例子。",
+        "example_en": "Eight people, including two children, were injured in the explosion.",
+        "example_zh": "八個人在爆炸中受傷，其中包括兩名兒童。",
         "weird": 0
     },
     {
@@ -27199,7 +27199,7 @@
         "level": "B2",
         "definition": "日益",
         "example_en": "The number of people who are increasingly using social media to communicate with one another has risen dramatically in recent years.",
-        "example_zh": "近年來，越來越多使用社群媒體相互交流的人數急劇增加。",
+        "example_zh": "近年來，愈常使用社群媒體相互交流的人數急劇增加。",
         "weird": 0
     },
     {
@@ -27791,7 +27791,7 @@
         "word": "inner",
         "type": "adjective",
         "level": "B2",
-        "definition": "內",
+        "definition": "內部的",
         "example_en": "The inner workings of his mind were beyond comprehension.",
         "example_zh": "他內心的運作方式是無法理解的。",
         "weird": 0
@@ -27890,9 +27890,9 @@
         "word": "inside",
         "type": "adjective",
         "level": "A2",
-        "definition": "裡面",
-        "example_en": "The inside of the box was empty.",
-        "example_zh": "盒子裡面是空的。",
+        "definition": "內部的",
+        "example_en": "I'll call up Clare and get the inside story",
+        "example_zh": "我將給克萊爾打電話了解內幕。",
         "weird": 0
     },
     {
@@ -27913,8 +27913,8 @@
         "type": "noun",
         "level": "A2",
         "definition": "裡面",
-        "example_en": "The car has a good engine and inside it's very quiet.",
-        "example_zh": "這輛車的引擎很好，車內也很安靜。",
+        "example_en": "Did you clean the inside of the car?",
+        "example_zh": "你把車子內部擦乾淨了嗎？",
         "weird": 0
     },
     {
@@ -28474,8 +28474,8 @@
         "type": "verb",
         "level": "A1",
         "definition": "興趣",
-        "example_en": "I have an interest in history.",
-        "example_zh": "我對歷史很有興趣。",
+        "example_en": "Sports has never really interested me.",
+        "example_zh": "我對體育沒有什麼興趣。",
         "weird": 0
     },
     {
@@ -28517,9 +28517,9 @@
         "word": "interfere",
         "type": "verb",
         "level": "C1",
-        "definition": "幹擾",
+        "definition": "干擾",
         "example_en": "The police were called to interfere with the noisy party.",
-        "example_zh": "警察被叫去幹擾喧鬧的聚會。",
+        "example_zh": "警察被叫去干擾喧鬧的聚會。",
         "weird": 0
     },
     {
@@ -28914,8 +28914,8 @@
         "type": "adjective",
         "level": "C1",
         "definition": "諷刺的",
-        "example_en": "The irony of his success was not lost on him.",
-        "example_zh": "他的成功並沒有忽視他的諷刺。",
+        "example_en": "It is ironic that although many items are now cheaper to make, fewer people can afford to buy them.",
+        "example_zh": "諷刺的是，雖然如今很多物品的製作成本下降了，但能買得起的人卻少了。",
         "weird": 0
     },
     {
@@ -28936,8 +28936,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "諷刺",
-        "example_en": "The irony of his success was not lost on those who had suffered under him.",
-        "example_zh": "對於那些在他手下受苦受難的人來說，他的成功具有諷刺意義。",
+        "example_en": "The irony is that the new tax system will burden those it was intended to help.",
+        "example_zh": "諷刺的是，新的稅收制度反而將使該制度本來打算要幫助的人背上沉重負擔。",
         "weird": 0
     },
     {
@@ -28979,9 +28979,9 @@
         "word": "isolated",
         "type": "adjective",
         "level": "B2",
-        "definition": "孤立",
-        "example_en": "The island was isolated from the mainland by treacherous waters and rough seas.",
-        "example_zh": "該島被險惡的水域和波濤洶湧的大海與大陸隔離。",
+        "definition": "孤立的",
+        "example_en": "Working at home was making her feel increasingly isolated.",
+        "example_zh": "在家中工作使她越來越覺得與世隔絕。",
         "weird": 0
     },
     {
@@ -29012,9 +29012,9 @@
         "word": "issue",
         "type": "verb",
         "level": "B2",
-        "definition": "問題",
-        "example_en": "There are some issues with this report that need to be addressed.",
-        "example_zh": "本報告存在一些問題需要解決。",
+        "definition": "發行",
+        "example_en": "The office will be issuing permits on Tuesday and Thursday mornings.",
+        "example_zh": "辦事處將在週二和週四的上午頒發許可證。",
         "weird": 0
     },
     {
@@ -29023,9 +29023,9 @@
         "word": "IT",
         "type": "noun",
         "level": "B1",
-        "definition": "它",
-        "example_en": "It was not until I arrived at his house that it dawned on me how much he had changed over time.",
-        "example_zh": "直到我到了他家，我才意識到他隨著時間的推移而發生了多大的變化。",
+        "definition": "資訊技術（information technology 的縮寫）",
+        "example_en": "IT has revolutionized the way we communicate and work.",
+        "example_zh": "資訊技術改變了我們溝通和工作的方式。",
         "weird": 0
     },
     {
@@ -29035,8 +29035,8 @@
         "type": "pronoun",
         "level": "A1",
         "definition": "它",
-        "example_en": "It's very nice to meet you!",
-        "example_zh": "很高興認識你！",
+        "example_en": "The argument was upsetting for us all - I don't want to talk about it.",
+        "example_zh": "那場爭論使我們大家都心煩——我不想再談論它了。",
         "weird": 0
     },
     {
@@ -29133,9 +29133,9 @@
         "word": "jet",
         "type": "noun",
         "level": "B2",
-        "definition": "噴射",
+        "definition": "噴射機",
         "example_en": "The jet was parked at the airport and its engines were running smoothly.",
-        "example_zh": "這架飛機停在機場，引擎運轉平穩。",
+        "example_zh": "這架噴射機停在機場，引擎運轉平穩。",
         "weird": 0
     },
     {
@@ -29177,9 +29177,9 @@
         "word": "joint",
         "type": "noun",
         "level": "B2",
-        "definition": "聯合的",
-        "example_en": "The joint operation involved all of Britain's armed forces and intelligence services.",
-        "example_zh": "這次聯合行動涉及英國所有武裝部隊和情報部門。",
+        "definition": "關節",
+        "example_en": "As you become older, your joints get stiffer.",
+        "example_zh": "隨著年齡增長，你的關節會越發僵硬。",
         "weird": 0
     },
     {
@@ -29298,7 +29298,7 @@
         "word": "juice",
         "type": "noun",
         "level": "A1",
-        "definition": "汁",
+        "definition": "汁液",
         "example_en": "The juice of the orange was squeezed into a glass.",
         "example_zh": "將柳橙汁擠入玻璃杯中。",
         "weird": 0
@@ -29320,9 +29320,9 @@
         "word": "jump",
         "type": "noun",
         "level": "A2",
-        "definition": "跳",
-        "example_en": "The children were jumping up and down in excitement at the sight of Santa Claus.",
-        "example_zh": "孩子們一看到聖誕老公公就興奮地跳上跳下。",
+        "definition": "跳躍",
+        "example_en": "He won with a jump of 8.5 metres.",
+        "example_zh": "他以8.5米的跳躍贏得了比賽。",
         "weird": 0
     },
     {
@@ -29364,9 +29364,9 @@
         "word": "junior",
         "type": "adjective",
         "level": "B2",
-        "definition": "初級",
-        "example_en": "The junior student was very excited to be in such a prestigious school.",
-        "example_zh": "這位大三學生對於能夠進入這樣一所名校感到非常興奮。",
+        "definition": "地位（或等級）較低的",
+        "example_en": "I object to being told what to do by someone junior to me.",
+        "example_zh": "我不願意讓資歷比我低的人告訴我該怎麼做。",
         "weird": 0
     },
     {
@@ -29399,7 +29399,7 @@
         "level": "C1",
         "definition": "只是",
         "example_en": "Just because you're stupid doesn't mean I have to be nice about it.",
-        "example_zh": "僅僅因為你愚蠢並不意味著我必須對此友善。",
+        "example_zh": "僅僅因為你愚蠢並不意味著我必須對此友善以待。",
         "weird": 0
     },
     {
@@ -29573,9 +29573,9 @@
         "word": "kind",
         "type": "adjective",
         "level": "B1",
-        "definition": "種類",
-        "example_en": "There are many kinds of cars on sale in this city.",
-        "example_zh": "這個城市出售的汽車種類很多。",
+        "definition": "體貼的",
+        "example_en": "She's a very kind and thoughtful person.",
+        "example_zh": "她是一個非常寬容體貼的人。",
         "weird": 0
     },
     {
@@ -29738,7 +29738,7 @@
         "word": "label",
         "type": "verb",
         "level": "B1",
-        "definition": "標籤",
+        "definition": "貼標籤",
         "example_en": "The package was labeled with instructions for assembly and use.",
         "example_zh": "包裝上貼有組裝和使用說明的標籤。",
         "weird": 0
@@ -29769,7 +29769,7 @@
         "new_id": 2706,
         "id": 2933,
         "word": "lack",
-        "type": "noun",
+        "type": "verb",
         "level": "B1",
         "definition": "缺少",
         "example_en": "The country lacks resources to support its population growth.",
@@ -29780,11 +29780,11 @@
         "new_id": 2707,
         "id": 2934,
         "word": "lack",
-        "type": "verb",
+        "type": "noun",
         "level": "B1",
         "definition": "缺少",
-        "example_en": "There are certain things in this world which one cannot lack for.",
-        "example_zh": "在這個世界上，有些東西是不能缺少的。",
+        "example_en": "Her only problem is a lack of confidence.",
+        "example_zh": "她的唯一問題是缺乏自信。",
         "weird": 0
     },
     {
@@ -30024,9 +30024,9 @@
         "word": "last",
         "type": "verb",
         "level": "A2",
-        "definition": "最後的",
-        "example_en": "The last thing I want to do today is watch TV and eat junk food all night long.",
-        "example_zh": "今天我最不想做的事就是整晚看電視和吃垃圾食物。",
+        "definition": "持續",
+        "example_en": "The drought lasted for several months.",
+        "example_zh": "乾旱持續了好幾個月。",
         "weird": 0
     },
     {
@@ -30037,7 +30037,7 @@
         "level": "A1",
         "definition": "晚的",
         "example_en": "The meeting was late to start because of traffic problems.",
-        "example_zh": "由於交通問題，會議遲到了開始。",
+        "example_zh": "由於交通問題，會議晚了一些開始。",
         "weird": 0
     },
     {
@@ -30057,9 +30057,9 @@
         "word": "later",
         "type": "adjective",
         "level": "A2",
-        "definition": "之後",
-        "example_en": "The later it gets, the more difficult it will be to find parking in this area.",
-        "example_zh": "越晚，該地區就越難找到停車位。",
+        "definition": "晚一些的",
+        "example_en": "We could catch a later train.",
+        "example_zh": "我們可以搭乘晚一點的火車。",
         "weird": 0
     },
     {
@@ -30310,7 +30310,7 @@
         "word": "leak",
         "type": "noun",
         "level": "C1",
-        "definition": "洩漏",
+        "definition": "漏洞",
         "example_en": "The leak in his story was obvious to everyone who listened carefully.",
         "example_zh": "他的故事中的漏洞對於每個仔細聆聽的人來說都是顯而易見的。",
         "weird": 0
@@ -30464,9 +30464,9 @@
         "word": "lecture",
         "type": "verb",
         "level": "A2",
-        "definition": "演講",
-        "example_en": "The professor gave us a lecture on Shakespeare's plays last week.",
-        "example_zh": "上週教授為我們做了關於莎士比亞戲劇的講座。",
+        "definition": "講課",
+        "example_en": "For ten years she lectured in law.",
+        "example_zh": "她教了十年的法律課程。",
         "weird": 0
     },
     {
@@ -30706,7 +30706,7 @@
         "word": "lesson",
         "type": "noun",
         "level": "A1",
-        "definition": "課",
+        "definition": "課程",
         "example_en": "I have to go and learn my lesson now.",
         "example_zh": "我現在得去吸取教訓了。",
         "weird": 0
@@ -30796,7 +30796,7 @@
         "level": "C1",
         "definition": "自由主義",
         "example_en": "The liberal was not prepared to compromise on his principles.",
-        "example_zh": "自由主義者不准備在他的原則上妥協。",
+        "example_zh": "自由主義者並不準備在他的原則上妥協。",
         "weird": 0
     },
     {
@@ -30884,7 +30884,7 @@
         "level": "B1",
         "definition": "說謊",
         "example_en": "The police caught him in the lie and put him behind bars.",
-        "example_zh": "警察抓住了他的謊言並將他關進監獄。",
+        "example_zh": "警察視破了他的謊言並將他關進監獄。",
         "weird": 0
     },
     {
@@ -30937,7 +30937,7 @@
         "word": "lift",
         "type": "noun",
         "level": "A2",
-        "definition": "舉起",
+        "definition": "電梯（英）",
         "example_en": "The lift was broken and we had to take the stairs instead.",
         "example_zh": "電梯壞了，我們只好走樓梯。",
         "weird": 0
@@ -30959,9 +30959,9 @@
         "word": "light",
         "type": "adjective",
         "level": "A1",
-        "definition": "光",
-        "example_en": "The light was very dim and it took me some time to adjust my eyesight in this dark room.",
-        "example_zh": "光線很暗，在這間漆黑的房間裡我花了一些時間才調整視力。",
+        "definition": "輕的",
+        "example_en": "He's a few pounds lighter than he used to be.",
+        "example_zh": "他的體重比以前輕了幾磅。",
         "weird": 0
     },
     {
@@ -31003,9 +31003,9 @@
         "word": "like",
         "type": "preposition",
         "level": "A1",
-        "definition": "喜歡",
-        "example_en": "I like to eat ice cream on hot days.",
-        "example_zh": "大熱天我喜歡吃冰淇淋。",
+        "definition": "像...",
+        "example_en": "He looks like his brother.",
+        "example_zh": "他看起來像他的哥哥。",
         "weird": 0
     },
     {
@@ -31124,9 +31124,9 @@
         "word": "line",
         "type": "verb",
         "level": "B2",
-        "definition": "線",
-        "example_en": "The line of people waiting outside was very long.",
-        "example_zh": "外面等候的人隊伍很長。",
+        "definition": "形成一排",
+        "example_en": "Police lined the route of the demonstration.",
+        "example_zh": "員警站在遊行路線的兩側。",
         "weird": 0
     },
     {
@@ -31223,9 +31223,9 @@
         "word": "list",
         "type": "verb",
         "level": "A1",
-        "definition": "清單",
-        "example_en": "The list of items to be purchased was handed over to me by my mother.",
-        "example_zh": "媽媽把要買的物品清單交給我了。",
+        "definition": "列入名單",
+        "example_en": "I've listed some useful reading material on the handout.",
+        "example_zh": "我在發給大家的講義上列出了一些有用的閱讀材料。",
         "weird": 0
     },
     {
@@ -31355,9 +31355,9 @@
         "word": "live",
         "type": "adjective",
         "level": "B1",
-        "definition": "居住",
-        "example_en": "The apartment was too small for him to live in comfortably with his wife and two children.",
-        "example_zh": "公寓太小，他無法與妻子和兩個孩子舒適地居住。",
+        "definition": "活的",
+        "example_en": "Millions of live animals are shipped around the world each year.",
+        "example_zh": "每年有數百萬隻動物被運到世界各地。",
         "weird": 0
     },
     {
@@ -31366,9 +31366,9 @@
         "word": "live",
         "type": "adverb",
         "level": "B1",
-        "definition": "居住",
-        "example_en": "He lives in New York City and works at home on weekends.",
-        "example_zh": "他住在紐約市，週末在家工作。",
+        "definition": "現場播出地",
+        "example_en": "I've got two tickets to see them (perform) live.",
+        "example_zh": "我有兩張看他們現場演出的門票。",
         "weird": 0
     },
     {
@@ -31399,9 +31399,9 @@
         "word": "living",
         "type": "adjective",
         "level": "B1",
-        "definition": "活的",
-        "example_en": "The living room was filled with people and noise.",
-        "example_zh": "客廳裡擠滿了人和噪音。",
+        "definition": "活著的",
+        "example_en": "He is probably the best-known living architect.",
+        "example_zh": "他可能是目前健在的最著名的建築師。",
         "weird": 0
     },
     {
@@ -31412,7 +31412,7 @@
         "level": "B2",
         "definition": "載入",
         "example_en": "The system will load in about 10 minutes.",
-        "example_zh": "系統將在大約 10 分鐘內加載。",
+        "example_zh": "系統將在大約 10 分鐘內加入。",
         "weird": 0
     },
     {
@@ -31423,7 +31423,7 @@
         "level": "B2",
         "definition": "載入",
         "example_en": "The new software can load quickly and easily onto most machines with just one click of your mouse button.",
-        "example_zh": "只需單擊滑鼠按鈕，新軟體就可以快速輕鬆地加載到大多數機器上。",
+        "example_zh": "只需單擊滑鼠按鍵，新軟體就可以快速輕鬆地加載到大多數機器上。",
         "weird": 0
     },
     {
@@ -31465,9 +31465,9 @@
         "word": "local",
         "type": "noun",
         "level": "B1",
-        "definition": "當地的",
-        "example_en": "The local authorities are investigating the incident.",
-        "example_zh": "當地政府正在調查這起事件。",
+        "definition": "當地人",
+        "example_en": "The café is popular with both locals and visitors.",
+        "example_zh": "這家咖啡廳深受當地人和遊客的喜愛。",
         "weird": 0
     },
     {
@@ -31520,9 +31520,9 @@
         "word": "lock",
         "type": "verb",
         "level": "A2",
-        "definition": "鎖",
-        "example_en": "He tried to lock himself in his room but couldn't find the key.",
-        "example_zh": "他試著把自己鎖在房間裡，但找不到鑰匙。",
+        "definition": "上鎖",
+        "example_en": "Don't forget to lock the door when you go out.",
+        "example_zh": "出去的時候別忘了鎖門。",
         "weird": 0
     },
     {
@@ -31543,8 +31543,8 @@
         "type": "verb",
         "level": "C1",
         "definition": "紀錄",
-        "example_en": "The log book contains all of our logs for this voyage.",
-        "example_zh": "航海日誌包含了我們這次航行的所有日誌。",
+        "example_en": "The Better Business Bureau has logged more than 90 complaints.",
+        "example_zh": "商業改進局已經記錄下了90多宗投訴。",
         "weird": 0
     },
     {
@@ -31663,7 +31663,7 @@
         "word": "look",
         "type": "noun",
         "level": "A2",
-        "definition": "看",
+        "definition": "表情",
         "example_en": "The look on his face was one of shock and disbelief.",
         "example_zh": "他臉上的表情是震驚和難以置信。",
         "weird": 0
@@ -31718,7 +31718,7 @@
         "word": "lord",
         "type": "noun",
         "level": "B2",
-        "definition": "主",
+        "definition": "領主",
         "example_en": "The lord of this castle was very pleased with his new servant.",
         "example_zh": "這座城堡的領主對他的新僕人非常滿意。",
         "weird": 0
@@ -31729,7 +31729,7 @@
         "word": "lorry",
         "type": "noun",
         "level": "A2",
-        "definition": "貨車",
+        "definition": "貨車（英）",
         "example_en": "The lorry was loaded with crates of oranges and lemons.",
         "example_zh": "卡車上裝滿了成箱的橘子和檸檬。",
         "weird": 0
@@ -31840,8 +31840,8 @@
         "type": "noun",
         "level": "A1",
         "definition": "愛",
-        "example_en": "I love you.",
-        "example_zh": "我愛你。",
+        "example_en": "Children need to be shown lots of love.",
+        "example_zh": "孩子們需要得到極大的關愛。",
         "weird": 0
     },
     {
@@ -31883,9 +31883,9 @@
         "word": "low",
         "type": "adverb",
         "level": "A2",
-        "definition": "低的",
-        "example_en": "The temperature was low last night.",
-        "example_zh": "昨晚氣溫很低。",
+        "definition": "在低處地",
+        "example_en": "The planes fly low across enemy territory.",
+        "example_zh": "飛機在敵方領土上空低空飛行。",
         "weird": 0
     },
     {
@@ -32026,9 +32026,9 @@
         "word": "magic",
         "type": "adjective",
         "level": "B1",
-        "definition": "魔法",
-        "example_en": "The magic of Christmas was in full swing as families gathered to exchange gifts and share stories with one another.",
-        "example_zh": "聖誕節的魔力如火如荼地展開，家人聚集在一起交換禮物並互相分享故事。",
+        "definition": "魔術般的",
+        "example_en": "There's no magic solution to the problem.",
+        "example_zh": "解決這個問題沒有甚麼妙方。",
         "weird": 0
     },
     {
@@ -32070,7 +32070,7 @@
         "word": "magnetic",
         "type": "adjective",
         "level": "C1",
-        "definition": "磁的",
+        "definition": "磁性的",
         "example_en": "The magnetic field of Earth creates compasses which point north and south.",
         "example_zh": "地球磁場產生了指向北方和南方的指南針。",
         "weird": 0
@@ -32201,8 +32201,8 @@
         "id": 3176,
         "word": "major",
         "type": "noun",
-        "level": " ",
-        "definition": "主要的",
+        "level": "A2",
+        "definition": "專業",
         "example_en": "The major of this department will be announced at the end of next month.",
         "example_zh": "該系專業將於下月底公佈。",
         "weird": 0
@@ -32269,8 +32269,8 @@
         "type": "adjective",
         "level": "A2",
         "definition": "男性",
-        "example_en": "The male of this species has bright red feathers on its head and neck.",
-        "example_zh": "該物種的雄性頭部和頸部有鮮紅色的羽毛。",
+        "example_en": "The male bird is more brightly coloured than the female of the species.",
+        "example_zh": "該鳥類的雄性比雌性顏色更鮮艷。",
         "weird": 0
     },
     {
@@ -32477,9 +32477,9 @@
         "word": "March",
         "type": "noun",
         "level": "A1",
-        "definition": "行進",
-        "example_en": "The March of Dimes raises money for research and programs to prevent birth defects and infant mortality.",
-        "example_zh": "「一毛錢遊行」為預防出生缺陷和嬰兒死亡率的研究和計畫籌集資金。",
+        "definition": "三月",
+        "example_en": "The next meeting will be in March.",
+        "example_zh": "下一次會議將在三月舉行。",
         "weird": 0
     },
     {
@@ -32587,9 +32587,9 @@
         "word": "market",
         "type": "verb",
         "level": "B1",
-        "definition": "市場",
-        "example_en": "The market for electric cars will continue to grow in coming years.",
-        "example_zh": "電動車市場在未來幾年將繼續成長。",
+        "definition": "行銷",
+        "example_en": "Their products are very cleverly marketed.",
+        "example_zh": "他們產品的行銷方式很巧妙。",
         "weird": 0
     },
     {
@@ -32675,7 +32675,7 @@
         "word": "mass",
         "type": "noun",
         "level": "B2",
-        "definition": "大量的",
+        "definition": "大量",
         "example_en": "The mass of evidence was overwhelming.",
         "example_zh": "大量證據是壓倒性的。",
         "weird": 0
@@ -32730,9 +32730,9 @@
         "word": "match",
         "type": "noun",
         "level": "A1",
-        "definition": "匹配",
-        "example_en": "The two teams are evenly matched in skill and experience.",
-        "example_zh": "兩支球隊在技術和經驗上旗鼓相當。",
+        "definition": "比賽",
+        "example_en": "Liverpool have a match with Blackburn next week.",
+        "example_zh": "利物浦隊下周將與布萊克本隊對賽。",
         "weird": 0
     },
     {
@@ -32763,9 +32763,9 @@
         "word": "mate",
         "type": "noun",
         "level": "B2",
-        "definition": "伴侶",
-        "example_en": "The couple have been together for years and are still very much in love with each other; they make such good company as well.",
-        "example_zh": "這對夫婦已經在一起多年了，並且仍然深愛著對方。他們也是很好的夥伴。",
+        "definition": "配偶",
+        "example_en": "Peacocks use their beautiful tails to attract mates.",
+        "example_zh": "孔雀用它們美麗的尾羽來吸引配偶。",
         "weird": 0
     },
     {
@@ -32818,7 +32818,7 @@
         "word": "matter",
         "type": "noun",
         "level": "A2",
-        "definition": "事",
+        "definition": "事情",
         "example_en": "The matter of his divorce was settled in court last week.",
         "example_zh": "他的離婚問題上週在法庭上得到了解決。",
         "weird": 0
@@ -32829,9 +32829,9 @@
         "word": "matter",
         "type": "verb",
         "level": "A2",
-        "definition": "事",
-        "example_en": "It's not really a matter of choice between two equally desirable alternatives here.",
-        "example_zh": "這裡其實並不是兩個同樣理想的選擇之間進行選擇的問題。",
+        "definition": "重要",
+        "example_en": "It doesn't matter what you wear - just as long as you come.",
+        "example_zh": "只要你來，穿甚麼都沒關係。",
         "weird": 0
     },
     {
@@ -32885,8 +32885,8 @@
         "type": "noun",
         "level": "B2",
         "definition": "最大限度",
-        "example_en": "The maximum capacity of this machine has been reached.",
-        "example_zh": "已達到本機的最大容量。",
+        "example_en": "The temperature will reach a maximum of 27°C today.",
+        "example_zh": "今天的最高氣溫將達攝氏27度。",
         "weird": 0
     },
     {
@@ -32895,9 +32895,9 @@
         "word": "May",
         "type": "noun",
         "level": "A1",
-        "definition": "可能",
-        "example_en": "There may be some problems with this plan.",
-        "example_zh": "這個計劃可能存在一些問題。",
+        "definition": "五月",
+        "example_en": "We're supposed to be moving into new offices next May.",
+        "example_zh": "我們預計在下個五月搬進新辦公室。",
         "weird": 0
     },
     {
@@ -32995,8 +32995,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "同時",
-        "example_en": "Meanwhile, he was reading his book and she was watching TV.",
-        "example_zh": "同時，他在看書，她在看電視。",
+        "example_en": "Your computer won't arrive till Thursday. In the meantime, you can use Jude's.",
+        "example_zh": "你的電腦星期四才到。在這段時間裡你可以用祖德的。",
         "weird": 0
     },
     {
@@ -33027,9 +33027,9 @@
         "word": "measure",
         "type": "verb",
         "level": "B1",
-        "definition": "措施",
-        "example_en": "A series of measures have been taken to improve security on flights and in airports across Europe.",
-        "example_zh": "歐洲各地已採取一系列措施來改善航班和機場的安全。",
+        "definition": "測量",
+        "example_en": "This machine measures your heart rate.",
+        "example_zh": "這台機器可測量你的心率。",
         "weird": 0
     },
     {
@@ -33049,7 +33049,7 @@
         "word": "mechanic",
         "type": "noun",
         "level": "B2",
-        "definition": "機械",
+        "definition": "機械師",
         "example_en": "The mechanic was able to fix his car in record time.",
         "example_zh": "機械師能夠在創紀錄的時間內修好他的車。",
         "weird": 0
@@ -33160,8 +33160,8 @@
         "type": "adjective",
         "level": "B1",
         "definition": "中等的",
-        "example_en": "The medium of communication was not always effective.",
-        "example_zh": "溝通媒介並不總是有效的。",
+        "example_en": "He earns a medium amount of money.",
+        "example_zh": "他賺取中等金額的薪水。",
         "weird": 0
     },
     {
@@ -33170,7 +33170,7 @@
         "word": "medium",
         "type": "noun",
         "level": "B2",
-        "definition": "中等的",
+        "definition": "媒介",
         "example_en": "The medium was not suitable for this purpose.",
         "example_zh": "該介質不適合此目的。",
         "weird": 0
@@ -33313,9 +33313,9 @@
         "word": "mention",
         "type": "noun",
         "level": "B1",
-        "definition": "提到",
-        "example_en": "The report mentioned several factors contributing to the problem.",
-        "example_zh": "該報告提到了導致該問題的幾個因素。",
+        "definition": "提及",
+        "example_en": "The story didn't even get a mention in the newspaper.",
+        "example_zh": "該故事甚至沒有在報紙上被提及。",
         "weird": 0
     },
     {
@@ -33335,7 +33335,7 @@
         "word": "menu",
         "type": "noun",
         "level": "A1",
-        "definition": "選單",
+        "definition": "菜單",
         "example_en": "The menu lists all of our special dishes and prices.",
         "example_zh": "菜單列出了我們所有的特色菜餚和價格。",
         "weird": 0
@@ -33380,8 +33380,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "合併",
-        "example_en": "The company was acquired in a merger with another firm.",
-        "example_zh": "該公司是透過與另一家公司合併而被收購的。",
+        "example_en": "They decided to merge the two companies into one.",
+        "example_zh": "他們決定將兩家公司合併起來。",
         "weird": 0
     },
     {
@@ -33511,7 +33511,7 @@
         "word": "midst",
         "type": "noun",
         "level": "C1",
-        "definition": "中間",
+        "definition": "當中",
         "example_en": "The midwife was in the midst of delivering twins when she heard her name being called out from behind her closed door.",
         "example_zh": "當助產士正在接生雙胞胎時，她聽到有人從關著的門後喊她的名字。",
         "weird": 0
@@ -33610,9 +33610,9 @@
         "word": "mill",
         "type": "noun",
         "level": "C1",
-        "definition": "磨",
+        "definition": "磨坊",
         "example_en": "The mill was shut down due to lack of orders.",
-        "example_zh": "由於缺乏訂單，該工廠被關閉。",
+        "example_zh": "由於缺乏訂單，該磨坊被關閉。",
         "weird": 0
     },
     {
@@ -33643,9 +33643,9 @@
         "word": "mind",
         "type": "verb",
         "level": "A2",
-        "definition": "頭腦",
-        "example_en": "I can't think of anything to do with my mind at all.",
-        "example_zh": "我根本想不出任何與我的頭腦有關的事。",
+        "definition": "介意",
+        "example_en": "Do you think he'd mind if I borrowed his book?",
+        "example_zh": "你覺得他會介意我借他的書嗎？",
         "weird": 0
     },
     {
@@ -33654,7 +33654,7 @@
         "word": "mine",
         "type": "noun",
         "level": "B1",
-        "definition": "礦",
+        "definition": "礦井",
         "example_en": "The mine was abandoned after it ran out of coal.",
         "example_zh": "該礦井在煤炭耗盡後被廢棄。",
         "weird": 0
@@ -33775,7 +33775,7 @@
         "word": "minute",
         "type": "adjective",
         "level": "C1",
-        "definition": "分分鐘",
+        "definition": "分鐘",
         "example_en": "It was only a minute before he realized his mistake and apologized to her.",
         "example_zh": "僅僅一分鐘，他就意識到自己的錯誤並向她道歉。",
         "weird": 0
@@ -33896,9 +33896,9 @@
         "word": "mistake",
         "type": "verb",
         "level": "B2",
-        "definition": "錯誤",
-        "example_en": "I made a mistake in my calculations and ended up with incorrect results.",
-        "example_zh": "我在計算中犯了一個錯誤，最後得到了錯誤的結果。",
+        "definition": "誤認",
+        "example_en": "You can't mistake their house - it has a bright yellow front door.",
+        "example_zh": "你不會認錯他們的房子——它的正門是鮮黃色的。",
         "weird": 0
     },
     {
@@ -34127,9 +34127,9 @@
         "word": "monitor",
         "type": "verb",
         "level": "B2",
-        "definition": "監視器",
-        "example_en": "The monitoring of water quality should be continuous and comprehensive.",
-        "example_zh": "水質監測應持續、全面。",
+        "definition": "監視",
+        "example_en": "The CIA were monitoring his phone calls.",
+        "example_zh": "中央情報局正在對他的電話進行監聽。",
         "weird": 0
     },
     {
@@ -34226,9 +34226,9 @@
         "word": "moral",
         "type": "adjective",
         "level": "B2",
-        "definition": "道德",
-        "example_en": "The moral of this story was to be careful what you wish for.",
-        "example_zh": "這個故事的寓意是要小心你的願望。",
+        "definition": "道德的",
+        "example_en": "It's her moral obligation to tell the police what she knows.",
+        "example_zh": "她把所知道的事告訴警方是道義上的責任。",
         "weird": 0
     },
     {
@@ -34457,9 +34457,9 @@
         "word": "mount",
         "type": "verb",
         "level": "B2",
-        "definition": "山",
-        "example_en": "The mountain was shrouded in mist and clouds as it rose into the sky.",
-        "example_zh": "這座山拔地而起，雲霧繚繞。",
+        "definition": "增加",
+        "example_en": "The children's excitement is mounting as Christmas gets nearer.",
+        "example_zh": "隨著聖誕臨近，孩子都越來越興奮。",
         "weird": 0
     },
     {
@@ -34597,11 +34597,11 @@
     {
         "new_id": 3145,
         "id": 3416,
-        "word": "mum",
+        "word": "mom",
         "type": "noun",
         "level": "A1",
         "definition": "媽媽",
-        "example_en": "My mum and I are going to visit my grandparents this weekend.",
+        "example_en": "My mom and I are going to visit my grandparents this weekend.",
         "example_zh": "我和媽媽這個週末要去拜訪我的祖父母。",
         "weird": 0
     },
@@ -34634,8 +34634,8 @@
         "type": "verb",
         "level": "B1",
         "definition": "謀殺",
-        "example_en": "The man was charged with murder for killing his wife in cold blood.",
-        "example_zh": "該男子因冷血殺害妻子而被指控犯有謀殺罪。",
+        "example_en": "Her husband was murdered by gunmen as she watched.",
+        "example_zh": "她親眼目睹丈夫被槍手殺害。",
         "weird": 0
     },
     {
@@ -34688,7 +34688,7 @@
         "word": "musical",
         "type": "noun",
         "level": "B1",
-        "definition": "音樂",
+        "definition": "音樂劇",
         "example_en": "The musical was so popular it sold out in no time at all.",
         "example_zh": "這部音樂劇非常受歡迎，很快就賣完了。",
         "weird": 0
@@ -34798,7 +34798,7 @@
         "word": "naked",
         "type": "adjective",
         "level": "B2",
-        "definition": "裸",
+        "definition": "赤裸的",
         "example_en": "The naked truth about his past was revealed in her eyes.",
         "example_zh": "他的過去的赤裸裸的真相在她的眼中顯露出來。",
         "weird": 0
@@ -34840,7 +34840,7 @@
         "new_id": 3167,
         "id": 3438,
         "word": "narrative",
-        "type": "adjective",
+        "type": "noun",
         "level": "B1",
         "definition": "敘述",
         "example_en": "The narrative of her life was filled with many interesting events.",
@@ -34897,9 +34897,9 @@
         "word": "national",
         "type": "noun",
         "level": "B2",
-        "definition": "國家的",
-        "example_en": "The national anthem of Canada was composed by Calixa Lavalle and later arranged by Sir Ernest Belyea.",
-        "example_zh": "加拿大國歌由卡利克薩·拉瓦萊創作，後來由歐內斯特·貝利亞爵士改編。",
+        "definition": "國民",
+        "example_en": "All foreign nationals were advised to leave the country following the outbreak of civil war.",
+        "example_zh": "在內戰爆發後，所有外國公民都被建議離開該國。",
         "weird": 0
     },
     {
@@ -34930,7 +34930,7 @@
         "word": "native",
         "type": "noun",
         "level": "B1",
-        "definition": "本國的",
+        "definition": "本國人",
         "example_en": "The native of this area has always been proud to call it home.",
         "example_zh": "這個地區的當地人一直自豪地稱之為家。",
         "weird": 0
@@ -34964,8 +34964,8 @@
         "type": "noun",
         "level": "A2",
         "definition": "自然",
-        "example_en": "The natural world can be both beautiful and dangerous.",
-        "example_zh": "自然世界既美麗又危險。",
+        "example_en": "This new technique of artificially growing cells copies what actually happens in nature.",
+        "example_zh": "這種人工培育細胞的新技術是模仿自然界實際發生的現象。",
         "weird": 0
     },
     {
@@ -35008,8 +35008,8 @@
         "type": "adverb",
         "level": "A1",
         "definition": "靠近",
-        "example_en": "The cat was near to jumping on the table.",
-        "example_zh": "那隻貓差點跳到桌上。",
+        "example_en": "Is there a restaurant near here?",
+        "example_zh": "這裡附近有餐廳嗎？",
         "weird": 0
     },
     {
@@ -35173,8 +35173,8 @@
         "type": "noun",
         "level": "B2",
         "definition": "談判",
-        "example_en": "The company has to negotiate with its suppliers about price increases.",
-        "example_zh": "該公司必須與供應商就漲價事宜進行談判。",
+        "example_en": "The agreement was reached after a series of difficult negotiations.",
+        "example_zh": "該協議是經歷了一系列艱難的談判之後達成的。",
         "weird": 0
     },
     {
@@ -35205,7 +35205,7 @@
         "word": "neighbouring",
         "type": "adjective",
         "level": "C1",
-        "definition": "鄰接",
+        "definition": "鄰接的",
         "example_en": "The neighbouring country was in turmoil and chaos.",
         "example_zh": "鄰國陷入動盪和混亂。",
         "weird": 0
@@ -35272,8 +35272,8 @@
         "type": "noun",
         "level": "B1",
         "definition": "網",
-        "example_en": "The company has signed up for online advertising and now runs its own website with which it can reach customers directly through email or social media networks such as Facebook and Twitter.",
-        "example_zh": "該公司已簽約在線廣告，現在經營自己的網站，可以透過電子郵件或 Facebook 和 Twitter 等社交媒體網路直接聯繫客戶。",
+        "example_en": "Dolphins often get tangled in the nets that are used to catch tuna fish.",
+        "example_zh": "海豚經常被困在用來捕撈鮪魚的網中。",
         "weird": 0
     },
     {
@@ -35305,8 +35305,8 @@
         "type": "adverb",
         "level": "A1",
         "definition": "絕不",
-        "example_en": "Never do anything to hurt your family members.",
-        "example_zh": "切勿做任何傷害家人的事。",
+        "example_en": "Never gonna give you up, never gonna let you down.",
+        "example_zh": "絕對不會放棄你，絕對不讓你傷心。",
         "weird": 0
     },
     {
@@ -35326,7 +35326,7 @@
         "word": "newly",
         "type": "adverb",
         "level": "B2",
-        "definition": "新",
+        "definition": "最近",
         "example_en": "The newly appointed head of state was greeted with applause and cheers at his inauguration ceremony yesterday evening.",
         "example_zh": "昨天晚上，新任命的國家元首在就職典禮上受到熱烈掌聲和歡呼。",
         "weird": 0
@@ -35390,7 +35390,7 @@
         "new_id": 3217,
         "id": 3497,
         "word": "next",
-        "type": "noun",
+        "type": "pronoun",
         "level": "B1",
         "definition": "下一個",
         "example_en": "The next day he was arrested for his involvement in the crime.",
@@ -35425,7 +35425,7 @@
         "word": "niche",
         "type": "noun",
         "level": "C1",
-        "definition": "利基",
+        "definition": "小環境",
         "example_en": "The company has carved out its niche in the market by offering unique products at competitive prices.",
         "example_zh": "該公司透過以具有競爭力的價格提供獨特的產品在市場上佔有一席之地。",
         "weird": 0
@@ -35711,9 +35711,9 @@
         "word": "normal",
         "type": "noun",
         "level": "B1",
-        "definition": "普通的",
-        "example_en": "The normal body temperature of humans is around 37 degrees Celsius.",
-        "example_zh": "人類的正常體溫在攝氏37度左右。",
+        "definition": "正常",
+        "example_en": "Things soon returned to normal.",
+        "example_zh": "事情很快恢復了正常。",
         "weird": 0
     },
     {
@@ -35755,7 +35755,7 @@
         "word": "north",
         "type": "noun",
         "level": "A1",
-        "definition": "北",
+        "definition": "北部",
         "example_en": "The north of England has many beautiful places to visit.",
         "example_zh": "英格蘭北部有許多美麗的地方值得遊覽。",
         "weird": 0
@@ -35964,7 +35964,7 @@
         "word": "nuclear",
         "type": "adjective",
         "level": "B1",
-        "definition": "核",
+        "definition": "核能的",
         "example_en": "The nuclear power plant was shut down due to safety concerns.",
         "example_zh": "出於安全考慮，核電站被關閉。",
         "weird": 0
@@ -35975,7 +35975,7 @@
         "word": "number",
         "type": "noun",
         "level": "A1",
-        "definition": "數位",
+        "definition": "數量",
         "example_en": "The number of people in this city has increased by 20% over the past year.",
         "example_zh": "這座城市的人口在過去一年增加了20%。",
         "weird": 0
@@ -36008,7 +36008,7 @@
         "word": "nursery",
         "type": "noun",
         "level": "C1",
-        "definition": "苗圃",
+        "definition": "托兒所",
         "example_en": "The nursery was full of children and their parents.",
         "example_zh": "托兒所擠滿了孩子和他們的家長。",
         "weird": 0
@@ -36129,9 +36129,9 @@
         "word": "oblige",
         "type": "verb",
         "level": "C1",
-        "definition": "義務",
-        "example_en": "You have no obligation to help me with my homework.",
-        "example_zh": "你沒有義務幫我做作業。",
+        "definition": "強迫",
+        "example_en": "The law obliges companies to pay decent wages to their employees.",
+        "example_zh": "法律強制公司支付合理的工資給員工。",
         "weird": 0
     },
     {
@@ -36173,7 +36173,7 @@
         "word": "obsess",
         "type": "verb",
         "level": "C1",
-        "definition": "纏住",
+        "definition": "癡迷於",
         "example_en": "I was obsessed with getting into Harvard.",
         "example_zh": "我癡迷於進入哈佛。",
         "weird": 0
@@ -36294,7 +36294,7 @@
         "word": "occurrence",
         "type": "noun",
         "level": "C1",
-        "definition": "發生",
+        "definition": "事件",
         "example_en": "A series of tragic occurrences have shaken public confidence in government officials' ability to protect citizens.",
         "example_zh": "一連串悲劇動搖了公眾對政府官員保護公民能力的信心。",
         "weird": 0
@@ -36778,9 +36778,9 @@
         "word": "opponent",
         "type": "noun",
         "level": "B2",
-        "definition": "他們會反對",
-        "example_en": "The opposition parties will oppose this policy change.",
-        "example_zh": "反對黨將反對這項政策改變。",
+        "definition": "反對者",
+        "example_en": "Leading opponents of the proposed cuts in defence spending will meet later today.",
+        "example_zh": "反對削減國防開支建議的帶頭人將在今天晚些時候會面。",
         "weird": 0
     },
     {
@@ -37086,7 +37086,7 @@
         "word": "orientation",
         "type": "noun",
         "level": "C1",
-        "definition": "方向",
+        "definition": "目標",
         "example_en": "The orientation of this new policy was to increase public awareness about climate change and its effects on society.",
         "example_zh": "這項新政策的目標是提高公眾對氣候變遷及其對社會影響的認識。",
         "weird": 0
@@ -37131,8 +37131,8 @@
         "type": "verb",
         "level": "C1",
         "definition": "起源",
-        "example_en": "The company's origins can be traced back to its humble beginnings in 2005.",
-        "example_zh": "該公司的起源可以追溯到 2005 年。",
+        "example_en": "Although the technology originated in the UK, it has been developed in the US",
+        "example_zh": "儘管這項技術起源於英國，但它在美國得到了發展。",
         "weird": 0
     },
     {
@@ -37546,7 +37546,7 @@
         "new_id": 3413,
         "id": 3719,
         "word": "own",
-        "type": "adjective",
+        "type": "determiner",
         "level": "A1",
         "definition": "自己的",
         "example_en": "The cat has its own special way of doing things.",
@@ -37625,9 +37625,9 @@
         "word": "pack",
         "type": "noun",
         "level": "B1",
-        "definition": "盒",
-        "example_en": "The box was packed with books and magazines.",
-        "example_zh": "盒子裡裝滿了書籍和雜誌。",
+        "definition": "一套",
+        "example_en": "The information pack consists of a brochure and a map.",
+        "example_zh": "那套資料包括一本小冊子和一張地圖。",
         "weird": 0
     },
     {
@@ -37636,7 +37636,7 @@
         "word": "pack",
         "type": "verb",
         "level": "A2",
-        "definition": "盒",
+        "definition": "打包",
         "example_en": "He placed all his possessions in a cardboard box and then packed them into one of several suitcases.",
         "example_zh": "他把所有的東西都放進一個紙箱裡，然後裝進幾個行李箱裡的一個。",
         "weird": 0
@@ -37669,7 +37669,7 @@
         "word": "packet",
         "type": "noun",
         "level": "B2",
-        "definition": "包包",
+        "definition": "包裹",
         "example_en": "The bag was packed with all sorts of items in various packets and bags.",
         "example_zh": "袋子裡裝滿了各種包裹和袋子中的各種物品。",
         "weird": 0
@@ -37724,7 +37724,7 @@
         "word": "paint",
         "type": "noun",
         "level": "A1",
-        "definition": "畫",
+        "definition": "顏料",
         "example_en": "The children were painting pictures on their hands with paint.",
         "example_zh": "孩子們用顏料在手上畫畫。",
         "weird": 0
@@ -37955,9 +37955,9 @@
         "word": "park",
         "type": "verb",
         "level": "A1",
-        "definition": "公園",
-        "example_en": "The children are playing in the park.",
-        "example_zh": "孩子們正在公園裡玩耍。",
+        "definition": "停泊",
+        "example_en": "The car was parked in front of the house.",
+        "example_zh": "汽車停在房子前面。",
         "weird": 0
     },
     {
@@ -37967,8 +37967,8 @@
         "type": "noun",
         "level": "A2",
         "definition": "停車處",
-        "example_en": "The car was parked in front of the house.",
-        "example_zh": "汽車停在房子前面。",
+        "example_en": "He was fined for illegal parking.",
+        "example_zh": "他因違法停車而被罰款。",
         "weird": 0
     },
     {
@@ -37988,7 +37988,7 @@
         "word": "parliamentary",
         "type": "adjective",
         "level": "C1",
-        "definition": "議會",
+        "definition": "議會的",
         "example_en": "The parliamentary system of government has been in place for over 20 years and remains popular with voters.",
         "example_zh": "議會制政府已經實施了20多年，並且仍然受到選民的歡迎。",
         "weird": 0
@@ -38142,9 +38142,9 @@
         "word": "pass",
         "type": "noun",
         "level": "B1",
-        "definition": "經過",
-        "example_en": "The bridge was built to pass over the river.",
-        "example_zh": "這座橋是為了跨越河流而建造的。",
+        "definition": "及格",
+        "example_en": "I got a pass in my Literature course.",
+        "example_zh": "我修習的文學課程考試及格了。",
         "weird": 0
     },
     {
@@ -38164,9 +38164,9 @@
         "word": "passage",
         "type": "noun",
         "level": "B2",
-        "definition": "頻道",
-        "example_en": "The channel has been blocked by government authorities in several countries as part of its campaign to shut down pirate websites and online video services.",
-        "example_zh": "作為關閉盜版網站和線上視訊服務行動的一部分，該頻道已被多個國家的政府當局封鎖。",
+        "definition": "通道",
+        "example_en": "A narrow passage led directly through the house into the garden.",
+        "example_zh": "一條狹窄的通道直接從房子通向花園。",
         "weird": 0
     },
     {
@@ -38186,7 +38186,7 @@
         "word": "passing",
         "type": "noun",
         "level": "C1",
-        "definition": "透過",
+        "definition": "通過",
         "example_en": "The passing of time has not dimmed his memory.",
         "example_zh": "時間的流逝並沒有沖淡他的記憶。",
         "weird": 0
@@ -38362,9 +38362,9 @@
         "word": "patient",
         "type": "adjective",
         "level": "B2",
-        "definition": "病人",
-        "example_en": "The patient was in great pain and needed immediate medical attention.",
-        "example_zh": "病人感到非常痛苦，需要立即就醫。",
+        "definition": "patient",
+        "example_en": "Be patient with her - she's very young.",
+        "example_zh": "對她耐心點——她還很年輕。",
         "weird": 0
     },
     {
@@ -38385,8 +38385,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "巡邏",
-        "example_en": "The patrol was on high alert for any signs of trouble.",
-        "example_zh": "巡邏隊對任何麻煩跡象保持高度戒備。",
+        "example_en": "Three reconnaissance aircraft are permanently on patrol.",
+        "example_zh": "三架偵察飛機在不停巡邏。",
         "weird": 0
     },
     {
@@ -38396,8 +38396,8 @@
         "type": "verb",
         "level": "C1",
         "definition": "巡邏",
-        "example_en": "The police will conduct a patrol of the area tonight.",
-        "example_zh": "警方今晚將在該地區進行巡邏。",
+        "example_en": "The whole town is patrolled by police because of the possibility of riots.",
+        "example_zh": "由於可能爆發暴動，整個城鎮都由警方巡邏。",
         "weird": 0
     },
     {
@@ -38407,8 +38407,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "贊助人",
-        "example_en": "The company has been patronized by several high-profile figures in the industry.",
-        "example_zh": "該公司得到了多位業內知名人士的惠顧。",
+        "example_en": "The Princess Royal is a well-known patron of several charities.",
+        "example_zh": "眾所周知，長公主是好幾家慈善機構的贊助人。",
         "weird": 0
     },
     {
@@ -38450,9 +38450,9 @@
         "word": "pay",
         "type": "noun",
         "level": "A2",
-        "definition": "支付",
-        "example_en": "The company will pay its employees on time every month.",
-        "example_zh": "公司每月都會準時支付員工薪水。",
+        "definition": "薪金",
+        "example_en": "It's a nice job but the pay is appalling.",
+        "example_zh": "這份工作不錯，但工資低得不像話。",
         "weird": 0
     },
     {
@@ -38605,18 +38605,18 @@
         "type": "adjective",
         "level": "A2",
         "definition": "百分比",
-        "example_en": "The per cent of people who are overweight in this country has risen to 30%.",
-        "example_zh": "這個國家超重的人比例已經上升到30%。",
+        "example_en": "The car was travelling at 70 miles per hour (70 mph).",
+        "example_zh": "這輛車以每小時70英里的速度行駛。",
         "weird": 0
     },
     {
         "new_id": 3510,
         "id": 3821,
-        "word": "per cent",
+        "word": "percent",
         "type": "adverb",
         "level": "A2",
         "definition": "百分比",
-        "example_en": "The price of petrol has risen by 10 per cent this month.",
+        "example_en": "The price of petrol has risen by 10 percent this month.",
         "example_zh": "本月汽油價格上漲了 10%。",
         "weird": 0
     },
@@ -39132,7 +39132,7 @@
         "word": "pile",
         "type": "noun",
         "level": "B2",
-        "definition": "樁",
+        "definition": "堆積",
         "example_en": "The pile of books on her desk was so high she could hardly see through it.",
         "example_zh": "桌上的書堆太高了，她幾乎看不透。",
         "weird": 0
@@ -39143,7 +39143,7 @@
         "word": "pile",
         "type": "verb",
         "level": "B2",
-        "definition": "樁",
+        "definition": "堆起",
         "example_en": "The old man piled stones on top of each other to create a tombstone for his deceased wife.",
         "example_zh": "老人把石頭堆起來，為已故的妻子立了一座墓碑。",
         "weird": 0
@@ -39154,7 +39154,7 @@
         "word": "pill",
         "type": "noun",
         "level": "B2",
-        "definition": "丸",
+        "definition": "藥丸",
         "example_en": "The pill was taken to relieve her pain.",
         "example_zh": "服藥是為了緩解她的疼痛。",
         "weird": 0
@@ -39187,9 +39187,9 @@
         "word": "pin",
         "type": "verb",
         "level": "B1",
-        "definition": "別針",
-        "example_en": "She wore her wedding pin on a ribbon around her neck for Mother's Day.",
-        "example_zh": "母親節那天，她將結婚別針綁在脖子上的絲帶上。",
+        "definition": "別住",
+        "example_en": "She had pinned up her beautiful long hair.",
+        "example_zh": "她把美麗的長髮別了起來。",
         "weird": 0
     },
     {
@@ -39220,7 +39220,7 @@
         "word": "pioneer",
         "type": "noun",
         "level": "C1",
-        "definition": "先鋒",
+        "definition": "先驅",
         "example_en": "The pioneers of modern medicine are being hailed as heroes by their peers and patients alike.",
         "example_zh": "現代醫學的先驅們被同行和病人譽為英雄。",
         "weird": 0
@@ -39231,7 +39231,7 @@
         "word": "pipe",
         "type": "noun",
         "level": "B1",
-        "definition": "管道",
+        "definition": "管線",
         "example_en": "The pipe was blocked by rust and had to be replaced.",
         "example_zh": "管道被生鏽堵塞，必須更換。",
         "weird": 0
@@ -39242,7 +39242,7 @@
         "word": "pipeline",
         "type": "noun",
         "level": "C1",
-        "definition": "管道",
+        "definition": "管線",
         "example_en": "The pipeline was shut down due to maintenance work.",
         "example_zh": "由於維修工作，該管道已關閉。",
         "weird": 0
@@ -39265,8 +39265,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "坑",
-        "example_en": "The pit of my stomach turned cold as I realized what was about to happen.",
-        "example_zh": "當我意識到即將發生什麼事時，我的胃部變冷了。",
+        "example_en": "They'd dug a shallow pit and left the bodies in it.",
+        "example_zh": "他們挖了一個淺坑，把屍體扔在裡面。",
         "weird": 0
     },
     {
@@ -39462,9 +39462,9 @@
         "word": "play",
         "type": "noun",
         "level": "A1",
-        "definition": "玩",
-        "example_en": "I like to play computer games with my friends at home every day.",
-        "example_zh": "我喜歡每天在家裡和朋友一起玩電腦遊戲。",
+        "definition": "戲劇",
+        "example_en": "Did you see the play on Thursday?",
+        "example_zh": "你是星期四去看的那齣戲嗎？",
         "weird": 0
     },
     {
@@ -39529,8 +39529,8 @@
         "type": "exclamation",
         "level": "A1",
         "definition": "請",
-        "example_en": "Please!  (C)",
-        "example_zh": "請！  (三)",
+        "example_en": "Could I have two coffees and a tea, please?",
+        "example_zh": "請給我兩杯咖啡、一杯茶好嗎？",
         "weird": 0
     },
     {
@@ -39539,9 +39539,9 @@
         "word": "please",
         "type": "verb",
         "level": "A2",
-        "definition": "請",
-        "example_en": "Please be seated and keep quiet until I arrive.",
-        "example_zh": "請坐下並保持安靜，直到我到達。",
+        "definition": "使滿意",
+        "example_en": "I only got married to please my parents.",
+        "example_zh": "我結婚只是為了取悅我的父母。",
         "weird": 0
     },
     {
@@ -39704,7 +39704,7 @@
         "word": "pointed",
         "type": "adjective",
         "level": "B2",
-        "definition": "尖",
+        "definition": "尖銳的",
         "example_en": "The pointed tip of the arrow pierced through his flesh with great force.",
         "example_zh": "尖銳的箭尖以巨大的力量刺穿了他的肉體。",
         "weird": 0
@@ -39750,7 +39750,7 @@
         "level": "C1",
         "definition": "極",
         "example_en": "The pole-vaulter cleared 5. 90 meters in his winning vault at the Olympic Games.",
-        "example_zh": "這位撐竿跳高運動員在奧運跳馬比賽中取得了 5. 90 公尺的成績。",
+        "example_zh": "這位撐竿跳高運動員在奧運比賽中取得了 5. 90 公尺的成績。",
         "weird": 0
     },
     {
@@ -39836,7 +39836,7 @@
         "word": "poll",
         "type": "noun",
         "level": "C1",
-        "definition": "輪詢",
+        "definition": "調查",
         "example_en": "The poll of public opinion was conducted by telephone and online surveys.",
         "example_zh": "此次民意調查採取電話調查和網路調查的方式進行。",
         "weird": 0
@@ -39891,7 +39891,7 @@
         "word": "pop",
         "type": "adjective",
         "level": "A2",
-        "definition": "流行音樂",
+        "definition": "流行的",
         "example_en": "The pop music scene in New York City has been thriving for decades.",
         "example_zh": "紐約市的流行音樂界幾十年來一直蓬勃發展。",
         "weird": 0
@@ -39913,9 +39913,9 @@
         "word": "pop",
         "type": "verb",
         "level": "C1",
-        "definition": "流行音樂",
-        "example_en": "The pop music scene has been dominated by artists like Taylor Swift and Bruno Mars in recent years.",
-        "example_zh": "近年來，流行音樂界一直由泰勒·斯威夫特和布魯諾·馬爾斯等藝術家主導。",
+        "definition": "發出砰的一聲",
+        "example_en": "The kids were popping all the birthday balloons.",
+        "example_zh": "孩子們把所有的生日氣球都弄爆了。",
         "weird": 0
     },
     {
@@ -39957,7 +39957,7 @@
         "word": "portfolio",
         "type": "noun",
         "level": "C1",
-        "definition": "資料夾",
+        "definition": "投資組合",
         "example_en": "The portfolio contains all of his financial statements and tax returns for the past five years.",
         "example_zh": "該投資組合包含他過去五年的所有財務報表和納稅申報表。",
         "weird": 0
@@ -39990,7 +39990,7 @@
         "word": "portray",
         "type": "verb",
         "level": "C1",
-        "definition": "寫真",
+        "definition": "描繪",
         "example_en": "The photographer portrayed her in black and white.",
         "example_zh": "攝影師用黑白照片描繪了她。",
         "weird": 0
@@ -40079,8 +40079,8 @@
         "type": "adverb",
         "level": "B1",
         "definition": "可能",
-        "example_en": "It's possible it will rain tonight.",
-        "example_zh": "今晚可能會下雨。",
+        "example_en": "He may possibly decide not to come, in which case there's no problem.",
+        "example_zh": "他可能會決定不來，這樣就沒問題了。",
         "weird": 0
     },
     {
@@ -40266,18 +40266,18 @@
         "type": "noun",
         "level": "A1",
         "definition": "實踐",
-        "example_en": "The children were practicing their songs for the concert.",
-        "example_zh": "孩子們正在為音樂會練習歌曲。",
+        "example_en": "How do you intend to put these proposals into practice, Mohamed?",
+        "example_zh": "穆罕默德，你打算如何把這些計劃付諸實行？",
         "weird": 0
     },
     {
         "new_id": 3661,
         "id": 3988,
-        "word": "practise",
+        "word": "practice",
         "type": "verb",
         "level": "A1",
         "definition": "實踐",
-        "example_en": "The children practise singing in class every day.",
+        "example_en": "The children practice singing in class every day.",
         "example_zh": "孩子們每天在課堂上練習唱歌。",
         "weird": 0
     },
@@ -40397,7 +40397,7 @@
         "word": "precisely",
         "type": "adverb",
         "level": "B2",
-        "definition": "恰恰",
+        "definition": "準確地",
         "example_en": "The precise timing of his arrival was crucial to our plan.",
         "example_zh": "他到達的準確時間對我們的計劃至關重要。",
         "weird": 0
@@ -40452,9 +40452,9 @@
         "word": "predictable",
         "type": "adjective",
         "level": "B2",
-        "definition": "可預測的",
-        "example_en": "The weather forecast was not very reliable and could be considered somewhat predictable.",
-        "example_zh": "天氣預報不太可靠，可以認為有一定的預測性。",
+        "definition": "可預計的",
+        "example_en": "Comets appear at predictable times.",
+        "example_zh": "彗星在預計的時間出現。",
         "weird": 0
     },
     {
@@ -40508,8 +40508,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "懷孕",
-        "example_en": "The woman was pregnant with twins and had to be hospitalized for her own safety as well as the babies'.",
-        "example_zh": "這名婦女懷上了雙胞胎，為了自己和嬰兒的安全，必須住院治療。",
+        "example_en": "Most women feel sick in the mornings during their first months of pregnancy.",
+        "example_zh": "大多數女性在懷孕初期早上都會感到噁心。",
         "weird": 0
     },
     {
@@ -40650,7 +40650,7 @@
         "word": "present",
         "type": "adjective",
         "level": "A1",
-        "definition": "展示",
+        "definition": "現在的",
         "example_en": "The present exhibition of modern art in our city has attracted many visitors from all over the world.",
         "example_zh": "本屆我市現代藝術展吸引了來自世界各地的許多參觀者。",
         "weird": 0
@@ -40661,9 +40661,9 @@
         "word": "presentation",
         "type": "noun",
         "level": "B1",
-        "definition": "推介會",
-        "example_en": "The company will be presenting at this year's trade show presentation on Monday afternoon.",
-        "example_zh": "該公司將於週一下午在今年的貿易展上進行展示。",
+        "definition": "報告",
+        "example_en": "The speaker gave an interesting presentation on urban transport.",
+        "example_zh": "演講者針對城市交通發表了有趣的談話。",
         "weird": 0
     },
     {
@@ -40750,8 +40750,8 @@
         "type": "noun",
         "level": "B1",
         "definition": "按",
-        "example_en": "The press of people in front made it difficult to get on board.",
-        "example_zh": "前面人潮擁擠，很難上車。",
+        "example_en": "To start the machine, just give this button a press.",
+        "example_zh": "要啟動機器，只需按一下這個按鈕。",
         "weird": 0
     },
     {
@@ -40804,7 +40804,7 @@
         "word": "presume",
         "type": "verb",
         "level": "C1",
-        "definition": "怙",
+        "definition": "假定",
         "example_en": "He presumed to know what I wanted and acted accordingly.",
         "example_zh": "他假定知道我想要什麼並採取相應的行動。",
         "weird": 0
@@ -40925,9 +40925,9 @@
         "word": "price",
         "type": "verb",
         "level": "B2",
-        "definition": "價格",
-        "example_en": "The price of oil has risen sharply in recent months.",
-        "example_zh": "近幾個月來石油價格大幅上漲。",
+        "definition": "定價",
+        "example_en": "The company needs to price its products competitively.",
+        "example_zh": "公司需要以有競爭力的價格定價其產品。",
         "weird": 0
     },
     {
@@ -40937,8 +40937,8 @@
         "type": "noun",
         "level": "B2",
         "definition": "自豪",
-        "example_en": "The pride of being able lolcatting in public was hard to beat.",
-        "example_zh": "能夠在公共場合露面的自豪感是無與倫比的。",
+        "example_en": "The pride of being able to speak English in public was hard to beat.",
+        "example_zh": "能夠在公共場合說英語的自豪感是無與倫比的。",
         "weird": 0
     },
     {
@@ -41046,9 +41046,9 @@
         "word": "print",
         "type": "verb",
         "level": "A2",
-        "definition": "列印",
-        "example_en": "The printer will print out this document for you in just one minute.",
-        "example_zh": "印表機只需一分鐘即可為您列印此文件。",
+        "definition": "印刷字體",
+        "example_en": "The title is in bold print.",
+        "example_zh": "標題是粗體字。",
         "weird": 0
     },
     {
@@ -41178,7 +41178,7 @@
         "word": "probe",
         "type": "noun",
         "level": "C1",
-        "definition": "探測",
+        "definition": "探測器",
         "example_en": "The probe was sent to Mars in 2018.",
         "example_zh": "該探測器於 2018 年發送到火星。",
         "weird": 0
@@ -41299,9 +41299,9 @@
         "word": "produce",
         "type": "noun",
         "level": "B2",
-        "definition": "生產",
-        "example_en": "The company has to produce more goods in order to meet demand.",
-        "example_zh": "該公司必須生產更多的商品以滿足需求。",
+        "definition": "農產品",
+        "example_en": "The company has to produce more produce in order to meet demand.",
+        "example_zh": "該公司必須生產更多的農產品以滿足需求。",
         "weird": 0
     },
     {
@@ -41409,7 +41409,7 @@
         "word": "profile",
         "type": "noun",
         "level": "A2",
-        "definition": "輪廓",
+        "definition": "傳略",
         "example_en": "The profile of this new species has been established by scientists.",
         "example_zh": "科學家已經確定了這個新物種的概況。",
         "weird": 0
@@ -41461,12 +41461,12 @@
     {
         "new_id": 3769,
         "id": 4107,
-        "word": "programme",
+        "word": "program",
         "type": "noun",
         "level": "A1",
         "definition": "程式",
-        "example_en": "The programme was designed to improve students' computer skills.",
-        "example_zh": "該計劃旨在提高學生的電腦技能。",
+        "example_en": "The program contained many bugs.",
+        "example_zh": "該程式包含許多錯誤。",
         "weird": 0
     },
     {
@@ -41497,7 +41497,7 @@
         "word": "progressive",
         "type": "adjective",
         "level": "B2",
-        "definition": "進步",
+        "definition": "逐步的",
         "example_en": "The progressive decline in sales has led to redundancies across the company.",
         "example_zh": "銷售額的逐步下降導致整個公司裁員。",
         "weird": 0
@@ -41959,7 +41959,7 @@
         "word": "pub",
         "type": "noun",
         "level": "A2",
-        "definition": "酒吧",
+        "definition": "（英國的）酒吧",
         "example_en": "I went to my local pub for some drinks after work.",
         "example_zh": "下班後我去當地的酒吧喝了點酒。",
         "weird": 0
@@ -41971,8 +41971,8 @@
         "type": "adjective",
         "level": "A2",
         "definition": "民眾",
-        "example_en": "The public are very excited about this new policy.",
-        "example_zh": "公眾對這項新政策感到非常興奮。",
+        "example_en": "Is it really in the public interest to publish this information?",
+        "example_zh": "公佈這件消息真的對民眾有利嗎？",
         "weird": 0
     },
     {
@@ -42245,7 +42245,7 @@
         "word": "push",
         "type": "noun",
         "level": "B1",
-        "definition": "推",
+        "definition": "推動",
         "example_en": "The push for more affordable housing has been building up in recent years.",
         "example_zh": "近年來，對更多經濟適用房的推動一直在不斷加強。",
         "weird": 0
@@ -42278,7 +42278,7 @@
         "word": "puzzle",
         "type": "noun",
         "level": "B2",
-        "definition": "謎",
+        "definition": "謎團",
         "example_en": "The puzzle of his absence was never solved.",
         "example_zh": "他缺席的謎團始終沒有得到解決。",
         "weird": 0
@@ -42521,8 +42521,8 @@
         "type": "noun",
         "level": "B1",
         "definition": "引用",
-        "example_en": "The article was full of quotes from experts in various fields.",
-        "example_zh": "這篇文章充滿了各領域專家的引述。",
+        "example_en": "He's always quoting from the Bible.",
+        "example_zh": "他總是引用《聖經》中的話。",
         "weird": 0
     },
     {
@@ -42542,7 +42542,7 @@
         "word": "race",
         "type": "noun",
         "level": "A2",
-        "definition": "種族",
+        "definition": "賽跑",
         "example_en": "The race was won by Smith in 47 seconds.",
         "example_zh": "史密斯以 47 秒的成績贏得了比賽。",
         "weird": 0
@@ -42553,9 +42553,9 @@
         "word": "race",
         "type": "verb",
         "level": "A2",
-        "definition": "種族",
-        "example_en": "The race between black and white Americans has been going on for decades.",
-        "example_zh": "美國黑人和白人之間的種族競爭已經持續了幾十年。",
+        "definition": "參加比賽",
+        "example_en": "He has been racing for over ten years.",
+        "example_zh": "他已經有十年多的賽齡了。",
         "weird": 0
     },
     {
@@ -42564,7 +42564,7 @@
         "word": "racial",
         "type": "adjective",
         "level": "B2",
-        "definition": "種族",
+        "definition": "種族的",
         "example_en": "The racial tensions in this part of town are high.",
         "example_zh": "該鎮這一區的種族關係十分緊張。",
         "weird": 0
@@ -42575,9 +42575,9 @@
         "word": "racing",
         "type": "noun",
         "level": "B1",
-        "definition": "賽車",
-        "example_en": "The racing car was so fast it could reach 300 miles per hour!",
-        "example_zh": "賽車速度極快，時速可達300英里！",
+        "definition": "比賽",
+        "example_en": "I enjoy cycling, but I'm not interested in racing.",
+        "example_zh": "我喜歡騎自行車，但對自行車賽不感興趣。",
         "weird": 0
     },
     {
@@ -42605,10 +42605,10 @@
     {
         "new_id": 3873,
         "id": 4220,
-        "word": "racist",
+        "word": "racism",
         "type": "noun",
         "level": "B2",
-        "definition": "種族主義的",
+        "definition": "種族主義",
         "example_en": "The book argues against all forms of racism and sexism.",
         "example_zh": "這本書反對一切形式的種族主義和性別歧視。",
         "weird": 0
@@ -42696,7 +42696,7 @@
         "word": "rail",
         "type": "noun",
         "level": "B2",
-        "definition": "軌",
+        "definition": "軌道",
         "example_en": "The train was delayed by rail problems in New York City.",
         "example_zh": "火車因紐約市鐵路問題而延誤。",
         "weird": 0
@@ -42773,9 +42773,9 @@
         "word": "rank",
         "type": "noun",
         "level": "B2",
-        "definition": "秩",
-        "example_en": "The company has decided to rank its employees according to their performance and contributions.",
-        "example_zh": "公司決定根據員工的表現和貢獻對員工進行排名。",
+        "definition": "等級",
+        "example_en": "Consumer preferences were placed in rank order from 1 to 5.",
+        "example_zh": "顧客對產品的喜好程度從一到五劃分級別。",
         "weird": 0
     },
     {
@@ -42784,7 +42784,7 @@
         "word": "rank",
         "type": "verb",
         "level": "B2",
-        "definition": "秩",
+        "definition": "排名",
         "example_en": "The companys management has ranked all departments according to performance and contribution over time.",
         "example_zh": "公司管理層根據績效和貢獻對所有部門進行了排名。",
         "weird": 0
@@ -42872,7 +42872,7 @@
         "word": "rat",
         "type": "noun",
         "level": "B2",
-        "definition": "鼠",
+        "definition": "老鼠",
         "example_en": "The rat was gnawing at the cheese in his cage.",
         "example_zh": "老鼠正在啃籠子裡的起司。",
         "weird": 0
@@ -42896,7 +42896,7 @@
         "level": "A2",
         "definition": "相當",
         "example_en": "The weather was rather cold yesterday.",
-        "example_zh": "昨天天氣比較冷。",
+        "example_zh": "昨天天氣相當冷。",
         "weird": 0
     },
     {
@@ -42962,7 +42962,7 @@
         "level": "B2",
         "definition": "抵達",
         "example_en": "The plane reached its destination safely and landed at 10:35 p.m. local time.",
-        "example_zh": "飛機於晚上10點35分安全抵達目的地並降落。當地時間。",
+        "example_zh": "飛機於當地時間晚上10點35分安全抵達目的地並降落。",
         "weird": 0
     },
     {
@@ -43027,8 +43027,8 @@
         "type": "noun",
         "level": "A1",
         "definition": "閱讀",
-        "example_en": "Reading books can be very relaxing and enjoyable.[]",
-        "example_zh": "閱讀可以讓人非常放鬆和享受。 []",
+        "example_en": "Reading books can be very relaxing and enjoyable.",
+        "example_zh": "閱讀可以讓人非常放鬆和享受。",
         "weird": 0
     },
     {
@@ -43191,7 +43191,7 @@
         "word": "rebel",
         "type": "noun",
         "level": "C1",
-        "definition": "反叛",
+        "definition": "反叛者",
         "example_en": "The rebels were determined to overthrow their oppressive regime and establish a new order of freedom and equality.",
         "example_zh": "起義者決心推翻他們的壓迫政權，建立自由平等的新秩序。",
         "weird": 0
@@ -43345,7 +43345,7 @@
         "word": "recognition",
         "type": "noun",
         "level": "B2",
-        "definition": "認出",
+        "definition": "認識",
         "example_en": "The recognition of this fact was slow in coming.",
         "example_zh": "人們對這一事實的認識進展緩慢。",
         "weird": 0
@@ -43422,7 +43422,7 @@
         "word": "recording",
         "type": "noun",
         "level": "A2",
-        "definition": "記錄",
+        "definition": "錄音",
         "example_en": "The recording of his speech was sent to all members in advance.",
         "example_zh": "他的演講錄音已提前發送給所有成員。",
         "weird": 0
@@ -43686,9 +43686,9 @@
         "word": "regard",
         "type": "noun",
         "level": "B2",
-        "definition": "看待",
-        "example_en": "The book was regarded as one of the classics in its field.",
-        "example_zh": "該書被認為是該領域的經典作品之一。",
+        "definition": "尊敬",
+        "example_en": "The company holds her in high regard.",
+        "example_zh": "該公司很器重她。",
         "weird": 0
     },
     {
@@ -43807,7 +43807,7 @@
         "word": "regularly",
         "type": "adverb",
         "level": "B1",
-        "definition": "常",
+        "definition": "經常",
         "example_en": "I regularly see him at the gym on Monday mornings.",
         "example_zh": "我經常在周一早上在健身房見到他。",
         "weird": 0
@@ -44269,7 +44269,7 @@
         "word": "removal",
         "type": "noun",
         "level": "C1",
-        "definition": "移動",
+        "definition": "消除",
         "example_en": "The removal of this obstacle will allow us to proceed with our plans.",
         "example_zh": "消除這個障礙將使我們能夠繼續執行我們的計劃。",
         "weird": 0
@@ -44313,7 +44313,7 @@
         "word": "rent",
         "type": "noun",
         "level": "B1",
-        "definition": "租",
+        "definition": "租金",
         "example_en": "The rent for this apartment will be $200 per month.",
         "example_zh": "這間公寓的租金為每月 200 美元。",
         "weird": 0
@@ -44368,9 +44368,9 @@
         "word": "repeat",
         "type": "noun",
         "level": "B1",
-        "definition": "重複",
-        "example_en": "The repetition of this phrase has made it familiar to many people.",
-        "example_zh": "這句話的重複出現，讓很多人都熟悉了。",
+        "definition": "重現",
+        "example_en": "All this is a repeat of what happened last year.",
+        "example_zh": "這完全是去年發生的事件的重演。",
         "weird": 0
     },
     {
@@ -44453,23 +44453,23 @@
     {
         "new_id": 4041,
         "id": 4403,
-        "word": "reporter",
-        "type": "noun",
+        "word": "report",
+        "type": "verb",
         "level": "A2",
-        "definition": "記者",
-        "example_en": "The reporter was on his way to cover the story when he received news of another development in the case.",
-        "example_zh": "記者在採訪的途中，收到了案件又有進展的消息。",
+        "definition": "報告",
+        "example_en": "We called the insurance company to report the theft.",
+        "example_zh": "我們撥打保險公司電話報告失竊事件。",
         "weird": 0
     },
     {
         "new_id": 4042,
         "id": 4404,
-        "word": "reporting",
+        "word": "reporter",
         "type": "noun",
         "level": "B2",
-        "definition": "報告",
-        "example_en": "The report was submitted to the committee for their consideration and approval.",
-        "example_zh": "該報告已提交委員會審議並通過。",
+        "definition": "記者",
+        "example_en": "The reporter was on his way to cover the story when he received news of another development in the case.",
+        "example_zh": "記者在採訪的途中，收到了案件又有進展的消息。",
         "weird": 0
     },
     {
@@ -44632,9 +44632,9 @@
         "word": "reserve",
         "type": "noun",
         "level": "B2",
-        "definition": "預訂",
-        "example_en": "The couple had reserved seats for their wedding anniversary dinner at the restaurant.",
-        "example_zh": "這對夫婦在餐廳預訂了結婚週年晚宴的座位。",
+        "definition": "貯藏",
+        "example_en": "She keeps a little money in reserve",
+        "example_zh": "她存了一點錢以備不時之需。",
         "weird": 0
     },
     {
@@ -44786,7 +44786,7 @@
         "word": "resort",
         "type": "noun",
         "level": "B2",
-        "definition": "採取",
+        "definition": "度假村",
         "example_en": "The resort was closed for maintenance and renovation.",
         "example_zh": "度假村因維護和翻新而關閉。",
         "weird": 0
@@ -44843,7 +44843,7 @@
         "level": "C1",
         "definition": "分別",
         "example_en": "The two teams scored 2 and 3 goals respectively.",
-        "example_zh": "兩隊分別打進2球和3球。",
+        "example_zh": "兩隊分別進了2球和3球。",
         "weird": 0
     },
     {
@@ -44942,7 +44942,7 @@
         "level": "B2",
         "definition": "恢復",
         "example_en": "The company has restored its reputation after years of scandal and mismanagement.",
-        "example_zh": "經過多年的醜聞和管理不善，該公司已經恢復了聲譽。",
+        "example_zh": "從多年的醜聞和管理不善後，該公司恢復了聲譽。",
         "weird": 0
     },
     {
@@ -45107,7 +45107,7 @@
         "level": "A1",
         "definition": "返回",
         "example_en": "I will return your book tomorrow.",
-        "example_zh": "明天我會把書還給你。",
+        "example_zh": "我明天會把書還給你。",
         "weird": 0
     },
     {
@@ -45347,9 +45347,9 @@
         "word": "ride",
         "type": "noun",
         "level": "A2",
-        "definition": "騎",
-        "example_en": "The horse was ridden by several people every day.",
-        "example_zh": "這匹馬每天都有幾個人騎。",
+        "definition": "行程",
+        "example_en": "It's a short bus ride to the airport.",
+        "example_zh": "到機場的公車車程很短。",
         "weird": 0
     },
     {
@@ -45358,7 +45358,7 @@
         "word": "ride",
         "type": "verb",
         "level": "A1",
-        "definition": "騎",
+        "definition": "騎乘",
         "example_en": "I can ride my bicycle to school every day now.",
         "example_zh": "我現在每天都可以騎腳踏車去學校了。",
         "weird": 0
@@ -45524,8 +45524,8 @@
         "type": "adjective",
         "level": "B2",
         "definition": "競爭對手",
-        "example_en": "The company has been in fierce rivalry with its competitors for years now.",
-        "example_zh": "多年來，該公司一直與競爭對手展開激烈競爭。",
+        "example_en": "The companies produce rival versions of the toy.",
+        "example_zh": "這些公司生産的玩具跟我們的産品爭奪市場。",
         "weird": 0
     },
     {
@@ -45656,7 +45656,7 @@
         "type": "noun",
         "level": "B1",
         "definition": "卷",
-        "example_en": "The roll of toilet paper was empty and he had to buy some more.",
+        "example_en": "The toilet roll was empty and he had to buy some more.",
         "example_zh": "衛生紙捲已經空了，他得再買一些。",
         "weird": 0
     },
@@ -45677,9 +45677,9 @@
         "word": "romance",
         "type": "noun",
         "level": "B2",
-        "definition": "浪漫",
-        "example_en": "The book was about her romantic past with him.",
-        "example_zh": "這本書講述了她與他的浪漫過去。",
+        "definition": "戀愛關係",
+        "example_en": "Office romances are usually a bad idea.",
+        "example_zh": "辦公室戀情通常不是個好主意。",
         "weird": 0
     },
     {
@@ -45721,7 +45721,7 @@
         "word": "root",
         "type": "noun",
         "level": "B2",
-        "definition": "根",
+        "definition": "根部",
         "example_en": "The root of this problem lies in our lack of understanding about human nature.",
         "example_zh": "這個問題的根源在於我們對人性缺乏認識。",
         "weird": 0
@@ -45756,7 +45756,7 @@
         "level": "C1",
         "definition": "旋轉",
         "example_en": "The wheel rotates at 30 revolutions per minute.",
-        "example_zh": "輪子每分鐘旋轉 30 轉。",
+        "example_zh": "輪子每分鐘旋轉 30 圈。",
         "weird": 0
     },
     {
@@ -46007,7 +46007,7 @@
         "word": "rush",
         "type": "noun",
         "level": "B2",
-        "definition": "匆忙",
+        "definition": "急速流動",
         "example_en": "The rush of air was so strong it knocked him off his feet.",
         "example_zh": "氣流太猛烈了，把他震倒了。",
         "weird": 0
@@ -46150,9 +46150,9 @@
         "word": "sake",
         "type": "noun",
         "level": "C1",
-        "definition": "清酒",
-        "example_en": "The sake was served in small glasses and tasted like sweet rice wine with subtle flavors of dried fruit and flowers.",
-        "example_zh": "清酒裝在小玻璃杯中，嘗起來像甜米酒，帶有微妙的乾果和鮮花的味道。",
+        "definition": "為了... 的利益",
+        "example_en": "Their parents only stayed together for the sake of the children.",
+        "example_zh": "他們的父母只是為了孩子們才繼續在一起。",
         "weird": 0
     },
     {
@@ -46249,9 +46249,9 @@
         "word": "sample",
         "type": "verb",
         "level": "B2",
-        "definition": "樣本",
-        "example_en": "The company has released sample of its new products to interested customers and media representatives for review before full production begins.",
-        "example_zh": "該公司已向有興趣的客戶和媒體代表發布了新產品樣品，以便在全面生產開始之前進行審查。",
+        "definition": "品嚐",
+        "example_en": "As the food looked so good, he decided to sample a little from each dish.",
+        "example_zh": "這些食物看起來很誘人，於是他決定每樣菜都嚐一點。",
         "weird": 0
     },
     {
@@ -46271,7 +46271,7 @@
         "word": "sand",
         "type": "noun",
         "level": "B1",
-        "definition": "沙",
+        "definition": "沙子",
         "example_en": "The sand was so hot it burned his feet.",
         "example_zh": "沙子太熱了，燙傷了他的腳。",
         "weird": 0
@@ -46348,7 +46348,7 @@
         "word": "sauce",
         "type": "noun",
         "level": "A2",
-        "definition": "醬",
+        "definition": "醬汁",
         "example_en": "The sauce was so thick and rich it made my mouth water.",
         "example_zh": "醬汁又濃又濃，讓我垂涎欲滴。",
         "weird": 0
@@ -46382,8 +46382,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "說",
-        "example_en": "The saying \"actions speak louder than words\" has been around for centuries and remains relevant today.",
-        "example_zh": "「行勝於言」這句話已經存在了幾個世紀，並且在今天仍然適用。",
+        "example_en": "Keep quiet for a minute and let me have my say.",
+        "example_zh": "你不能安靜一會兒讓我發表一下意見嗎？",
         "weird": 0
     },
     {
@@ -46447,9 +46447,9 @@
         "word": "scare",
         "type": "verb",
         "level": "B2",
-        "definition": "嚇",
-        "example_en": "The sight of him made me scare.",
-        "example_zh": "他的樣子讓我感到害怕。",
+        "definition": "感到害怕",
+        "example_en": "She's very brave - she doesn't scare easily.",
+        "example_zh": "她很勇敢——她不會那麽容易害怕的。",
         "weird": 0
     },
     {
@@ -46480,9 +46480,9 @@
         "word": "scattered",
         "type": "adjective",
         "level": "C1",
-        "definition": "疏散",
-        "example_en": "The police have scattered the demonstrators and arrested several people.",
-        "example_zh": "警方驅散了示威者並逮捕了幾人。",
+        "definition": "分散的",
+        "example_en": "My family is scattered all over the world.",
+        "example_zh": "我的家人遍佈世界各地。",
         "weird": 0
     },
     {
@@ -46510,11 +46510,11 @@
     {
         "new_id": 4228,
         "id": 4608,
-        "word": "sceptical",
+        "word": "skeptical",
         "type": "adjective",
         "level": "C1",
         "definition": "持懷疑態度的",
-        "example_en": "The sceptical professor was not impressed by her argument.",
+        "example_en": "The skeptical professor was not impressed by her argument.",
         "example_zh": "這位懷疑的教授對她的論點沒有留下深刻的印象。",
         "weird": 0
     },
@@ -46535,7 +46535,7 @@
         "word": "scheme",
         "type": "noun",
         "level": "B2",
-        "definition": "方案",
+        "definition": "計劃",
         "example_en": "The scheme was to be kept secret from everyone but him and his closest associates.",
         "example_zh": "除了他和他最親密的同事之外，這個計劃對所有人保密。",
         "weird": 0
@@ -46634,9 +46634,9 @@
         "word": "scratch",
         "type": "verb",
         "level": "B2",
-        "definition": "刮痕",
-        "example_en": "The car had some scratches on its body from hitting another vehicle in an accident.",
-        "example_zh": "該車在一次事故中與另一輛車相撞，車身上有一些刮痕。",
+        "definition": "劃",
+        "example_en": "Be careful not to scratch yourself on the roses.",
+        "example_zh": "小心不要被玫瑰刺紮傷。",
         "weird": 0
     },
     {
@@ -46810,9 +46810,9 @@
         "word": "seat",
         "type": "verb",
         "level": "B2",
-        "definition": "座位",
-        "example_en": "The seat was too small for her to sit comfortably.",
-        "example_zh": "座位太小，她坐得不舒服。",
+        "definition": "安排就座",
+        "example_en": "The waiter greeted me with a big smile and seated us by the window.",
+        "example_zh": "服務員笑容滿面地招呼我，並安排我們在窗邊坐下。",
         "weird": 0
     },
     {
@@ -46865,9 +46865,9 @@
         "word": "secret",
         "type": "adjective",
         "level": "A2",
-        "definition": "秘密",
-        "example_en": "The secret of his success was hard work and determination.",
-        "example_zh": "他成功的秘訣是勤奮和決心。",
+        "definition": "秘密的",
+        "example_en": "We ought to keep these proposals secret from the chairman for the time being.",
+        "example_zh": "目前，這些提案我們應該先瞞著主席。",
         "weird": 0
     },
     {
@@ -47054,7 +47054,7 @@
         "level": "B2",
         "definition": "選擇",
         "example_en": "The committee will select one of them to represent their interests at the conference.",
-        "example_zh": "委員會將選出其中一位在會議上代表他們的利益。",
+        "example_zh": "委員會將選出其中一位在會議上代表他們利益的人。",
         "weird": 0
     },
     {
@@ -47340,7 +47340,7 @@
         "level": "B1",
         "definition": "僕人",
         "example_en": "The servant was instructed to clean up after dinner.",
-        "example_zh": "晚餐後吩咐僕人收拾乾淨。",
+        "example_zh": "晚餐後，僕人被吩咐將東西收拾乾淨。",
         "weird": 0
     },
     {
@@ -47390,12 +47390,12 @@
     {
         "new_id": 4308,
         "id": 4698,
-        "word": "set-up",
+        "word": "setup",
         "type": "noun",
         "level": "C1",
         "definition": "設定",
-        "example_en": "The company has set up its own research and development department in order to stay ahead of competitors.",
-        "example_zh": "公司設立了自己的研發部門，以保持領先於競爭對手。",
+        "example_en": "This television's excellent on-screen display make setup a breeze.",
+        "example_zh": "這台電視機的出色螢幕顯示使設置變得輕而易舉。",
         "weird": 0
     },
     {
@@ -47547,7 +47547,7 @@
         "word": "sexuality",
         "type": "noun",
         "level": "C1",
-        "definition": "性慾",
+        "definition": "性欲",
         "example_en": "The book explores various aspects of human sexuality and gender identity in depth.",
         "example_zh": "這本書深入探討了人類性行為和性別認同的各個面向。",
         "weird": 0
@@ -47646,9 +47646,9 @@
         "word": "shape",
         "type": "verb",
         "level": "B2",
-        "definition": "形狀",
-        "example_en": "The shape of her face was unusual and attractive.",
-        "example_zh": "她的臉型很不尋常，也很有吸引力。",
+        "definition": "塑造",
+        "example_en": "When you've made the dough, shape it into two loaves.",
+        "example_zh": "當你揉好麵團後，把它捏成兩個長條麵包。",
         "weird": 0
     },
     {
@@ -47657,9 +47657,9 @@
         "word": "shaped",
         "type": "adjective",
         "level": "B2",
-        "definition": "形狀的",
-        "example_en": "The shape of his face was shaped by years and sunburns.",
-        "example_zh": "他的臉型因歲月和曬傷而變形。",
+        "definition": "呈…形狀",
+        "example_en": "Jackie has a perfectly shaped figure.",
+        "example_zh": "傑姬有一副完美的身材。",
         "weird": 0
     },
     {
@@ -47811,9 +47811,9 @@
         "word": "shelter",
         "type": "verb",
         "level": "B2",
-        "definition": "庇護所",
-        "example_en": "The homeless people need shelter from the elements and human cruelty.",
-        "example_zh": "無家可歸的人需要庇護所，以躲避自然災害和人類的殘酷行為。",
+        "definition": "庇護",
+        "example_en": "We were caught in a thunderstorm, without anywhere to shelter.",
+        "example_zh": "我們遇上了雷陣雨，沒有避雨的地方。",
         "weird": 0
     },
     {
@@ -47824,7 +47824,7 @@
         "level": "B1",
         "definition": "轉移",
         "example_en": "The shift in emphasis from quantity to quality was reflected in their new approach.",
-        "example_zh": "他們的新方法反映了重點從數量到質量的轉變。",
+        "example_zh": "他們的新方法反映了重點從量到質的轉變。",
         "weird": 0
     },
     {
@@ -47900,8 +47900,8 @@
         "type": "verb",
         "level": "B2",
         "definition": "震驚",
-        "example_en": "The news of his death was shocking to everyone who knew him well.",
-        "example_zh": "他去世的消息讓所有熟悉他的人都感到震驚。",
+        "example_en": "I think it shocks him to hear women talking about sex.",
+        "example_zh": "我想他聽到女人談論性會很憤慨。",
         "weird": 0
     },
     {
@@ -47911,8 +47911,8 @@
         "type": "adjective",
         "level": "B2",
         "definition": "震驚",
-        "example_en": "The news shocked her to tears.",
-        "example_zh": "這個消息讓她震驚得流下了眼淚。",
+        "example_en": "After his announcement, there was a shocked silence.",
+        "example_zh": "在他宣佈了這個消息以後，人們因震驚而沉默了。",
         "weird": 0
     },
     {
@@ -47943,9 +47943,9 @@
         "word": "shoot",
         "type": "noun",
         "level": "C1",
-        "definition": "射擊",
-        "example_en": "The shooter was charged with murder after he shot his wife in cold blood.",
-        "example_zh": "槍手冷血地射殺了他的妻子，之後被指控犯有謀殺罪。",
+        "definition": "組照",
+        "example_en": "We did a fashion shoot on the beach, with the girls modelling swimwear.",
+        "example_zh": "我們在海灘上拍了一組女模特兒展示泳裝的時裝照。",
         "weird": 0
     },
     {
@@ -48009,9 +48009,9 @@
         "word": "shore",
         "type": "noun",
         "level": "B2",
-        "definition": "支撐",
-        "example_en": "The company's financial health was supported by its strong cash flow and solid balance sheet.",
-        "example_zh": "該公司的財務健康狀況得益於其強勁的現金流和穩健的資產負債表。",
+        "definition": "海岸",
+        "example_en": "You can walk for miles along the shore.",
+        "example_zh": "你可以沿著海岸邊走上好幾英里。",
         "weird": 0
     },
     {
@@ -48108,7 +48108,7 @@
         "word": "shout",
         "type": "verb",
         "level": "A2",
-        "definition": "喊",
+        "definition": "歡呼",
         "example_en": "The children shouted in delight at their success.",
         "example_zh": "孩子們為自己的成功歡呼雀躍。",
         "weird": 0
@@ -48130,9 +48130,9 @@
         "word": "show",
         "type": "verb",
         "level": "A1",
-        "definition": "展示",
-        "example_en": "The show of his teeth was not very good.",
-        "example_zh": "他的牙齒表現得不好。",
+        "definition": "顯示",
+        "example_en": "On this map, urban areas are shown in grey.",
+        "example_zh": "在這張地圖上，城市地區以灰色顯示。",
         "weird": 0
     },
     {
@@ -48174,9 +48174,9 @@
         "word": "shut",
         "type": "adjective",
         "level": "A2",
-        "definition": "關閉",
-        "example_en": "The shutters were closed and locked to keep out intruders.",
-        "example_zh": "百葉窗關閉並上鎖以防止入侵者。",
+        "definition": "關閉的",
+        "example_en": "I suspected something was wrong when I noticed her curtains were still shut at lunchtime.",
+        "example_zh": "我發現午餐時間她的窗簾還拉著，就懷疑出了甚麽事。",
         "weird": 0
     },
     {
@@ -48238,9 +48238,9 @@
         "new_id": 4385,
         "id": 4778,
         "word": "sigh",
-        "type": "noun",
+        "type": "verb",
         "level": "C1",
-        "definition": "嘆",
+        "definition": "嘆息",
         "example_en": "I can't help sighing at his constant complaining about everything.",
         "example_zh": "我不禁為他不斷抱怨一切而嘆息。",
         "weird": 0
@@ -48249,9 +48249,9 @@
         "new_id": 4386,
         "id": 4779,
         "word": "sigh",
-        "type": "verb",
+        "type": "noun",
         "level": "C1",
-        "definition": "嘆",
+        "definition": "嘆息",
         "example_en": "He let out a sigh of relief when he saw his wife standing in front relativity far away from him.",
         "example_zh": "當他看到妻子站在離他很遠的相對論面前時，他鬆了一口氣。",
         "weird": 0
@@ -48262,7 +48262,7 @@
         "word": "sight",
         "type": "noun",
         "level": "B1",
-        "definition": "視線",
+        "definition": "景象",
         "example_en": "The sight of her face made him feel sick to his stomach.",
         "example_zh": "看到她的臉，他就覺得胃裡一陣噁心。",
         "weird": 0
@@ -48394,9 +48394,9 @@
         "word": "silver",
         "type": "adjective",
         "level": "A2",
-        "definition": "銀",
-        "example_en": "The silver of his teeth was not as good as it used to be.",
-        "example_zh": "他的牙齒不再像以前那麼銀白了。",
+        "definition": "銀色的",
+        "example_en": "My grandmother has silver hair.",
+        "example_zh": "我的祖母有一頭銀髮。",
         "weird": 0
     },
     {
@@ -48407,7 +48407,7 @@
         "level": "A1",
         "definition": "相似的",
         "example_en": "The two houses are similar in design but different in color.",
-        "example_zh": "兩棟房子的設計相似，但顏色不同。",
+        "example_zh": "這兩棟房子的設計相似，但顏色不同。",
         "weird": 0
     },
     {
@@ -48581,9 +48581,9 @@
         "word": "single",
         "type": "noun",
         "level": "A2",
-        "definition": "單身的",
+        "definition": "單身的人",
         "example_en": "He was single and ready to mingle at this singles event.",
-        "example_zh": "他是單身，準備參加這場單打比賽。",
+        "example_zh": "他是單身，準備參加這場單人的聚會。",
         "weird": 0
     },
     {
@@ -48721,12 +48721,12 @@
     {
         "new_id": 4429,
         "id": 4825,
-        "word": "ski",
-        "type": "adjective",
+        "word": "sketch",
+        "type": "verb",
         "level": "A2",
-        "definition": "滑雪",
-        "example_en": "The skier was wearing black ski pants and white ski jacket.",
-        "example_zh": "滑雪者穿著黑色滑雪褲和白色滑雪夾克。",
+        "definition": "畫圖",
+        "example_en": "She sketched the landscape while sitting by the river.",
+        "example_zh": "她在河邊坐著畫了一幅風景畫。",
         "weird": 0
     },
     {
@@ -48812,7 +48812,7 @@
         "word": "skull",
         "type": "noun",
         "level": "B2",
-        "definition": "顱骨",
+        "definition": "頭骨",
         "example_en": "The skull was found in a cave near where he lived.",
         "example_zh": "頭骨是在他居住地附近的一個山洞中發現的。",
         "weird": 0
@@ -48834,7 +48834,7 @@
         "word": "slam",
         "type": "verb",
         "level": "C1",
-        "definition": "滿貫",
+        "definition": "撞擊",
         "example_en": "The slam of his fist against the wall was heard throughout the house.",
         "example_zh": "整個屋子裡都聽見他的拳頭撞在牆上的聲音。",
         "weird": 0
@@ -48900,7 +48900,7 @@
         "word": "slice",
         "type": "noun",
         "level": "B1",
-        "definition": "片",
+        "definition": "切片",
         "example_en": "The cake was cut into slices and served with ice cream on top.",
         "example_zh": "將蛋糕切成片，上面放上冰淇淋。",
         "weird": 0
@@ -48911,7 +48911,7 @@
         "word": "slide",
         "type": "noun",
         "level": "B2",
-        "definition": "滑動",
+        "definition": "滑梯",
         "example_en": "The slide was so smooth and slippery it made me want to cry with joy.",
         "example_zh": "滑梯又滑又滑，讓我高興得想哭。",
         "weird": 0
@@ -48968,7 +48968,7 @@
         "level": "B2",
         "definition": "口號",
         "example_en": "The company's new slogan was \"Think Different\".",
-        "example_zh": "該公司的新口號是“Think Different”。",
+        "example_zh": "該公司的新口號是「Think Different」。",
         "weird": 0
     },
     {
@@ -48988,7 +48988,7 @@
         "word": "slope",
         "type": "verb",
         "level": "B2",
-        "definition": "坡",
+        "definition": "傾斜",
         "example_en": "The road slopes down to the riverbank.",
         "example_zh": "道路向下傾斜至河岸。",
         "weird": 0
@@ -49077,7 +49077,7 @@
         "type": "verb",
         "level": "A2",
         "definition": "聞",
-        "example_en": "The perfume smelt wonderful.",
+        "example_en": "The perfume smells wonderful.",
         "example_zh": "香水聞起來很香。",
         "weird": 0
     },
@@ -49109,9 +49109,9 @@
         "word": "smoke",
         "type": "noun",
         "level": "A2",
-        "definition": "抽煙",
-        "example_en": "He was smoking and coughing as he walked down the street.",
-        "example_zh": "當他走在街上時，他一邊抽煙一邊咳嗽。",
+        "definition": "煙霧",
+        "example_en": "The smoke from the chimney filled the air.",
+        "example_zh": "煙囪裡冒出的煙充滿了空氣。",
         "weird": 0
     },
     {
@@ -49132,8 +49132,8 @@
         "type": "noun",
         "level": "A2",
         "definition": "吸煙",
-        "example_en": "The man was smoking in his apartment and he didn't know I had come home.",
-        "example_zh": "那個人在他的公寓裡抽煙，他不知道我已經回家了。",
+        "example_en": "Smoking is not permitted anywhere in this theatre.",
+        "example_zh": "本戲院內任何地方都不准吸煙。",
         "weird": 0
     },
     {
@@ -49296,7 +49296,7 @@
         "word": "sock",
         "type": "noun",
         "level": "A2",
-        "definition": "短襪",
+        "definition": "襪子",
         "example_en": "I need to buy some new socks for my feet.",
         "example_zh": "我需要買一些新襪子給我的腳。",
         "weird": 0
@@ -49429,8 +49429,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "獨奏",
-        "example_en": "The soloist was praised for her virtuoso performance of Bach's Brandenburg Concerto No. 3.",
-        "example_zh": "這位獨奏家因其對巴赫《勃蘭登堡第三號協奏曲》的精湛演奏而受到讚揚。",
+        "example_en": "He used to play with a group but now he's pursuing a solo career.",
+        "example_zh": "他以前曾經加入過某個樂團，但如今已單獨發展。",
         "weird": 0
     },
     {
@@ -49474,7 +49474,7 @@
         "level": "A1",
         "definition": "一些",
         "example_en": "Some of them are very good at it.",
-        "example_zh": "他們中的一些人非常擅長。",
+        "example_zh": "他們中的一些人非常擅長此事。",
         "weird": 0
     },
     {
@@ -49593,9 +49593,9 @@
         "word": "sorry",
         "type": "adjective",
         "level": "A1",
-        "definition": "對不起",
-        "example_en": "I'm sorry I can't come to your party tonight.",
-        "example_zh": "很抱歉今晚我不能參加你們的聚會。",
+        "definition": "難過的",
+        "example_en": "I'm just sorry about all the trouble I've caused her.",
+        "example_zh": "我爲給她帶來的所有麻煩而感到抱歉。",
         "weird": 0
     },
     {
@@ -49681,7 +49681,7 @@
         "word": "soup",
         "type": "noun",
         "level": "A1",
-        "definition": "湯水",
+        "definition": "湯",
         "example_en": "The soup was too hot to eat immediately.",
         "example_zh": "湯太熱了，不能立即吃。",
         "weird": 0
@@ -49703,9 +49703,9 @@
         "word": "south",
         "type": "adjective",
         "level": "A1",
-        "definition": "南",
-        "example_en": "The south of England has mild winters and warm summers.",
-        "example_zh": "英格蘭南部冬季溫和，夏季溫暖。",
+        "definition": "南方的",
+        "example_en": "These plants grow well on a south-facing wall.",
+        "example_zh": "這些植物在面南的牆上生長得很好。",
         "weird": 0
     },
     {
@@ -49715,7 +49715,7 @@
         "type": "adverb",
         "level": "A1",
         "definition": "南",
-        "example_en": "The sun rose in the east and set in la south.",
+        "example_en": "The sun rose in the east and set in the south.",
         "example_zh": "太陽從東方升起，在南方落下。",
         "weird": 0
     },
@@ -49791,9 +49791,9 @@
         "word": "span",
         "type": "verb",
         "level": "C1",
-        "definition": "跨距",
-        "example_en": "The span of life was only 30 years.",
-        "example_zh": "壽命只有30年。",
+        "definition": "持續",
+        "example_en": "Tennis has a history spanning several centuries.",
+        "example_zh": "網球的歷史長達幾個世紀。",
         "weird": 0
     },
     {
@@ -49865,12 +49865,12 @@
     {
         "new_id": 4533,
         "id": 4939,
-        "word": "specialist",
-        "type": "adjective",
+        "word": "special",
+        "type": "noun",
         "level": "B2",
-        "definition": "專家",
-        "example_en": "The specialist in forensic science was called to examine the crime scene.",
-        "example_zh": "法醫學專家被叫來檢查犯罪現場。",
+        "definition": "特別節目、菜餚...等",
+        "example_en": "Today's specials are written on the board.",
+        "example_zh": "今天的特別菜單寫在佈告板上。",
         "weird": 0
     },
     {
@@ -50077,7 +50077,7 @@
         "word": "spell",
         "type": "noun",
         "level": "C1",
-        "definition": "拼字",
+        "definition": "咒語",
         "example_en": "The spell of his charm was broken by her refusal to acknowledge him as a friend.",
         "example_zh": "由於她拒絕承認他是朋友，他的魅力被打破了。",
         "weird": 0
@@ -50176,9 +50176,9 @@
         "word": "spill",
         "type": "verb",
         "level": "B2",
-        "definition": "灑",
-        "example_en": "The spill of oil on the sea has caused great damage to marine life and ecosystems.",
-        "example_zh": "海上石油洩漏給海洋生物和生態系統造成了巨大破壞。",
+        "definition": "灑出",
+        "example_en": "You've spilled something down your tie.",
+        "example_zh": "你把東西灑在領帶上了。",
         "weird": 0
     },
     {
@@ -50232,8 +50232,8 @@
         "type": "noun",
         "level": "B2",
         "definition": "惡意",
-        "example_en": "He was so spiteful as to refuse even to speak with her after she had been unkindly treated by him.",
-        "example_zh": "在她受到他的不友善對待之後，他甚至拒絕與她說話。",
+        "example_en": "He's the sort of man who would let down the tires on your car just out of spite.",
+        "example_zh": "他就是那種會為了泄憤而故意讓你車胎洩氣的人。",
         "weird": 0
     },
     {
@@ -50265,8 +50265,8 @@
         "type": "verb",
         "level": "B2",
         "definition": "破壞",
-        "example_en": "The child was spoiled by his parents and became selfish.",
-        "example_zh": "孩子被父母寵壞了，變得自私了。",
+        "example_en": "He tried not to let the bad news spoil his evening.",
+        "example_zh": "他努力不讓那個壞消息破壞他晚上的興致。",
         "weird": 0
     },
     {
@@ -50495,9 +50495,9 @@
         "word": "square",
         "type": "adjective",
         "level": "A2",
-        "definition": "方塊",
-        "example_en": "The square was covered with people.",
-        "example_zh": "廣場上擠滿了人。",
+        "definition": "正方形的",
+        "example_en": "The recipe recommends that you use a square cake tin.",
+        "example_zh": "食譜建議你使用方形的蛋糕烤盤。",
         "weird": 0
     },
     {
@@ -50594,9 +50594,9 @@
         "word": "stage",
         "type": "verb",
         "level": "B2",
-        "definition": "階段",
-        "example_en": "The company has reached its next stage of development.",
-        "example_zh": "該公司已進入下一發展階段。",
+        "definition": "演出",
+        "example_en": "The local drama group is staging a production of the musical \"Grease\".",
+        "example_zh": "當地劇團正在演出音樂劇《火爆浪子》。",
         "weird": 0
     },
     {
@@ -50759,7 +50759,7 @@
         "word": "starve",
         "type": "verb",
         "level": "B2",
-        "definition": "餓死",
+        "definition": "挨餓",
         "example_en": "The children were starving and crying for food in the cold night.",
         "example_zh": "寒冷的夜晚，孩子們挨餓哭鬧。",
         "weird": 0
@@ -50826,8 +50826,8 @@
         "type": "adjective",
         "level": "C1",
         "definition": "統計",
-        "example_en": "Statistically speaking, it's not likely to happen again in your lifetime.",
-        "example_zh": "從統計數據來看，這種情況在你的一生中不太可能再次發生。",
+        "example_en": "We need to perform a statistical analysis of the data.",
+        "example_zh": "我們需要對數據進行統計分析。",
         "weird": 0
     },
     {
@@ -50925,8 +50925,8 @@
         "type": "noun",
         "level": "B2",
         "definition": "鋼",
-        "example_en": "The steel of his will was unbreakable.",
-        "example_zh": "祂的意志如鋼鐵，堅不可摧。",
+        "example_en": "The concrete is strengthened with steel rods.",
+        "example_zh": "混凝土用鋼筋加固。",
         "weird": 0
     },
     {
@@ -50935,7 +50935,7 @@
         "word": "steep",
         "type": "adjective",
         "level": "B2",
-        "definition": "陡",
+        "definition": "陡峭的",
         "example_en": "The road was steep and winding as it climbed up to the mountain top.",
         "example_zh": "爬到山頂的路又陡又彎。",
         "weird": 0
@@ -51001,9 +51001,9 @@
         "word": "stick",
         "type": "noun",
         "level": "B1",
-        "definition": "戳",
-        "example_en": "The stick of dynamite was placed in his pocket and he carried it with him all day long.",
-        "example_zh": "炸藥棒放在他的口袋裡，他整天隨身攜帶。",
+        "definition": "木條",
+        "example_en": "Find some dry sticks and we'll make a campfire.",
+        "example_zh": "找一些乾燥的木棍，我們來生營火。",
         "weird": 0
     },
     {
@@ -51012,8 +51012,8 @@
         "word": "stick",
         "type": "verb",
         "level": "B1",
-        "definition": "戳",
-        "example_en": "The stick of glue was used to attach the two pieces together.",
+        "definition": "黏住",
+        "example_en": "The stick of glue was used to stick the two pieces together.",
         "example_zh": "膠棒用於將兩塊粘合在一起。",
         "weird": 0
     },
@@ -51023,7 +51023,7 @@
         "word": "sticky",
         "type": "adjective",
         "level": "B2",
-        "definition": "黏",
+        "definition": "黏的",
         "example_en": "The sticky residue left behind by the glue was difficult to remove from his hands.",
         "example_zh": "膠水留下的黏性殘留物很難從他的手上除去。",
         "weird": 0
@@ -51113,7 +51113,7 @@
         "level": "A2",
         "definition": "胃",
         "example_en": "I have to go and see my doctor about this stomach ache.",
-        "example_zh": "我得去看醫生，因為胃痛。",
+        "example_zh": "我因為胃痛得去看醫生。",
         "weird": 0
     },
     {
@@ -51122,9 +51122,9 @@
         "word": "stone",
         "type": "noun",
         "level": "A2",
-        "definition": "結石",
-        "example_en": "The stone was too big to pass through her body naturally.",
-        "example_zh": "這塊石頭太大了，無法自然地穿過她的身體。",
+        "definition": "石頭",
+        "example_en": "They cut enormous blocks of stone out of the hillside.",
+        "example_zh": "他們從山坡上開採出大量石材。",
         "weird": 0
     },
     {
@@ -51177,9 +51177,9 @@
         "word": "store",
         "type": "verb",
         "level": "B1",
-        "definition": "店鋪",
-        "example_en": "The shop was packed with customers who were eager to buy goods from the store's shelves.",
-        "example_zh": "店裡擠滿了爭相購買貨架上商品的顧客。",
+        "definition": "儲藏",
+        "example_en": "The data is stored on a hard disk and backed up on a CD.",
+        "example_zh": "資料儲存在硬碟上，並用光碟做了備份。",
         "weird": 0
     },
     {
@@ -51617,7 +51617,7 @@
         "word": "stun",
         "type": "verb",
         "level": "C1",
-        "definition": "擊暈",
+        "definition": "震驚",
         "example_en": "The sudden shock of his unexpected death stunned him to silence.",
         "example_zh": "突如其來的死亡讓他震驚得陷入了沉默。",
         "weird": 0
@@ -51659,7 +51659,7 @@
         "new_id": 4696,
         "id": 5113,
         "word": "subject",
-        "type": "adjective",
+        "type": "noun",
         "level": "B2",
         "definition": "主題",
         "example_en": "The subject of his lecture was very interesting.",
@@ -51694,7 +51694,7 @@
         "word": "subscriber",
         "type": "noun",
         "level": "C1",
-        "definition": "訂戶",
+        "definition": "訂閱者",
         "example_en": "The subscriber was delighted to receive his monthly magazine subscription package in time for Christmas.",
         "example_zh": "這位訂閱者很高興在聖誕節前及時收到了每月的雜誌訂閱套餐。",
         "weird": 0
@@ -52037,7 +52037,7 @@
         "level": "C1",
         "definition": "自殺",
         "example_en": "The suicide note was found in his backpack.",
-        "example_zh": "在他的背包裡發現了遺書。",
+        "example_zh": "在他的背包裡發現了自殺遺書。",
         "weird": 0
     },
     {
@@ -52575,8 +52575,8 @@
         "type": "verb",
         "level": "B2",
         "definition": "吞",
-        "example_en": "The swallow of his anger was not enough to stop him from leaving.",
-        "example_zh": "心中的怒火並不足以阻止他離開。",
+        "example_en": "He put a grape into his mouth and swallowed it whole.",
+        "example_zh": "他把一顆葡萄放進嘴裡，整個吞了下去。",
         "weird": 0
     },
     {
@@ -52752,7 +52752,7 @@
         "level": "B2",
         "definition": "富有同情心的",
         "example_en": "The teacher was sympathetic to her student's difficulties and offered support in various ways.",
-        "example_zh": "老師體卹學生的困難，並透過各種方式提供支持。",
+        "example_zh": "老師體恤學生的困難，並透過各種方式提供支持。",
         "weird": 0
     },
     {
@@ -52829,7 +52829,7 @@
         "level": "A1",
         "definition": "T恤",
         "example_en": "I bought myself a new T-shirt for my birthday.",
-        "example_zh": "我給自己買了一件新 T 卹當生日禮物。",
+        "example_zh": "我給自己買了一件新 T 恤當生日禮物。",
         "weird": 0
     },
     {
@@ -53279,7 +53279,7 @@
         "type": "noun",
         "level": "A1",
         "definition": "電視",
-        "example_en": "I like to watch television programmes about history and culture every day.",
+        "example_en": "I like to watch television programs about history and culture every day.",
         "example_zh": "我每天都喜歡看歷史和文化的電視節目。",
         "weird": 0
     },
@@ -53476,9 +53476,9 @@
         "word": "terminal",
         "type": "adjective",
         "level": "C1",
-        "definition": "終端",
-        "example_en": "The terminal building of the airport was packed with passengers waiting to board their flights.",
-        "example_zh": "機場航站樓擠滿了等待登機的旅客。",
+        "definition": "極其的",
+        "example_en": "She claims that the shipbuilding industry is in terminal decline.",
+        "example_zh": "她聲稱造船業已經衰敗到極點。",
         "weird": 0
     },
     {
@@ -54114,9 +54114,9 @@
         "word": "thinking",
         "type": "noun",
         "level": "A2",
-        "definition": "思維",
-        "example_en": "The book was written to help people think more deeply about life and death.",
-        "example_zh": "這本書的目的是幫助人們更深入地思考生與死。",
+        "definition": "思考",
+        "example_en": "I'll have to do some thinking about how best to arrange the books.",
+        "example_zh": "我得想一想怎樣擺放這些書最好。",
         "weird": 0
     },
     {
@@ -54367,7 +54367,7 @@
         "word": "throat",
         "type": "noun",
         "level": "B1",
-        "definition": "喉",
+        "definition": "喉嚨",
         "example_en": "The throat of this bird has evolved to be very sharp and efficient at catching prey.",
         "example_zh": "這種鳥的喉嚨已經進化得非常鋒利，能夠有效地捕捉獵物。",
         "weird": 0
@@ -54488,9 +54488,9 @@
         "word": "tie",
         "type": "verb",
         "level": "A2",
-        "definition": "領帶",
-        "example_en": "The tie was so tight it cut off his circulation.",
-        "example_zh": "領帶太緊了，阻礙了他的血液循環。",
+        "definition": "打結",
+        "example_en": "Could you tie this piece of string for me?",
+        "example_zh": "你能幫我把這段繩子打個結嗎？",
         "weird": 0
     },
     {
@@ -54533,7 +54533,7 @@
         "type": "preposition",
         "level": "B1",
         "definition": "直到",
-        "example_en": "The meeting will continue until 5 o'clock.",
+        "example_en": "The meeting will continue till 5 o'clock.",
         "example_zh": "會議將持續到下午5點。",
         "weird": 0
     },
@@ -54609,7 +54609,7 @@
         "word": "tip",
         "type": "noun",
         "level": "A2",
-        "definition": "提示",
+        "definition": "尖端",
         "example_en": "The tip of his pen was dry and he had to sharpen it before continuing with the letter-writing exercise.",
         "example_zh": "他的筆尖已經乾了，必須削尖才能繼續寫信練習。",
         "weird": 0
@@ -54620,9 +54620,9 @@
         "word": "tip",
         "type": "verb",
         "level": "B1",
-        "definition": "提示",
-        "example_en": "The teacher gave us some tips on how to improve our grades in class.",
-        "example_zh": "老師給了我們一些關於如何提升課堂成績的建議。",
+        "definition": "傾斜",
+        "example_en": "The table tipped, and all our drinks fell on the floor.",
+        "example_zh": "桌子傾斜了，我們所有的飲料都灑在地板上。",
         "weird": 0
     },
     {
@@ -54787,7 +54787,7 @@
         "level": "A1",
         "definition": "番茄",
         "example_en": "I like to eat tomatoes in salads and sandwiches.",
-        "example_zh": "我喜歡在沙拉和三明治中吃西紅柿。",
+        "example_zh": "我喜歡在沙拉和三明治中吃番茄。",
         "weird": 0
     },
     {
@@ -54874,8 +54874,8 @@
         "type": "adverb",
         "level": "A1",
         "definition": "也",
-        "example_en": "Too many people are using social media to share their lives with others and it's not always for good reasons.",
-        "example_zh": "太多人使用社群媒體與他人分享他們的生活，但這並不總是有充分的理由。",
+        "example_en": "I'd like to come too.",
+        "example_zh": "我也想來。",
         "weird": 0
     },
     {
@@ -54895,7 +54895,7 @@
         "word": "tooth",
         "type": "noun",
         "level": "A1",
-        "definition": "齒",
+        "definition": "牙齒",
         "example_en": "The toothache was so bad he couldn't sleep at night.",
         "example_zh": "牙疼得很厲害，晚上睡不著。",
         "weird": 0
@@ -54907,8 +54907,8 @@
         "type": "adjective",
         "level": "A2",
         "definition": "頂部",
-        "example_en": "The top of the building was covered with scaffolding.",
-        "example_zh": "大樓的頂部佈滿了鷹架。",
+        "example_en": "There's a dirty mark on the top left-hand corner of the picture.",
+        "example_zh": "照片的左上角有一處汙跡。",
         "weird": 0
     },
     {
@@ -55135,11 +55135,11 @@
         "new_id": 5012,
         "id": 5462,
         "word": "toy",
-        "type": "adjective",
+        "type": "verb",
         "level": "A2",
-        "definition": "玩具",
-        "example_en": "The toy was made of plastic and rubber.",
-        "example_zh": "該玩具由塑膠和橡膠製成。",
+        "definition": "玩弄",
+        "example_en": "He began to toy with the idea of quitting his job.",
+        "example_zh": "他開始考慮辭職的想法。",
         "weird": 0
     },
     {
@@ -55313,9 +55313,9 @@
         "word": "train",
         "type": "verb",
         "level": "A2",
-        "definition": "火車",
-        "example_en": "The train pulled into the station and I got off.",
-        "example_zh": "火車進站了，我下了車。",
+        "definition": "訓練",
+        "example_en": "John trained to be an accountant.",
+        "example_zh": "約翰接受訓練成為一名會計。",
         "weird": 0
     },
     {
@@ -55819,7 +55819,7 @@
         "word": "trophy",
         "type": "noun",
         "level": "C1",
-        "definition": "杯",
+        "definition": "獎盃",
         "example_en": "The trophy case was filled with all sorts of awards and medals from his years as a competitive athlete.",
         "example_zh": "獎盃櫃裡裝滿了他作為競技運動員多年來獲得的各種獎項和獎牌。",
         "weird": 0
@@ -55852,9 +55852,9 @@
         "word": "trouble",
         "type": "verb",
         "level": "B2",
-        "definition": "麻煩",
-        "example_en": "The situation was already troublesome and I had to deal with some more trouble at work today.",
-        "example_zh": "情況已經很麻煩了，今天工作上又要處理一些麻煩了。",
+        "definition": "使苦惱",
+        "example_en": "I asked her what was troubling her, but she didn't want to talk.",
+        "example_zh": "我問她是不是有什麼煩心事，但是她不想說。",
         "weird": 0
     },
     {
@@ -55874,7 +55874,7 @@
         "word": "trousers",
         "type": "noun",
         "level": "A1",
-        "definition": "褲子",
+        "definition": "褲子（英）",
         "example_en": "I need to buy some new trousers for work.",
         "example_zh": "我需要買條新褲子去上班。",
         "weird": 0
@@ -55963,8 +55963,8 @@
         "type": "noun",
         "level": "B2",
         "definition": "嘗試",
-        "example_en": "The company has tried to improve its image in recent years through various marketing initiatives.",
-        "example_zh": "近年來，該公司試圖透過各種行銷措施來改善其形象。",
+        "example_en": "They might still have tickets left - why don't you give it a try?",
+        "example_zh": "他們可能還有剩餘的票——你為什麼不試試呢？",
         "weird": 0
     },
     {
@@ -56050,9 +56050,9 @@
         "word": "turn",
         "type": "noun",
         "level": "A1",
-        "definition": "轉動",
-        "example_en": "The machine can turn itself off when it gets too hot.",
-        "example_zh": "當機器變得太熱時可以自行關閉。",
+        "definition": "機會",
+        "example_en": "It's your turn to do the dishes!",
+        "example_zh": "輪到你洗碗了！",
         "weird": 0
     },
     {
@@ -56072,7 +56072,7 @@
         "word": "turnout",
         "type": "noun",
         "level": "C1",
-        "definition": "結果發現",
+        "definition": "投票人數",
         "example_en": "The turnout for this year's election was disappointing.",
         "example_zh": "今年選舉的投票率令人失望。",
         "weird": 0
@@ -56160,9 +56160,9 @@
         "word": "twist",
         "type": "noun",
         "level": "C1",
-        "definition": "捻",
-        "example_en": "The old man twisted his hands together in frustration.",
-        "example_zh": "老人懊惱地絞著雙手。",
+        "definition": "轉動",
+        "example_en": "She gave the cap another twist to make sure it was tight.",
+        "example_zh": "她又扭了一下蓋子，以確保蓋緊。",
         "weird": 0
     },
     {
@@ -56171,9 +56171,9 @@
         "word": "twist",
         "type": "verb",
         "level": "C1",
-        "definition": "捻",
-        "example_en": "The man twisted his hands together in frustration.",
-        "example_zh": "男人懊惱地雙手合十。",
+        "definition": "轉動",
+        "example_en": "She sat there nervously twisting the ring around on her finger.",
+        "example_zh": "她緊張地坐在那裡，不停轉著手指上的戒指。",
         "weird": 0
     },
     {
@@ -56223,11 +56223,11 @@
     {
         "new_id": 5111,
         "id": 5568,
-        "word": "tyre",
+        "word": "tire",
         "type": "noun",
         "level": "B1",
-        "definition": "胎",
-        "example_en": "The tyre of my car was flat and I had to change it myself.",
+        "definition": "輪胎",
+        "example_en": "The tire of my car was flat and I had to change it myself.",
         "example_zh": "我的車輪胎癟了，我必須自己換。",
         "weird": 0
     },
@@ -56557,8 +56557,8 @@
         "type": "verb",
         "level": "C1",
         "definition": "統一",
-        "example_en": "The world must unite against climate change and other global threats if we are to survive as a species.",
-        "example_zh": "如果我們作為一個物種要生存，世界就必須團結起來應對氣候變遷和其他全球威脅。",
+        "example_en": "If the new leader does manage to unify his warring party it will be quite an achievement.",
+        "example_zh": "如果新領導人能將黨內互相爭鬥的各派力量整合起來，那將是個了不起的成就。",
         "weird": 0
     },
     {
@@ -57084,7 +57084,7 @@
         "word": "utility",
         "type": "noun",
         "level": "C1",
-        "definition": "公用事業",
+        "definition": "有用性",
         "example_en": "The utility of this new technology will be enormous.",
         "example_zh": "這項新技術的效用將是巨大的。",
         "weird": 0
@@ -57162,8 +57162,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "有效性",
-        "example_en": "The study's findings have been validated by independent research studies and expert opinion.",
-        "example_zh": "該研究的結果已得到獨立研究和專家意見的驗證。",
+        "example_en": "Election observers challenged the validity of the vote.",
+        "example_zh": "選舉觀察員質疑投票的有效性。",
         "weird": 0
     },
     {
@@ -57172,7 +57172,7 @@
         "word": "valley",
         "type": "noun",
         "level": "A2",
-        "definition": "谷",
+        "definition": "山谷",
         "example_en": "The valley was filled with smoke from the fire.",
         "example_zh": "山谷裡充滿了火災產生的煙霧。",
         "weird": 0
@@ -57238,9 +57238,9 @@
         "word": "variable",
         "type": "noun",
         "level": "C1",
-        "definition": "多變的",
-        "example_en": "The variable interest rate means you will pay more for your mortgage if interest rates go up.",
-        "example_zh": "浮動利率意味著如果利率上升，您將支付更多的抵押貸款費用。",
+        "definition": "變量",
+        "example_en": "The data was analysed according to neighbourhoods, but other key variables like credit rating and marital status were ignored altogether.",
+        "example_zh": "數據是根據社區進行分析的，但像信用等級、婚姻狀況等其他關鍵變數則一概忽略不計。",
         "weird": 0
     },
     {
@@ -57557,9 +57557,9 @@
         "word": "view",
         "type": "verb",
         "level": "B1",
-        "definition": "看法",
-        "example_en": "I have my own view on this issue.",
-        "example_zh": "對於這個問題我有自己的看法。",
+        "definition": "看待",
+        "example_en": "A reporter asked the minister how he viewed recent events.",
+        "example_zh": "記者問部長如何看待最近發生的那些事件。",
         "weird": 0
     },
     {
@@ -57921,8 +57921,8 @@
         "type": "noun",
         "level": "A2",
         "definition": "等待",
-        "example_en": "The children were waiting for their parents to arrive at home.",
-        "example_zh": "孩子們正在等待父母回家。",
+        "example_en": "We had a three-hour wait before we could see the doctor.",
+        "example_zh": "我們等了三個小時才看到醫生。",
         "weird": 0
     },
     {
@@ -58042,8 +58042,8 @@
         "type": "noun",
         "level": "C1",
         "definition": "戰爭",
-        "example_en": "The war of words between them was getting out of hand.",
-        "example_zh": "他們之間的口水戰已經失控。",
+        "example_en": "The warfare between the two countries was getting out of hand.",
+        "example_zh": "兩國之間的戰爭已經失控。",
         "weird": 0
     },
     {
@@ -58108,8 +58108,8 @@
         "type": "noun",
         "level": "A2",
         "definition": "洗",
-        "example_en": "The washing of hands should be done for at least 15 seconds to kill germs and bacteria.",
-        "example_zh": "洗手時間應至少 15 秒，以殺死病菌和細菌。",
+        "example_en": "Erik needed a good wash after playing in the garden.",
+        "example_zh": "埃里克在花園裡玩過之後需要好好洗個澡。",
         "weird": 0
     },
     {
@@ -58184,9 +58184,9 @@
         "word": "watch",
         "type": "verb",
         "level": "A1",
-        "definition": "手錶",
-        "example_en": "I like to wear my watch when I go out at night.",
-        "example_zh": "我晚上出去時喜歡戴手錶。",
+        "definition": "觀看",
+        "example_en": "I like to watch TV in the evening.",
+        "example_zh": "我喜歡在晚上看電視。",
         "weird": 0
     },
     {
@@ -58206,9 +58206,9 @@
         "word": "water",
         "type": "verb",
         "level": "B1",
-        "definition": "水",
-        "example_en": "The water was so hot it burned his skin.",
-        "example_zh": "水太熱了，燙傷了他的皮膚。",
+        "definition": "澆水",
+        "example_en": "I've asked my neighbour to water the plants while I'm away.",
+        "example_zh": "我已經請鄰居在我不在的時候幫忙給那些植物澆水。",
         "weird": 0
     },
     {
@@ -58471,8 +58471,8 @@
         "type": "adjective",
         "level": "B2",
         "definition": "詭異的",
-        "example_en": "The weird and wonderful world of insects!",
-        "example_zh": "奇異而奇妙的昆蟲世界！",
+        "example_en": "He was sitting alone by a window with a weird contraption on the table in front of him.",
+        "example_zh": "他獨自坐在窗邊，面前的桌子上擺著個奇怪的裝置。",
         "weird": 0
     },
     {
@@ -58604,7 +58604,7 @@
         "level": "A1",
         "definition": "西方",
         "example_en": "The west of town was very quiet at night.",
-        "example_zh": "城西的夜晚非常安靜。",
+        "example_zh": "城鎮西部的夜晚非常安靜。",
         "weird": 0
     },
     {
@@ -58613,9 +58613,9 @@
         "word": "western",
         "type": "adjective",
         "level": "B1",
-        "definition": "西",
-        "example_en": "The western part of town was very quiet at night.",
-        "example_zh": "城西的夜晚非常安靜。",
+        "definition": "西部的",
+        "example_en": "He was an officer on the western front.",
+        "example_zh": "他是西部戰線的一名軍官。",
         "weird": 0
     },
     {
@@ -58746,8 +58746,8 @@
         "type": "adverb",
         "level": "A1",
         "definition": "在哪裡",
-        "example_en": "Where are you from?  (?)",
-        "example_zh": "你從哪裡來？  （？）",
+        "example_en": "Where are you from?",
+        "example_zh": "你從哪裡來？",
         "weird": 0
     },
     {
@@ -58845,7 +58845,7 @@
         "type": "conjunction",
         "level": "C1",
         "definition": "同時",
-        "example_en": "While I was reading this book, my sister and her friends were watching TV at home.",
+        "example_en": "Whilst I was reading this book, my sister and her friends were watching TV at home.",
         "example_zh": "當我讀這本書時，我姐姐和她的朋友們正在家裡看電視。",
         "weird": 0
     },
@@ -58855,7 +58855,7 @@
         "word": "whip",
         "type": "verb",
         "level": "C1",
-        "definition": "鞭",
+        "definition": "鞭子",
         "example_en": "The whip cracked as he rode into town on his horse.",
         "example_zh": "當他騎馬進城時，鞭子劈啪作響。",
         "weird": 0
@@ -59176,7 +59176,7 @@
         "level": "A1",
         "definition": "葡萄酒",
         "example_en": "I like to drink wine with dinner every night.",
-        "example_zh": "我喜歡每晚晚餐時喝點酒。",
+        "example_zh": "我喜歡每晚晚餐時喝點葡萄酒。",
         "weird": 0
     },
     {
@@ -59185,7 +59185,7 @@
         "word": "wing",
         "type": "noun",
         "level": "B1",
-        "definition": "翼",
+        "definition": "翅膀",
         "example_en": "The plane's wings are made of composite materials and carbon fiber to reduce weight while maintaining strength.",
         "example_zh": "這架飛機的機翼由複合材料和碳纖維製成，在保持強度的同時減輕了重量。",
         "weird": 0
@@ -59296,8 +59296,8 @@
         "type": "preposition",
         "level": "A1",
         "definition": "和",
-        "example_en": "I'm with you on this!",
-        "example_zh": "我同意你的觀點！",
+        "example_en": "I'm going to France with a couple of friends.",
+        "example_zh": "我要和幾位朋友一起去法國。",
         "weird": 0
     },
     {
@@ -59647,9 +59647,9 @@
         "word": "worst",
         "type": "adverb",
         "level": "B1",
-        "definition": "最糟糕的",
-        "example_en": "The worst part of his job was dealing with difficult customers.",
-        "example_zh": "他工作中最糟糕的部分是與難相處的客戶打交道。",
+        "definition": "最差地",
+        "example_en": "Small businesses have been worst hit by the recession.",
+        "example_zh": "小企業受經濟衰退打擊最為嚴重。",
         "weird": 0
     },
     {
@@ -59658,9 +59658,9 @@
         "word": "worst",
         "type": "noun",
         "level": "B2",
-        "definition": "最糟糕的",
-        "example_en": "The worst thing about this situation was his lack of responsibility.",
-        "example_zh": "這種情況最糟糕的是他缺乏責任感。",
+        "definition": "最糟的情況",
+        "example_en": "That was the worst I've seen him play in several years.",
+        "example_zh": "那是我幾年來看他打得最糟糕的一次。",
         "weird": 0
     },
     {
@@ -59812,9 +59812,9 @@
         "word": "wrong",
         "type": "noun",
         "level": "B2",
-        "definition": "錯誤的",
-        "example_en": "The wrong answer was given to him by his teacher.",
-        "example_zh": "他的老師給了他錯誤的答案。",
+        "definition": "錯誤",
+        "example_en": "He has no sense of right and wrong.",
+        "example_zh": "他沒有甚麼是非感。",
         "weird": 0
     },
     {
@@ -59865,9 +59865,9 @@
         "new_id": 5442,
         "id": 5929,
         "word": "yellow",
-        "type": "adjective",
+        "type": "noun",
         "level": "A1",
-        "definition": "黃色的",
+        "definition": "黃色",
         "example_en": "The yellow of the banana was very bright and attractive.",
         "example_zh": "香蕉的黃色非常鮮豔、誘人。",
         "weird": 0
@@ -59876,7 +59876,7 @@
         "new_id": 5443,
         "id": 5930,
         "word": "yellow",
-        "type": "noun",
+        "type": "adjective",
         "level": "A1",
         "definition": "黃色的",
         "example_en": "The boy has yellow hair.",
@@ -59890,8 +59890,8 @@
         "type": "exclamation",
         "level": "A1",
         "definition": "是的",
-        "example_en": "Yes! A\"A1\"\"exclamation\"()\"A1",
-        "example_zh": "是的！ A\"A1\"\"驚嘆號\"()\"A1",
+        "example_en": "Yes!",
+        "example_zh": "是的！",
         "weird": 0
     },
     {

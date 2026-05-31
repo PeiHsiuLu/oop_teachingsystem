@@ -1,0 +1,486 @@
+{% extends "base.html" %}
+{% block title %}Vocabulary Review List{% endblock %}
+
+{% block content %}
+
+<style>
+    .review-page {
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    .review-list-header {
+        margin-bottom: 24px;
+    }
+
+    .review-list-header h2 {
+        margin-bottom: 8px;
+        color: #212529;
+    }
+
+    .review-list-header p {
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+    }
+
+    .review-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+
+    .summary-card {
+        padding: 18px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #ffffff, #f8f9ff);
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 5px 16px rgba(0,0,0,0.06);
+        text-align: center;
+    }
+
+    .summary-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #007bff;
+    }
+
+    .summary-label {
+        margin-top: 6px;
+        color: #6c757d;
+    }
+
+    .review-list-card {
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        padding: 22px;
+        background: linear-gradient(135deg, #ffffff, #f8f9ff);
+        box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+        overflow-x: auto;
+    }
+
+    .review-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+        margin-top: 12px;
+        min-width: 1100px;
+    }
+
+    .review-table th {
+        text-align: left;
+        padding: 12px;
+        color: #6c757d;
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+
+    .review-table td {
+        padding: 14px 12px;
+        background-color: #ffffff;
+        vertical-align: middle;
+        border-top: 1px solid #eef1f5;
+        border-bottom: 1px solid #eef1f5;
+    }
+
+    .review-table tr td:first-child {
+        border-left: 1px solid #eef1f5;
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+
+    .review-table tr td:last-child {
+        border-right: 1px solid #eef1f5;
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    .word-title {
+        font-weight: 800;
+        color: #212529;
+        font-size: 1.05rem;
+    }
+
+    .definition-cell {
+        max-width: 260px;
+        color: #495057;
+        line-height: 1.5;
+    }
+
+    .pos-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: bold;
+        font-size: 0.85rem;
+        border: 1px solid #dee2e6;
+        white-space: nowrap;
+    }
+
+    .practice-correct {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background-color: #d4edda;
+        color: #155724;
+        font-weight: bold;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .practice-incorrect {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background-color: #f8d7da;
+        color: #721c24;
+        font-weight: bold;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .practice-unknown {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background-color: #e9ecef;
+        color: #6c757d;
+        font-weight: bold;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .practice-answer-detail {
+        display: block;
+        margin-top: 6px;
+        color: #6c757d;
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .difficulty-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background-color: #eaf4ff;
+        color: #007bff;
+        font-weight: bold;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .count-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background-color: #f3e8ff;
+        color: #6f42c1;
+        font-weight: bold;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .status-ready {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background-color: #d4edda;
+        color: #155724;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .status-waiting {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background-color: #fff3cd;
+        color: #856404;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .disabled-button {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        background-color: #adb5bd;
+        color: white;
+        text-decoration: none;
+        cursor: not-allowed;
+        white-space: nowrap;
+    }
+
+    .empty-box {
+        padding: 32px;
+        border-radius: 16px;
+        background-color: #f8f9fa;
+        color: #6c757d;
+        text-align: center;
+    }
+
+    .empty-box h3 {
+        color: #343a40;
+        margin-top: 0;
+    }
+
+    .countdown {
+        font-weight: bold;
+        color: #856404;
+        white-space: nowrap;
+    }
+
+    .ready-text {
+        font-weight: bold;
+        color: #155724;
+        white-space: nowrap;
+    }
+</style>
+
+<div class="review-page">
+
+    <div class="review-list-header">
+        <h2>Vocabulary Review List</h2>
+
+        <p>
+            These are the words you have encountered in sentence practice or courses.
+            Words become reviewable when their countdown reaches 0.
+        </p>
+
+        <div class="header-actions">
+            <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
+                Back to Dashboard
+            </a>
+
+            <a href="{{ url_for('srs.review_stats') }}" class="btn btn-primary">
+                View Review Stats
+            </a>
+        </div>
+    </div>
+
+    {% if items %}
+        {% set ready_count = 0 %}
+        {% set waiting_count = 0 %}
+
+        {% for item in items %}
+            {% if item.is_due %}
+                {% set ready_count = ready_count + 1 %}
+            {% else %}
+                {% set waiting_count = waiting_count + 1 %}
+            {% endif %}
+        {% endfor %}
+
+        <div class="review-summary-grid">
+            <div class="summary-card">
+                <div class="summary-number">{{ items | length }}</div>
+                <div class="summary-label">Total Words</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-number" id="readyCount">
+                    {{ ready_count }}
+                </div>
+                <div class="summary-label">Ready Now</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-number" id="waitingCount">
+                    {{ waiting_count }}
+                </div>
+                <div class="summary-label">Waiting</div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="review-list-card">
+        {% if items %}
+            <table class="review-table">
+                <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>Definition</th>
+                        <th>Part of Speech</th>
+                        <th>Sentence Practice</th>
+                        <th>Difficulty</th>
+                        <th>Review Count</th>
+                        <th>Status</th>
+                        <th>Next Review</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>
+                                <span class="word-title">
+                                    {{ item.word.word_text }}
+                                </span>
+                            </td>
+
+                            <td class="definition-cell">
+                                {% if item.word.definition %}
+                                    {{ item.word.definition }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if item.word.part_of_speech %}
+                                    <span class="pos-badge">
+                                        {{ item.word.part_of_speech }}
+                                    </span>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if item.practice_status == "Correct" %}
+                                    <span class="practice-correct">
+                                        Correct
+                                    </span>
+
+                                    <span class="practice-answer-detail">
+                                        Answer: {{ item.practice_answer }}
+                                    </span>
+
+                                {% elif item.practice_status == "Incorrect" %}
+                                    <span class="practice-incorrect">
+                                        Incorrect
+                                    </span>
+
+                                    <span class="practice-answer-detail">
+                                        Your answer: {{ item.practice_answer }}
+                                        <br>
+                                        Correct: {{ item.practice_correct_answer }}
+                                    </span>
+
+                                {% else %}
+                                    <span class="practice-unknown">
+                                        Unknown
+                                    </span>
+
+                                    <span class="practice-answer-detail">
+                                        No sentence practice record.
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <span class="difficulty-badge">
+                                    {{ item.word.difficulty_level }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="count-badge">
+                                    {{ item.review_item.review_count }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {% if item.is_due %}
+                                    <span class="status-ready">Ready</span>
+                                {% else %}
+                                    <span class="status-waiting">Waiting</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if item.is_due %}
+                                    <span class="ready-text">Now</span>
+                                {% else %}
+                                    <span
+                                        class="countdown"
+                                        data-seconds-left="{{ item.seconds_left }}"
+                                    >
+                                        {{ item.seconds_left }} seconds
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if item.is_due %}
+                                    <a
+                                        href="{{ url_for('srs.review_word', word_id=item.word.id) }}"
+                                        class="btn btn-primary"
+                                    >
+                                        Review Now
+                                    </a>
+                                {% else %}
+                                    <span class="disabled-button">
+                                        Not Ready
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="empty-box">
+                <h3>No vocabulary words in your review list yet.</h3>
+
+                <p>
+                    Try sentence practice or open a course unit first.
+                    Words you encounter there will be added to Vocabulary Review.
+                </p>
+
+                <a href="{{ url_for('vocabulary_practice.practice_page') }}" class="btn btn-primary">
+                    Start Sentence Practice
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<script>
+    function updateCountdowns() {
+        const countdowns = document.querySelectorAll(".countdown");
+        let shouldReload = false;
+
+        countdowns.forEach(function (element) {
+            let secondsLeft = Number(element.dataset.secondsLeft);
+
+            if (Number.isNaN(secondsLeft)) {
+                secondsLeft = 0;
+            }
+
+            if (secondsLeft <= 0) {
+                element.textContent = "0 seconds";
+                shouldReload = true;
+                return;
+            }
+
+            secondsLeft = secondsLeft - 1;
+            element.dataset.secondsLeft = secondsLeft;
+            element.textContent = secondsLeft + " seconds";
+
+            if (secondsLeft <= 0) {
+                shouldReload = true;
+            }
+        });
+
+        if (shouldReload) {
+            setTimeout(function () {
+                location.reload();
+            }, 500);
+        }
+    }
+
+    setInterval(updateCountdowns, 1000);
+</script>
+
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Vocabulary Review Stats{% endblock %}
+
+{% block content %}
+
+<style>
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .stats-card {
+        padding: 18px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #ffffff, #f8f9ff);
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+        text-align: center;
+    }
+
+    .stats-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #007bff;
+    }
+
+    .stats-label {
+        color: #6c757d;
+        margin-top: 6px;
+    }
+
+    .history-card {
+        padding: 20px;
+        border-radius: 14px;
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+    }
+
+    .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+    }
+
+    .history-table th,
+    .history-table td {
+        padding: 12px;
+        border-bottom: 1px solid #e9ecef;
+        text-align: left;
+    }
+
+    .quality-badge {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-weight: bold;
+        font-size: 0.85rem;
+    }
+
+    .quality-forgot {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .quality-hard {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .quality-easy {
+        background-color: #d4edda;
+        color: #155724;
+    }
+</style>
+
+<h2>Vocabulary Review Stats</h2>
+
+<p>
+    Review your vocabulary performance and recent review history.
+</p>
+
+<div class="stats-grid">
+    <div class="stats-card">
+        <div class="stats-number">{{ total_reviews }}</div>
+        <div class="stats-label">Total Reviews</div>
+    </div>
+
+    <div class="stats-card">
+        <div class="stats-number">{{ successful_reviews }}</div>
+        <div class="stats-label">Successful Reviews</div>
+    </div>
+
+    <div class="stats-card">
+        <div class="stats-number">{{ forgot_reviews }}</div>
+        <div class="stats-label">Forgot Reviews</div>
+    </div>
+
+    <div class="stats-card">
+        <div class="stats-number">{{ accuracy }}%</div>
+        <div class="stats-label">Success Rate</div>
+    </div>
+</div>
+
+<div class="history-card">
+    <h3>Recent Review History</h3>
+
+    {% if recent_logs %}
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Word</th>
+                    <th>Result</th>
+                    <th>XP</th>
+                    <th>Reviewed At</th>
+                    <th>Next Review</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for log in recent_logs %}
+                    <tr>
+                        <td>
+                            <strong>{{ log.word.word_text }}</strong>
+                        </td>
+
+                        <td>
+                            {% if log.quality_label == "Forgot" %}
+                                <span class="quality-badge quality-forgot">Forgot</span>
+                            {% elif log.quality_label == "Hard" %}
+                                <span class="quality-badge quality-hard">Hard</span>
+                            {% else %}
+                                <span class="quality-badge quality-easy">Easy</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            +{{ log.xp_gained }} XP
+                        </td>
+
+                        <td>
+                            {{ log.reviewed_at.strftime("%Y-%m-%d %H:%M:%S") }}
+                        </td>
+
+                        <td>
+                            {% if log.next_review_at %}
+                                {{ log.next_review_at.strftime("%Y-%m-%d %H:%M:%S") }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No review history yet.</p>
+    {% endif %}
+</div>
+
+<br>
+
+<a href="{{ url_for('srs.review_list') }}" class="btn btn-primary">
+    Back to Review List
+</a>
+
+<a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
+    Back to Dashboard
+</a>
+
+{% endblock %}

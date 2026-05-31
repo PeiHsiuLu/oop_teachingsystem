@@ -1,31 +1,219 @@
 {% extends "base.html" %}
 
+{% block title %}My Achievements{% endblock %}
+
 {% block content %}
 
-<h2>My Achievements</h2>
+<style>
+    .achievement-page-title {
+        margin-bottom: 0.5rem;
+        color: #343a40;
+        font-size: 2rem;
+        font-weight: 800;
+    }
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+    .achievement-description {
+        margin-bottom: 1.8rem;
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+    .achievement-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.2rem;
+    }
+
+    .badge-card {
+        position: relative;
+        border-radius: 16px;
+        padding: 1.2rem;
+        overflow: hidden;
+        animation: fadeSlideUp 0.55s ease both;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .badge-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .badge-unlocked {
+        border: 1px solid #28a745;
+        background: linear-gradient(135deg, #f0fff4, #ffffff);
+        opacity: 1;
+        box-shadow: 0 6px 18px rgba(40, 167, 69, 0.12);
+    }
+
+    .badge-unlocked::before {
+        content: "";
+        position: absolute;
+        top: -40%;
+        left: -60%;
+        width: 80%;
+        height: 180%;
+        background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(255, 255, 255, 0.65),
+            transparent
+        );
+        transform: rotate(20deg);
+        animation: shine 2.8s ease-in-out infinite;
+    }
+
+    .badge-locked {
+        border: 1px solid #ccc;
+        background-color: #f8f8f8;
+        opacity: 0.55;
+        filter: grayscale(0.6);
+    }
+
+    .badge-icon {
+        font-size: 2.4rem;
+        margin-bottom: 0.6rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .badge-unlocked .badge-icon {
+        animation: iconPop 1.4s ease-in-out infinite;
+    }
+
+    .badge-title {
+        margin: 0.5rem 0;
+        color: #343a40;
+        position: relative;
+        z-index: 1;
+    }
+
+    .badge-description {
+        color: #6c757d;
+        line-height: 1.5;
+        min-height: 48px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .badge-status {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .badge-status-unlocked {
+        color: #155724;
+        background-color: #d4edda;
+    }
+
+    .badge-status-locked {
+        color: #6c757d;
+        background-color: #e9ecef;
+    }
+
+    .achievement-progress-note {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        border-radius: 12px;
+        background-color: #f8f9fa;
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+    @keyframes fadeSlideUp {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes shine {
+        0% {
+            left: -80%;
+        }
+
+        45% {
+            left: 120%;
+        }
+
+        100% {
+            left: 120%;
+        }
+    }
+
+    @keyframes iconPop {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.08);
+        }
+    }
+</style>
+
+<h2 class="achievement-page-title">My Achievements</h2>
+
+<p class="achievement-description">
+    View the badges you have unlocked through learning activities.
+</p>
+
+<div class="achievement-grid">
     {% for badge in all_badges %}
         {% set unlocked = badge.id in unlocked_badge_ids %}
 
-        <div style="
-            border: 1px solid {% if unlocked %}#28a745{% else %}#ccc{% endif %};
-            border-radius: 8px;
-            padding: 1rem;
-            background-color: {% if unlocked %}#f0fff4{% else %}#f8f8f8{% endif %};
-            opacity: {% if unlocked %}1{% else %}0.5{% endif %};
-        ">
-            <div style="font-size: 2rem;">{{ badge.icon }}</div>
-            <h4>{{ badge.name }}</h4>
-            <p>{{ badge.description }}</p>
+        {% if unlocked %}
+            <div class="badge-card badge-unlocked">
+                <div class="badge-icon">
+                    {{ badge.icon }}
+                </div>
 
-            {% if unlocked %}
-                <p style="color: green;"><strong>Unlocked</strong></p>
-            {% else %}
-                <p style="color: gray;">Locked</p>
-            {% endif %}
-        </div>
+                <h4 class="badge-title">
+                    {{ badge.name }}
+                </h4>
+
+                <p class="badge-description">
+                    {{ badge.description }}
+                </p>
+
+                <p class="badge-status badge-status-unlocked">
+                    ✨ Unlocked
+                </p>
+            </div>
+        {% else %}
+            <div class="badge-card badge-locked">
+                <div class="badge-icon">
+                    {{ badge.icon }}
+                </div>
+
+                <h4 class="badge-title">
+                    {{ badge.name }}
+                </h4>
+
+                <p class="badge-description">
+                    {{ badge.description }}
+                </p>
+
+                <p class="badge-status badge-status-locked">
+                    🔒 Locked
+                </p>
+            </div>
+        {% endif %}
     {% endfor %}
+</div>
+
+<div class="achievement-progress-note">
+    Keep practicing sentence exercises, vocabulary review, and course activities to unlock more achievements.
 </div>
 
 {% endblock %}

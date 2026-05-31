@@ -65,6 +65,7 @@ def create_app():
     from app.routes.dialogue_api import dialogue_bp
     from app.routes.analytics_api import analytics_bp
     from app.routes.vocabulary_api import vocabulary_bp
+    from app.routes.vocabulary_practice import vocabulary_practice_bp
     from app.routes.game_api import game_bp
     from app.routes.report_api import report_bp
     from app.routes.group_chat import group_chat_bp
@@ -82,6 +83,7 @@ def create_app():
     app.register_blueprint(dialogue_bp)
     app.register_blueprint(analytics_bp)
     app.register_blueprint(vocabulary_bp)
+    app.register_blueprint(vocabulary_practice_bp, url_prefix='/vocabulary')
     app.register_blueprint(team_challenge_bp)
     app.register_blueprint(group_chat_bp)
     # Initialize Flask-Login (assuming this exists in the full __init__.py)

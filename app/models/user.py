@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from mongoengine import Document, StringField, IntField, ReferenceField, ListField
+from mongoengine import Document, StringField, IntField, ReferenceField, ListField,  BooleanField
 
 class User(Document, UserMixin):
     username = StringField(required=True, unique=True)
@@ -29,13 +29,23 @@ class Student(User):
     xp = IntField(default=0)
     level = IntField(default=1)
     credit_score = IntField(default=100)
-    
-    # References are better than hard-coding IDs for flexible relationships
-    # group = ReferenceField('StudyGroup') 
+
+    cefr_level = StringField(
+        choices=["A1", "A2", "B1", "B2", "C1", "C2"],
+        default="A1"
+    )
+
+    cefr_total_answered = IntField(default=0)
+    cefr_correct_answered = IntField(default=0)
+    cefr_correct_streak = IntField(default=0)
+
+    has_seen_vocabulary_practice_guide = BooleanField(default=False)
+
+    vocabulary_review_count = IntField(default=0)
 
     def add_xp(self, amount):
-        self.xp += amount
+        """
+        Add XP to the student.
+        """
+        self.xp = getattr(self, "xp", 0) + amount
         self.save()
-
-    def is_muted(self):
-        return self.credit_score < 50

@@ -2,6 +2,15 @@ from app.models.badge import Badge, AchievementRecord
 
 
 class AchievementService:
+    def _normalize_user(self, user):
+        """
+        Flask-Login current_user is sometimes a LocalProxy.
+        MongoEngine ReferenceField needs the real user document.
+        """
+        if hasattr(user, "_get_current_object"):
+            return user._get_current_object()
+        return user
+
     def seed_default_badges(self):
         default_badges = [
             {
@@ -28,12 +37,17 @@ class AchievementService:
         ]
 
         for badge_data in default_badges:
-            existing_badge = Badge.objects(name=badge_data["name"]).first()
+            existing_badge = Badge.objects(
+                condition_type=badge_data["condition_type"],
+                required_value=badge_data["required_value"]
+            ).first()
 
             if not existing_badge:
                 Badge(**badge_data).save()
 
     def unlock_badge(self, user, condition_type):
+        user = self._normalize_user(user)
+
         badge = Badge.objects(condition_type=condition_type).first()
 
         if not badge:
@@ -56,6 +70,8 @@ class AchievementService:
         return record
 
     def check_level_badge(self, user):
+        user = self._normalize_user(user)
+
         badge = Badge.objects(condition_type="level_reached").first()
 
         if not badge:
@@ -70,4 +86,8 @@ class AchievementService:
         return self.unlock_badge(user, "level_reached")
 
     def get_user_achievements(self, user):
-        return AchievementRecord.objects(user=user).order_by("-unlocked_at")
+        user = self._normalize_user(user)
+
+        return AchievementRecord.objects(
+            user=user
+        ).order_by("-unlocked_at")

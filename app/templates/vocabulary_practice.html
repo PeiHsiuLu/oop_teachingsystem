@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+{% block title %}Vocabulary Practice{% endblock %}
+
+{% block content %}
+
+<style>
+    .practice-card {
+        border: 2px solid #007bff;
+        border-radius: 10px;
+        padding: 24px;
+        background-color: #fdfdfd;
+        margin-top: 20px;
+    }
+
+    .sentence-box {
+        font-size: 1.5rem;
+        line-height: 1.8;
+        margin: 20px 0;
+        padding: 18px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .hint-box {
+        background-color: #eaf4ff;
+        border-left: 5px solid #007bff;
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    .answer-input {
+        padding: 10px;
+        width: 320px;
+        font-size: 1rem;
+        margin-top: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .answer-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+    }
+
+    .result-box {
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #fdfdfd;
+        margin-top: 20px;
+    }
+
+    .correct-box {
+        border: 2px solid #28a745;
+    }
+
+    .incorrect-box {
+        border: 2px solid #dc3545;
+    }
+
+    .word-detail {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 16px;
+    }
+
+    .level-up-box {
+        padding: 12px;
+        border-radius: 8px;
+        background-color: #fff3cd;
+        border: 1px solid #ffeeba;
+        margin-top: 15px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.55);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background: white;
+        width: 90%;
+        max-width: 620px;
+        border-radius: 12px;
+        padding: 28px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-content h3 {
+        margin-top: 0;
+        color: #343a40;
+    }
+
+    .modal-content ul {
+        line-height: 1.8;
+        padding-left: 20px;
+    }
+
+    .modal-example {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin: 16px 0;
+        border: 1px solid #e0e0e0;
+    }
+</style>
+
+<h2>Vocabulary Practice</h2>
+
+<p>
+    Current CEFR Level:
+    <strong>{{ current_user.cefr_level | default("A1") }}</strong>
+</p>
+
+{% if question %}
+
+<div class="practice-card">
+    <h3>Fill in the blank</h3>
+
+    <div class="hint-box">
+        <strong>Hint:</strong>
+        The missing word shows its first and last letters.
+        <br>
+        Hint format:
+        <strong>{{ question.hint_word }}</strong>
+    </div>
+
+    <div class="sentence-box">
+        {{ question.blank_sentence }}
+    </div>
+
+    <p>
+        Difficulty:
+        <strong>{{ question.difficulty_level }}</strong>
+    </p>
+
+    <form method="POST" action="{{ url_for('vocabulary_practice.submit_practice_answer') }}">
+        <input type="hidden" name="word_id" value="{{ question.word_id }}">
+        <input type="hidden" name="target_answer" value="{{ question.target_answer }}">
+
+        <label for="user_answer">
+            <strong>Your Answer:</strong>
+        </label>
+        <br>
+
+        <input
+            type="text"
+            id="user_answer"
+            name="user_answer"
+            class="answer-input"
+            placeholder="Type the missing word here"
+            autocomplete="off"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit" class="btn btn-primary">
+            Submit Answer
+        </button>
+
+        <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary" style="margin-left: 10px;">
+            Back to Dashboard
+        </a>
+    </form>
+</div>
+
+{% elif result %}
+
+<div class="result-box {% if result.is_correct %}correct-box{% else %}incorrect-box{% endif %}">
+    {% if result.is_correct %}
+        <h3 style="color: #28a745;">Correct!</h3>
+    {% else %}
+        <h3 style="color: #dc3545;">Incorrect</h3>
+        <p>
+            Your answer:
+            <strong>{{ result.user_answer }}</strong>
+        </p>
+    {% endif %}
+
+    <p>
+        Correct answer:
+        <strong>{{ result.correct_answer }}</strong>
+    </p>
+    <div style="padding: 12px; border-radius: 8px; background-color: #eaf4ff; border: 1px solid #b6dcff; margin-top: 15px;">
+        You gained <strong>{{ result.xp_gained }}</strong> XP.
+        <br>
+        Current Level: <strong>{{ result.user_level }}</strong>
+        <br>
+        Total XP: <strong>{{ result.user_xp }}</strong>
+    </div>
+
+    <hr>
+
+    <h3>Word Detail</h3>
+
+    <div class="word-detail">
+        <p>
+            <strong>Word:</strong>
+            {{ result.word_text }}
+        </p>
+
+        <p>
+            <strong>Definition:</strong>
+            {{ result.definition }}
+        </p>
+
+        <p>
+            <strong>Part of Speech:</strong>
+            {{ result.part_of_speech }}
+        </p>
+
+        <p>
+            <strong>Difficulty:</strong>
+            {{ result.difficulty_level }}
+        </p>
+
+        <p>
+            <strong>Example:</strong>
+            {{ result.example_sentence }}
+        </p>
+    </div>
+
+    {% if result.leveled_up %}
+        <div class="level-up-box">
+            🎉 Congratulations! Your CEFR level has been upgraded to
+            <strong>{{ result.current_cefr_level }}</strong>.
+        </div>
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('vocabulary_practice.practice_page') }}" class="btn btn-primary">
+        Next Question
+    </a>
+
+    <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary" style="margin-left: 10px;">
+        Back to Dashboard
+    </a>
+</div>
+
+{% else %}
+
+<div style="border: 2px solid #ffc107; border-radius: 8px; padding: 20px; margin-top: 20px;">
+    <h3>No vocabulary question available.</h3>
+
+    <p>
+        There are no words with example sentences for your current CEFR level.
+        Please ask the admin to add more words.
+    </p>
+
+    <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
+        Back to Dashboard
+    </a>
+</div>
+
+{% endif %}
+
+<!-- First-time instruction modal -->
+<div id="practiceGuideModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>How to Play Vocabulary Practice</h3>
+
+        <p>
+            In this activity, you will complete a sentence by guessing the missing vocabulary word.
+        </p>
+
+        <div class="modal-example">
+            <strong>Example:</strong>
+            <br>
+            Sentence: I eat an a___e every day.
+            <br>
+            Answer: apple
+        </div>
+
+        <ul>
+            <li>The system chooses words based on your current CEFR level.</li>
+            <li>The missing word will show its first and last letters as hints.</li>
+            <li>Type the full missing word in the answer box.</li>
+            <li>After you submit, the system will show whether your answer is correct.</li>
+            <li>Whether you answer correctly or incorrectly, you will see the word details.</li>
+            <li>If you keep performing well, your CEFR level may increase automatically.</li>
+        </ul>
+
+        <button id="startPracticeBtn" class="btn btn-primary">
+            Start Playing
+        </button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("practiceGuideModal");
+        const startBtn = document.getElementById("startPracticeBtn");
+
+        const shouldShowGuide = JSON.parse('{{ show_guide | default(false) | tojson }}');
+        const markGuideSeenUrl = "{{ url_for('vocabulary_practice.mark_practice_guide_seen') }}";
+
+        if (shouldShowGuide && modal) {
+            modal.style.display = "flex";
+        }
+
+        if (startBtn) {
+            startBtn.addEventListener("click", async function () {
+                if (modal) {
+                    modal.style.display = "none";
+                }
+
+                try {
+                    await fetch(markGuideSeenUrl, {
+                        method: "POST"
+                    });
+                } catch (error) {
+                    console.error("Failed to mark guide as seen:", error);
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

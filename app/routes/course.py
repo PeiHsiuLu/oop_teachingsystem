@@ -1,22 +1,40 @@
+from datetime import datetime
+
+import markdown
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 
-from app.models.course import LearningPath, Chapter, Unit, QuizQuestion
+from app.models.course import (
+    LearningPath,
+    Chapter,
+    Unit,
+    QuizQuestion,
+    UnlockRule,
+    QuizAnswerRecord,
+    ChapterQuizAttempt,
+)
+
 from app.models.forms import CreatePathForm, AddChapterForm, AddUnitForm
 from app.models.report import Report
-from app.models.word import Word
+from app.models.word import Word, ReviewItem
+from app.models.vocabulary_practice_log import VocabularyPracticeLog
+from app.models.analytics import Progress
 
 from app.services.course_service import CourseService
 from app.services.leaderboard_service import LeaderboardService
 from app.services.vocabulary_service import VocabularyService
 from app.services.srs_service import SRSManager, SuperMemo2Strategy
+from app.services.level_system import LevelSystem
+from app.services.achievement_service import AchievementService
 from app.services.course_vocabulary_service import CourseVocabularyService
 
 from app.repositories.word_repository import WordRepository
-from app.utils.decorators import no_cache
 
-import markdown
-import re
+try:
+    from app.utils.decorators import no_cache
+except Exception:
+    def no_cache(func):
+        return func
 
 
 course_bp = Blueprint("course", __name__)
@@ -24,6 +42,8 @@ course_bp = Blueprint("course", __name__)
 course_service = CourseService()
 leaderboard_service = LeaderboardService()
 vocab_service = VocabularyService()
+level_system = LevelSystem()
+achievement_service = AchievementService()
 course_vocabulary_service = CourseVocabularyService()
 
 word_repo = WordRepository()
@@ -34,100 +54,77 @@ srs_manager = SRSManager(
 )
 
 
+# ============================================================
+# Helper functions
+# ============================================================
+
 def safe_add_xp(user, xp_amount):
     """
-    Add XP to current user safely.
-
-    Some Student models may not have add_xp().
-    This function avoids AttributeError.
+    Add XP safely and update level.
     """
 
-    if not user:
-        return
-
-    if hasattr(user, "add_xp"):
-        user.add_xp(xp_amount)
-        return
-
-    current_xp = getattr(user, "xp", 0)
-    user.xp = current_xp + xp_amount
-    user.save()
-
-
-def add_word_to_review_by_text(user, target_word, was_correct=False):
-    """
-    Add a target word to Vocabulary Review by word_text.
-
-    This is used when the student answers a chapter quiz question.
-    Usually, wrong answers should enter review.
-    """
-
-    if not user or not target_word:
-        return False
-
-    word = Word.objects(word_text__iexact=target_word.strip()).first()
-
-    if not word:
-        return False
+    if not user or xp_amount <= 0:
+        return 0
 
     try:
-        srs_manager.add_word_to_review_queue(user.id, word.id)
-        return True
-    except Exception:
-        return False
+        if hasattr(user, "add_xp"):
+            user.add_xp(xp_amount)
+        else:
+            current_xp = getattr(user, "xp", 0)
+            user.xp = current_xp + xp_amount
+            user.save()
+
+        try:
+            level_system.update_user_level(user)
+        except Exception:
+            pass
+
+        try:
+            achievement_service.check_level_badge(user)
+        except Exception:
+            pass
+
+        return xp_amount
+
+    except Exception as e:
+        print(f"[XP] Failed to add XP: {e}")
+        return 0
 
 
-def add_course_words_to_review_queue(user, unit):
+def get_path_display_name(path):
     """
-    Kept for future use only.
-
-    Currently not called, because the current design is:
-    - course reading itself does not add words to review
-    - vocabulary practice / quiz wrong answers add words to review
+    Support path_name / name / title.
     """
 
-    content = unit.content or ""
-    added_count = 0
-    max_words_to_add = 10
+    path_name = getattr(path, "path_name", "")
 
-    for word in Word.objects():
-        if added_count >= max_words_to_add:
-            break
+    if path_name:
+        return path_name
 
-        word_text = getattr(word, "word_text", None)
+    name = getattr(path, "name", "")
 
-        if not word_text:
-            continue
+    if name:
+        return name
 
-        pattern = re.compile(
-            rf"\b{re.escape(word_text)}(s|es)?\b",
-            re.IGNORECASE
-        )
+    title = getattr(path, "title", "")
 
-        if pattern.search(content):
-            srs_manager.add_word_to_review_queue(user.id, word.id)
-            added_count += 1
+    if title:
+        return title
 
-    return added_count
+    return ""
 
 
 def get_path_index_by_unit(unit):
     """
     Find which LearningPath this unit belongs to.
+    Used by CourseVocabularyService to decide target CEFR level.
     """
 
     for path in LearningPath.objects.all():
-        chapters = getattr(path, "chapters", [])
-
-        for chapter in chapters:
-            units = getattr(chapter, "units", [])
-
-            for path_unit in units:
+        for chapter in getattr(path, "chapters", []):
+            for path_unit in getattr(chapter, "units", []):
                 if str(path_unit.id) == str(unit.id):
-                    path_name = getattr(path, "name", "")
-
-                    if not path_name:
-                        path_name = getattr(path, "title", "")
+                    path_name = get_path_display_name(path)
 
                     if "Path 1" in path_name or "菜鳥出國" in path_name:
                         return 1
@@ -149,40 +146,299 @@ def get_path_index_by_unit(unit):
     return 1
 
 
-def get_path_index_by_chapter(chapter):
+def get_chapter_by_unit(unit):
     """
-    Find which LearningPath this chapter belongs to.
+    Find the chapter that owns this unit.
     """
 
-    for path in LearningPath.objects.all():
-        chapters = getattr(path, "chapters", [])
+    if not unit:
+        return None
 
-        for path_chapter in chapters:
-            if str(path_chapter.id) == str(chapter.id):
-                path_name = getattr(path, "name", "")
+    for chapter in Chapter.objects.all():
+        for chapter_unit in getattr(chapter, "units", []):
+            if str(chapter_unit.id) == str(unit.id):
+                return chapter
 
-                if not path_name:
-                    path_name = getattr(path, "title", "")
+    return None
 
-                if "Path 1" in path_name or "菜鳥出國" in path_name:
-                    return 1
 
-                if "Path 2" in path_name or "日常生活" in path_name:
-                    return 2
+def has_completed_unit(user, unit):
+    """
+    Check whether the student has completed/read this unit.
+    Uses existing Progress model.
+    """
 
-                if "Path 3" in path_name or "職場" in path_name:
-                    return 3
+    if not user or not unit:
+        return False
 
-                if "Path 4" in path_name or "時事" in path_name:
-                    return 4
+    return Progress.objects(
+        student=user,
+        unit=unit
+    ).first() is not None
 
-                if "Path 5" in path_name or "英文學術" in path_name:
-                    return 5
 
-                return 1
+def mark_unit_completed(user, unit):
+    """
+    Mark unit as completed.
 
-    return 1
+    Current demo rule:
+    entering a unit page means this unit is completed.
+    """
 
+    if not user or not unit:
+        return False
+
+    existing = Progress.objects(
+        student=user,
+        unit=unit
+    ).first()
+
+    if existing:
+        return True
+
+    try:
+        Progress(
+            student=user,
+            unit=unit
+        ).save()
+
+        print(f"[Progress] Unit completed: {unit.title}")
+        return True
+
+    except Exception as e:
+        print(f"[Progress] Failed to mark unit completed: {e}")
+        return False
+
+
+def can_access_unit(user, chapter, unit):
+    """
+    Unit access rule:
+    - Unit 1 can be accessed directly.
+    - Unit 2 requires Unit 1 completed.
+    - Unit 3 requires Unit 2 completed, and so on.
+    """
+
+    if not user or not chapter or not unit:
+        return False
+
+    units = list(getattr(chapter, "units", []))
+
+    if not units:
+        return False
+
+    target_index = None
+
+    for index, chapter_unit in enumerate(units):
+        if str(chapter_unit.id) == str(unit.id):
+            target_index = index
+            break
+
+    if target_index is None:
+        return False
+
+    if target_index == 0:
+        return True
+
+    previous_unit = units[target_index - 1]
+
+    return has_completed_unit(user, previous_unit)
+
+
+def can_take_chapter_quiz(user, chapter):
+    """
+    Quiz access rule:
+    Student can take quiz only when:
+    1. Chapter is unlocked.
+    2. Quiz is ready.
+    3. All units in this chapter are completed.
+    """
+
+    if not user or not chapter:
+        return False
+
+    if not chapter.is_unlocked(user):
+        return False
+
+    if not chapter.is_quiz_ready():
+        return False
+
+    units = list(getattr(chapter, "units", []))
+
+    if not units:
+        return False
+
+    for unit in units:
+        if not has_completed_unit(user, unit):
+            return False
+
+    return True
+
+
+def get_word_by_text(target_word):
+    """
+    Find Word by word_text.
+
+    Your current Word model uses:
+    Word.word_text
+    """
+
+    if not target_word:
+        return None
+
+    target_word = target_word.strip()
+
+    if not target_word:
+        return None
+
+    word = Word.objects(word_text__iexact=target_word).first()
+
+    if word:
+        return word
+
+    print(f"[Quiz Review] Word not found: {target_word}")
+    return None
+
+
+def create_or_get_review_item(user, word):
+    """
+    Create ReviewItem directly.
+
+    This is important because review_list reads from ReviewItem.
+    """
+
+    if not user or not word:
+        return None
+
+    existing = ReviewItem.objects(
+        user=user,
+        word=word
+    ).first()
+
+    if existing:
+        print(f"[Quiz Review] ReviewItem already exists: {word.word_text}")
+        return existing
+
+    try:
+        review_item = ReviewItem(
+            user=user,
+            word=word,
+            due_date=datetime.utcnow(),
+            interval=0,
+            ease_factor=2.5,
+            last_reviewed=datetime.utcnow(),
+            review_count=0
+        )
+        review_item.save()
+
+        print(f"[Quiz Review] ReviewItem created: {word.word_text}")
+        return review_item
+
+    except Exception as e:
+        print(f"[Quiz Review] Failed to create ReviewItem for {word.word_text}: {e}")
+        return None
+
+
+def create_vocabulary_practice_log(user, word, user_answer, correct_answer, is_correct):
+    """
+    Create VocabularyPracticeLog.
+
+    This is important because srs.review_list() filters out words
+    that do not have VocabularyPracticeLog.
+    """
+
+    if not user or not word:
+        return None
+
+    try:
+        log = VocabularyPracticeLog(
+            user=user,
+            word=word,
+            user_answer=user_answer,
+            correct_answer=correct_answer,
+            is_correct=is_correct,
+            cefr_level_at_time=getattr(user, "cefr_level", "A1"),
+            practiced_at=datetime.utcnow()
+        )
+        log.save()
+
+        print(f"[Quiz Review] VocabularyPracticeLog created: {word.word_text}")
+        return log
+
+    except Exception as e:
+        print(f"[Quiz Review] Failed to create VocabularyPracticeLog for {word.word_text}: {e}")
+        return None
+
+
+def add_quiz_word_to_review(user, target_word, user_answer, correct_answer, is_correct):
+    """
+    Add every quiz target word to Vocabulary Review.
+
+    Required by your current SRS design:
+    1. ReviewItem must exist.
+    2. VocabularyPracticeLog must exist.
+
+    Without VocabularyPracticeLog, review_list() will hide the word.
+    """
+
+    if not user or not target_word:
+        print("[Quiz Review] Missing user or target_word.")
+        return False
+
+    word = get_word_by_text(target_word)
+
+    if not word:
+        return False
+
+    review_item = create_or_get_review_item(user, word)
+
+    if not review_item:
+        return False
+
+    practice_log = create_vocabulary_practice_log(
+        user=user,
+        word=word,
+        user_answer=user_answer,
+        correct_answer=correct_answer,
+        is_correct=is_correct
+    )
+
+    if not practice_log:
+        return False
+
+    print(f"[Quiz Review] SUCCESS: added to review list: {word.word_text}")
+    return True
+
+
+def get_int_from_form(field_name, default=0):
+    raw_value = request.form.get(field_name, "")
+
+    if raw_value is None or raw_value == "":
+        return default
+
+    try:
+        return int(raw_value)
+    except ValueError:
+        return default
+
+
+def normalize_quiz_options(options):
+    cleaned_options = []
+
+    for option in options:
+        if option is None:
+            cleaned_options.append("")
+        else:
+            cleaned_options.append(option.strip())
+
+    while len(cleaned_options) < 4:
+        cleaned_options.append("")
+
+    return cleaned_options[:4]
+
+
+# ============================================================
+# General / Admin routes
+# ============================================================
 
 @course_bp.route("/")
 def home():
@@ -227,61 +483,16 @@ def create_path():
     if current_user.role != "admin":
         return "Unauthorized", 403
 
-    name = request.form.get("title")
-    course_service.create_learning_path(name)
+    title = request.form.get("title", "").strip()
 
-    return redirect(url_for("course.admin_course_dashboard"))
+    if not title:
+        flash("Path title cannot be empty.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
 
+    path = LearningPath(path_name=title)
+    path.save()
 
-@course_bp.route("/admin/add-chapter", methods=["POST"])
-@login_required
-def add_chapter():
-    if current_user.role != "admin":
-        return "Unauthorized", 403
-
-    path_id = request.form.get("path_id")
-    title = request.form.get("title")
-    rule_type = request.form.get("rule_type")
-    raw_threshold = request.form.get("threshold")
-
-    threshold = int(raw_threshold) if raw_threshold and raw_threshold.strip() else 0
-
-    course_service.add_chapter_to_path(
-        path_id,
-        title,
-        rule_type,
-        threshold
-    )
-
-    return redirect(url_for("course.admin_course_dashboard"))
-
-
-@course_bp.route("/admin/add-unit", methods=["POST"])
-@login_required
-def add_unit():
-    if current_user.role != "admin":
-        return "Unauthorized", 403
-
-    chapter_id = request.form["chapter_id"]
-    title = request.form["title"]
-
-    course_service.add_unit_to_chapter(
-        chapter_id,
-        title,
-        "Content goes here..."
-    )
-
-    return redirect(url_for("course.admin_course_dashboard"))
-
-
-@course_bp.route("/admin/delete-path", methods=["POST"])
-@login_required
-def delete_path():
-    if current_user.role != "admin":
-        return "Unauthorized", 403
-
-    course_service.delete_path(request.form.get("path_id"))
-
+    flash("Learning path created successfully.", "success")
     return redirect(url_for("course.admin_course_dashboard"))
 
 
@@ -292,14 +503,84 @@ def update_path():
         return "Unauthorized", 403
 
     path_id = request.form.get("path_id")
-    new_name = request.form.get("new_name")
+    new_name = request.form.get("new_name", "").strip()
 
-    try:
-        if path_id and new_name:
-            course_service.update_path(path_id, new_name)
-    except Exception as e:
-        flash(str(e), "error")
+    if not path_id or not new_name:
+        flash("Path update failed.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
 
+    path = LearningPath.objects.get(id=path_id)
+    path.path_name = new_name
+    path.save()
+
+    flash("Path updated successfully.", "success")
+    return redirect(url_for("course.admin_course_dashboard"))
+
+
+@course_bp.route("/admin/delete-path", methods=["POST"])
+@login_required
+def delete_path():
+    if current_user.role != "admin":
+        return "Unauthorized", 403
+
+    path_id = request.form.get("path_id")
+
+    if not path_id:
+        flash("Missing path id.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
+
+    path = LearningPath.objects(id=path_id).first()
+
+    if not path:
+        flash("Path not found.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
+
+    for chapter in path.chapters:
+        for unit in chapter.units:
+            Progress.objects(unit=unit).delete()
+            unit.delete()
+
+        ChapterQuizAttempt.objects(chapter=chapter).delete()
+        chapter.delete()
+
+    path.delete()
+
+    flash("Path deleted successfully.", "success")
+    return redirect(url_for("course.admin_course_dashboard"))
+
+
+# ============================================================
+# Chapter management
+# ============================================================
+
+@course_bp.route("/admin/add-chapter", methods=["POST"])
+@login_required
+def add_chapter():
+    if current_user.role != "admin":
+        return "Unauthorized", 403
+
+    path_id = request.form.get("path_id")
+    title = request.form.get("title", "").strip()
+
+    if not path_id or not title:
+        flash("Chapter title cannot be empty.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
+
+    path = LearningPath.objects.get(id=path_id)
+
+    chapter = Chapter(
+        title=title,
+        unlock_rule_type="none",
+        unlock_threshold=0,
+        unlock_rules=[],
+        quiz_questions=[]
+    )
+    chapter.save()
+
+    path.chapters.append(chapter)
+    path.save()
+
+    flash("Chapter added successfully.", "success")
     return redirect(url_for("course.admin_course_dashboard"))
 
 
@@ -310,32 +591,17 @@ def update_chapter():
         return "Unauthorized", 403
 
     chapter_id = request.form.get("chapter_id")
-    new_title = request.form.get("new_title")
+    new_title = request.form.get("new_title", "").strip()
 
-    try:
-        if chapter_id and new_title:
-            course_service.update_chapter_title(chapter_id, new_title)
-    except Exception as e:
-        flash(str(e), "error")
+    if not chapter_id or not new_title:
+        flash("Chapter update failed.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
 
-    return redirect(url_for("course.admin_course_dashboard"))
+    chapter = Chapter.objects.get(id=chapter_id)
+    chapter.title = new_title
+    chapter.save()
 
-
-@course_bp.route("/admin/update-unit-title", methods=["POST"])
-@login_required
-def update_unit_title():
-    if current_user.role != "admin":
-        return "Unauthorized", 403
-
-    unit_id = request.form.get("unit_id")
-    new_title = request.form.get("new_title")
-
-    try:
-        if unit_id and new_title:
-            course_service.update_unit_title(unit_id, new_title)
-    except Exception as e:
-        flash(str(e), "error")
-
+    flash("Chapter updated successfully.", "success")
     return redirect(url_for("course.admin_course_dashboard"))
 
 
@@ -348,8 +614,28 @@ def delete_chapter():
     path_id = request.form.get("path_id")
     chapter_id = request.form.get("chapter_id")
 
-    course_service.delete_chapter(path_id, chapter_id)
+    if not path_id or not chapter_id:
+        flash("Missing path id or chapter id.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
 
+    path = LearningPath.objects.get(id=path_id)
+    chapter = Chapter.objects.get(id=chapter_id)
+
+    path.chapters = [
+        existing_chapter
+        for existing_chapter in path.chapters
+        if str(existing_chapter.id) != str(chapter.id)
+    ]
+    path.save()
+
+    for unit in chapter.units:
+        Progress.objects(unit=unit).delete()
+        unit.delete()
+
+    ChapterQuizAttempt.objects(chapter=chapter).delete()
+    chapter.delete()
+
+    flash("Chapter deleted successfully.", "success")
     return redirect(url_for("course.admin_course_dashboard"))
 
 
@@ -362,25 +648,136 @@ def edit_chapter(chapter_id):
     chapter = Chapter.objects.get(id=chapter_id)
 
     if request.method == "POST":
-        chapter.title = request.form.get("title")
-        chapter.unlock_rule_type = request.form.get("rule_type")
+        chapter.title = request.form.get("title", "").strip()
 
-        raw_threshold = request.form.get("threshold")
-        chapter.unlock_threshold = (
-            int(raw_threshold)
-            if raw_threshold and raw_threshold.strip()
-            else 0
-        )
+        required_level = request.form.get("required_level", "0").strip()
+        required_score = request.form.get("required_score", "0").strip()
+        required_cefr = request.form.get("required_cefr", "").strip()
+
+        unlock_rules = []
+
+        if required_level and required_level != "0":
+            unlock_rules.append(
+                UnlockRule(
+                    rule_type="level",
+                    value=required_level
+                )
+            )
+
+        if required_score and required_score != "0":
+            unlock_rules.append(
+                UnlockRule(
+                    rule_type="score",
+                    value=required_score
+                )
+            )
+
+        if required_cefr:
+            unlock_rules.append(
+                UnlockRule(
+                    rule_type="cefr",
+                    value=required_cefr
+                )
+            )
+
+        chapter.unlock_rules = unlock_rules
+
+        # Keep legacy fields for compatibility.
+        chapter.unlock_rule_type = "none"
+        chapter.unlock_threshold = 0
 
         chapter.save()
 
-        flash("Chapter updated!", "success")
-        return redirect(url_for("course.admin_course_dashboard"))
+        flash("Chapter updated successfully.", "success")
+        return redirect(url_for("course.edit_chapter", chapter_id=chapter.id))
 
     return render_template(
         "edit_chapter.html",
         chapter=chapter
     )
+
+
+# ============================================================
+# Unit management
+# ============================================================
+
+@course_bp.route("/admin/add-unit", methods=["POST"])
+@login_required
+def add_unit():
+    if current_user.role != "admin":
+        return "Unauthorized", 403
+
+    chapter_id = request.form.get("chapter_id")
+    title = request.form.get("title", "").strip()
+
+    if not chapter_id or not title:
+        flash("Unit title cannot be empty.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
+
+    chapter = Chapter.objects.get(id=chapter_id)
+
+    unit = Unit(
+        title=title,
+        content=""
+    )
+    unit.save()
+
+    chapter.units.append(unit)
+    chapter.save()
+
+    flash("Unit added successfully.", "success")
+    return redirect(url_for("course.admin_course_dashboard"))
+
+
+@course_bp.route("/admin/update-unit-title", methods=["POST"])
+@login_required
+def update_unit_title():
+    if current_user.role != "admin":
+        return "Unauthorized", 403
+
+    unit_id = request.form.get("unit_id")
+    new_title = request.form.get("new_title", "").strip()
+
+    if not unit_id or not new_title:
+        flash("Unit update failed.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
+
+    unit = Unit.objects.get(id=unit_id)
+    unit.title = new_title
+    unit.save()
+
+    flash("Unit title updated successfully.", "success")
+    return redirect(url_for("course.admin_course_dashboard"))
+
+
+@course_bp.route("/admin/delete-unit", methods=["POST"])
+@login_required
+def delete_unit():
+    if current_user.role != "admin":
+        return "Unauthorized", 403
+
+    chapter_id = request.form.get("chapter_id")
+    unit_id = request.form.get("unit_id")
+
+    if not chapter_id or not unit_id:
+        flash("Missing chapter id or unit id.", "danger")
+        return redirect(url_for("course.admin_course_dashboard"))
+
+    chapter = Chapter.objects.get(id=chapter_id)
+    unit = Unit.objects.get(id=unit_id)
+
+    chapter.units = [
+        existing_unit
+        for existing_unit in chapter.units
+        if str(existing_unit.id) != str(unit.id)
+    ]
+    chapter.save()
+
+    Progress.objects(unit=unit).delete()
+    unit.delete()
+
+    flash("Unit deleted successfully.", "success")
+    return redirect(url_for("course.admin_course_dashboard"))
 
 
 @course_bp.route("/admin/edit-unit/<unit_id>", methods=["GET", "POST"])
@@ -393,19 +790,25 @@ def edit_unit(unit_id):
 
     if request.method == "POST":
         content = request.form.get("content", "")
+        unit.content = content
+        unit.save()
 
-        course_service.update_unit(unit_id, content)
-
-        flash("Unit updated successfully!", "success")
-        return redirect(url_for("course.admin_course_dashboard"))
+        flash("Unit updated successfully.", "success")
+        return redirect(url_for("course.edit_unit", unit_id=unit.id))
 
     path_index = get_path_index_by_unit(unit)
 
-    vocabulary_entries = course_vocabulary_service.get_vocabulary_entries_from_content(
-        content=unit.content,
-        path_index=path_index,
-        count=8
-    )
+    vocabulary_entries = []
+
+    try:
+        vocabulary_entries = course_vocabulary_service.get_vocabulary_entries_from_content(
+            content=unit.content,
+            path_index=path_index,
+            count=8
+        )
+    except Exception as e:
+        print(f"[Course Vocabulary] Extraction failed: {e}")
+        vocabulary_entries = []
 
     return render_template(
         "edit_unit.html",
@@ -415,27 +818,16 @@ def edit_unit(unit_id):
     )
 
 
-@course_bp.route("/admin/delete-unit", methods=["POST"])
-@login_required
-def delete_unit():
-    if current_user.role != "admin":
-        return "Unauthorized", 403
-
-    chapter_id = request.form.get("chapter_id")
-    unit_id = request.form.get("unit_id")
-
-    course_service.delete_unit(chapter_id, unit_id)
-
-    return redirect(url_for("course.admin_course_dashboard"))
-
+# ============================================================
+# Chapter quiz admin routes
+# ============================================================
 
 @course_bp.route("/admin/chapter/<chapter_id>/quiz", methods=["GET", "POST"])
 @login_required
 def edit_chapter_quiz(chapter_id):
     """
-    Admin page for editing a Chapter vocabulary quiz.
-
-    Each Chapter has 5 vocabulary multiple-choice questions.
+    Admin can save incomplete quiz drafts.
+    Quiz Ready is determined by Chapter.is_quiz_ready().
     """
 
     if current_user.role != "admin":
@@ -448,26 +840,15 @@ def edit_chapter_quiz(chapter_id):
 
         for i in range(1, 6):
             question = request.form.get(f"question_{i}", "").strip()
-            option_a = request.form.get(f"option_{i}_a", "").strip()
-            option_b = request.form.get(f"option_{i}_b", "").strip()
-            option_c = request.form.get(f"option_{i}_c", "").strip()
-            option_d = request.form.get(f"option_{i}_d", "").strip()
+            options = normalize_quiz_options([
+                request.form.get(f"option_{i}_a", "").strip(),
+                request.form.get(f"option_{i}_b", "").strip(),
+                request.form.get(f"option_{i}_c", "").strip(),
+                request.form.get(f"option_{i}_d", "").strip(),
+            ])
             answer = request.form.get(f"answer_{i}", "").strip()
             target_word = request.form.get(f"target_word_{i}", "").strip()
             explanation = request.form.get(f"explanation_{i}", "").strip()
-
-            options = [option_a, option_b, option_c, option_d]
-
-            # Skip completely empty question blocks.
-            if not question and not any(options):
-                continue
-
-            if not question or not all(options) or answer not in options:
-                flash(
-                    f"Question {i} is incomplete or the answer does not match any option.",
-                    "danger"
-                )
-                return redirect(url_for("course.edit_chapter_quiz", chapter_id=chapter_id))
 
             quiz_questions.append(
                 QuizQuestion(
@@ -479,21 +860,25 @@ def edit_chapter_quiz(chapter_id):
                 )
             )
 
-        if len(quiz_questions) != 5:
-            flash("Each chapter quiz must contain exactly 5 questions.", "danger")
-            return redirect(url_for("course.edit_chapter_quiz", chapter_id=chapter_id))
-
         chapter.quiz_questions = quiz_questions
         chapter.save()
 
-        flash("Chapter vocabulary quiz updated successfully!", "success")
-        return redirect(url_for("course.admin_course_dashboard"))
+        if chapter.is_quiz_ready():
+            flash("Quiz saved. Status: Quiz Ready.", "success")
+        else:
+            flash("Quiz draft saved. Complete all 5 questions to make it Quiz Ready.", "warning")
+
+        return redirect(url_for("course.edit_chapter_quiz", chapter_id=chapter_id))
 
     return render_template(
         "edit_chapter_quiz.html",
         chapter=chapter
     )
 
+
+# ============================================================
+# Student routes
+# ============================================================
 
 @course_bp.route("/student/dashboard")
 @login_required
@@ -547,7 +932,7 @@ def student_cefr_setting():
             "value": "C2",
             "title": "C2 Proficient",
             "description": "I can understand almost everything with ease."
-        }
+        },
     ]
 
     if request.method == "POST":
@@ -577,12 +962,59 @@ def student_learning_paths():
     if current_user.role != "student":
         return "Unauthorized", 403
 
+    user = current_user._get_current_object()
     all_paths = LearningPath.objects.all()
+
+    latest_attempt_map = {}
+    best_score_map = {}
+    unit_access_map = {}
+    unit_completed_map = {}
+    quiz_access_map = {}
+
+    for path in all_paths:
+        for chapter in path.chapters:
+            latest_attempt = ChapterQuizAttempt.objects(
+                student=user,
+                chapter=chapter
+            ).order_by("-created_at").first()
+
+            best_attempt = ChapterQuizAttempt.objects(
+                student=user,
+                chapter=chapter
+            ).order_by("-score").first()
+
+            latest_attempt_map[str(chapter.id)] = latest_attempt
+            best_score_map[str(chapter.id)] = best_attempt.score if best_attempt else None
+
+            quiz_access_map[str(chapter.id)] = can_take_chapter_quiz(
+                user,
+                chapter
+            )
+
+            for unit in chapter.units:
+                unit_access_map[str(unit.id)] = can_access_unit(
+                    user,
+                    chapter,
+                    unit
+                )
+
+                unit_completed_map[str(unit.id)] = has_completed_unit(
+                    user,
+                    unit
+                )
 
     return render_template(
         "student_course.html",
         paths=all_paths,
-        user=current_user
+        user=user,
+        latest_attempt_map=latest_attempt_map,
+        best_score_map=best_score_map,
+        unit_access_map=unit_access_map,
+        unit_completed_map=unit_completed_map,
+        quiz_access_map=quiz_access_map,
+
+        # Keep this for old student_course.html compatibility.
+        ChapterQuizAttempt=ChapterQuizAttempt
     )
 
 
@@ -592,103 +1024,166 @@ def view_unit(unit_id):
     if current_user.role != "student":
         return "Unauthorized", 403
 
+    user = current_user._get_current_object()
     unit = Unit.objects.get(id=unit_id)
+    chapter = get_chapter_by_unit(unit)
 
-    course_service.mark_unit_complete(current_user.id, unit.id)
+    if not chapter:
+        flash("Cannot find chapter for this unit.", "danger")
+        return redirect(url_for("course.student_learning_paths"))
 
-    path_index = get_path_index_by_unit(unit)
+    if not chapter.is_unlocked(user):
+        flash("This chapter is locked.", "warning")
+        return redirect(url_for("course.student_learning_paths"))
 
-    highlighted_content, vocabulary_entries = course_vocabulary_service.process_course_content(
-        content=unit.content,
-        path_index=path_index,
-        count=8
-    )
+    if not can_access_unit(user, chapter, unit):
+        flash("Please complete the previous unit first.", "warning")
+        return redirect(url_for("course.student_learning_paths"))
+
+    mark_unit_completed(user, unit)
+
+    xp_gained = safe_add_xp(user, 2)
+    flash(f"You gained {xp_gained} XP for studying this unit.", "success")
 
     html_content = markdown.markdown(
-        highlighted_content,
+        unit.content or "",
         extensions=["fenced_code", "tables"]
     )
+
+    path_index = get_path_index_by_unit(unit)
+    vocabulary_entries = []
+
+    try:
+        vocabulary_entries = course_vocabulary_service.get_vocabulary_entries_from_content(
+            content=unit.content,
+            path_index=path_index,
+            count=8
+        )
+    except Exception as e:
+        print(f"[Course Vocabulary] View unit extraction failed: {e}")
 
     return render_template(
         "view_unit.html",
         unit=unit,
         html_content=html_content,
-        vocabulary_entries=vocabulary_entries,
-        path_index=path_index
+        vocabulary_entries=vocabulary_entries
     )
 
 
 @course_bp.route("/student/chapter/<chapter_id>/quiz", methods=["GET", "POST"])
 @login_required
 def take_chapter_quiz(chapter_id):
-    """
-    Student takes a chapter vocabulary quiz.
-
-    Wrong target_words are added to Vocabulary Review.
-    """
-
     if current_user.role != "student":
         return "Unauthorized", 403
 
+    user = current_user._get_current_object()
     chapter = Chapter.objects.get(id=chapter_id)
 
-    if not chapter.quiz_questions or len(chapter.quiz_questions) == 0:
-        flash("This chapter does not have a vocabulary quiz yet.", "warning")
+    if not chapter.is_quiz_ready():
+        flash("This chapter quiz is not ready yet.", "warning")
         return redirect(url_for("course.student_learning_paths"))
 
+    if not can_take_chapter_quiz(user, chapter):
+        flash("Please complete all units in this chapter before taking the quiz.", "warning")
+        return redirect(url_for("course.student_learning_paths"))
+
+    previous_attempts = ChapterQuizAttempt.objects(
+        student=user,
+        chapter=chapter
+    ).order_by("-created_at")
+
     if request.method == "POST":
-        score = 0
+        correct_count = 0
         total = len(chapter.quiz_questions)
+        answer_records = []
         results = []
-        wrong_words_added = 0
+        review_words_added = 0
 
         for index, question in enumerate(chapter.quiz_questions):
             user_answer = request.form.get(f"answer_{index}", "").strip()
-            correct_answer = question.answer
-
+            correct_answer = question.answer.strip()
             is_correct = user_answer == correct_answer
 
             if is_correct:
-                score += 1
-            else:
-                added = add_word_to_review_by_text(
-                    user=current_user,
-                    target_word=question.target_word,
-                    was_correct=False
-                )
+                correct_count += 1
 
-                if added:
-                    wrong_words_added += 1
+            added = add_quiz_word_to_review(
+                user=user,
+                target_word=question.target_word,
+                user_answer=user_answer,
+                correct_answer=correct_answer,
+                is_correct=is_correct
+            )
+
+            if added:
+                review_words_added += 1
+
+            record = QuizAnswerRecord(
+                question=question.question,
+                target_word=question.target_word,
+                user_answer=user_answer,
+                correct_answer=correct_answer,
+                is_correct=is_correct,
+                explanation=question.explanation
+            )
+            answer_records.append(record)
 
             results.append({
                 "index": index + 1,
                 "question": question,
                 "user_answer": user_answer,
                 "correct_answer": correct_answer,
-                "is_correct": is_correct
+                "is_correct": is_correct,
             })
 
-        # XP rule:
-        # Complete quiz: +5 XP
-        # Each correct answer: +2 XP
-        xp_gained = 5 + (score * 2)
-        safe_add_xp(current_user, xp_gained)
+        score = correct_count * 20
+
+        xp_gained = 5 + (correct_count * 2)
+
+        if correct_count == total:
+            xp_gained += 5
+
+        safe_add_xp(user, xp_gained)
+
+        attempt = ChapterQuizAttempt(
+            student=user,
+            chapter=chapter,
+            score=score,
+            correct_count=correct_count,
+            total_questions=total,
+            xp_gained=xp_gained,
+            answers=answer_records
+        )
+        attempt.save()
 
         return render_template(
             "chapter_quiz_result.html",
             chapter=chapter,
             score=score,
+            correct_count=correct_count,
             total=total,
             results=results,
             xp_gained=xp_gained,
-            wrong_words_added=wrong_words_added
+
+            # New name
+            review_words_added=review_words_added,
+
+            # Compatibility with template that uses review_added_count
+            review_added_count=review_words_added,
+
+            attempt=attempt
         )
 
     return render_template(
         "chapter_quiz.html",
-        chapter=chapter
+        chapter=chapter,
+        previous_attempts=previous_attempts.limit(10)
     )
 
+
+# ============================================================
+# Vocabulary admin routes
+# ============================================================
 
 @course_bp.route("/admin/vocabulary")
 @login_required

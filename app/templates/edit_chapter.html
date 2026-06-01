@@ -1,17 +1,254 @@
 {% extends "base.html" %}
+
+{% block title %}Edit Chapter{% endblock %}
+
 {% block content %}
-<h2>Edit Chapter: {{ chapter.title }}</h2>
-<form method="POST">
-    <input type="text" name="title" value="{{ chapter.title }}" required>
-    
-    <select name="rule_type">
-        <option value="none" {% if chapter.unlock_rule_type == 'none' %}selected{% endif %}>No Unlock Rule</option>
-        <option value="level" {% if chapter.unlock_rule_type == 'level' %}selected{% endif %}>Level Required</option>
-        <option value="score" {% if chapter.unlock_rule_type == 'score' %}selected{% endif %}>Score Required</option>
-    </select>
-    
-    <input type="number" name="threshold" value="{{ chapter.unlock_threshold }}" min="0">
-    
-    <button type="submit">Save Changes</button>
-</form>
+
+<style>
+    .edit-chapter-page {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .page-card {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        padding: 32px;
+    }
+
+    .page-title {
+        margin: 0 0 10px 0;
+        color: #212529;
+        font-size: 1.9rem;
+        font-weight: 800;
+        line-height: 1.4;
+    }
+
+    .page-subtitle {
+        margin-bottom: 28px;
+        color: #6c757d;
+        line-height: 1.7;
+    }
+
+    .section-title {
+        margin-top: 28px;
+        margin-bottom: 10px;
+        color: #212529;
+        font-size: 1.25rem;
+        font-weight: 800;
+    }
+
+    .section-description {
+        margin-bottom: 18px;
+        color: #6c757d;
+        line-height: 1.7;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #343a40;
+        font-weight: bold;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 0.85rem;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        font-size: 1rem;
+        background-color: #ffffff;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
+
+    .hint {
+        margin-top: 6px;
+        color: #6c757d;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .rule-preview {
+        margin-top: 22px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background-color: #f8f9fa;
+        border-left: 5px solid #007bff;
+        color: #495057;
+        line-height: 1.7;
+    }
+
+    .rule-preview strong {
+        color: #212529;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 28px;
+    }
+
+    @media (max-width: 768px) {
+        .page-card {
+            padding: 22px;
+        }
+
+        .page-title {
+            font-size: 1.45rem;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .actions .btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="edit-chapter-page">
+
+    <div class="page-card">
+        <h2 class="page-title">
+            Edit Chapter: {{ chapter.title }}
+        </h2>
+
+        <p class="page-subtitle">
+            你可以在這裡修改 Chapter 名稱，並設定多重解鎖條件。只有全部條件都通過時，學生才可以進入這個 Chapter。
+        </p>
+
+        {% set ns = namespace(required_level="0", required_score="0", required_cefr="") %}
+
+        {% if chapter.unlock_rules %}
+            {% for rule in chapter.unlock_rules %}
+                {% if rule.rule_type == "level" %}
+                    {% set ns.required_level = rule.value %}
+                {% elif rule.rule_type == "score" %}
+                    {% set ns.required_score = rule.value %}
+                {% elif rule.rule_type == "cefr" %}
+                    {% set ns.required_cefr = rule.value %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+
+            <div class="form-group full">
+                <label for="title">Chapter Title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    class="form-control"
+                    value="{{ chapter.title }}"
+                    required
+                >
+            </div>
+
+            <h3 class="section-title">
+                Multi Unlock Rules
+            </h3>
+
+            <p class="section-description">
+                下方三個條件可以同時存在。若填 0 或留空，代表不啟用該限制。
+            </p>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="required_level">Required User Level</label>
+                    <input
+                        type="number"
+                        id="required_level"
+                        name="required_level"
+                        class="form-control"
+                        min="0"
+                        value="{{ ns.required_level }}"
+                    >
+                    <div class="hint">
+                        0 表示不限制使用者等級。
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="required_score">Required Quiz Score</label>
+                    <input
+                        type="number"
+                        id="required_score"
+                        name="required_score"
+                        class="form-control"
+                        min="0"
+                        max="100"
+                        value="{{ ns.required_score }}"
+                    >
+                    <div class="hint">
+                        0 表示不限制測驗分數。建議可設定 60、80 或 100。
+                    </div>
+                </div>
+
+                <div class="form-group full">
+                    <label for="required_cefr">Required CEFR</label>
+                    <select
+                        id="required_cefr"
+                        name="required_cefr"
+                        class="form-control"
+                    >
+                        <option value="" {% if not ns.required_cefr %}selected{% endif %}>
+                            No CEFR Requirement
+                        </option>
+                        <option value="A1" {% if ns.required_cefr == "A1" %}selected{% endif %}>A1</option>
+                        <option value="A2" {% if ns.required_cefr == "A2" %}selected{% endif %}>A2</option>
+                        <option value="B1" {% if ns.required_cefr == "B1" %}selected{% endif %}>B1</option>
+                        <option value="B2" {% if ns.required_cefr == "B2" %}selected{% endif %}>B2</option>
+                        <option value="C1" {% if ns.required_cefr == "C1" %}selected{% endif %}>C1</option>
+                        <option value="C2" {% if ns.required_cefr == "C2" %}selected{% endif %}>C2</option>
+                    </select>
+                    <div class="hint">
+                        例如設定 A2，代表學生 CEFR 至少要 A2 才能解鎖。
+                    </div>
+                </div>
+            </div>
+
+            <div class="rule-preview">
+                <strong>Current Rule:</strong><br>
+                {{ chapter.get_rule_description() }}
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">
+                    Save Changes
+                </button>
+
+                <a href="{{ url_for('course.admin_course_dashboard') }}" class="btn btn-secondary">
+                    Back to Courses
+                </a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
 {% endblock %}

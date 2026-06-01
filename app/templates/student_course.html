@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
+{% block title %}My Learning Path{% endblock %}
+
 {% block content %}
 
 <style>
     .student-course-page {
-        max-width: 1000px;
+        max-width: 1050px;
         margin: 0 auto;
     }
 
@@ -34,6 +36,7 @@
 
     .chapter-card {
         border: 1px solid #dee2e6;
+        border-left: 5px solid #007bff;
         border-radius: 16px;
         background-color: #f8f9fa;
         padding: 18px;
@@ -41,8 +44,9 @@
     }
 
     .chapter-card.locked {
-        opacity: 0.6;
+        opacity: 0.65;
         background-color: #f1f3f5;
+        border-left-color: #adb5bd;
     }
 
     .chapter-header {
@@ -82,7 +86,10 @@
     }
 
     .unit-link {
-        display: block;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
         padding: 12px 14px;
         border-radius: 12px;
         background-color: #ffffff;
@@ -97,6 +104,38 @@
         background-color: #eaf4ff;
         border-color: #007bff;
         text-decoration: none;
+    }
+
+    .unit-link.locked {
+        color: #6c757d;
+        background-color: #f1f3f5;
+        border-color: #dee2e6;
+        cursor: not-allowed;
+        text-decoration: none;
+    }
+
+    .unit-status {
+        display: inline-block;
+        padding: 4px 9px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .unit-status.completed {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .unit-status.available {
+        background-color: #eaf4ff;
+        color: #007bff;
+    }
+
+    .unit-status.locked {
+        background-color: #e9ecef;
+        color: #6c757d;
     }
 
     .quiz-area {
@@ -114,10 +153,52 @@
         line-height: 1.6;
     }
 
+    .quiz-note.locked {
+        color: #6c757d;
+        font-weight: bold;
+    }
+
     .locked-text {
         color: #6c757d;
         line-height: 1.7;
         margin-bottom: 0;
+    }
+
+    .quiz-record-box {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .quiz-record-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background-color: #eaf4ff;
+        color: #007bff;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .quiz-record-badge.best {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .quiz-record-badge.empty {
+        background-color: #f1f3f5;
+        color: #6c757d;
+    }
+
+    .chapter-rule {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background-color: #eaf4ff;
+        color: #007bff;
+        font-size: 0.85rem;
+        font-weight: bold;
     }
 
     @media (max-width: 768px) {
@@ -129,7 +210,23 @@
             padding: 16px;
         }
 
-        .quiz-area .btn {
+        .chapter-header {
+            align-items: stretch;
+        }
+
+        .chapter-title,
+        .badge,
+        .chapter-rule {
+            width: 100%;
+        }
+
+        .unit-link {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .quiz-area .btn,
+        .quiz-area a {
             width: 100%;
             text-align: center;
         }
@@ -147,36 +244,85 @@
             </h3>
 
             {% for chapter in path.chapters %}
-                <div class="chapter-card {% if not chapter.is_unlocked(user) %}locked{% endif %}">
+                {% set chapter_unlocked = chapter.is_unlocked(user) %}
+                {% set latest_attempt = latest_attempt_map.get(chapter.id|string) %}
+                {% set best_score = best_score_map.get(chapter.id|string) %}
+                {% set quiz_can_access = quiz_access_map.get(chapter.id|string) %}
+
+                <div class="chapter-card {% if not chapter_unlocked %}locked{% endif %}">
 
                     <div class="chapter-header">
                         <h4 class="chapter-title">
                             {{ chapter.title }}
                         </h4>
 
-                        {% if not chapter.is_unlocked(user) %}
+                        {% if not chapter_unlocked %}
                             <span class="badge">
-                                🔒 Locked (Req: {{ chapter.get_rule_description() }})
+                                🔒 Locked: {{ chapter.get_rule_description() }}
+                            </span>
+                        {% else %}
+                            <span class="chapter-rule">
+                                {{ chapter.get_rule_description() }}
                             </span>
                         {% endif %}
                     </div>
 
-                    {% if chapter.is_unlocked(user) %}
+                    <div class="quiz-record-box">
+                        {% if latest_attempt %}
+                            <span class="quiz-record-badge">
+                                Latest Score: {{ latest_attempt.score }}/100
+                            </span>
+
+                            {% if best_score is not none %}
+                                <span class="quiz-record-badge best">
+                                    Best Score: {{ best_score }}/100
+                                </span>
+                            {% endif %}
+                        {% else %}
+                            <span class="quiz-record-badge empty">
+                                No Quiz Record
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    {% if chapter_unlocked %}
                         <ul class="unit-list">
                             {% for unit in chapter.units %}
+                                {% set unit_can_access = unit_access_map.get(unit.id|string) %}
+                                {% set unit_completed = unit_completed_map.get(unit.id|string) %}
+
                                 <li class="unit-item">
-                                    <a
-                                        href="{{ url_for('course.view_unit', unit_id=unit.id|string) }}"
-                                        class="unit-link"
-                                    >
-                                        {{ unit.title }}
-                                    </a>
+                                    {% if unit_can_access %}
+                                        <a
+                                            href="{{ url_for('course.view_unit', unit_id=unit.id|string) }}"
+                                            class="unit-link"
+                                        >
+                                            <span>{{ unit.title }}</span>
+
+                                            {% if unit_completed %}
+                                                <span class="unit-status completed">
+                                                    Completed
+                                                </span>
+                                            {% else %}
+                                                <span class="unit-status available">
+                                                    Available
+                                                </span>
+                                            {% endif %}
+                                        </a>
+                                    {% else %}
+                                        <div class="unit-link locked">
+                                            <span>🔒 {{ unit.title }}</span>
+                                            <span class="unit-status locked">
+                                                Complete previous unit first
+                                            </span>
+                                        </div>
+                                    {% endif %}
                                 </li>
                             {% endfor %}
                         </ul>
 
                         <div class="quiz-area">
-                            {% if chapter.quiz_questions and chapter.quiz_questions|length > 0 %}
+                            {% if chapter.is_quiz_ready() and quiz_can_access %}
                                 <a
                                     href="{{ url_for('course.take_chapter_quiz', chapter_id=chapter.id|string) }}"
                                     class="btn btn-primary"
@@ -185,17 +331,24 @@
                                 </a>
 
                                 <span class="quiz-note">
-                                    Complete the 5-question vocabulary quiz for this chapter.
+                                    You have completed all units. Quiz is available now.
                                 </span>
-                            {% else %}
+
+                            {% elif not chapter.is_quiz_ready() %}
                                 <span class="quiz-note">
-                                    Vocabulary quiz is not available yet.
+                                    Quiz is not ready yet.
+                                </span>
+
+                            {% else %}
+                                <span class="quiz-note locked">
+                                    🔒 Complete all units before taking the quiz.
                                 </span>
                             {% endif %}
                         </div>
+
                     {% else %}
                         <p class="locked-text">
-                            Complete more chapters to unlock!
+                            Complete the required conditions to unlock this chapter.
                         </p>
                     {% endif %}
 

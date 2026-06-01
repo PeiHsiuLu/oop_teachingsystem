@@ -3,7 +3,7 @@ from flask_bcrypt import Bcrypt
 from mongoengine import connect
 from pymongo.errors import OperationFailure
 from app.models.user import User, Student, Admin
-from app.models.course import LearningPath, Chapter, Unit
+from app.models.course import LearningPath, Chapter, Unit, ChapterQuizAttempt
 from app.models.word import Word, SentenceGeneratingRule, ReviewItem
 from app.models.dialogue import DialogueNode
 from app.models.analytics import InteractionLog
@@ -36,6 +36,7 @@ def create_app():
     LearningPath.ensure_indexes()
     Chapter.ensure_indexes()
     Unit.ensure_indexes()
+    ChapterQuizAttempt.ensure_indexes()
     
     # New: Word database models
     try:

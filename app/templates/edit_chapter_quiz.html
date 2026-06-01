@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block title %}Edit Chapter Vocabulary Quiz{% endblock %}
 
 {% block content %}
@@ -27,6 +26,25 @@
         line-height: 1.7;
     }
 
+    .status-box {
+        padding: 14px 16px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .status-ready {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .status-draft {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+
     .quiz-card {
         background: #ffffff;
         border: 1px solid #e3e8f0;
@@ -42,6 +60,18 @@
         color: #212529;
         font-size: 1.25rem;
         font-weight: 800;
+    }
+
+    .question-complete {
+        color: #28a745;
+        font-size: 0.95rem;
+        font-weight: bold;
+    }
+
+    .question-draft {
+        color: #856404;
+        font-size: 0.95rem;
+        font-weight: bold;
     }
 
     .form-grid {
@@ -110,17 +140,24 @@
 </style>
 
 <div class="quiz-editor-page">
-
     <div class="page-header">
-        <h2 class="page-title">
-            📝 Edit Vocabulary Quiz
-        </h2>
+        <h2 class="page-title">📝 Edit Vocabulary Quiz</h2>
 
         <p class="page-subtitle">
             Chapter: <strong>{{ chapter.title }}</strong><br>
-            每個 Chapter 需要 5 題單字選擇題，用來測驗學生是否熟悉本章重點單字。
+            每個 Chapter 共有 5 題單字選擇題。你可以先暫存草稿；只有 5 題都完整時，系統才會顯示 Quiz Ready。
         </p>
     </div>
+
+    {% if chapter.is_quiz_ready() %}
+        <div class="status-box status-ready">
+            Quiz Ready：5 題都已完成，學生可以作答。
+        </div>
+    {% else %}
+        <div class="status-box status-draft">
+            Quiz Draft：目前仍可暫存，但還沒有完整完成所有題目。
+        </div>
+    {% endif %}
 
     <form method="POST">
         {% for i in range(1, 6) %}
@@ -129,6 +166,11 @@
             <div class="quiz-card">
                 <h3 class="quiz-card-title">
                     Question {{ i }}
+                    {% if q and q.is_complete() %}
+                        <span class="question-complete">Complete</span>
+                    {% else %}
+                        <span class="question-draft">Draft</span>
+                    {% endif %}
                 </h3>
 
                 <div class="form-group full">
@@ -140,7 +182,6 @@
                         class="form-control"
                         value="{{ q.question if q else '' }}"
                         placeholder="Example: What does 'passport' mean?"
-                        required
                     >
                 </div>
 
@@ -153,7 +194,6 @@
                             name="option_{{ i }}_a"
                             class="form-control"
                             value="{{ q.options[0] if q and q.options|length > 0 else '' }}"
-                            required
                         >
                     </div>
 
@@ -165,7 +205,6 @@
                             name="option_{{ i }}_b"
                             class="form-control"
                             value="{{ q.options[1] if q and q.options|length > 1 else '' }}"
-                            required
                         >
                     </div>
 
@@ -177,7 +216,6 @@
                             name="option_{{ i }}_c"
                             class="form-control"
                             value="{{ q.options[2] if q and q.options|length > 2 else '' }}"
-                            required
                         >
                     </div>
 
@@ -189,7 +227,6 @@
                             name="option_{{ i }}_d"
                             class="form-control"
                             value="{{ q.options[3] if q and q.options|length > 3 else '' }}"
-                            required
                         >
                     </div>
                 </div>
@@ -204,7 +241,6 @@
                             class="form-control"
                             value="{{ q.answer if q else '' }}"
                             placeholder="Must exactly match one option"
-                            required
                         >
 
                         <div class="answer-hint">
@@ -224,7 +260,7 @@
                         >
 
                         <div class="answer-hint">
-                            學生答錯時，這個單字會加入 Vocabulary Review。
+                            學生作答後，這個單字會加入 Vocabulary Review。
                         </div>
                     </div>
                 </div>
@@ -244,16 +280,10 @@
         {% endfor %}
 
         <div class="actions">
-            <button type="submit" class="btn btn-primary">
-                Save Quiz
-            </button>
-
-            <a href="{{ url_for('course.admin_course_dashboard') }}" class="btn btn-secondary">
-                Back to Courses
-            </a>
+            <button type="submit" class="btn btn-primary">Save Draft / Quiz</button>
+            <a href="{{ url_for('course.admin_course_dashboard') }}" class="btn btn-secondary">Back to Courses</a>
         </div>
     </form>
-
 </div>
 
 {% endblock %}

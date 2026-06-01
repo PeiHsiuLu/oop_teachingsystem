@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block title %}Chapter Vocabulary Quiz{% endblock %}
 
 {% block content %}
@@ -25,6 +24,28 @@
         margin-top: 8px;
         color: #6c757d;
         line-height: 1.7;
+    }
+
+    .attempt-history {
+        margin-bottom: 24px;
+        padding: 16px;
+        border-radius: 14px;
+        background-color: #f8f9fa;
+        border: 1px solid #e3e8f0;
+    }
+
+    .attempt-history h3 {
+        margin-top: 0;
+    }
+
+    .attempt-row {
+        padding: 8px 0;
+        border-bottom: 1px solid #dee2e6;
+        color: #495057;
+    }
+
+    .attempt-row:last-child {
+        border-bottom: none;
     }
 
     .question-card {
@@ -85,17 +106,30 @@
 </style>
 
 <div class="quiz-page">
-
     <div class="quiz-header">
-        <h2 class="quiz-title">
-            🧩 Chapter Vocabulary Quiz
-        </h2>
+        <h2 class="quiz-title">🧩 Chapter Vocabulary Quiz</h2>
 
         <p class="quiz-subtitle">
             Chapter: <strong>{{ chapter.title }}</strong><br>
-            請完成 5 題單字選擇題。答錯的單字會加入你的 Vocabulary Review。
+            一共 5 題，一題 20 分。你可以重複作答，每次結果都會被記錄。
+            每個測驗單字都會加入 Vocabulary Review。
         </p>
     </div>
+
+    {% if previous_attempts and previous_attempts|length > 0 %}
+        <div class="attempt-history">
+            <h3>Recent Quiz Records</h3>
+
+            {% for attempt in previous_attempts %}
+                <div class="attempt-row">
+                    Score: <strong>{{ attempt.score }}</strong> / 100，
+                    Correct: <strong>{{ attempt.correct_count }}</strong> / {{ attempt.total_questions }}，
+                    XP: <strong>{{ attempt.xp_gained }}</strong>，
+                    Time: {{ attempt.created_at.strftime('%Y-%m-%d %H:%M') }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <form method="POST">
         {% for question in chapter.quiz_questions %}
@@ -121,16 +155,10 @@
         {% endfor %}
 
         <div class="actions">
-            <button type="submit" class="btn btn-primary">
-                Submit Quiz
-            </button>
-
-            <a href="{{ url_for('course.student_learning_paths') }}" class="btn btn-secondary">
-                Back to Courses
-            </a>
+            <button type="submit" class="btn btn-primary">Submit Quiz</button>
+            <a href="{{ url_for('course.student_learning_paths') }}" class="btn btn-secondary">Back to Courses</a>
         </div>
     </form>
-
 </div>
 
 {% endblock %}

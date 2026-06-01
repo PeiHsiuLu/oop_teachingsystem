@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block title %}Quiz Result{% endblock %}
 
 {% block content %}
@@ -101,17 +100,16 @@
 </style>
 
 <div class="result-page">
-
     <div class="result-summary">
         <div class="score">
-            {{ score }} / {{ total }}
+            {{ score }} / 100
         </div>
 
         <div class="summary-text">
             Chapter: <strong>{{ chapter.title }}</strong><br>
+            Correct: <strong>{{ correct_count }}</strong> / {{ total }}<br>
             You gained <strong>{{ xp_gained }}</strong> XP.<br>
-            Wrong words added to Vocabulary Review:
-            <strong>{{ wrong_words_added }}</strong>
+            <p>Vocabulary Review records added: <strong>{{ review_added_count|default(0) }}</strong></p>
         </div>
     </div>
 
@@ -122,13 +120,9 @@
             </h3>
 
             {% if item.is_correct %}
-                <div class="answer-line correct-text">
-                    Correct!
-                </div>
+                <div class="answer-line correct-text">Correct!</div>
             {% else %}
-                <div class="answer-line incorrect-text">
-                    Incorrect.
-                </div>
+                <div class="answer-line incorrect-text">Incorrect.</div>
             {% endif %}
 
             <div class="answer-line">
@@ -158,15 +152,9 @@
     {% endfor %}
 
     <div class="actions">
-        <a href="{{ url_for('course.student_learning_paths') }}" class="btn btn-primary">
-            Back to Courses
-        </a>
-
-        <a href="{{ url_for('course.take_chapter_quiz', chapter_id=chapter.id) }}" class="btn btn-secondary">
-            Try Again
-        </a>
+        <a href="{{ url_for('course.student_learning_paths') }}" class="btn btn-primary">Back to Courses</a>
+        <a href="{{ url_for('course.take_chapter_quiz', chapter_id=chapter.id|string) }}" class="btn btn-secondary">Try Again</a>
     </div>
-
 </div>
 
 {% endblock %}

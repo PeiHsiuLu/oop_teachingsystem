@@ -1,24 +1,427 @@
 {% extends "base.html" %}
+
+{% block title %}Edit Unit{% endblock %}
+
 {% block content %}
-<h2>Edit Unit: {{ unit.title }}</h2>
 
-<!-- EasyMDE Styles -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<style>
+    .edit-unit-page {
+        max-width: 1120px;
+        margin: 0 auto;
+    }
 
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-        {{ form.content.label }}
-        {{ form.content(id="markdown-editor") }}
+    .edit-unit-header {
+        margin-bottom: 24px;
+    }
+
+    .edit-unit-title {
+        margin: 0;
+        color: #212529;
+        font-size: 1.9rem;
+        font-weight: 800;
+        line-height: 1.35;
+    }
+
+    .edit-unit-subtitle {
+        margin-top: 8px;
+        color: #6c757d;
+        line-height: 1.7;
+    }
+
+    .editor-card,
+    .vocab-panel {
+        background-color: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        margin-bottom: 28px;
+    }
+
+    .editor-card-header,
+    .vocab-panel-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid #e9ecef;
+        background: linear-gradient(135deg, #ffffff, #f8f9ff);
+    }
+
+    .editor-card-title,
+    .vocab-panel-title {
+        margin: 0;
+        color: #212529;
+        font-size: 1.25rem;
+        font-weight: 800;
+        line-height: 1.4;
+    }
+
+    .editor-card-description,
+    .vocab-panel-description {
+        margin-top: 6px;
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+    .editor-card-body,
+    .vocab-panel-body {
+        padding: 24px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #343a40;
+    }
+
+    .course-textarea {
+        width: 100%;
+        min-height: 520px;
+        padding: 18px;
+        border: 1px solid #ced4da;
+        border-radius: 12px;
+        font-size: 1rem;
+        line-height: 1.8;
+        resize: vertical;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #ffffff;
+    }
+
+    .course-textarea:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
+
+    .editor-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    .primary-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .save-button {
+        padding: 0.75rem 1.25rem;
+        font-weight: bold;
+        border-radius: 8px;
+    }
+
+    .cancel-link {
+        display: inline-block;
+        padding: 0.75rem 1rem;
+        color: #6c757d;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .cancel-link:hover {
+        color: #343a40;
+        text-decoration: underline;
+    }
+
+    .editor-note {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .vocab-entry-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+    }
+
+    .vocab-entry-card {
+        padding: 18px;
+        border-radius: 16px;
+        background-color: #ffffff;
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 5px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .vocab-entry-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    .vocab-word {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: #007bff;
+    }
+
+    .vocab-level {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background-color: #eaf4ff;
+        color: #007bff;
+        font-weight: bold;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .vocab-meta {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #dee2e6;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .vocab-definition {
+        margin-bottom: 12px;
+        color: #212529;
+        font-weight: bold;
+        line-height: 1.6;
+    }
+
+    .vocab-example {
+        padding: 12px 14px;
+        border-radius: 12px;
+        background-color: #f8f9fa;
+        border-left: 5px solid #007bff;
+        color: #495057;
+        line-height: 1.7;
+        font-style: italic;
+    }
+
+    .empty-example {
+        color: #6c757d;
+        font-style: normal;
+    }
+
+    .empty-vocab-box {
+        padding: 20px;
+        border-radius: 14px;
+        background-color: #f8f9fa;
+        color: #6c757d;
+        text-align: center;
+        line-height: 1.7;
+    }
+
+    .guide-box {
+        margin-top: 18px;
+        padding: 16px;
+        border-radius: 14px;
+        background-color: #f8f9fa;
+        color: #495057;
+        line-height: 1.7;
+        font-size: 0.95rem;
+    }
+
+    .guide-box strong {
+        color: #212529;
+    }
+
+    .hidden-source {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .edit-unit-title {
+            font-size: 1.45rem;
+        }
+
+        .editor-card-body,
+        .editor-card-header,
+        .vocab-panel-body,
+        .vocab-panel-header {
+            padding: 18px;
+        }
+
+        .course-textarea {
+            min-height: 380px;
+        }
+
+        .primary-actions {
+            width: 100%;
+        }
+
+        .primary-actions .btn,
+        .cancel-link {
+            width: 100%;
+            text-align: center;
+        }
+
+        .editor-actions {
+            align-items: stretch;
+        }
+
+        .vocab-entry-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="edit-unit-page">
+
+    <div class="edit-unit-header">
+        <h2 class="edit-unit-title">
+            Edit Unit: {{ unit.title }}
+        </h2>
+
+        <p class="edit-unit-subtitle">
+            編輯課文內容。下方重點單字會由系統從課文中比對單字庫自動產生，並顯示中文意思、詞性、難度與例句。
+        </p>
     </div>
-    <br>
-    {{ form.submit(class="btn btn-primary") }}
-    <a href="{{ url_for('course.admin_course_dashboard') }}">Cancel</a>
-</form>
 
-<!-- EasyMDE Script -->
-<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+    <textarea id="originalContentSource" class="hidden-source">{{ unit.content }}</textarea>
+
+    <form method="POST" id="editUnitForm">
+        <input type="hidden" id="content" name="content">
+
+        <div class="editor-card">
+            <div class="editor-card-header">
+                <h3 class="editor-card-title">
+                    📖 課文內容 / Dialogue Content
+                </h3>
+
+                <div class="editor-card-description">
+                    請在這裡編輯主要課文、對話與中文翻譯。重點單字會由系統依照課文自動比對單字庫。
+                </div>
+            </div>
+
+            <div class="editor-card-body">
+                <label for="lessonContent" class="form-label">
+                    Course Text
+                </label>
+
+                <textarea
+                    id="lessonContent"
+                    class="course-textarea"
+                    required
+                ></textarea>
+
+                <div class="editor-actions">
+                    <div class="primary-actions">
+                        <button type="submit" class="btn btn-primary save-button">
+                            Save Changes
+                        </button>
+
+                        <a href="{{ url_for('course.admin_course_dashboard') }}" class="cancel-link">
+                            Cancel
+                        </a>
+                    </div>
+
+                    <div class="editor-note">
+                        Tip: 儲存後下方單字資料會根據最新課文重新抓取。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <section class="vocab-panel">
+        <div class="vocab-panel-header">
+            <h3 class="vocab-panel-title">
+                🧩 重點單字 / Key Vocabulary
+            </h3>
+
+            <div class="vocab-panel-description">
+                以下單字由系統從課文中比對單字庫自動產生，例句也會直接從單字庫抓取。
+            </div>
+        </div>
+
+        <div class="vocab-panel-body">
+            {% if vocabulary_entries %}
+                <div class="vocab-entry-grid">
+                    {% for vocab in vocabulary_entries %}
+                        <div class="vocab-entry-card">
+                            <div class="vocab-entry-header">
+                                <span class="vocab-word">
+                                    {{ vocab.word_text }}
+                                </span>
+
+                                <span class="vocab-level">
+                                    {{ vocab.difficulty_level }}
+                                </span>
+                            </div>
+
+                            <div class="vocab-meta">
+                                {{ vocab.part_of_speech }}
+                            </div>
+
+                            <div class="vocab-definition">
+                                {{ vocab.definition }}
+                            </div>
+
+                            {% if vocab.example_sentence %}
+                                <div class="vocab-example">
+                                    <strong>Example:</strong><br>
+                                    {{ vocab.example_sentence }}
+                                </div>
+                            {% else %}
+                                <div class="vocab-example empty-example">
+                                    This word has no example sentence in the word database.
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-vocab-box">
+                    目前沒有從課文中找到單字庫裡的單字。<br>
+                    請確認課文中的英文單字是否已存在於單字庫，且不是 stop word。
+                </div>
+            {% endif %}
+
+            <div class="guide-box">
+                <strong>說明：</strong><br>
+                這裡不是手動輸入區。系統會根據上方課文內容，自動找出單字庫中有出現的單字，並顯示該單字的例句。
+            </div>
+        </div>
+    </section>
+
+</div>
+
 <script>
-    const easyMDE = new EasyMDE({element: document.getElementById('markdown-editor')});
+    const originalContentSource = document.getElementById("originalContentSource");
+    const lessonContent = document.getElementById("lessonContent");
+    const hiddenContent = document.getElementById("content");
+    const editUnitForm = document.getElementById("editUnitForm");
+
+    function removeOldVocabularySection(content) {
+        const markers = [
+            "單字：",
+            "單字:",
+            "Vocabulary:",
+            "Vocabulary：",
+            "Key Vocabulary:",
+            "Key Vocabulary："
+        ];
+
+        for (let i = 0; i < markers.length; i += 1) {
+            const marker = markers[i];
+            const index = content.indexOf(marker);
+
+            if (index !== -1) {
+                return content.slice(0, index).trim();
+            }
+        }
+
+        return content.trim();
+    }
+
+    const originalContent = originalContentSource.value;
+    lessonContent.value = removeOldVocabularySection(originalContent);
+
+    editUnitForm.addEventListener("submit", function () {
+        hiddenContent.value = lessonContent.value.trim();
+    });
 </script>
+
 {% endblock %}

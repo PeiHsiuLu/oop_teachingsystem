@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Result{% endblock %}
+
+{% block content %}
+
+<style>
+    .result-page {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .result-summary {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        padding: 28px;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+
+    .score {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #007bff;
+        margin-bottom: 8px;
+    }
+
+    .summary-text {
+        color: #495057;
+        line-height: 1.7;
+    }
+
+    .result-card {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 16px;
+        padding: 22px;
+        margin-bottom: 18px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .result-card.correct {
+        border-left: 6px solid #28a745;
+    }
+
+    .result-card.incorrect {
+        border-left: 6px solid #dc3545;
+    }
+
+    .question-title {
+        margin-top: 0;
+        color: #212529;
+        font-weight: 800;
+        line-height: 1.6;
+    }
+
+    .answer-line {
+        margin: 8px 0;
+        color: #495057;
+    }
+
+    .correct-text {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .incorrect-text {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .explanation {
+        margin-top: 12px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        color: #495057;
+        line-height: 1.7;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    @media (max-width: 768px) {
+        .result-summary,
+        .result-card {
+            padding: 18px;
+        }
+
+        .actions .btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="result-page">
+
+    <div class="result-summary">
+        <div class="score">
+            {{ score }} / {{ total }}
+        </div>
+
+        <div class="summary-text">
+            Chapter: <strong>{{ chapter.title }}</strong><br>
+            You gained <strong>{{ xp_gained }}</strong> XP.<br>
+            Wrong words added to Vocabulary Review:
+            <strong>{{ wrong_words_added }}</strong>
+        </div>
+    </div>
+
+    {% for item in results %}
+        <div class="result-card {% if item.is_correct %}correct{% else %}incorrect{% endif %}">
+            <h3 class="question-title">
+                {{ item.index }}. {{ item.question.question }}
+            </h3>
+
+            {% if item.is_correct %}
+                <div class="answer-line correct-text">
+                    Correct!
+                </div>
+            {% else %}
+                <div class="answer-line incorrect-text">
+                    Incorrect.
+                </div>
+            {% endif %}
+
+            <div class="answer-line">
+                Your answer:
+                <strong>{{ item.user_answer if item.user_answer else "No answer" }}</strong>
+            </div>
+
+            <div class="answer-line">
+                Correct answer:
+                <strong>{{ item.correct_answer }}</strong>
+            </div>
+
+            {% if item.question.target_word %}
+                <div class="answer-line">
+                    Target word:
+                    <strong>{{ item.question.target_word }}</strong>
+                </div>
+            {% endif %}
+
+            {% if item.question.explanation %}
+                <div class="explanation">
+                    <strong>Explanation:</strong><br>
+                    {{ item.question.explanation }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div class="actions">
+        <a href="{{ url_for('course.student_learning_paths') }}" class="btn btn-primary">
+            Back to Courses
+        </a>
+
+        <a href="{{ url_for('course.take_chapter_quiz', chapter_id=chapter.id) }}" class="btn btn-secondary">
+            Try Again
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

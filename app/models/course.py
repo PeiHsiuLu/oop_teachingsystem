@@ -1,4 +1,12 @@
-from mongoengine import Document, StringField, ReferenceField, ListField, IntField
+from mongoengine import (
+    Document,
+    EmbeddedDocument,
+    StringField,
+    IntField,
+    ListField,
+    ReferenceField,
+    EmbeddedDocumentField
+)
 from app.services.unlock_rules import LevelRule, ScoreRule
 
 class Unit(Document):
@@ -9,8 +17,18 @@ class Unit(Document):
     # New method to help the UI
     def get_template(self):
         return f"units/{self.unit_type}.html"
+class QuizQuestion(EmbeddedDocument):
+    """
+    Vocabulary quiz question for each chapter.
+    """
 
+    question = StringField(required=True)
+    options = ListField(StringField(), required=True)
+    answer = StringField(required=True)
+    target_word = StringField(default="")
+    explanation = StringField(default="")
 class Chapter(Document):
+    quiz_questions = ListField(EmbeddedDocumentField(QuizQuestion))
     title = StringField(required=True)
     units = ListField(ReferenceField(Unit)) # Chapter is composed of many Units
     unlock_rule_type = StringField() # e.g., "level" or "score"

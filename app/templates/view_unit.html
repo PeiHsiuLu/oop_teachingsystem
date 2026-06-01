@@ -1,13 +1,234 @@
 {% extends "base.html" %}
+
+{% block title %}{{ unit.title }}{% endblock %}
+
 {% block content %}
-<div class="card" style="padding: 2rem;">
-    <h2>{{ unit.title }}</h2>
-    <hr>
-    <div class="content-body">
-        <!-- This renders the actual study material -->
-        {{ html_content|safe }}
+
+<style>
+    .lesson-page {
+        max-width: 960px;
+        margin: 0 auto;
+    }
+
+    .lesson-header {
+        margin-bottom: 24px;
+    }
+
+    .lesson-title {
+        margin: 0;
+        color: #212529;
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1.4;
+    }
+
+    .lesson-subtitle {
+        margin-top: 8px;
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+    .lesson-card {
+        background-color: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        margin-bottom: 28px;
+    }
+
+    .lesson-card-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid #e9ecef;
+        background: linear-gradient(135deg, #ffffff, #f8f9ff);
+    }
+
+    .lesson-card-title {
+        margin: 0;
+        color: #212529;
+        font-size: 1.3rem;
+        font-weight: 800;
+    }
+
+    .lesson-content {
+        padding: 28px;
+        font-size: 1.08rem;
+        line-height: 2;
+        color: #212529;
+        white-space: normal;
+    }
+
+    .lesson-content p {
+        margin-bottom: 1rem;
+    }
+
+    .vocab-highlight {
+        font-weight: 800;
+        color: #0056b3;
+        background-color: #eaf4ff;
+        padding: 1px 4px;
+        border-radius: 4px;
+    }
+
+    .vocabulary-section {
+        margin-top: 28px;
+    }
+
+    .vocabulary-title {
+        margin-bottom: 16px;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #212529;
+    }
+
+    .vocabulary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+    }
+
+    .vocab-card {
+        background-color: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 16px;
+        padding: 18px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .vocab-word {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #007bff;
+        margin-bottom: 8px;
+    }
+
+    .vocab-meta {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+
+    .vocab-badge {
+        display: inline-block;
+        padding: 4px 9px;
+        border-radius: 999px;
+        background-color: #f8f9fa;
+        color: #495057;
+        border: 1px solid #dee2e6;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .vocab-level {
+        background-color: #eaf4ff;
+        color: #007bff;
+        border: none;
+    }
+
+    .vocab-definition {
+        margin-bottom: 12px;
+        color: #212529;
+        font-weight: bold;
+    }
+
+    .vocab-example {
+        padding: 12px;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        color: #495057;
+        line-height: 1.6;
+        font-style: italic;
+    }
+
+    .back-area {
+        margin-top: 24px;
+    }
+
+    @media (max-width: 768px) {
+        .lesson-title {
+            font-size: 1.5rem;
+        }
+
+        .lesson-content {
+            padding: 20px;
+            font-size: 1rem;
+        }
+
+        .vocabulary-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="lesson-page">
+
+    <div class="lesson-header">
+        <h2 class="lesson-title">
+            {{ unit.title }}
+        </h2>
+
+        <p class="lesson-subtitle">
+            Read the lesson text carefully. Important vocabulary words are highlighted in the passage.
+        </p>
     </div>
-    <br>
-    <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+
+    <div class="lesson-card">
+        <div class="lesson-card-header">
+            <h3 class="lesson-card-title">
+                📖 Lesson Text
+            </h3>
+        </div>
+
+        <div class="lesson-content">
+            {{ html_content | safe }}
+        </div>
+    </div>
+
+    {% if vocabulary_entries %}
+        <div class="vocabulary-section">
+            <h3 class="vocabulary-title">
+                🧩 Vocabulary Notes
+            </h3>
+
+            <div class="vocabulary-grid">
+                {% for vocab in vocabulary_entries %}
+                    <div class="vocab-card">
+                        <div class="vocab-word">
+                            {{ vocab.word_text }}
+                        </div>
+
+                        <div class="vocab-meta">
+                            <span class="vocab-badge">
+                                {{ vocab.part_of_speech }}
+                            </span>
+
+                            <span class="vocab-badge vocab-level">
+                                {{ vocab.difficulty_level }}
+                            </span>
+                        </div>
+
+                        <div class="vocab-definition">
+                            {{ vocab.definition }}
+                        </div>
+
+                        {% if vocab.example_sentence %}
+                            <div class="vocab-example">
+                                Example: {{ vocab.example_sentence }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="back-area">
+        <a href="{{ url_for('course.student_learning_paths') }}" class="btn btn-secondary">
+            Back to Courses
+        </a>
+    </div>
+
 </div>
+
 {% endblock %}

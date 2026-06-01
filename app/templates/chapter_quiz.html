@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Chapter Vocabulary Quiz{% endblock %}
+
+{% block content %}
+
+<style>
+    .quiz-page {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .quiz-header {
+        margin-bottom: 24px;
+    }
+
+    .quiz-title {
+        margin: 0;
+        color: #212529;
+        font-size: 1.9rem;
+        font-weight: 800;
+    }
+
+    .quiz-subtitle {
+        margin-top: 8px;
+        color: #6c757d;
+        line-height: 1.7;
+    }
+
+    .question-card {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+
+    .question-title {
+        margin-top: 0;
+        margin-bottom: 16px;
+        color: #212529;
+        font-size: 1.15rem;
+        font-weight: 800;
+        line-height: 1.6;
+    }
+
+    .option-row {
+        display: block;
+        padding: 12px 14px;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        background-color: #ffffff;
+        transition: 0.2s;
+    }
+
+    .option-row:hover {
+        background-color: #f8f9ff;
+        border-color: #007bff;
+    }
+
+    .option-row input {
+        margin-right: 10px;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    @media (max-width: 768px) {
+        .question-card {
+            padding: 18px;
+        }
+
+        .actions .btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="quiz-page">
+
+    <div class="quiz-header">
+        <h2 class="quiz-title">
+            🧩 Chapter Vocabulary Quiz
+        </h2>
+
+        <p class="quiz-subtitle">
+            Chapter: <strong>{{ chapter.title }}</strong><br>
+            請完成 5 題單字選擇題。答錯的單字會加入你的 Vocabulary Review。
+        </p>
+    </div>
+
+    <form method="POST">
+        {% for question in chapter.quiz_questions %}
+            {% set question_index = loop.index0 %}
+
+            <div class="question-card">
+                <h3 class="question-title">
+                    {{ loop.index }}. {{ question.question }}
+                </h3>
+
+                {% for option in question.options %}
+                    <label class="option-row">
+                        <input
+                            type="radio"
+                            name="answer_{{ question_index }}"
+                            value="{{ option }}"
+                            required
+                        >
+                        {{ option }}
+                    </label>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">
+                Submit Quiz
+            </button>
+
+            <a href="{{ url_for('course.student_learning_paths') }}" class="btn btn-secondary">
+                Back to Courses
+            </a>
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}

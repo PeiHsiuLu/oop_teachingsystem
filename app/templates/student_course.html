@@ -1,33 +1,209 @@
 {% extends "base.html" %}
+
 {% block content %}
 
-<h2>My Learning Path</h2>
+<style>
+    .student-course-page {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
 
-{% for path in paths %}
-    <h3>{{ path.path_name }}</h3>
-    {% for chapter in path.chapters %}
-        <div class="card {% if not chapter.is_unlocked(user) %}locked{% endif %}">
-            <h4>
-                {{ chapter.title }}
-                {% if not chapter.is_unlocked(user) %}
-                    <span class="badge">🔒 Locked (Req: {{ chapter.get_rule_description() }})</span>
-                {% endif %}
-            </h4>
-            
-            {% if chapter.is_unlocked(user) %}
-                <ul>
-                    {% for unit in chapter.units %}
-                        <li>
-                            <a href="{{ url_for('course.view_unit', unit_id=unit.id|string) }}">
-                                {{ unit.title }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>Complete more chapters to unlock!
-            {% endif %}
+    .page-title {
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #212529;
+    }
+
+    .path-card {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        margin-bottom: 28px;
+    }
+
+    .path-title {
+        margin-top: 0;
+        margin-bottom: 18px;
+        color: #212529;
+        font-size: 1.45rem;
+        font-weight: 800;
+    }
+
+    .chapter-card {
+        border: 1px solid #dee2e6;
+        border-radius: 16px;
+        background-color: #f8f9fa;
+        padding: 18px;
+        margin-bottom: 18px;
+    }
+
+    .chapter-card.locked {
+        opacity: 0.6;
+        background-color: #f1f3f5;
+    }
+
+    .chapter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+    }
+
+    .chapter-title {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #212529;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background-color: #fff3cd;
+        color: #856404;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .unit-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 12px 0 18px 0;
+    }
+
+    .unit-item {
+        margin-bottom: 10px;
+    }
+
+    .unit-link {
+        display: block;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+
+    .unit-link:hover {
+        background-color: #eaf4ff;
+        border-color: #007bff;
+        text-decoration: none;
+    }
+
+    .quiz-area {
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid #dee2e6;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .quiz-note {
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+    .locked-text {
+        color: #6c757d;
+        line-height: 1.7;
+        margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+        .path-card {
+            padding: 18px;
+        }
+
+        .chapter-card {
+            padding: 16px;
+        }
+
+        .quiz-area .btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="student-course-page">
+
+    <h2 class="page-title">My Learning Path</h2>
+
+    {% for path in paths %}
+        <div class="path-card">
+            <h3 class="path-title">
+                {{ path.path_name if path.path_name else path.name }}
+            </h3>
+
+            {% for chapter in path.chapters %}
+                <div class="chapter-card {% if not chapter.is_unlocked(user) %}locked{% endif %}">
+
+                    <div class="chapter-header">
+                        <h4 class="chapter-title">
+                            {{ chapter.title }}
+                        </h4>
+
+                        {% if not chapter.is_unlocked(user) %}
+                            <span class="badge">
+                                🔒 Locked (Req: {{ chapter.get_rule_description() }})
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    {% if chapter.is_unlocked(user) %}
+                        <ul class="unit-list">
+                            {% for unit in chapter.units %}
+                                <li class="unit-item">
+                                    <a
+                                        href="{{ url_for('course.view_unit', unit_id=unit.id|string) }}"
+                                        class="unit-link"
+                                    >
+                                        {{ unit.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="quiz-area">
+                            {% if chapter.quiz_questions and chapter.quiz_questions|length > 0 %}
+                                <a
+                                    href="{{ url_for('course.take_chapter_quiz', chapter_id=chapter.id|string) }}"
+                                    class="btn btn-primary"
+                                >
+                                    Take Vocabulary Quiz
+                                </a>
+
+                                <span class="quiz-note">
+                                    Complete the 5-question vocabulary quiz for this chapter.
+                                </span>
+                            {% else %}
+                                <span class="quiz-note">
+                                    Vocabulary quiz is not available yet.
+                                </span>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <p class="locked-text">
+                            Complete more chapters to unlock!
+                        </p>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
         </div>
     {% endfor %}
-{% endfor %}
+
+</div>
+
 {% endblock %}

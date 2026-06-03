@@ -6,35 +6,82 @@
 
 <style>
     .course-admin-page {
-        max-width: 1150px;
+        max-width: 1180px;
         margin: 0 auto;
+        animation: courseAdminFadeIn 0.5s ease both;
+    }
+
+    .admin-hero {
+        position: relative;
+        overflow: hidden;
+        border-radius: 26px;
+        padding: 1.55rem;
+        margin-bottom: 1.25rem;
+        background: linear-gradient(135deg, #007bff 0%, #4f46e5 55%, #7c3aed 100%);
+        color: #ffffff;
+        box-shadow: 0 16px 34px rgba(79, 70, 229, 0.16);
+    }
+
+    .admin-hero::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        right: -90px;
+        top: -105px;
+    }
+
+    .admin-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .admin-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.42rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        font-weight: 950;
+        margin-bottom: 0.85rem;
     }
 
     .page-title {
-        margin-bottom: 1.5rem;
+        margin: 0;
         font-size: 2rem;
-        font-weight: 800;
-        color: #212529;
+        font-weight: 950;
+        line-height: 1.25;
+        letter-spacing: -0.03em;
+    }
+
+    .page-subtitle {
+        margin: 0.75rem 0 0;
+        max-width: 900px;
+        line-height: 1.8;
+        opacity: 0.95;
     }
 
     .path-block {
         background: #ffffff;
         border: 1px solid #e3e8f0;
-        border-radius: 18px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        padding: 24px;
-        margin-bottom: 28px;
+        border-radius: 24px;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        padding: 1.35rem;
+        margin-bottom: 1.35rem;
     }
 
     .path-header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        gap: 12px;
+        align-items: flex-start;
+        gap: 1rem;
         flex-wrap: wrap;
-        padding-bottom: 16px;
+        padding-bottom: 1rem;
         border-bottom: 1px solid #e9ecef;
-        margin-bottom: 18px;
+        margin-bottom: 1rem;
     }
 
     .path-title-form,
@@ -42,7 +89,8 @@
     .unit-title-form {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 0.65rem;
+        min-width: 0;
     }
 
     .path-title-form {
@@ -50,212 +98,242 @@
         min-width: 320px;
     }
 
-    .chapter-title-form {
-        flex: 1;
-        min-width: 260px;
-    }
-
+    .chapter-title-form,
     .unit-title-form {
         flex: 1;
         min-width: 260px;
     }
 
+    .title-input-wrap {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .small-label {
+        display: block;
+        color: #6b7280;
+        font-size: 0.82rem;
+        font-weight: 900;
+        margin-bottom: 0.3rem;
+    }
+
     .path-title-input,
     .chapter-title-input,
-    .unit-title-input {
+    .unit-title-input,
+    .add-form input,
+    .add-form select {
         width: 100%;
-        border: 1px solid #ced4da;
-        border-radius: 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
         background-color: #ffffff;
-        color: #212529;
+        color: #111827;
+        transition: all 0.18s ease;
     }
 
     .path-title-input {
-        font-size: 1.25rem;
-        font-weight: 800;
-        padding: 0.7rem 0.85rem;
+        font-size: 1.15rem;
+        font-weight: 950;
+        padding: 0.75rem 0.85rem;
     }
 
     .chapter-title-input {
-        font-size: 1.05rem;
-        font-weight: 800;
-        padding: 0.65rem 0.8rem;
+        font-size: 1rem;
+        font-weight: 900;
+        padding: 0.7rem 0.8rem;
     }
 
-    .unit-title-input {
+    .unit-title-input,
+    .add-form input,
+    .add-form select {
         font-size: 0.95rem;
-        padding: 0.6rem 0.75rem;
+        padding: 0.65rem 0.75rem;
     }
 
     .path-title-input:focus,
     .chapter-title-input:focus,
     .unit-title-input:focus,
-    .add-form input:focus {
+    .add-form input:focus,
+    .add-form select:focus {
         outline: none;
         border-color: #007bff;
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.14);
     }
 
     .chapter-block {
-        margin-top: 18px;
-        padding: 18px;
+        margin-top: 1rem;
+        padding: 1rem;
         border-left: 5px solid #007bff;
-        border-radius: 14px;
-        background-color: #f8f9fa;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #f8fafc, #ffffff);
+        border-top: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+        border-bottom: 1px solid #e5e7eb;
     }
 
     .chapter-header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        gap: 12px;
+        align-items: flex-start;
+        gap: 1rem;
         flex-wrap: wrap;
-        margin-bottom: 14px;
+        margin-bottom: 0.9rem;
     }
 
     .button-row {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.5rem;
         flex-wrap: wrap;
     }
 
     .unit-list {
         list-style: none;
         padding-left: 0;
-        margin: 12px 0 18px 0;
+        margin: 0.9rem 0 1rem 0;
+        display: grid;
+        gap: 0.65rem;
     }
 
     .unit-item {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
-        gap: 10px;
+        gap: 0.75rem;
         flex-wrap: wrap;
-        padding: 12px;
-        border: 1px solid #dee2e6;
-        border-radius: 12px;
+        padding: 0.9rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
         background-color: #ffffff;
-        margin-bottom: 10px;
     }
 
     .add-box {
-        margin-top: 14px;
-        padding: 14px;
-        border-radius: 12px;
-        background-color: #ffffff;
-        border: 1px dashed #adb5bd;
+        margin-top: 0.9rem;
+        padding: 1rem;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px dashed #cbd5e1;
     }
 
     .add-form {
         display: flex;
-        gap: 10px;
+        gap: 0.65rem;
         flex-wrap: wrap;
         align-items: center;
     }
 
-    .add-form input,
-    .add-form select {
-        padding: 0.65rem 0.8rem;
-        border: 1px solid #ced4da;
-        border-radius: 10px;
-        font-size: 1rem;
-    }
-
     .create-path-box {
-        margin-top: 32px;
+        margin-top: 1.5rem;
         background: #ffffff;
         border: 1px solid #e3e8f0;
-        border-radius: 18px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        padding: 24px;
+        border-radius: 24px;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        padding: 1.35rem;
     }
 
     .section-title {
-        margin-top: 0;
-        margin-bottom: 14px;
-        font-size: 1.25rem;
-        font-weight: 800;
-        color: #212529;
+        margin: 0 0 0.8rem;
+        font-size: 1.18rem;
+        font-weight: 950;
+        color: #111827;
+        line-height: 1.4;
+    }
+
+    .section-help {
+        margin: -0.45rem 0 0.9rem;
+        color: #6b7280;
+        line-height: 1.6;
+        font-weight: 750;
+    }
+
+    .quiz-status,
+    .rule-status {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.42rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 950;
+        white-space: nowrap;
     }
 
     .quiz-status {
-        display: inline-block;
-        padding: 5px 11px;
-        border-radius: 999px;
-        font-size: 0.85rem;
-        font-weight: bold;
-        white-space: nowrap;
-        background-color: #d4edda;
-        color: #155724;
+        background-color: #dcfce7;
+        color: #166534;
     }
 
     .quiz-status.empty {
-        background-color: #fff3cd;
-        color: #856404;
+        background-color: #fef3c7;
+        color: #92400e;
     }
 
     .rule-status {
-        display: inline-block;
-        padding: 5px 11px;
-        border-radius: 999px;
-        font-size: 0.85rem;
-        font-weight: bold;
         background-color: #eaf4ff;
         color: #007bff;
+    }
+
+    .btn-save,
+    .btn-small-danger {
+        border: none;
+        border-radius: 12px;
+        padding: 0.65rem 0.9rem;
+        font-size: 0.92rem;
+        font-weight: 950;
+        cursor: pointer;
+        transition: 0.18s;
         white-space: nowrap;
     }
 
     .btn-save {
-        border: none;
-        border-radius: 10px;
-        padding: 0.62rem 0.9rem;
-        font-size: 0.95rem;
-        font-weight: bold;
-        cursor: pointer;
         background-color: #007bff;
         color: #ffffff;
-        transition: 0.2s;
-        white-space: nowrap;
     }
 
     .btn-save:hover {
         background-color: #0069d9;
+        transform: translateY(-1px);
     }
 
     .btn-small-danger {
-        border: none;
-        border-radius: 10px;
-        padding: 0.62rem 0.9rem;
-        font-size: 0.95rem;
-        font-weight: bold;
-        cursor: pointer;
         color: #ffffff;
         background-color: #dc3545;
-        transition: 0.2s;
-        white-space: nowrap;
     }
 
     .btn-small-danger:hover {
         background-color: #bb2d3b;
+        transform: translateY(-1px);
     }
 
     .empty-note {
-        color: #6c757d;
-        padding: 12px;
+        color: #6b7280;
+        padding: 0.9rem;
         background-color: #ffffff;
-        border-radius: 10px;
-        border: 1px solid #dee2e6;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        line-height: 1.6;
+        font-weight: 800;
+    }
+
+    @keyframes courseAdminFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     @media (max-width: 768px) {
         .path-block,
         .create-path-box {
-            padding: 18px;
+            padding: 1rem;
         }
 
         .chapter-block {
-            padding: 14px;
+            padding: 0.9rem;
         }
 
         .path-header,
@@ -296,31 +374,54 @@
             width: 100%;
             text-align: center;
         }
+
+        .page-title {
+            font-size: 1.6rem;
+        }
     }
 </style>
 
 <div class="course-admin-page">
+    <section class="admin-hero">
+        <div class="admin-hero-content">
+            <div class="admin-badge">
+                📚 Course Admin｜課程管理
+            </div>
 
-    <h2 class="page-title">Course Management</h2>
+            <h1 class="page-title">
+                Course Management
+                <br>
+                課程路徑與章節管理
+            </h1>
+
+            <p class="page-subtitle">
+                Manage learning paths, chapters, units, unlock rules, and vocabulary quizzes.
+                <br>
+                管理學習路徑、章節、單元、解鎖條件與單字測驗。
+            </p>
+        </div>
+    </section>
 
     {% for path in paths %}
         <div class="path-block">
-
             <div class="path-header">
                 <form action="{{ url_for('course.update_path') }}" method="POST" class="path-title-form">
                     {{ path_form.hidden_tag() }}
                     <input type="hidden" name="path_id" value="{{ path.id|string }}">
 
-                    <input
-                        type="text"
-                        name="new_name"
-                        value="{{ path.path_name if path.path_name else path.name }}"
-                        required
-                        class="path-title-input"
-                    >
+                    <div class="title-input-wrap">
+                        <label class="small-label">Learning Path｜學習路徑</label>
+                        <input
+                            type="text"
+                            name="new_name"
+                            value="{{ path.path_name if path.path_name else path.name }}"
+                            required
+                            class="path-title-input"
+                        >
+                    </div>
 
                     <button type="submit" class="btn-save">
-                        Save
+                        Save｜儲存
                     </button>
                 </form>
 
@@ -332,9 +433,9 @@
                         <button
                             type="submit"
                             class="btn-small-danger"
-                            onclick="return confirm('Delete this entire path?')"
+                            onclick="return confirm('Delete this entire path?｜確定刪除整個學習路徑嗎？')"
                         >
-                            Delete Path
+                            Delete Path｜刪除路徑
                         </button>
                     </form>
                 </div>
@@ -343,30 +444,32 @@
             {% if path.chapters %}
                 {% for chapter in path.chapters %}
                     <div class="chapter-block">
-
                         <div class="chapter-header">
                             <form action="{{ url_for('course.update_chapter') }}" method="POST" class="chapter-title-form">
                                 {{ chapter_form.hidden_tag() }}
                                 <input type="hidden" name="chapter_id" value="{{ chapter.id|string }}">
 
-                                <input
-                                    type="text"
-                                    name="new_title"
-                                    value="{{ chapter.title }}"
-                                    required
-                                    class="chapter-title-input"
-                                >
+                                <div class="title-input-wrap">
+                                    <label class="small-label">Chapter｜章節</label>
+                                    <input
+                                        type="text"
+                                        name="new_title"
+                                        value="{{ chapter.title }}"
+                                        required
+                                        class="chapter-title-input"
+                                    >
+                                </div>
 
                                 <button type="submit" class="btn-save">
-                                    Save
+                                    Save｜儲存
                                 </button>
                             </form>
 
                             <div class="button-row">
                                 {% if chapter.is_quiz_ready() %}
-                                    <span class="quiz-status">Quiz Ready</span>
+                                    <span class="quiz-status">Quiz Ready｜測驗已完成</span>
                                 {% else %}
-                                    <span class="quiz-status empty">Quiz Draft</span>
+                                    <span class="quiz-status empty">Quiz Draft｜測驗草稿</span>
                                 {% endif %}
 
                                 <span class="rule-status">
@@ -377,14 +480,14 @@
                                     href="{{ url_for('course.edit_chapter', chapter_id=chapter.id|string) }}"
                                     class="btn btn-secondary"
                                 >
-                                    Edit Rule
+                                    Edit Rule｜編輯規則
                                 </a>
 
                                 <a
                                     href="{{ url_for('course.edit_chapter_quiz', chapter_id=chapter.id|string) }}"
                                     class="btn btn-primary"
                                 >
-                                    Edit Quiz
+                                    Edit Quiz｜編輯測驗
                                 </a>
 
                                 <form action="{{ url_for('course.delete_chapter') }}" method="POST">
@@ -395,9 +498,9 @@
                                     <button
                                         type="submit"
                                         class="btn-small-danger"
-                                        onclick="return confirm('Delete this chapter?')"
+                                        onclick="return confirm('Delete this chapter?｜確定刪除此章節嗎？')"
                                     >
-                                        Delete
+                                        Delete｜刪除
                                     </button>
                                 </form>
                             </div>
@@ -411,16 +514,19 @@
                                             {{ unit_form.hidden_tag() }}
                                             <input type="hidden" name="unit_id" value="{{ unit.id|string }}">
 
-                                            <input
-                                                type="text"
-                                                name="new_title"
-                                                value="{{ unit.title }}"
-                                                required
-                                                class="unit-title-input"
-                                            >
+                                            <div class="title-input-wrap">
+                                                <label class="small-label">Unit｜單元</label>
+                                                <input
+                                                    type="text"
+                                                    name="new_title"
+                                                    value="{{ unit.title }}"
+                                                    required
+                                                    class="unit-title-input"
+                                                >
+                                            </div>
 
                                             <button type="submit" class="btn-save">
-                                                Save
+                                                Save｜儲存
                                             </button>
                                         </form>
 
@@ -429,7 +535,7 @@
                                                 href="{{ url_for('course.edit_unit', unit_id=unit.id|string) }}"
                                                 class="btn btn-secondary"
                                             >
-                                                Edit Content
+                                                Edit Content｜編輯內容
                                             </a>
 
                                             <form action="{{ url_for('course.delete_unit') }}" method="POST">
@@ -440,9 +546,9 @@
                                                 <button
                                                     type="submit"
                                                     class="btn-small-danger"
-                                                    onclick="return confirm('Delete this unit?')"
+                                                    onclick="return confirm('Delete this unit?｜確定刪除此單元嗎？')"
                                                 >
-                                                    Delete
+                                                    Delete｜刪除
                                                 </button>
                                             </form>
                                         </div>
@@ -451,65 +557,65 @@
                             </ul>
                         {% else %}
                             <div class="empty-note">
-                                No units yet.
+                                No units yet.｜目前還沒有單元。
                             </div>
                         {% endif %}
 
                         <div class="add-box">
-                            <h4 class="section-title">Add Unit</h4>
+                            <h4 class="section-title">Add Unit｜新增單元</h4>
+                            <p class="section-help">Create a new unit under this chapter.｜在此章節底下新增單元。</p>
 
                             <form action="{{ url_for('course.add_unit') }}" method="POST" class="add-form">
                                 {{ unit_form.hidden_tag() }}
                                 <input type="hidden" name="chapter_id" value="{{ chapter.id|string }}">
 
-                                {{ unit_form.title(placeholder="New Unit Title") }}
+                                {{ unit_form.title(placeholder="New Unit Title｜新單元標題") }}
 
                                 <button type="submit" class="btn btn-primary">
-                                    Add Unit
+                                    Add Unit｜新增單元
                                 </button>
                             </form>
                         </div>
-
                     </div>
                 {% endfor %}
             {% else %}
                 <div class="empty-note">
-                    No chapters yet.
+                    No chapters yet.｜目前還沒有章節。
                 </div>
             {% endif %}
 
             <div class="add-box">
-                <h4 class="section-title">Add Chapter</h4>
+                <h4 class="section-title">Add Chapter｜新增章節</h4>
+                <p class="section-help">Create a new chapter under this learning path.｜在此學習路徑底下新增章節。</p>
 
                 <form action="{{ url_for('course.add_chapter') }}" method="POST" class="add-form">
                     {{ chapter_form.hidden_tag() }}
                     <input type="hidden" name="path_id" value="{{ path.id|string }}">
 
-                    {{ chapter_form.title(placeholder="Chapter Title") }}
+                    {{ chapter_form.title(placeholder="Chapter Title｜章節標題") }}
 
                     <button type="submit" class="btn btn-primary">
-                        Add Chapter
+                        Add Chapter｜新增章節
                     </button>
                 </form>
             </div>
-
         </div>
     {% endfor %}
 
     <div class="create-path-box">
-        <h3 class="section-title">Create New Learning Path</h3>
+        <h3 class="section-title">Create New Learning Path｜建立新學習路徑</h3>
+        <p class="section-help">Add a new path for students to follow.｜新增一條學生可以學習的課程路徑。</p>
 
         <form action="{{ url_for('course.create_path') }}" method="POST" class="add-form">
             {{ path_form.hidden_tag() }}
 
-            {{ path_form.title(placeholder="New Path Name") }}
+            {{ path_form.title(placeholder="New Path Name｜新路徑名稱") }}
 
             <button type="submit" class="btn btn-primary">
-                Create Path
+                Create Path｜建立路徑
             </button>
         </form>
     </div>
-
 </div>
 
 {% endblock %}

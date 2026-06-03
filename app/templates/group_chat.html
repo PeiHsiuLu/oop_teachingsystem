@@ -197,19 +197,37 @@
         margin-top: 0.35rem;
     }
 
-    .report-button {
-        padding: 0.22rem 0.5rem;
+    .report-button,
+    .reported-button {
+        padding: 0.28rem 0.6rem;
         border-radius: 999px;
         border: none;
+        font-size: 0.76rem;
+        font-weight: 900;
+        cursor: pointer;
+        transition: all 0.18s ease;
+    }
+
+    .report-button {
         background: #fee2e2;
         color: #991b1b;
-        font-size: 0.76rem;
-        font-weight: 800;
-        cursor: pointer;
     }
 
     .report-button:hover {
         background: #fecaca;
+        transform: translateY(-1px);
+    }
+
+    .report-button:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .reported-button {
+        background: #dcfce7;
+        color: #166534;
+        cursor: default;
     }
 
     .report-form {
@@ -218,36 +236,75 @@
         gap: 0.35rem;
         flex-wrap: wrap;
         align-items: center;
+        max-width: 320px;
     }
 
     .report-input {
         min-width: 180px;
-        padding: 0.35rem 0.5rem;
+        flex: 1;
+        padding: 0.42rem 0.55rem;
         border: 1px solid #d1d5db;
-        border-radius: 8px;
+        border-radius: 9px;
         font-size: 0.82rem;
     }
 
+    .report-input:focus {
+        outline: none;
+        border-color: #dc3545;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
+    }
+
     .report-submit {
-        padding: 0.35rem 0.55rem;
-        border-radius: 8px;
+        padding: 0.42rem 0.65rem;
+        border-radius: 9px;
         border: none;
         background: #dc3545;
         color: #ffffff;
         font-size: 0.8rem;
-        font-weight: 800;
+        font-weight: 900;
         cursor: pointer;
     }
 
+    .report-submit:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+
     .report-cancel {
-        padding: 0.35rem 0.55rem;
-        border-radius: 8px;
+        padding: 0.42rem 0.65rem;
+        border-radius: 9px;
         border: none;
         background: #6c757d;
         color: #ffffff;
         font-size: 0.8rem;
-        font-weight: 800;
+        font-weight: 900;
         cursor: pointer;
+    }
+
+    .report-hint {
+        display: none;
+        margin-top: 0.35rem;
+        padding: 0.4rem 0.55rem;
+        border-radius: 10px;
+        background: #fff7ed;
+        color: #9a3412;
+        font-size: 0.78rem;
+        font-weight: 850;
+        line-height: 1.45;
+    }
+
+    .report-hint.show {
+        display: block;
+    }
+
+    .report-hint.success {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .report-hint.error {
+        background: #fee2e2;
+        color: #991b1b;
     }
 
     .chat-composer {
@@ -382,6 +439,15 @@
         .send-button {
             width: 100%;
         }
+
+        .report-form {
+            max-width: 100%;
+        }
+
+        .report-input {
+            width: 100%;
+            min-width: 0;
+        }
     }
 </style>
 
@@ -409,6 +475,7 @@
             {% if messages %}
                 {% for message in messages %}
                     {% set is_mine = (message.sender.id|string == current_user.id|string) %}
+                    {% set is_reported = (message.id|string in reported_message_ids) %}
 
                     <div class="message-row {% if is_mine %}mine{% else %}other{% endif %}">
                         <div class="message-avatar">
@@ -434,46 +501,55 @@
                             </div>
 
                             {% if not is_mine %}
-                                <div class="report-area">
-                                    <button
-                                        type="button"
-                                        class="report-button"
-                                        onclick="showReportForm('{{ message.id }}')"
-                                        id="report-btn-{{ message.id }}"
-                                    >
-                                        Report｜檢舉
-                                    </button>
-
-                                    <form
-                                        action="{{ url_for('report.create_report') }}"
-                                        method="POST"
-                                        id="report-form-{{ message.id }}"
-                                        class="report-form"
-                                    >
-                                        <input type="hidden" name="target_user_id" value="{{ message.sender.id }}">
-                                        <input type="hidden" name="target_type" value="chat_message">
-                                        <input type="hidden" name="target_id" value="{{ message.id }}">
-
-                                        <input
-                                            type="text"
-                                            name="reason"
-                                            placeholder="Reason｜原因"
-                                            required
-                                            class="report-input"
-                                        >
-
-                                        <button type="submit" class="report-submit">
-                                            Submit｜送出
+                                <div class="report-area" id="report-area-{{ message.id }}">
+                                    {% if is_reported %}
+                                        <button type="button" class="reported-button" disabled>
+                                            Reported｜已檢舉
                                         </button>
-
+                                    {% else %}
                                         <button
                                             type="button"
-                                            class="report-cancel"
-                                            onclick="hideReportForm('{{ message.id }}')"
+                                            class="report-button"
+                                            onclick="showReportForm('{{ message.id }}')"
+                                            id="report-btn-{{ message.id }}"
                                         >
-                                            Cancel｜取消
+                                            Report｜檢舉
                                         </button>
-                                    </form>
+
+                                        <form
+                                            action="{{ url_for('report.create_report') }}"
+                                            method="POST"
+                                            id="report-form-{{ message.id }}"
+                                            class="report-form"
+                                            onsubmit="submitReport(event, '{{ message.id }}')"
+                                        >
+                                            <input type="hidden" name="target_user_id" value="{{ message.sender.id }}">
+                                            <input type="hidden" name="target_type" value="chat_message">
+                                            <input type="hidden" name="target_id" value="{{ message.id }}">
+
+                                            <input
+                                                type="text"
+                                                name="reason"
+                                                placeholder="Reason｜原因"
+                                                required
+                                                class="report-input"
+                                            >
+
+                                            <button type="submit" class="report-submit" id="report-submit-{{ message.id }}">
+                                                Submit｜送出
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="report-cancel"
+                                                onclick="hideReportForm('{{ message.id }}')"
+                                            >
+                                                Cancel｜取消
+                                            </button>
+                                        </form>
+
+                                        <div class="report-hint" id="report-hint-{{ message.id }}"></div>
+                                    {% endif %}
                                 </div>
                             {% endif %}
                         </div>
@@ -533,6 +609,7 @@
     function showReportForm(messageId) {
         const form = document.getElementById("report-form-" + messageId);
         const button = document.getElementById("report-btn-" + messageId);
+        const hint = document.getElementById("report-hint-" + messageId);
 
         if (!form || !button) {
             return;
@@ -540,11 +617,17 @@
 
         form.style.display = "flex";
         button.style.display = "none";
+
+        if (hint) {
+            hint.className = "report-hint";
+            hint.textContent = "";
+        }
     }
 
     function hideReportForm(messageId) {
         const form = document.getElementById("report-form-" + messageId);
         const button = document.getElementById("report-btn-" + messageId);
+        const hint = document.getElementById("report-hint-" + messageId);
 
         if (!form || !button) {
             return;
@@ -552,6 +635,111 @@
 
         form.style.display = "none";
         button.style.display = "inline-block";
+
+        if (hint) {
+            hint.className = "report-hint";
+            hint.textContent = "";
+        }
+    }
+
+    function markReportButtonAsReported(messageId, message) {
+        const area = document.getElementById("report-area-" + messageId);
+
+        if (!area) {
+            return;
+        }
+
+        area.innerHTML = `
+            <button type="button" class="reported-button" disabled>
+                Reported｜已檢舉
+            </button>
+            <div class="report-hint success show">
+                ${escapeHtml(message || "Report submitted successfully. 檢舉已送出。")}
+            </div>
+        `;
+    }
+
+    function showReportHint(messageId, message, type) {
+        const hint = document.getElementById("report-hint-" + messageId);
+
+        if (!hint) {
+            return;
+        }
+
+        hint.textContent = message;
+        hint.className = "report-hint show " + (type || "error");
+    }
+
+    async function submitReport(event, messageId) {
+        event.preventDefault();
+
+        const form = document.getElementById("report-form-" + messageId);
+        const submitButton = document.getElementById("report-submit-" + messageId);
+
+        if (!form) {
+            return;
+        }
+
+        const reasonInput = form.querySelector('input[name="reason"]');
+        const reason = reasonInput ? reasonInput.value.trim() : "";
+
+        if (!reason) {
+            showReportHint(messageId, "Please enter a reason. 請輸入檢舉原因。", "error");
+            return;
+        }
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = "Sending｜送出中";
+        }
+
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: new FormData(form),
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
+
+            let data = null;
+
+            try {
+                data = await response.json();
+            } catch (jsonError) {
+                data = null;
+            }
+
+            if (!response.ok || !data || data.ok === false) {
+                const errorMessage = data && data.error
+                    ? data.error
+                    : "Report failed. Please try again. 檢舉失敗，請再試一次。";
+
+                if (errorMessage.includes("already reported") || errorMessage.includes("已經檢舉")) {
+                    markReportButtonAsReported(messageId, errorMessage);
+                    return;
+                }
+
+                throw new Error(errorMessage);
+            }
+
+            markReportButtonAsReported(
+                messageId,
+                data.message || "Report submitted successfully. 檢舉已送出。"
+            );
+
+        } catch (error) {
+            showReportHint(
+                messageId,
+                error.message || "Report failed. Please try again. 檢舉失敗，請再試一次。",
+                "error"
+            );
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = "Submit｜送出";
+            }
+        }
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -560,16 +748,8 @@
         const chatBox = document.getElementById("chat-box");
         const sendButton = document.getElementById("send-button");
         const chatError = document.getElementById("chat-error");
-        const emptyChat = document.getElementById("empty-chat");
 
         const chatPostUrl = {{ url_for('group_chat.chat_room', group_id=group.id) | tojson }};
-        const currentUsername = {{ current_user.username | tojson }};
-
-        function escapeHtml(text) {
-            const div = document.createElement("div");
-            div.textContent = text || "";
-            return div.innerHTML;
-        }
 
         function showError(message) {
             if (!chatError) {
@@ -590,10 +770,10 @@
         }
 
         function removeEmptyChat() {
-            const currentEmptyChat = document.getElementById("empty-chat");
+            const emptyChat = document.getElementById("empty-chat");
 
-            if (currentEmptyChat) {
-                currentEmptyChat.remove();
+            if (emptyChat) {
+                emptyChat.remove();
             }
         }
 
@@ -774,6 +954,12 @@
             });
         }
     });
+
+    function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text || "";
+        return div.innerHTML;
+    }
 </script>
 
 {% endblock %}

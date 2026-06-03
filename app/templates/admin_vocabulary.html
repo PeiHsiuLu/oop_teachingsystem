@@ -1,58 +1,320 @@
-{% extends "base.html" %} <!-- 假設您的基礎模板叫做 base.html，若沒有請移除 -->
+{% extends "base.html" %}
+
+{% block title %}Vocabulary Import{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>管理員單字庫 (Vocabulary Management)</h2>
-    
-    <!-- 顯示訊息 -->
+
+<style>
+    .import-page {
+        max-width: 1080px;
+        margin: 0 auto;
+        animation: importFadeIn 0.5s ease both;
+    }
+
+    .import-hero {
+        position: relative;
+        overflow: hidden;
+        border-radius: 26px;
+        padding: 1.55rem;
+        margin-bottom: 1.25rem;
+        background: linear-gradient(135deg, #0f766e 0%, #007bff 55%, #4f46e5 100%);
+        color: #ffffff;
+        box-shadow: 0 16px 34px rgba(15, 118, 110, 0.14);
+    }
+
+    .import-hero::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        right: -90px;
+        top: -105px;
+    }
+
+    .import-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .import-badge {
+        display: inline-flex;
+        padding: 0.42rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        font-weight: 950;
+        margin-bottom: 0.85rem;
+    }
+
+    .import-title {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 950;
+        line-height: 1.25;
+        letter-spacing: -0.03em;
+    }
+
+    .import-subtitle {
+        margin: 0.75rem 0 0;
+        max-width: 880px;
+        line-height: 1.8;
+        opacity: 0.95;
+    }
+
+    .import-card,
+    .word-list-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 24px;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+        margin-bottom: 1.25rem;
+    }
+
+    .card-header {
+        padding: 1.2rem 1.35rem;
+        border-bottom: 1px solid #e5e7eb;
+        background: linear-gradient(135deg, #ffffff, #f8fafc);
+    }
+
+    .card-title {
+        margin: 0;
+        color: #111827;
+        font-size: 1.25rem;
+        font-weight: 950;
+        line-height: 1.45;
+    }
+
+    .card-subtitle {
+        margin: 0.35rem 0 0;
+        color: #6b7280;
+        line-height: 1.65;
+        font-weight: 750;
+    }
+
+    .card-body {
+        padding: 1.2rem 1.35rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.45rem;
+        color: #374151;
+        font-weight: 950;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.72rem 0.85rem;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        font-size: 1rem;
+        background: #ffffff;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.14);
+    }
+
+    .form-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .vocab-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .vocab-table th {
+        background: #111827;
+        color: #ffffff;
+        padding: 0.95rem;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .vocab-table td {
+        padding: 0.95rem;
+        border-bottom: 1px solid #e5e7eb;
+        vertical-align: top;
+    }
+
+    .vocab-table tr:hover td {
+        background: #f8fafc;
+    }
+
+    .word-text {
+        font-weight: 950;
+        color: #111827;
+    }
+
+    .empty-box {
+        padding: 1.5rem;
+        border-radius: 18px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        color: #6b7280;
+        line-height: 1.7;
+        text-align: center;
+        font-weight: 800;
+    }
+
+    @keyframes importFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 760px) {
+        .import-title {
+            font-size: 1.6rem;
+        }
+
+        .form-actions .btn {
+            width: 100%;
+        }
+
+        .vocab-table {
+            min-width: 760px;
+        }
+    }
+</style>
+
+<div class="import-page">
+    <section class="import-hero">
+        <div class="import-hero-content">
+            <div class="import-badge">
+                📥 Vocabulary Import｜單字匯入
+            </div>
+
+            <h1 class="import-title">
+                Vocabulary Management
+                <br>
+                管理員單字庫匯入
+            </h1>
+
+            <p class="import-subtitle">
+                Upload a JSON vocabulary file and review the imported vocabulary list.
+                <br>
+                上傳 JSON 單字檔案，並查看目前已匯入的單字列表。
+            </p>
+        </div>
+    </section>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message flash-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
     {% endwith %}
 
-    <!-- 上傳 final_result.json 的表單 -->
-    <div class="card my-4">
+    <section class="import-card">
+        <div class="card-header">
+            <h2 class="card-title">
+                Import Vocabulary File｜匯入單字檔案
+            </h2>
+
+            <p class="card-subtitle">
+                Please choose <strong>final_result.json</strong> or another compatible JSON file.
+                <br>
+                請選擇 <strong>final_result.json</strong> 或相容格式的 JSON 檔案。
+            </p>
+        </div>
+
         <div class="card-body">
-            <h5 class="card-title">匯入單字庫</h5>
             <form action="{{ url_for('course.import_vocabulary') }}" method="POST" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="file" class="form-label">請選擇 final_result.json</label>
-                    <input class="form-control" type="file" id="file" name="file" accept=".json" required>
+                <label for="file" class="form-label">
+                    JSON File｜JSON 檔案
+                </label>
+
+                <input class="form-control" type="file" id="file" name="file" accept=".json" required>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        Start Import｜開始匯入
+                    </button>
                 </div>
-                <button type="submit" class="btn btn-primary">開始匯入</button>
             </form>
         </div>
-    </div>
+    </section>
 
-    <!-- 顯示單字列表 -->
-    <h4>現有單字列表</h4>
-    <table class="table table-bordered table-striped mt-2">
-        <thead>
-            <tr>
-                <th>內容 (JSON Data)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for vocab in vocabs %}
-            <tr>
-                <td>
-                    <ul class="mb-0">
-                        <!-- 動態印出扣除掉 _id 以後的所有欄位 -->
-                        {% for key, value in vocab.to_mongo().to_dict().items() if key != '_id' %}
-                            <li><strong>{{ key }}:</strong> {{ value }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
+    <section class="word-list-card">
+        <div class="card-header">
+            <h2 class="card-title">
+                Existing Vocabulary｜現有單字列表
+            </h2>
+
+            <p class="card-subtitle">
+                These vocabulary items are currently available in the system.
+                <br>
+                以下是目前系統中可使用的單字資料。
+            </p>
+        </div>
+
+        <div class="card-body">
+            {% if vocabularies %}
+                <div class="table-wrapper">
+                    <table class="vocab-table">
+                        <thead>
+                            <tr>
+                                <th>Word｜單字</th>
+                                <th>Definition｜定義</th>
+                                <th>Type｜詞性</th>
+                                <th>Level｜等級</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for key, value in vocabularies.items() %}
+                                <tr>
+                                    <td>
+                                        <span class="word-text">{{ key }}</span>
+                                    </td>
+
+                                    <td>
+                                        {{ value.definition if value.definition is defined else value }}
+                                    </td>
+
+                                    <td>
+                                        {{ value.type if value.type is defined else "-" }}
+                                    </td>
+
+                                    <td>
+                                        {{ value.level if value.level is defined else "-" }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% else %}
-            <tr>
-                <td class="text-center text-muted">目前沒有單字，請先匯入。</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                <div class="empty-box">
+                    No vocabulary data is available yet.
+                    <br>
+                    目前尚無可顯示的單字資料。
+                </div>
+            {% endif %}
+        </div>
+    </section>
 </div>
+
 {% endblock %}

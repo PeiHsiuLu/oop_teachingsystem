@@ -1,39 +1,566 @@
 {% extends "base.html" %}
+
+{% block title %}Report Management{% endblock %}
+
 {% block content %}
 
-<h2>Report Management</h2>
+<style>
+    .reports-page {
+        max-width: 1100px;
+        margin: 0 auto;
+        animation: reportsFadeIn 0.5s ease both;
+    }
 
-{% if reports %}
-    {% for report in reports %}
-        <div style="border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem;">
-            <p><strong>Reporter:</strong> {{ report.reporter.username }}</p>
-            <p><strong>Target Type:</strong> {{ report.target_type }}</p>
-            <p><strong>Target ID:</strong> {{ report.target_id }}</p>
-            <p><strong>Reason:</strong> {{ report.reason }}</p>
-            <p><strong>Status:</strong> {{ report.status }}</p>
+    .reports-hero {
+        position: relative;
+        overflow: hidden;
+        border-radius: 26px;
+        padding: 1.55rem;
+        margin-bottom: 1.2rem;
+        background: linear-gradient(135deg, #991b1b 0%, #f97316 55%, #f59e0b 100%);
+        color: #ffffff;
+        box-shadow: 0 16px 34px rgba(153, 27, 27, 0.14);
+    }
 
-            <form method="POST" action="{{ url_for('report.resolve_report', report_id=report.id) }}" style="display:inline;">
-                <button type="submit" class="btn btn-primary">Resolve</button>
-            </form>
+    .reports-hero::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.13);
+        right: -90px;
+        top: -105px;
+    }
 
-            <form method="POST" action="{{ url_for('report.archive_report', report_id=report.id) }}" style="display:inline;">
-                <button type="submit" class="btn btn-secondary">Archive</button>
-            </form>
-            {% if report.target_user %}
-            <form method="POST" action="{{ url_for('report.apply_sanction', user_id=report.target_user.id) }}" style="display:inline;">
-                <input type="hidden" name="action_type" value="warning">
-                <button type="submit" class="btn" style="background-color:#ffc107; color:black;">Warning</button>
-            </form>
+    .reports-hero-content {
+        position: relative;
+        z-index: 1;
+    }
 
-            <form method="POST" action="{{ url_for('report.apply_sanction', user_id=report.target_user.id) }}" style="display:inline;">
-                <input type="hidden" name="action_type" value="mute">
-                <button type="submit" class="btn" style="background-color:#dc3545; color:white;">Mute</button>
-            </form>
-{% endif %}
+    .reports-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.42rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        font-weight: 950;
+        margin-bottom: 0.85rem;
+    }
+
+    .reports-title {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 950;
+        line-height: 1.25;
+    }
+
+    .reports-subtitle {
+        margin: 0.75rem 0 0;
+        max-width: 820px;
+        line-height: 1.8;
+        opacity: 0.95;
+    }
+
+    .reports-summary {
+        margin-bottom: 1rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .summary-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        color: #9a3412;
+        font-weight: 950;
+    }
+
+    .filter-tabs {
+        display: flex;
+        gap: 0.55rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-tab {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.55rem 0.85rem;
+        border-radius: 999px;
+        background: #f1f5f9;
+        color: #334155;
+        text-decoration: none;
+        font-weight: 950;
+        border: 1px solid #e5e7eb;
+        transition: all 0.18s ease;
+    }
+
+    .filter-tab:hover {
+        background: #e2e8f0;
+        color: #111827;
+        text-decoration: none;
+    }
+
+    .filter-tab.active {
+        background: #111827;
+        color: #ffffff;
+        border-color: #111827;
+    }
+
+    .report-list {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .report-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        padding: 1.25rem;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+    }
+
+    .report-card.resolved {
+        border-color: #bbf7d0;
+    }
+
+    .report-card.archived {
+        opacity: 0.88;
+    }
+
+    .report-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .report-title {
+        margin: 0;
+        color: #111827;
+        font-size: 1.18rem;
+        font-weight: 950;
+        line-height: 1.4;
+    }
+
+    .report-date {
+        margin-top: 0.25rem;
+        color: #6b7280;
+        font-weight: 750;
+        font-size: 0.92rem;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        padding: 0.38rem 0.75rem;
+        border-radius: 999px;
+        font-weight: 950;
+        white-space: nowrap;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-resolved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-archived {
+        background: #e5e7eb;
+        color: #374151;
+    }
+
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .report-field {
+        padding: 0.85rem;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+    }
+
+    .field-label {
+        color: #6b7280;
+        font-size: 0.85rem;
+        font-weight: 900;
+        margin-bottom: 0.25rem;
+    }
+
+    .field-value {
+        color: #111827;
+        font-weight: 850;
+        line-height: 1.55;
+        word-break: break-word;
+    }
+
+    .reason-box,
+    .target-content-box {
+        grid-column: 1 / -1;
+    }
+
+    .target-content-box {
+        background: #fff7ed;
+        border-color: #fed7aa;
+    }
+
+    .target-content-box .field-value {
+        white-space: pre-wrap;
+    }
+
+    .report-actions {
+        display: flex;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+        padding-top: 1rem;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .report-actions form {
+        margin: 0;
+    }
+
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.65rem 0.9rem;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        color: #ffffff;
+        font-weight: 950;
+        transition: all 0.18s ease;
+        white-space: nowrap;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(0.96);
+    }
+
+    .resolve-btn {
+        background: #007bff;
+    }
+
+    .archive-btn {
+        background: #6c757d;
+    }
+
+    .warning-btn {
+        background: #f59e0b;
+    }
+
+    .mute-btn {
+        background: #dc3545;
+    }
+
+    .handled-box {
+        margin-top: 1rem;
+        padding: 0.9rem;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        color: #374151;
+        line-height: 1.7;
+        font-weight: 800;
+    }
+
+    .empty-card {
+        padding: 2rem;
+        border-radius: 22px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        text-align: center;
+        color: #6b7280;
+        line-height: 1.7;
+    }
+
+    .empty-card h3 {
+        color: #111827;
+        margin-top: 0;
+        font-weight: 950;
+    }
+
+    @keyframes reportsFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 760px) {
+        .report-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .report-top {
+            flex-direction: column;
+        }
+
+        .report-actions,
+        .report-actions form,
+        .action-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="reports-page">
+    <section class="reports-hero">
+        <div class="reports-hero-content">
+            <div class="reports-badge">
+                🚩 Report Management｜檢舉管理
+            </div>
+
+            <h1 class="reports-title">
+                Report Management
+                <br>
+                使用者檢舉處理
+            </h1>
+
+            <p class="reports-subtitle">
+                Review pending reports, resolve inappropriate behavior, archive handled cases, or apply sanctions.
+                <br>
+                查看待處理檢舉、處理不當行為、封存已處理案件，或對違規學生套用懲處。
+            </p>
         </div>
-    {% endfor %}
-{% else %}
-    <p>No pending reports.</p>
-{% endif %}
+    </section>
+
+    <div class="reports-summary">
+        <div class="summary-pill">
+            Current View｜目前檢視：
+            {% if status_filter == "pending" %}
+                Pending｜待處理
+            {% elif status_filter == "resolved" %}
+                Resolved｜已處理
+            {% elif status_filter == "archived" %}
+                Archived｜已封存
+            {% else %}
+                All｜全部
+            {% endif %}
+        </div>
+
+        <div class="filter-tabs">
+            <a
+                href="{{ url_for('report.admin_reports', status='pending') }}"
+                class="filter-tab {% if status_filter == 'pending' %}active{% endif %}"
+            >
+                Pending｜待處理 {{ report_counts.pending }}
+            </a>
+
+            <a
+                href="{{ url_for('report.admin_reports', status='resolved') }}"
+                class="filter-tab {% if status_filter == 'resolved' %}active{% endif %}"
+            >
+                Resolved｜已處理 {{ report_counts.resolved }}
+            </a>
+
+            <a
+                href="{{ url_for('report.admin_reports', status='archived') }}"
+                class="filter-tab {% if status_filter == 'archived' %}active{% endif %}"
+            >
+                Archived｜封存 {{ report_counts.archived }}
+            </a>
+
+            <a
+                href="{{ url_for('report.admin_reports', status='all') }}"
+                class="filter-tab {% if status_filter == 'all' %}active{% endif %}"
+            >
+                All｜全部 {{ report_counts.all }}
+            </a>
+        </div>
+    </div>
+
+    {% if report_items %}
+        <section class="report-list">
+            {% for item in report_items %}
+                {% set report = item.report %}
+
+                <article class="report-card {{ report.status }}">
+                    <div class="report-top">
+                        <div>
+                            <h2 class="report-title">
+                                Report #{{ loop.index }}｜檢舉案件 {{ loop.index }}
+                            </h2>
+
+                            <div class="report-date">
+                                Created at｜建立時間：
+                                {% if report.created_at %}
+                                    {{ report.created_at.strftime('%Y-%m-%d %H:%M') }}
+                                {% else %}
+                                    Unknown｜未知
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <span class="status-badge status-{{ report.status }}">
+                            {{ item.status_label }}
+                        </span>
+                    </div>
+
+                    <div class="report-grid">
+                        <div class="report-field">
+                            <div class="field-label">Reporter｜檢舉者</div>
+                            <div class="field-value">
+                                {% if report.reporter %}
+                                    {{ report.reporter.username }}
+                                {% else %}
+                                    Unknown｜未知
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="report-field">
+                            <div class="field-label">Target User｜被檢舉使用者</div>
+                            <div class="field-value">
+                                {% if report.target_user %}
+                                    {{ report.target_user.username }}
+                                {% else %}
+                                    Unknown｜未知
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="report-field">
+                            <div class="field-label">Target Type｜檢舉類型</div>
+                            <div class="field-value">{{ report.target_type }}</div>
+                        </div>
+
+                        <div class="report-field">
+                            <div class="field-label">Target ID｜目標 ID</div>
+                            <div class="field-value">{{ report.target_id }}</div>
+                        </div>
+
+                        {% if report.target_user %}
+                            <div class="report-field">
+                                <div class="field-label">Target Credit Score｜被檢舉者信用分數</div>
+                                <div class="field-value">
+                                    {{ report.target_user.credit_score if report.target_user.credit_score is defined else 'N/A' }}
+                                </div>
+                            </div>
+
+                            <div class="report-field">
+                                <div class="field-label">Target XP｜被檢舉者 XP</div>
+                                <div class="field-value">
+                                    {{ report.target_user.xp if report.target_user.xp is defined else 'N/A' }}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="report-field target-content-box">
+                            <div class="field-label">Reported Content Preview｜被檢舉內容預覽</div>
+                            <div class="field-value">{{ item.target_preview }}</div>
+                        </div>
+
+                        <div class="report-field reason-box">
+                            <div class="field-label">Reason｜檢舉原因</div>
+                            <div class="field-value">{{ report.reason }}</div>
+                        </div>
+                    </div>
+
+                    {% if report.status == "pending" %}
+                        <div class="report-actions">
+                            <form method="POST" action="{{ url_for('report.resolve_report', report_id=report.id) }}">
+                                <button
+                                    type="submit"
+                                    class="action-btn resolve-btn"
+                                    onclick="return confirm('Mark this report as resolved without sanction?｜確定只標記為已處理，不套用懲處嗎？')"
+                                >
+                                    Resolve｜標記已處理
+                                </button>
+                            </form>
+
+                            <form method="POST" action="{{ url_for('report.archive_report', report_id=report.id) }}">
+                                <button
+                                    type="submit"
+                                    class="action-btn archive-btn"
+                                    onclick="return confirm('Archive this report?｜確定要封存此檢舉嗎？')"
+                                >
+                                    Archive｜封存
+                                </button>
+                            </form>
+
+                            {% if report.target_user and report.target_user.role == "student" %}
+                                <form method="POST" action="{{ url_for('report.apply_sanction', user_id=report.target_user.id) }}">
+                                    <input type="hidden" name="report_id" value="{{ report.id }}">
+                                    <input type="hidden" name="action_type" value="warning">
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn warning-btn"
+                                        onclick="return confirm('Apply warning and resolve this report?｜確定要警告此學生，並將檢舉標記為已處理嗎？')"
+                                    >
+                                        Warning｜警告
+                                    </button>
+                                </form>
+
+                                <form method="POST" action="{{ url_for('report.apply_sanction', user_id=report.target_user.id) }}">
+                                    <input type="hidden" name="report_id" value="{{ report.id }}">
+                                    <input type="hidden" name="action_type" value="mute">
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn mute-btn"
+                                        onclick="return confirm('Mute this student and resolve this report?｜確定要禁言此學生，並將檢舉標記為已處理嗎？')"
+                                    >
+                                        Mute｜禁言
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="handled-box">
+                            Action Taken｜處理方式：{{ item.action_label }}
+                            <br>
+                            Handled At｜處理時間：
+                            {% if report.handled_at %}
+                                {{ report.handled_at.strftime('%Y-%m-%d %H:%M') }}
+                            {% else %}
+                                Unknown｜未知
+                            {% endif %}
+
+                            {% if report.handled_by %}
+                                <br>
+                                Handled By｜處理者：{{ report.handled_by.username }}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </section>
+    {% else %}
+        <div class="empty-card">
+            <h3>No reports in this view.｜目前此分類沒有檢舉。</h3>
+            <p>
+                You can switch tabs to view pending, resolved, archived, or all reports.
+                <br>
+                你可以切換上方分類，查看待處理、已處理、封存或全部檢舉。
+            </p>
+        </div>
+    {% endif %}
+</div>
 
 {% endblock %}

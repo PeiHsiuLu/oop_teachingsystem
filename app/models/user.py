@@ -59,6 +59,14 @@ class Student(User):
     # 每日登入獎勵紀錄：用來避免同一天重複領取 XP
     last_login_reward_date = DateTimeField(default=None)
 
+    # Moderation / sanction notice
+    # 管理員懲處通知
+    sanction_notice = StringField(default="")
+    sanction_type = StringField(default="")
+    sanction_reason = StringField(default="")
+    sanction_at = DateTimeField(default=None)
+    sanction_seen = BooleanField(default=True)
+
     def add_xp(self, amount):
         """
         Add XP to the student.
@@ -75,14 +83,11 @@ class Student(User):
         Check whether the student is muted.
 
         Current project rule:
-        - When an admin applies the "mute" sanction, report_service.py sets credit_score to 0.
-        - Therefore, credit_score <= 0 means the student is muted.
+        - credit_score <= 0 means the student is muted.
 
         判斷學生是否被禁言。
-
-        目前專案規則：
-        - 管理員在檢舉處理中套用 mute 時，report_service.py 會把 credit_score 設為 0。
-        - 因此 credit_score <= 0 就視為被禁言。
+        目前規則：
+        - credit_score <= 0 視為被禁言。
         """
         credit_score = getattr(self, "credit_score", 100)
 
@@ -93,6 +98,29 @@ class Student(User):
 
     def can_send_message(self):
         """
-        Return True if the student can send chat/dialogue messages.
+        Return True if the student can send messages.
         """
         return not self.is_muted()
+
+    def set_sanction_notice(self, sanction_type, notice, reason=""):
+        """
+        Save a sanction notice for the student.
+
+        儲存管理員懲處通知。
+        """
+        from datetime import datetime
+
+        self.sanction_type = sanction_type or ""
+        self.sanction_notice = notice or ""
+        self.sanction_reason = reason or ""
+        self.sanction_at = datetime.utcnow()
+        self.sanction_seen = False
+        self.save()
+
+    def clear_sanction_notice(self):
+        """
+        Mark sanction notice as seen.
+        目前保留給之後加入「我知道了」按鈕使用。
+        """
+        self.sanction_seen = True
+        self.save()

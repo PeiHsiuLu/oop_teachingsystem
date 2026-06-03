@@ -5,7 +5,49 @@
 
 <style>
     .student-dashboard {
+        max-width: 1180px;
+        margin: 0 auto;
         animation: dashboardFadeIn 0.65s ease both;
+    }
+
+    .sanction-alert {
+        border-radius: 20px;
+        padding: 1rem 1.15rem;
+        margin-bottom: 1.2rem;
+        border: 1px solid;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        line-height: 1.75;
+    }
+
+    .sanction-alert.warning {
+        background: #fffbeb;
+        border-color: #fde68a;
+        color: #92400e;
+    }
+
+    .sanction-alert.mute {
+        background: #fff1f2;
+        border-color: #fecdd3;
+        color: #991b1b;
+    }
+
+    .sanction-alert-title {
+        margin: 0 0 0.35rem;
+        font-size: 1.08rem;
+        font-weight: 950;
+    }
+
+    .sanction-alert p {
+        margin: 0.2rem 0;
+        font-weight: 800;
+    }
+
+    .sanction-meta {
+        margin-top: 0.55rem;
+        color: inherit;
+        opacity: 0.85;
+        font-size: 0.92rem;
+        font-weight: 800;
     }
 
     .dashboard-hero {
@@ -96,19 +138,15 @@
         align-items: center;
         justify-content: flex-start;
         gap: 0.65rem;
-
         min-height: 68px;
         padding: 0.85rem 1rem;
         border-radius: 18px;
-
         color: #ffffff;
         font-weight: 950;
         text-decoration: none;
-
         background: rgba(255, 255, 255, 0.16);
         border: 1px solid rgba(255, 255, 255, 0.26);
         box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
-
         transition: all 0.18s ease;
     }
 
@@ -129,20 +167,13 @@
         width: 38px;
         height: 38px;
         border-radius: 14px;
-
         display: inline-flex;
         align-items: center;
         justify-content: center;
-
         font-size: 1.15rem;
         flex-shrink: 0;
-
         background: rgba(255, 255, 255, 0.22);
         color: #ffffff;
-    }
-
-    .hero-btn.primary .hero-btn-icon {
-        background: rgba(255, 255, 255, 0.3);
     }
 
     .hero-btn-text {
@@ -225,6 +256,18 @@
 
     .metric-value.blue {
         color: #007bff;
+    }
+
+    .metric-value.credit-good {
+        color: #198754;
+    }
+
+    .metric-value.credit-medium {
+        color: #856404;
+    }
+
+    .metric-value.credit-low {
+        color: #c92a2a;
     }
 
     .dashboard-section {
@@ -407,41 +450,6 @@
         box-shadow: 0 18px 36px rgba(15, 23, 42, 0.09);
     }
 
-    .feature-card::after {
-        content: "";
-        position: absolute;
-        width: 130px;
-        height: 130px;
-        border-radius: 50%;
-        right: -60px;
-        top: -60px;
-        opacity: 0.12;
-    }
-
-    .feature-card.vocabulary::after {
-        background: #007bff;
-    }
-
-    .feature-card.course::after {
-        background: #28a745;
-    }
-
-    .feature-card.analysis::after {
-        background: #17a2b8;
-    }
-
-    .feature-card.team::after {
-        background: #6f42c1;
-    }
-
-    .feature-card.achievement::after {
-        background: #ffc107;
-    }
-
-    .feature-card.interaction::after {
-        background: #22c55e;
-    }
-
     .feature-icon {
         width: 54px;
         height: 54px;
@@ -468,27 +476,27 @@
     }
 
     .feature-text {
-        margin: 0.8rem 0 1rem;
+        margin: 0.7rem 0 0;
         color: #6b7280;
-        line-height: 1.65;
+        line-height: 1.7;
     }
 
     .feature-actions {
+        margin-top: 1rem;
         display: flex;
+        gap: 0.55rem;
         flex-wrap: wrap;
-        gap: 0.6rem;
-        margin-top: auto;
     }
 
     .feature-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0.62rem 0.9rem;
+        padding: 0.55rem 0.8rem;
         border-radius: 12px;
         color: #ffffff;
-        font-weight: 950;
         text-decoration: none;
+        font-weight: 950;
         transition: all 0.18s ease;
     }
 
@@ -496,10 +504,15 @@
         color: #ffffff;
         text-decoration: none;
         transform: translateY(-1px);
+        filter: brightness(0.96);
     }
 
     .feature-btn.blue {
         background: #007bff;
+    }
+
+    .feature-btn.gray {
+        background: #6c757d;
     }
 
     .feature-btn.green {
@@ -518,14 +531,10 @@
         background: #111827;
     }
 
-    .feature-btn.gray {
-        background: #6c757d;
-    }
-
     @keyframes dashboardFadeIn {
         from {
             opacity: 0;
-            transform: translateY(16px);
+            transform: translateY(14px);
         }
 
         to {
@@ -534,17 +543,13 @@
         }
     }
 
-    @media (max-width: 1100px) {
+    @media (max-width: 980px) {
         .dashboard-hero {
             grid-template-columns: 1fr;
         }
 
-        .profile-card {
-            width: 100%;
-        }
-
-        .profile-metrics {
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+        .hero-actions {
+            grid-template-columns: 1fr;
         }
 
         .feature-grid {
@@ -552,95 +557,69 @@
         }
     }
 
-    @media (max-width: 760px) {
-        .hero-main {
-            padding: 1.35rem;
-        }
-
-        .hero-title {
-            font-size: 1.75rem;
-        }
-
-        .hero-actions {
-            grid-template-columns: 1fr;
-        }
-
-        .hero-btn {
-            width: 100%;
-        }
-
-        .profile-metrics {
-            grid-template-columns: 1fr;
-        }
-
-        .section-header {
-            flex-direction: column;
-        }
-
-        .leaderboard-table-wrapper {
-            max-height: 340px;
-        }
-
-        .feature-actions {
-            flex-direction: column;
-        }
-
-        .feature-btn {
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .hero-main {
-            padding: 1.1rem;
-            border-radius: 18px;
-        }
-
-        .hero-badge {
-            font-size: 0.9rem;
-            align-items: flex-start;
-        }
-
-        .hero-title {
-            font-size: 1.45rem;
-        }
-
-        .hero-subtitle {
-            font-size: 0.94rem;
-            line-height: 1.7;
-        }
-
-        .hero-btn {
-            min-height: 62px;
-            padding: 0.75rem 0.85rem;
-        }
-
-        .dashboard-section,
+    @media (max-width: 640px) {
+        .hero-main,
         .profile-card,
+        .dashboard-section,
         .feature-card {
             border-radius: 18px;
-            padding: 1rem;
+            padding: 1.05rem;
+        }
+
+        .leaderboard-table {
+            min-width: 720px;
         }
     }
 </style>
 
 <div class="student-dashboard">
+
+    {% if current_user.sanction_notice and not current_user.sanction_seen %}
+        <div class="sanction-alert {% if current_user.sanction_type == 'mute' %}mute{% else %}warning{% endif %}">
+            <h3 class="sanction-alert-title">
+                {% if current_user.sanction_type == "mute" %}
+                    Mute Notice｜禁言通知
+                {% else %}
+                    Warning Notice｜警告通知
+                {% endif %}
+            </h3>
+
+            <p>
+                {{ current_user.sanction_notice }}
+            </p>
+
+            {% if current_user.sanction_reason %}
+                <p>
+                    Reason｜原因：{{ current_user.sanction_reason }}
+                </p>
+            {% endif %}
+
+            <div class="sanction-meta">
+                {% if current_user.sanction_at %}
+                    Time｜時間：{{ current_user.sanction_at.strftime('%Y-%m-%d %H:%M') }}
+                    <br>
+                {% endif %}
+                Current Credit Score｜目前信用分數：{{ current_user.credit_score | default(100) }}
+            </div>
+        </div>
+    {% endif %}
+
     <section class="dashboard-hero">
         <div class="hero-main">
             <div class="hero-badge">
                 👋 Student Dashboard｜學生首頁
             </div>
 
-            <h2 class="hero-title">
+            <h1 class="hero-title">
                 Welcome back, {{ current_user.username }}!
                 <br>
                 歡迎回來，{{ current_user.username }}！
-            </h2>
+            </h1>
 
             <p class="hero-subtitle">
-                Here is your daily learning overview. Track your XP, CEFR level, vocabulary progress, AI chat practice, and team learning activities.
+                Here is your daily learning overview. Track your XP, CEFR level, vocabulary progress, AI chat practice, team learning, and credit score.
                 <br>
-                這裡是你的每日學習總覽。你可以追蹤經驗值、CEFR 等級、單字練習、AI 情境對話與團隊學習進度。
+                這裡是你的每日學習總覽。你可以追蹤經驗值、CEFR 等級、單字練習、AI 情境對話、團隊學習與信用分數。
             </p>
 
             <div class="hero-actions">
@@ -681,6 +660,16 @@
                 快速查看目前的學習狀態。
             </p>
 
+            {% set my_credit = current_user.credit_score | default(100) %}
+
+            {% if my_credit >= 80 %}
+                {% set my_credit_class = "credit-good" %}
+            {% elif my_credit >= 50 %}
+                {% set my_credit_class = "credit-medium" %}
+            {% else %}
+                {% set my_credit_class = "credit-low" %}
+            {% endif %}
+
             <div class="profile-metrics">
                 <div class="profile-metric">
                     <div class="metric-label">XP｜經驗值</div>
@@ -699,7 +688,9 @@
 
                 <div class="profile-metric">
                     <div class="metric-label">Credit Score｜信用分數</div>
-                    <div class="metric-value">{{ current_user.credit_score | default(100) }}</div>
+                    <div class="metric-value {{ my_credit_class }}">
+                        {{ my_credit }}
+                    </div>
                 </div>
             </div>
         </aside>
@@ -713,9 +704,9 @@
                 </h3>
 
                 <p class="section-subtitle">
-                    Ranking all students by XP. Your row will be highlighted if you are in the list.
+                    Ranking all students by XP. Credit score is shown from the latest leaderboard data.
                     <br>
-                    依照經驗值排序所有學生。如果你在排行榜中，你的列會被標示出來。
+                    依照經驗值排序所有學生，並顯示目前最新的信用分數資料。
                 </p>
             </div>
         </div>
@@ -736,10 +727,11 @@
                     <tbody>
                         {% for item in user_leaderboard %}
                             {% set is_current = item.username == current_user.username %}
+                            {% set item_credit = item.credit_score | default(100) %}
 
-                            {% if item.credit_score >= 80 %}
+                            {% if item_credit >= 80 %}
                                 {% set credit_class = "credit-good" %}
-                            {% elif item.credit_score >= 50 %}
+                            {% elif item_credit >= 50 %}
                                 {% set credit_class = "credit-medium" %}
                             {% else %}
                                 {% set credit_class = "credit-low" %}
@@ -768,19 +760,19 @@
 
                                 <td class="center-cell">
                                     <span class="xp-badge">
-                                        {{ item.xp }} XP
+                                        {{ item.xp | default(0) }} XP
                                     </span>
                                 </td>
 
                                 <td class="center-cell">
                                     <span class="level-badge">
-                                        Lv. {{ item.level }}
+                                        Lv. {{ item.level | default(1) }}
                                     </span>
                                 </td>
 
                                 <td class="center-cell">
                                     <span class="credit-badge {{ credit_class }}">
-                                        {{ item.credit_score }}
+                                        {{ item_credit }}
                                     </span>
                                 </td>
                             </tr>

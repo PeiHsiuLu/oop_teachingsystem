@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 
 from app.models.team import StudyGroup
 from app.models.group_chat import GroupChat, ChatMessage
+from app.models.report import Report
 from app.services.achievement_service import AchievementService
 
 
@@ -44,6 +45,32 @@ def format_message_time(message):
         return ""
 
     return message.created_at.strftime("%Y-%m-%d %H:%M")
+
+
+def get_reported_message_ids(user, messages):
+    """
+    Return message ids that current user has already reported.
+
+    重新整理頁面後，用這個資料讓已檢舉過的訊息顯示 Reported｜已檢舉。
+    """
+    reported_message_ids = set()
+
+    if not user or not messages:
+        return reported_message_ids
+
+    message_ids = [str(message.id) for message in messages]
+
+    reports = Report.objects(
+        reporter=user,
+        target_type="chat_message",
+        target_id__in=message_ids
+    )
+
+    for report in reports:
+        if report.target_id:
+            reported_message_ids.add(str(report.target_id))
+
+    return reported_message_ids
 
 
 @group_chat_bp.route("/<group_id>", methods=["GET", "POST"])
@@ -137,10 +164,15 @@ def chat_room(group_id):
         return redirect(url_for("group_chat.chat_room", group_id=group.id))
 
     messages = ChatMessage.objects(chat=chat).order_by("created_at")
+    reported_message_ids = get_reported_message_ids(
+        current_user._get_current_object(),
+        messages
+    )
 
     return render_template(
         "group_chat.html",
         group=group,
         chat=chat,
-        messages=messages
+        messages=messages,
+        reported_message_ids=reported_message_ids
     )

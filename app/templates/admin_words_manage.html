@@ -1,46 +1,115 @@
 {% extends "base.html" %}
 
-{% block title %}管理單字庫{% endblock %}
+{% block title %}Vocabulary Bank Management{% endblock %}
 
 {% block content %}
 
 <style>
-    .word-admin-page h2 {
-        margin-top: 0;
-        margin-bottom: 1.5rem;
-        color: #212529;
+    .word-admin-page {
+        max-width: 1180px;
+        margin: 0 auto;
+        animation: wordAdminFadeIn 0.5s ease both;
+    }
+
+    .word-hero {
+        position: relative;
+        overflow: hidden;
+        border-radius: 26px;
+        padding: 1.55rem;
+        margin-bottom: 1.25rem;
+        background: linear-gradient(135deg, #0f766e 0%, #007bff 55%, #4f46e5 100%);
+        color: #ffffff;
+        box-shadow: 0 16px 34px rgba(15, 118, 110, 0.14);
+    }
+
+    .word-hero::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        right: -90px;
+        top: -105px;
+    }
+
+    .word-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .word-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.42rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        font-weight: 950;
+        margin-bottom: 0.85rem;
+    }
+
+    .word-title {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 950;
+        line-height: 1.25;
+        letter-spacing: -0.03em;
+    }
+
+    .word-subtitle {
+        margin: 0.75rem 0 0;
+        max-width: 880px;
+        line-height: 1.8;
+        opacity: 0.95;
     }
 
     .back-link {
-        display: inline-block;
-        margin-bottom: 1.5rem;
-        color: #007bff;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin-bottom: 1rem;
+        padding: 0.6rem 0.85rem;
+        border-radius: 999px;
+        background: #f1f5f9;
+        color: #334155;
         text-decoration: none;
-        font-weight: bold;
+        font-weight: 950;
     }
 
     .back-link:hover {
-        text-decoration: underline;
+        background: #e2e8f0;
+        color: #111827;
+        text-decoration: none;
     }
 
     .admin-section {
-        border: 1px solid #dee2e6;
-        border-radius: 6px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        padding: 1.25rem;
+        margin-bottom: 1.25rem;
         background-color: #ffffff;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
     }
 
     .admin-section-title {
-        margin-top: 0;
-        margin-bottom: 1.25rem;
-        color: #212529;
+        margin: 0 0 0.35rem;
+        color: #111827;
+        font-size: 1.25rem;
+        font-weight: 950;
+    }
+
+    .section-help {
+        margin: 0 0 1rem;
+        color: #6b7280;
+        line-height: 1.65;
+        font-weight: 750;
     }
 
     .form-row {
         display: flex;
-        gap: 15px;
-        margin-bottom: 15px;
+        gap: 1rem;
+        margin-bottom: 1rem;
     }
 
     .form-group {
@@ -49,15 +118,15 @@
     }
 
     .form-group label {
-        font-weight: bold;
+        font-weight: 950;
         margin-bottom: 0.4rem;
-        color: #343a40;
+        color: #374151;
     }
 
     .form-control {
-        padding: 0.65rem 0.75rem;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
+        padding: 0.72rem 0.85rem;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
         font-size: 1rem;
         background-color: #ffffff;
         width: 100%;
@@ -66,7 +135,7 @@
     .form-control:focus {
         outline: none;
         border-color: #007bff;
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.14);
     }
 
     .flex-1 {
@@ -83,12 +152,20 @@
         align-items: flex-end;
         gap: 1rem;
         flex-wrap: wrap;
-        margin-bottom: 1rem;
+        margin: 1.25rem 0 1rem;
     }
 
     .word-list-title {
         margin: 0;
-        color: #212529;
+        color: #111827;
+        font-size: 1.25rem;
+        font-weight: 950;
+    }
+
+    .word-list-subtitle {
+        margin: 0.25rem 0 0;
+        color: #6b7280;
+        font-weight: 750;
     }
 
     .search-form {
@@ -98,11 +175,19 @@
     }
 
     .search-input {
-        padding: 0.65rem 0.75rem;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
+        padding: 0.72rem 0.85rem;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
         min-width: 260px;
         font-size: 1rem;
+    }
+
+    .table-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        overflow: hidden;
+        background: #ffffff;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
     }
 
     .table-wrapper {
@@ -116,32 +201,56 @@
     }
 
     .word-table th {
-        background-color: #007bff;
+        background-color: #111827;
         color: white;
         text-align: left;
-        padding: 0.9rem;
+        padding: 0.95rem;
         white-space: nowrap;
     }
 
     .word-table td {
-        border: 1px solid #dee2e6;
-        padding: 0.9rem;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 0.95rem;
         vertical-align: middle;
     }
 
-    .word-table tr:nth-child(even) td {
-        background-color: #f8f9fa;
+    .word-table tr:hover td {
+        background-color: #f8fafc;
     }
 
     .word-text {
-        font-weight: bold;
-        color: #212529;
+        font-weight: 950;
+        color: #111827;
+        font-size: 1.05rem;
+    }
+
+    .level-pill,
+    .pos-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        font-weight: 950;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .level-pill {
+        background: #eaf4ff;
+        color: #007bff;
+    }
+
+    .pos-pill {
+        background: #f1f5f9;
+        color: #334155;
     }
 
     .example-sentence {
-        font-style: italic;
-        color: #495057;
+        color: #4b5563;
         line-height: 1.5;
+        font-style: italic;
+        min-width: 260px;
     }
 
     .action-buttons {
@@ -151,50 +260,68 @@
     }
 
     .btn-warning {
-        background-color: #fd7e14;
+        background-color: #f59e0b;
         color: white;
     }
 
     .btn-warning:hover {
-        background-color: #e96b00;
+        background-color: #d97706;
+        color: white;
     }
 
     .empty-box {
-        padding: 1.5rem;
-        border: 1px solid #dee2e6;
-        border-radius: 6px;
-        background-color: #f8f9fa;
-        color: #6c757d;
+        padding: 2rem;
+        border-radius: 22px;
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        color: #6b7280;
         text-align: center;
+        line-height: 1.7;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
     }
 
     .pagination {
-        margin-top: 30px;
+        margin-top: 1.25rem;
         text-align: center;
-        font-size: 1.1rem;
-        padding-bottom: 20px;
+        font-size: 1rem;
+        padding-bottom: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
     }
 
     .pagination a {
-        padding: 8px 15px;
+        padding: 0.65rem 0.95rem;
         background: #007bff;
         color: white;
         text-decoration: none;
-        border-radius: 4px;
-        margin: 0 5px;
+        border-radius: 12px;
+        font-weight: 950;
+    }
+
+    .pagination-info {
+        padding: 0.65rem 0.95rem;
+        border-radius: 12px;
+        background: #f1f5f9;
+        color: #334155;
+        font-weight: 950;
     }
 
     .pagination-form {
-        display: inline-block;
-        margin-left: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
     }
 
     .pagination-input {
-        width: 60px;
-        padding: 5px;
+        width: 70px;
+        padding: 0.55rem;
         text-align: center;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
     }
 
     .modal {
@@ -205,30 +332,59 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(15, 23, 42, 0.58);
+        padding: 1rem;
     }
 
     .modal-content {
         background-color: #fff;
-        margin: 5% auto;
-        padding: 25px;
-        border-radius: 8px;
-        width: 80%;
-        max-width: 800px;
-        border-top: 5px solid #fd7e14;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+        margin: 4% auto;
+        padding: 1.4rem;
+        border-radius: 22px;
+        width: 92%;
+        max-width: 850px;
+        border-top: 6px solid #f59e0b;
+        box-shadow: 0 24px 70px rgba(0,0,0,0.22);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .modal-title {
+        margin: 0;
+        color: #111827;
+        font-size: 1.35rem;
+        font-weight: 950;
+        line-height: 1.4;
     }
 
     .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
+        color: #64748b;
+        font-size: 1.8rem;
         font-weight: bold;
         cursor: pointer;
+        line-height: 1;
     }
 
     .close:hover {
-        color: black;
+        color: #111827;
+    }
+
+    @keyframes wordAdminFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     @media (max-width: 768px) {
@@ -249,75 +405,99 @@
             min-width: 0;
         }
 
-        .search-form .btn {
+        .search-form .btn,
+        .action-buttons .btn,
+        .pagination-form .btn {
             flex: 1;
             text-align: center;
         }
 
         .word-table {
-            min-width: 900px;
+            min-width: 920px;
         }
 
         .modal-content {
-            width: 95%;
-            margin-top: 10%;
+            width: 96%;
+            margin-top: 8%;
         }
     }
 </style>
 
 <div class="word-admin-page">
-
     <a href="{{ url_for('dashboard.index') }}" class="back-link">
-        ← 回到儀表板 (Back to Dashboard)
+        ← Back to Dashboard｜回到儀表板
     </a>
 
-    <h2>⚙️ 管理單字庫 (Admin)</h2>
+    <section class="word-hero">
+        <div class="word-hero-content">
+            <div class="word-badge">
+                🧠 Vocabulary Admin｜單字庫管理
+            </div>
+
+            <h1 class="word-title">
+                Vocabulary Bank Management
+                <br>
+                系統單字庫管理
+            </h1>
+
+            <p class="word-subtitle">
+                Add, search, edit, and delete vocabulary used by course content, sentence practice, quizzes, and SRS review.
+                <br>
+                管理課程內容、句子填空、Quiz 與 SRS 複習所使用的系統單字。
+            </p>
+        </div>
+    </section>
 
     <div class="admin-section">
-        <h3 class="admin-section-title">＋ 新增單字</h3>
+        <h2 class="admin-section-title">Add New Word｜新增單字</h2>
+        <p class="section-help">
+            Word must be English. Definition should contain Chinese. Example sentence should include the word.
+            <br>
+            單字需為英文；中文定義需包含中文字；英文例句需包含該單字。
+        </p>
 
         <form method="POST" action="{{ url_for('word.manage_words') }}">
             <div class="form-row">
                 <div class="form-group flex-1">
-                    <label>單字 (Word):</label>
-                    <input type="text" name="word_text" class="form-control" required>
+                    <label>Word｜單字</label>
+                    <input type="text" name="word_text" class="form-control" placeholder="Example: passport" required>
                 </div>
 
                 <div class="form-group flex-2">
-                    <label>中文定義 (Definition):</label>
-                    <input type="text" name="definition" class="form-control" required>
+                    <label>Chinese Definition｜中文定義</label>
+                    <input type="text" name="definition" class="form-control" placeholder="Example: 護照" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group flex-1">
-                    <label>詞性 (Part of Speech):</label>
+                    <label>Part of Speech｜詞性</label>
                     <select name="part_of_speech" class="form-control">
-                        <option value="noun">noun (名詞)</option>
-                        <option value="verb">verb (動詞)</option>
-                        <option value="auxiliary verb">auxiliary verb (助動詞)</option>
-                        <option value="modal verb">modal verb (情態動詞)</option>
-                        <option value="adjective">adjective (形容詞)</option>
-                        <option value="adverb">adverb (副詞)</option>
-                        <option value="preposition">preposition (介系詞)</option>
-                        <option value="conjunction">conjunction (連接詞)</option>
-                        <option value="pronoun">pronoun (代名詞)</option>
-                        <option value="determiner">determiner (限定詞)</option>
-                        <option value="indefinite article">indefinite article (不定冠詞)</option>
-                        <option value="definite article">definite article (定冠詞)</option>
-                        <option value="exclamation">exclamation (感嘆詞)</option>
-                        <option value="number">number (數詞)</option>
-                        <option value="other">other (其他)</option>
+                        <option value="noun">noun｜名詞</option>
+                        <option value="verb">verb｜動詞</option>
+                        <option value="auxiliary verb">auxiliary verb｜助動詞</option>
+                        <option value="modal verb">modal verb｜情態動詞</option>
+                        <option value="adjective">adjective｜形容詞</option>
+                        <option value="adverb">adverb｜副詞</option>
+                        <option value="preposition">preposition｜介系詞</option>
+                        <option value="conjunction">conjunction｜連接詞</option>
+                        <option value="pronoun">pronoun｜代名詞</option>
+                        <option value="determiner">determiner｜限定詞</option>
+                        <option value="indefinite article">indefinite article｜不定冠詞</option>
+                        <option value="definite article">definite article｜定冠詞</option>
+                        <option value="exclamation">exclamation｜感嘆詞</option>
+                        <option value="number">number｜數詞</option>
+                        <option value="other">other｜其他</option>
                     </select>
                 </div>
 
                 <div class="form-group flex-2">
-                    <label>英文例句 (Example Sentences):</label>
-                    <input type="text" name="example_sentences" class="form-control">
+                    <label>Example Sentence｜英文例句</label>
+                    <input type="text" name="example_sentences" class="form-control" placeholder="Example: I need to show my passport.">
                 </div>
 
                 <div class="form-group flex-1">
-                    <label>難度 (CEFR):</label>
+                    <label>Difficulty / CEFR｜難度</label>
                     <select name="difficulty_level" class="form-control">
                         <option value="A1">A1</option>
                         <option value="A2">A2</option>
@@ -331,161 +511,181 @@
             </div>
 
             <button type="submit" class="btn btn-primary">
-                新增單字 (Add Word)
+                Add Word｜新增單字
             </button>
         </form>
     </div>
 
     <div class="word-list-header">
-        <h3 class="word-list-title">
-            📋 系統單字列表 (Total: {{ total_words }})
-        </h3>
+        <div>
+            <h2 class="word-list-title">
+                System Word List｜系統單字列表
+            </h2>
+            <p class="word-list-subtitle">
+                Total Words｜單字總數：{{ total_words }}
+            </p>
+        </div>
 
         <form method="GET" action="{{ url_for('word.manage_words') }}" class="search-form">
             <input
                 type="text"
                 name="search"
                 class="search-input"
-                placeholder="搜尋單字..."
+                placeholder="Search word...｜搜尋單字..."
                 value="{{ search }}"
             >
 
             <button type="submit" class="btn btn-primary">
-                搜尋
+                Search｜搜尋
             </button>
 
             <a href="{{ url_for('word.manage_words') }}" class="btn btn-secondary">
-                清除
+                Clear｜清除
             </a>
         </form>
     </div>
 
     {% if total_words > 0 %}
-        <div class="table-wrapper">
-            <table class="word-table">
-                <thead>
-                    <tr>
-                        <th>單字</th>
-                        <th>定義</th>
-                        <th>詞性</th>
-                        <th>難度</th>
-                        <th>英文例句</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for w in words %}
+        <div class="table-card">
+            <div class="table-wrapper">
+                <table class="word-table">
+                    <thead>
                         <tr>
-                            <td>
-                                <span class="word-text">{{ w.word_text }}</span>
-                            </td>
-
-                            <td>
-                                {{ w.definition }}
-                            </td>
-
-                            <td>
-                                {{ w.part_of_speech }}
-                            </td>
-
-                            <td>
-                                {{ w.difficulty_level }}
-                            </td>
-
-                            <td class="example-sentence">
-                                {{ w.example_sentences[0] if w.example_sentences else '無' }}
-                            </td>
-
-                            <td>
-                                <div class="action-buttons">
-                                    <button
-                                        data-id="{{ w.id }}"
-                                        data-word="{{ w.word_text }}"
-                                        data-def="{{ w.definition }}"
-                                        data-pos="{{ w.part_of_speech }}"
-                                        data-diff="{{ w.difficulty_level }}"
-                                        data-ex="{{ w.example_sentences[0] if w.example_sentences else '' }}"
-                                        onclick="openEditModal(this)"
-                                        class="btn btn-warning"
-                                        type="button"
-                                    >
-                                        編輯
-                                    </button>
-
-                                    <button
-                                        onclick="deleteWord('{{ w.id }}')"
-                                        class="btn btn-danger"
-                                        type="button"
-                                    >
-                                        刪除
-                                    </button>
-                                </div>
-                            </td>
+                            <th>Word｜單字</th>
+                            <th>Definition｜定義</th>
+                            <th>Part of Speech｜詞性</th>
+                            <th>CEFR｜難度</th>
+                            <th>Example｜例句</th>
+                            <th>Actions｜操作</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        {% for w in words %}
+                            <tr>
+                                <td>
+                                    <span class="word-text">{{ w.word_text }}</span>
+                                </td>
+
+                                <td>
+                                    {{ w.definition }}
+                                </td>
+
+                                <td>
+                                    <span class="pos-pill">{{ w.part_of_speech }}</span>
+                                </td>
+
+                                <td>
+                                    <span class="level-pill">{{ w.difficulty_level }}</span>
+                                </td>
+
+                                <td class="example-sentence">
+                                    {{ w.example_sentences[0] if w.example_sentences else 'No example｜無例句' }}
+                                </td>
+
+                                <td>
+                                    <div class="action-buttons">
+                                        <button
+                                            data-id="{{ w.id }}"
+                                            data-word="{{ w.word_text }}"
+                                            data-def="{{ w.definition }}"
+                                            data-pos="{{ w.part_of_speech }}"
+                                            data-diff="{{ w.difficulty_level }}"
+                                            data-ex="{{ w.example_sentences[0] if w.example_sentences else '' }}"
+                                            onclick="openEditModal(this)"
+                                            class="btn btn-warning"
+                                            type="button"
+                                        >
+                                            Edit｜編輯
+                                        </button>
+
+                                        <button
+                                            onclick="deleteWord('{{ w.id }}')"
+                                            class="btn btn-danger"
+                                            type="button"
+                                        >
+                                            Delete｜刪除
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     {% else %}
         <div class="empty-box">
             {% if search %}
+                No matching words found.
+                <br>
                 找不到符合條件的單字。
             {% else %}
-                目前尚未有任何單字在資料庫內。
+                No words in the database yet.
+                <br>
+                目前資料庫內尚未有任何單字。
             {% endif %}
         </div>
     {% endif %}
 
     <div id="editModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeEditModal()">&times;</span>
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">
+                        Edit Word｜編輯單字
+                    </h3>
+                    <p class="section-help" style="margin-bottom:0;">
+                        Update word details and validation rules.｜更新單字資訊與檢查規則。
+                    </p>
+                </div>
 
-            <h3 style="margin-top:0; color: #fd7e14;">✏️ 編輯單字</h3>
+                <span class="close" onclick="closeEditModal()">&times;</span>
+            </div>
 
             <input type="hidden" id="edit_id">
 
             <div class="form-row">
                 <div class="form-group flex-1">
-                    <label>單字 (Word):</label>
+                    <label>Word｜單字</label>
                     <input type="text" id="edit_word_text" class="form-control" required>
                 </div>
 
                 <div class="form-group flex-2">
-                    <label>中文定義 (Definition):</label>
+                    <label>Chinese Definition｜中文定義</label>
                     <input type="text" id="edit_definition" class="form-control" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group flex-1">
-                    <label>詞性 (Part of Speech):</label>
+                    <label>Part of Speech｜詞性</label>
                     <select id="edit_part_of_speech" class="form-control">
-                        <option value="noun">noun (名詞)</option>
-                        <option value="verb">verb (動詞)</option>
-                        <option value="auxiliary verb">auxiliary verb (助動詞)</option>
-                        <option value="modal verb">modal verb (情態動詞)</option>
-                        <option value="adjective">adjective (形容詞)</option>
-                        <option value="adverb">adverb (副詞)</option>
-                        <option value="preposition">preposition (介系詞)</option>
-                        <option value="conjunction">conjunction (連接詞)</option>
-                        <option value="pronoun">pronoun (代名詞)</option>
-                        <option value="determiner">determiner (限定詞)</option>
-                        <option value="indefinite article">indefinite article (不定冠詞)</option>
-                        <option value="definite article">definite article (定冠詞)</option>
-                        <option value="exclamation">exclamation (感嘆詞)</option>
-                        <option value="number">number (數詞)</option>
-                        <option value="other">other (其他)</option>
+                        <option value="noun">noun｜名詞</option>
+                        <option value="verb">verb｜動詞</option>
+                        <option value="auxiliary verb">auxiliary verb｜助動詞</option>
+                        <option value="modal verb">modal verb｜情態動詞</option>
+                        <option value="adjective">adjective｜形容詞</option>
+                        <option value="adverb">adverb｜副詞</option>
+                        <option value="preposition">preposition｜介系詞</option>
+                        <option value="conjunction">conjunction｜連接詞</option>
+                        <option value="pronoun">pronoun｜代名詞</option>
+                        <option value="determiner">determiner｜限定詞</option>
+                        <option value="indefinite article">indefinite article｜不定冠詞</option>
+                        <option value="definite article">definite article｜定冠詞</option>
+                        <option value="exclamation">exclamation｜感嘆詞</option>
+                        <option value="number">number｜數詞</option>
+                        <option value="other">other｜其他</option>
                     </select>
                 </div>
 
                 <div class="form-group flex-2">
-                    <label>英文例句 (Example Sentences):</label>
+                    <label>Example Sentence｜英文例句</label>
                     <input type="text" id="edit_example_sentences" class="form-control">
                 </div>
 
                 <div class="form-group flex-1">
-                    <label>難度 (CEFR):</label>
+                    <label>Difficulty / CEFR｜難度</label>
                     <select id="edit_difficulty_level" class="form-control">
                         <option value="A1">A1</option>
                         <option value="A2">A2</option>
@@ -499,7 +699,7 @@
             </div>
 
             <button onclick="submitEdit()" class="btn btn-warning" type="button">
-                更新單字 (Update Word)
+                Update Word｜更新單字
             </button>
         </div>
     </div>
@@ -507,17 +707,17 @@
     <div class="pagination">
         {% if page > 1 %}
             <a href="{{ url_for('word.manage_words', page=page-1, search=search) }}">
-                ← 上一頁
+                ← Previous｜上一頁
             </a>
         {% endif %}
 
-        <span style="margin: 0 15px;">
-            第 {{ page }} 頁 / 共 {{ total_pages }} 頁
+        <span class="pagination-info">
+            Page {{ page }} / {{ total_pages }}｜第 {{ page }} 頁 / 共 {{ total_pages }} 頁
         </span>
 
         {% if page < total_pages %}
             <a href="{{ url_for('word.manage_words', page=page+1, search=search) }}">
-                下一頁 →
+                Next｜下一頁 →
             </a>
         {% endif %}
 
@@ -526,7 +726,7 @@
                 <input type="hidden" name="search" value="{{ search }}">
             {% endif %}
 
-            跳至第
+            <span>Go to｜跳至</span>
             <input
                 type="number"
                 name="page"
@@ -535,10 +735,10 @@
                 value="{{ page }}"
                 class="pagination-input"
             >
-            頁
+            <span>page｜頁</span>
 
             <button type="submit" class="btn btn-primary">
-                跳轉
+                Go｜前往
             </button>
         </form>
     </div>
@@ -546,13 +746,13 @@
 
 <script>
     function deleteWord(id) {
-        if (confirm("確定要刪除這個單字嗎？")) {
+        if (confirm("Delete this word?｜確定要刪除這個單字嗎？")) {
             fetch("/word/admin/words/" + id, {
                 method: "DELETE"
             })
             .then(response => response.json())
             .then(data => {
-                alert(data.message);
+                alert(data.message || data.error || "Done.");
                 location.reload();
             });
         }
@@ -580,6 +780,42 @@
         }
     }
 
+    function validateWordForm(wordInput, definitionInput, exampleInput, modeText) {
+        const englishRegex = /^[a-zA-Z\- ]+$/;
+        const chineseRegex = /[\u4e00-\u9fa5]/;
+        const definitionFormatRegex = /^[\u4e00-\u9fa5a-zA-Z0-9\s，。！？、；：「」『』（）\(\)\[\]"'\.,\-]+$/;
+        const exampleFormatRegex = /^[a-zA-Z0-9\s.,:;!?"'\(\)\-\$%]+$/;
+
+        if (!englishRegex.test(wordInput)) {
+            alert("Word can only contain English letters, spaces, or hyphens.｜「單字」欄位僅能輸入英文字母、空格或連字號。");
+            return false;
+        }
+
+        if (!chineseRegex.test(definitionInput)) {
+            alert("Definition must contain Chinese characters.｜「中文定義」欄位必須包含中文字。");
+            return false;
+        }
+
+        if (!definitionFormatRegex.test(definitionInput)) {
+            alert("Definition contains invalid special characters.｜「中文定義」欄位包含不允許的特殊符號。");
+            return false;
+        }
+
+        if (exampleInput) {
+            if (!exampleFormatRegex.test(exampleInput)) {
+                alert("Example sentence can only contain English, numbers, and basic punctuation.｜「英文例句」欄位僅能包含英文、數字與基本標點符號。");
+                return false;
+            }
+
+            if (!exampleInput.toLowerCase().includes(wordInput.toLowerCase())) {
+                alert("The example sentence must include the word.｜「英文例句」中必須包含該單字。");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     function submitEdit() {
         const id = document.getElementById("edit_id").value;
         const wordInput = document.getElementById("edit_word_text").value.trim();
@@ -588,36 +824,8 @@
         const diffInput = document.getElementById("edit_difficulty_level").value;
         const exampleInput = document.getElementById("edit_example_sentences").value.trim();
 
-        const englishRegex = /^[a-zA-Z\- ]+$/;
-        const chineseRegex = /[\u4e00-\u9fa5]/;
-        const definitionFormatRegex = /^[\u4e00-\u9fa5a-zA-Z0-9\s，。！？、；：「」『』（）\(\)\[\]"'\.,\-]+$/;
-        const exampleFormatRegex = /^[a-zA-Z0-9\s.,:;!?"'\(\)\-\$%]+$/;
-
-        if (!englishRegex.test(wordInput)) {
-            alert("「單字」欄位僅能輸入英文字母。");
+        if (!validateWordForm(wordInput, definitionInput, exampleInput, "edit")) {
             return;
-        }
-
-        if (!chineseRegex.test(definitionInput)) {
-            alert("「中文定義」欄位必須包含中文字。");
-            return;
-        }
-
-        if (!definitionFormatRegex.test(definitionInput)) {
-            alert("「中文定義」欄位包含不允許的特殊符號。");
-            return;
-        }
-
-        if (exampleInput) {
-            if (!exampleFormatRegex.test(exampleInput)) {
-                alert("「英文例句」欄位僅能包含英文、數字與基本標點符號。");
-                return;
-            }
-
-            if (!exampleInput.toLowerCase().includes(wordInput.toLowerCase())) {
-                alert("「英文例句」中必須包含您正在編輯的單字。");
-                return;
-            }
         }
 
         const data = {
@@ -638,15 +846,15 @@
         .then(response => response.json())
         .then(data => {
             if (data.message === "Word updated successfully") {
-                alert("更新成功！");
+                alert("Updated successfully!｜更新成功！");
                 location.reload();
             } else {
-                alert("更新失敗：" + (data.error || data.message));
+                alert("Update failed｜更新失敗：" + (data.error || data.message));
             }
         })
         .catch(err => {
             console.error(err);
-            alert("發生錯誤，請稍後再試。");
+            alert("An error occurred. Please try again.｜發生錯誤，請稍後再試。");
         });
     }
 
@@ -654,37 +862,11 @@
 
     if (addWordForm) {
         addWordForm.addEventListener("submit", function(event) {
-            let isValid = true;
+            const wordInput = document.querySelector('input[name="word_text"]').value.trim();
+            const definitionInput = document.querySelector('input[name="definition"]').value.trim();
+            const exampleInput = document.querySelector('input[name="example_sentences"]').value.trim();
 
-            const wordInput = document.querySelector('input[name="word_text"]');
-            const definitionInput = document.querySelector('input[name="definition"]');
-            const exampleInput = document.querySelector('input[name="example_sentences"]');
-
-            const englishRegex = /^[a-zA-Z\- ]+$/;
-            const chineseRegex = /[\u4e00-\u9fa5]/;
-            const definitionFormatRegex = /^[\u4e00-\u9fa5a-zA-Z0-9\s，。！？、；：「」『』（）\(\)\[\]"'\.,\-]+$/;
-            const exampleFormatRegex = /^[a-zA-Z0-9\s.,:;!?"'\(\)\-\$%]+$/;
-
-            if (!englishRegex.test(wordInput.value.trim())) {
-                alert("「單字」欄位僅能輸入英文字母。");
-                isValid = false;
-            } else if (!chineseRegex.test(definitionInput.value)) {
-                alert("「中文定義」欄位必須包含中文字。");
-                isValid = false;
-            } else if (!definitionFormatRegex.test(definitionInput.value)) {
-                alert("「中文定義」欄位包含不允許的特殊符號。");
-                isValid = false;
-            } else if (exampleInput.value) {
-                if (!exampleFormatRegex.test(exampleInput.value)) {
-                    alert("「英文例句」欄位僅能包含英文、數字與基本標點符號。");
-                    isValid = false;
-                } else if (!exampleInput.value.toLowerCase().includes(wordInput.value.trim().toLowerCase())) {
-                    alert("「英文例句」中必須包含您正在新增的單字。");
-                    isValid = false;
-                }
-            }
-
-            if (!isValid) {
+            if (!validateWordForm(wordInput, definitionInput, exampleInput, "add")) {
                 event.preventDefault();
             }
         });

@@ -5,164 +5,564 @@
 {% block content %}
 <style>
     .result-page {
-        max-width: 900px;
+        max-width: 980px;
         margin: 0 auto;
+        animation: resultFadeIn 0.55s ease both;
     }
 
-    .score-card {
+    .result-hero {
+        position: relative;
+        overflow: hidden;
+        border-radius: 26px;
+        padding: 1.7rem;
+        margin-bottom: 1.35rem;
+        background: linear-gradient(135deg, #007bff 0%, #4f46e5 55%, #7c3aed 100%);
+        color: #ffffff;
+        box-shadow: 0 16px 34px rgba(79, 70, 229, 0.16);
+    }
+
+    .result-hero::before {
+        content: "";
+        position: absolute;
+        width: 230px;
+        height: 230px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        right: -90px;
+        top: -105px;
+    }
+
+    .result-hero::after {
+        content: "";
+        position: absolute;
+        width: 165px;
+        height: 165px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.09);
+        left: -70px;
+        bottom: -75px;
+    }
+
+    .result-hero-content {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 1.4rem;
+        align-items: center;
+    }
+
+    .score-panel {
+        border-radius: 24px;
+        padding: 1.25rem;
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.26);
         text-align: center;
-        border: 1px solid #e3e8f0;
-        border-radius: 18px;
-        padding: 2rem;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-        margin-bottom: 1.5rem;
+    }
+
+    .score-label {
+        font-size: 0.95rem;
+        font-weight: 900;
+        opacity: 0.95;
+        line-height: 1.5;
     }
 
     .score {
-        font-size: 3rem;
-        font-weight: 900;
-        color: #007bff;
-        margin-bottom: 0.5rem;
+        margin-top: 0.4rem;
+        font-size: 3.2rem;
+        font-weight: 950;
+        line-height: 1;
+        letter-spacing: -0.04em;
+    }
+
+    .score-unit {
+        margin-top: 0.45rem;
+        font-size: 1rem;
+        font-weight: 850;
+        opacity: 0.92;
+    }
+
+    .result-title-area h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 950;
+        line-height: 1.25;
+        letter-spacing: -0.03em;
+    }
+
+    .result-title-area p {
+        margin: 0.65rem 0 0;
+        line-height: 1.75;
+        opacity: 0.96;
+    }
+
+    .xp-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+        padding: 0.5rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        font-weight: 950;
+        line-height: 1.5;
     }
 
     .feedback-box,
     .next-box {
-        padding: 1rem 1.2rem;
-        border-radius: 14px;
-        background: #f8f9fa;
-        border: 1px solid #dee2e6;
-        margin-bottom: 1rem;
-        line-height: 1.7;
+        border-radius: 24px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        margin-bottom: 1.15rem;
+        overflow: hidden;
+    }
+
+    .section-header {
+        padding: 1.25rem 1.35rem;
+        border-bottom: 1px solid #e5e7eb;
+        background: linear-gradient(135deg, #ffffff, #f8fafc);
+    }
+
+    .section-title {
+        margin: 0;
+        color: #111827;
+        font-size: 1.35rem;
+        font-weight: 950;
+        line-height: 1.4;
+    }
+
+    .section-subtitle {
+        margin: 0.35rem 0 0;
+        color: #6b7280;
+        line-height: 1.65;
+        font-weight: 750;
+    }
+
+    .feedback-content {
+        padding: 1.15rem 1.35rem 1.35rem;
     }
 
     .feedback-list {
         list-style: none;
         padding: 0;
-        margin: 1rem 0 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
     }
 
     .feedback-item {
         position: relative;
-        padding: 0.9rem 1rem 0.9rem 2.25rem;
-        margin-bottom: 0.75rem;
-        background: #ffffff;
-        border: 1px solid #e3e8f0;
-        border-radius: 12px;
+        padding: 1rem 1rem 1rem 3.1rem;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        line-height: 1.7;
     }
 
     .feedback-item::before {
-        content: "•";
+        content: "✓";
         position: absolute;
         left: 1rem;
-        top: 0.85rem;
+        top: 1rem;
+        width: 28px;
+        height: 28px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         color: #007bff;
-        font-size: 1.4rem;
-        line-height: 1;
+        background: #eaf4ff;
+        font-size: 1rem;
+        font-weight: 950;
     }
 
     .feedback-label-en {
         display: block;
-        font-weight: 800;
+        font-weight: 950;
         color: #111827;
-        margin-bottom: 0.1rem;
+        margin-bottom: 0.12rem;
+        font-size: 1.02rem;
     }
 
     .feedback-label-zh {
         display: block;
-        font-weight: 700;
+        font-weight: 900;
         color: #4b5563;
         margin-bottom: 0.55rem;
+        font-size: 0.95rem;
     }
 
     .feedback-content-en {
-        margin: 0 0 0.35rem;
+        margin: 0 0 0.45rem;
         color: #1f2937;
+        font-weight: 750;
     }
 
     .feedback-content-zh {
         margin: 0;
         color: #4b5563;
+        font-weight: 750;
+    }
+
+    .empty-feedback {
+        padding: 1.1rem;
+        border-radius: 18px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        color: #6b7280;
+        line-height: 1.7;
+        font-weight: 800;
+    }
+
+    .next-content {
+        padding: 1.2rem 1.35rem;
+        line-height: 1.75;
+        font-weight: 850;
     }
 
     .next-box.unlocked {
-        background: #f0fff4;
-        border-color: #28a745;
-        color: #155724;
+        border-color: #bbf7d0;
+    }
+
+    .next-box.unlocked .section-header {
+        background: linear-gradient(135deg, #ffffff, #f0fdf4);
     }
 
     .next-box.locked {
-        background: #fff8e1;
-        border-color: #ffc107;
-        color: #856404;
+        border-color: #fde68a;
+    }
+
+    .next-box.locked .section-header {
+        background: linear-gradient(135deg, #ffffff, #fffbeb);
+    }
+
+    .next-status {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        font-weight: 950;
+        margin-bottom: 0.8rem;
+        line-height: 1.45;
+    }
+
+    .next-status.unlocked {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .next-status.locked {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .next-topic-name {
+        color: #111827;
+        font-weight: 950;
+    }
+
+    .reason-list {
+        margin: 0.8rem 0 0;
+        padding-left: 1.2rem;
+        color: #92400e;
+    }
+
+    .reason-list li {
+        margin-bottom: 0.45rem;
     }
 
     .actions {
         display: flex;
         gap: 0.75rem;
         flex-wrap: wrap;
+        margin-top: 1.2rem;
+    }
+
+    .result-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.75rem 1rem;
+        border-radius: 14px;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 950;
+        transition: all 0.18s ease;
+        line-height: 1.45;
+    }
+
+    .result-action.primary {
+        background: #007bff;
+    }
+
+    .result-action.secondary {
+        background: #6c757d;
+    }
+
+    .result-action.dark {
+        background: #111827;
+    }
+
+    .result-action:hover {
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-1px);
+        filter: brightness(0.96);
+    }
+
+    @keyframes resultFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 760px) {
+        .result-hero {
+            padding: 1.25rem;
+            border-radius: 20px;
+        }
+
+        .result-hero-content {
+            grid-template-columns: 1fr;
+        }
+
+        .score {
+            font-size: 2.6rem;
+        }
+
+        .result-title-area h2 {
+            font-size: 1.55rem;
+        }
+
+        .feedback-content {
+            padding: 1rem;
+        }
+
+        .feedback-item {
+            padding: 0.95rem 0.95rem 0.95rem 2.8rem;
+        }
+
+        .actions {
+            flex-direction: column;
+        }
+
+        .result-action {
+            width: 100%;
+        }
     }
 </style>
 
 <div class="result-page">
-    <div class="score-card">
-        <div class="score">{{ session.score }} / 100</div>
-        <h2>{{ topic.title }}</h2>
-        <p>You gained <strong>{{ session.xp_gained }}</strong> XP in this session.</p>
-    </div>
+    <section class="result-hero">
+        <div class="result-hero-content">
+            <div class="score-panel">
+                <div class="score-label">
+                    Final Score
+                    <br>
+                    最終分數
+                </div>
 
-    <div class="feedback-box">
-        <h3>Feedback</h3>
-        <p style="margin: 0; color: #6b7280;">學習回饋</p>
+                <div class="score">
+                    {{ session.score }}
+                </div>
 
-        <ul class="feedback-list">
-            {% for item in feedback_items %}
-                <li class="feedback-item">
-                    <span class="feedback-label-en">{{ item.label_en }}</span>
+                <div class="score-unit">
+                    / 100
+                </div>
+            </div>
 
-                    {% if item.label_zh %}
-                        <span class="feedback-label-zh">{{ item.label_zh }}</span>
-                    {% endif %}
+            <div class="result-title-area">
+                <h2>
+                    {{ topic.title }}
+                    <br>
+                    AI Scenario Chat Result｜AI 情境對話結果
+                </h2>
 
-                    {% if item.content_en %}
-                        <p class="feedback-content-en">{{ item.content_en }}</p>
-                    {% endif %}
+                <p>
+                    You completed this role-play conversation. Review your feedback below to see your strengths and what you can improve next.
+                    <br>
+                    你已完成這次角色扮演對話。請查看下方回饋，了解你的優點與下一步可以加強的地方。
+                </p>
 
-                    {% if item.content_zh %}
-                        <p class="feedback-content-zh">{{ item.content_zh }}</p>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+                <div class="xp-pill">
+                    You gained {{ session.xp_gained }} XP｜你獲得 {{ session.xp_gained }} 點經驗值
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="feedback-box">
+        <div class="section-header">
+            <h3 class="section-title">
+                Feedback｜學習回饋
+            </h3>
+
+            <p class="section-subtitle">
+                These comments summarize your conversation performance, language use, and possible next steps.
+                <br>
+                以下回饋會整理你的對話表現、語言使用狀況，以及後續可以加強的方向。
+            </p>
+        </div>
+
+        <div class="feedback-content">
+            {% if feedback_items %}
+                <ul class="feedback-list">
+                    {% for item in feedback_items %}
+                        <li class="feedback-item">
+                            <span class="feedback-label-en">
+                                {{ item.label_en }}
+                            </span>
+
+                            {% if item.label_zh %}
+                                <span class="feedback-label-zh">
+                                    {{ item.label_zh }}
+                                </span>
+                            {% endif %}
+
+                            {% if item.content_en %}
+                                <p class="feedback-content-en">
+                                    {{ item.content_en }}
+                                </p>
+                            {% endif %}
+
+                            {% if item.content_zh %}
+                                <p class="feedback-content-zh">
+                                    {{ item.content_zh }}
+                                </p>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-feedback">
+                    No feedback is available for this session yet.
+                    <br>
+                    這次對話目前尚無可顯示的學習回饋。
+                </div>
+            {% endif %}
+        </div>
+    </section>
 
     {% if next_topic %}
         {% if next_unlocked %}
-            <div class="next-box unlocked">
-                ✅ Next topic unlocked: <strong>{{ next_topic.title }}</strong>
-            </div>
+            <section class="next-box unlocked">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        Next Topic｜下一個主題
+                    </h3>
+
+                    <p class="section-subtitle">
+                        You have unlocked the next AI chat topic.
+                        <br>
+                        你已經解鎖下一個 AI 情境對話主題。
+                    </p>
+                </div>
+
+                <div class="next-content">
+                    <div class="next-status unlocked">
+                        ✅ Unlocked｜已解鎖
+                    </div>
+
+                    <div>
+                        Next topic unlocked:
+                        <span class="next-topic-name">{{ next_topic.title }}</span>
+                        <br>
+                        已解鎖下一個主題：
+                        <span class="next-topic-name">{{ next_topic.title }}</span>
+                    </div>
+                </div>
+            </section>
         {% else %}
-            <div class="next-box locked">
-                🔒 Next topic is still locked: <strong>{{ next_topic.title }}</strong>
-                <ul>
-                    {% for reason in next_reasons %}
-                        <li>{{ reason }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+            <section class="next-box locked">
+                <div class="section-header">
+                    <h3 class="section-title">
+                        Next Topic｜下一個主題
+                    </h3>
+
+                    <p class="section-subtitle">
+                        The next AI chat topic is still locked. Complete the requirements below to unlock it.
+                        <br>
+                        下一個 AI 情境對話主題尚未解鎖。請完成下方條件來開啟它。
+                    </p>
+                </div>
+
+                <div class="next-content">
+                    <div class="next-status locked">
+                        🔒 Locked｜尚未解鎖
+                    </div>
+
+                    <div>
+                        Next topic is still locked:
+                        <span class="next-topic-name">{{ next_topic.title }}</span>
+                        <br>
+                        下一個主題尚未解鎖：
+                        <span class="next-topic-name">{{ next_topic.title }}</span>
+                    </div>
+
+                    {% if next_reasons %}
+                        <ul class="reason-list">
+                            {% for reason in next_reasons %}
+                                <li>{{ reason }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </section>
         {% endif %}
     {% else %}
-        <div class="next-box unlocked">
-            🎉 You completed the final interaction topic.
-        </div>
+        <section class="next-box unlocked">
+            <div class="section-header">
+                <h3 class="section-title">
+                    Congratulations｜恭喜你完成對話
+                </h3>
+
+                <p class="section-subtitle">
+                    You completed this AI role-play conversation.
+                    <br>
+                    你已完成這次 AI 情境對話。
+                </p>
+            </div>
+
+            <div class="next-content">
+                <div class="next-status unlocked">
+                    🎉 Completed｜已完成
+                </div>
+
+                <div>
+                    Great job! You can review your feedback or return to the topic list.
+                    <br>
+                    做得很好！你可以查看回饋，或回到主題列表繼續練習。
+                </div>
+            </div>
+        </section>
     {% endif %}
 
     <div class="actions">
-        <a href="{{ url_for('interaction.interaction_topics') }}" class="btn btn-primary">
-            Back to Topics
+        <a href="{{ url_for('interaction.interaction_topics') }}" class="result-action primary">
+            Back to Topics｜回到主題列表
         </a>
-        <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
-            Back to Dashboard
+
+        <a href="{{ url_for('course.student_course_dashboard') }}" class="result-action secondary">
+            Back to Dashboard｜回到首頁
         </a>
+
+        {% if topic %}
+            <a href="{{ url_for('interaction.interaction_topic_history', topic_id=topic.id) }}" class="result-action dark">
+                View History｜查看歷史紀錄
+            </a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

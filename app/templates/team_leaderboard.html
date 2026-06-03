@@ -1,69 +1,83 @@
 {% extends "base.html" %}
+{% block title %}Team Leaderboard｜團隊排行榜{% endblock %}
 {% block content %}
 
-<h2>Team Leaderboard</h2>
-<p>Teams are ranked by the total XP of all members.</p>
+<style>
+    .leaderboard-page { max-width: 1080px; margin: 0 auto; animation: fadeIn 0.45s ease both; }
+    .leaderboard-hero { padding: 1.6rem; border-radius: 24px; background: linear-gradient(135deg,#007bff,#4f46e5 55%,#7c3aed); color: #fff; margin-bottom: 1.25rem; box-shadow: 0 16px 34px rgba(79,70,229,.16); }
+    .leaderboard-badge { display:inline-flex; padding:.42rem .85rem; border-radius:999px; background:rgba(255,255,255,.18); font-weight:950; margin-bottom:.8rem; }
+    .leaderboard-title { margin:0; font-size:2rem; font-weight:950; line-height:1.25; }
+    .leaderboard-subtitle { margin:.7rem 0 0; line-height:1.75; opacity:.96; }
+    .actions { margin: 1rem 0 1.25rem; display:flex; gap:.75rem; flex-wrap:wrap; }
+    .action-btn { display:inline-flex; align-items:center; justify-content:center; padding:.72rem 1rem; border-radius:14px; font-weight:950; text-decoration:none; }
+    .action-btn.secondary { background:#6c757d; color:#fff; }
+    .action-btn.secondary:hover { color:#fff; text-decoration:none; background:#5a6268; }
+    .rank-card { background:#fff; border:1px solid #e5e7eb; border-radius:22px; overflow:hidden; box-shadow:0 12px 28px rgba(15,23,42,.06); }
+    .table-wrap { overflow:auto; max-height: 560px; }
+    .rank-table { width:100%; min-width:820px; border-collapse:separate; border-spacing:0; }
+    .rank-table th { position:sticky; top:0; z-index:2; background:#2f3742; color:#fff; padding:1rem; text-align:left; white-space:nowrap; }
+    .rank-table td { padding:1rem; border-bottom:1px solid #e5e7eb; vertical-align:middle; }
+    .rank-row.top1 { background:#fff7d6; }
+    .rank-team { font-weight:950; color:#111827; }
+    .rank-pill { display:inline-flex; align-items:center; justify-content:center; padding:.35rem .7rem; border-radius:999px; background:#eaf4ff; color:#007bff; font-weight:950; }
+    .view-btn { display:inline-flex; align-items:center; justify-content:center; padding:.62rem .9rem; border-radius:12px; background:#007bff; color:#fff; font-weight:950; text-decoration:none; }
+    .view-btn:hover { background:#0069d9; color:#fff; text-decoration:none; }
+    .empty-card { padding:1.6rem; border-radius:18px; background:#f8fafc; border:1px solid #e5e7eb; color:#6b7280; font-weight:800; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width: 640px) { .leaderboard-title { font-size:1.55rem; } .leaderboard-hero { padding:1.2rem; border-radius:18px; } }
+</style>
 
-<div style="margin-bottom: 1.5rem;">
-    <a href="{{ url_for('team.teams_dashboard') }}" class="btn btn-secondary">
-        Back to Teams
-    </a>
+<div class="leaderboard-page">
+    <section class="leaderboard-hero">
+        <div class="leaderboard-badge">🏆 Team Leaderboard｜團隊排行榜</div>
+        <h2 class="leaderboard-title">Team Leaderboard<br>團隊排行榜</h2>
+        <p class="leaderboard-subtitle">
+            Teams are ranked by the total XP of all members.<br>
+            系統會根據所有成員的總經驗值來排序團隊名次。
+        </p>
+    </section>
+
+    <div class="actions">
+        <a href="{{ url_for('team.teams_dashboard') }}" class="action-btn secondary">← Back to Teams｜回到團隊列表</a>
+    </div>
+
+    {% if ranking %}
+        <section class="rank-card">
+            <div class="table-wrap">
+                <table class="rank-table">
+                    <thead>
+                        <tr>
+                            <th>Rank<br>排名</th>
+                            <th>Team Name<br>團隊名稱</th>
+                            <th>Members<br>成員數</th>
+                            <th>Total XP<br>總經驗值</th>
+                            <th>Action<br>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in ranking %}
+                            <tr class="rank-row {% if loop.index == 1 %}top1{% endif %}">
+                                <td>
+                                    {% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% elif loop.index == 3 %}🥉{% else %}#{{ loop.index }}{% endif %}
+                                    {{ loop.index }}
+                                </td>
+                                <td class="rank-team">{{ item.group.name }}</td>
+                                <td><span class="rank-pill">{{ item.member_count }}</span></td>
+                                <td><strong>{{ item.total_xp }}</strong> XP</td>
+                                <td>
+                                    <a href="{{ url_for('team.team_detail', group_id=item.group.id) }}" class="view-btn">View Team｜查看團隊</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    {% else %}
+        <div class="empty-card">
+            No teams available yet.<br>目前還沒有可顯示的團隊。
+        </div>
+    {% endif %}
 </div>
-
-{% if ranking %}
-    <div style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden;">
-        <table style="width: 100%; border-collapse: collapse;">
-            <thead>
-                <tr style="background-color: #343a40; color: white;">
-                    <th style="padding: 0.75rem; text-align: left;">Rank</th>
-                    <th style="padding: 0.75rem; text-align: left;">Team Name</th>
-                    <th style="padding: 0.75rem; text-align: left;">Members</th>
-                    <th style="padding: 0.75rem; text-align: left;">Total XP</th>
-                    <th style="padding: 0.75rem; text-align: left;">Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for item in ranking %}
-                    <tr style="border-bottom: 1px solid #ddd; background-color: {% if loop.index == 1 %}#fff3cd{% else %}white{% endif %};">
-                        <td style="padding: 0.75rem;">
-                            {% if loop.index == 1 %}
-                                🥇 {{ loop.index }}
-                            {% elif loop.index == 2 %}
-                                🥈 {{ loop.index }}
-                            {% elif loop.index == 3 %}
-                                🥉 {{ loop.index }}
-                            {% else %}
-                                {{ loop.index }}
-                            {% endif %}
-                        </td>
-
-                        <td style="padding: 0.75rem; font-weight: bold;">
-                            {{ item.group.name }}
-                        </td>
-
-                        <td style="padding: 0.75rem;">
-                            {{ item.member_count }}
-                        </td>
-
-                        <td style="padding: 0.75rem;">
-                            <strong>{{ item.total_xp }}</strong> XP
-                        </td>
-
-                        <td style="padding: 0.75rem;">
-                            <a href="{{ url_for('team.team_detail', group_id=item.group.id) }}" class="btn btn-primary">
-                                View Team
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-{% else %}
-    <div style="border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px; background-color: #fdfdfd;">
-        <p style="color: #6c757d;">No teams available yet.</p>
-    </div>
-{% endif %}
 
 {% endblock %}

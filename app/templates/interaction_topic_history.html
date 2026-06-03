@@ -7,15 +7,16 @@
     .ihist-page {
         max-width: 980px;
         margin: 0 auto;
+        animation: ihistFadeIn 0.55s ease both;
     }
 
     .ihist-header {
-        background: #ffffff;
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
         border: 1px solid #e3e8f0;
-        border-radius: 18px;
+        border-radius: 22px;
         padding: 1.5rem 1.75rem;
         margin-bottom: 1.25rem;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
     }
 
     .ihist-title-row {
@@ -26,9 +27,9 @@
     }
 
     .ihist-icon {
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
+        width: 58px;
+        height: 58px;
+        border-radius: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -40,30 +41,61 @@
 
     .ihist-header h1 {
         margin: 0;
-        font-size: 1.8rem;
-        font-weight: 900;
+        font-size: 1.9rem;
+        font-weight: 950;
         color: #111827;
+        line-height: 1.25;
     }
 
     .ihist-header p {
         margin: 0.25rem 0 0;
         color: #6b7280;
+        line-height: 1.6;
+        font-weight: 750;
     }
 
     .ihist-actions {
-        margin-top: 1rem;
+        margin-top: 1.1rem;
         display: flex;
         gap: 0.75rem;
         flex-wrap: wrap;
     }
 
+    .ihist-action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 950;
+        transition: all 0.18s ease;
+    }
+
+    .ihist-action-btn.secondary {
+        background: #6c757d;
+    }
+
+    .ihist-action-btn.primary {
+        background: #007bff;
+    }
+
+    .ihist-action-btn:hover {
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-1px);
+        filter: brightness(0.96);
+    }
+
     .ihist-session-card {
         background: #ffffff;
         border: 1px solid #e3e8f0;
-        border-radius: 16px;
+        border-radius: 18px;
         padding: 1.25rem 1.4rem;
         margin-bottom: 1rem;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
     }
 
     .ihist-session-top {
@@ -75,8 +107,8 @@
     }
 
     .ihist-session-title {
-        font-size: 1.15rem;
-        font-weight: 800;
+        font-size: 1.18rem;
+        font-weight: 950;
         color: #111827;
         margin: 0;
     }
@@ -85,15 +117,18 @@
         color: #6b7280;
         font-size: 0.95rem;
         margin-top: 0.25rem;
-        line-height: 1.6;
+        line-height: 1.7;
+        font-weight: 750;
     }
 
     .ihist-status-badge {
-        display: inline-block;
-        padding: 0.35rem 0.7rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.38rem 0.75rem;
         border-radius: 999px;
         font-size: 0.85rem;
-        font-weight: 800;
+        font-weight: 950;
         white-space: nowrap;
     }
 
@@ -110,11 +145,17 @@
     .ihist-preview {
         background: #f8fafc;
         border: 1px solid #e5e7eb;
-        border-radius: 12px;
+        border-radius: 14px;
         padding: 0.9rem 1rem;
         color: #374151;
         margin-bottom: 0.9rem;
-        line-height: 1.6;
+        line-height: 1.65;
+        font-weight: 750;
+    }
+
+    .ihist-preview strong {
+        color: #111827;
+        font-weight: 950;
     }
 
     .ihist-card-actions {
@@ -124,48 +165,60 @@
         margin-bottom: 0.5rem;
     }
 
+    .ihist-feedback-btn,
+    .ihist-disabled-btn,
+    .ihist-toggle-btn,
+    .ihist-continue-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.58rem 0.9rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 950;
+        border: none;
+        cursor: pointer;
+        transition: all 0.18s ease;
+    }
+
     .ihist-feedback-btn {
-        display: inline-block;
-        padding: 0.55rem 0.9rem;
-        border-radius: 10px;
         background: #6f42c1;
         color: #ffffff;
-        text-decoration: none;
-        font-weight: 800;
-        border: none;
     }
 
     .ihist-feedback-btn:hover {
         background: #5a32a3;
         color: #ffffff;
         text-decoration: none;
+        transform: translateY(-1px);
     }
 
     .ihist-disabled-btn {
-        display: inline-block;
-        padding: 0.55rem 0.9rem;
-        border-radius: 10px;
         background: #e5e7eb;
         color: #6b7280;
-        font-weight: 800;
-        border: none;
         cursor: not-allowed;
     }
 
     .ihist-toggle-btn {
-        display: inline-block;
-        padding: 0.55rem 0.9rem;
-        border-radius: 10px;
         background: #0f172a;
         color: #ffffff;
-        text-decoration: none;
-        font-weight: 800;
-        border: none;
-        cursor: pointer;
     }
 
     .ihist-toggle-btn:hover {
         background: #1e293b;
+        transform: translateY(-1px);
+    }
+
+    .ihist-continue-btn {
+        background: #22c55e;
+        color: #ffffff;
+    }
+
+    .ihist-continue-btn:hover {
+        background: #16a34a;
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-1px);
     }
 
     .ihist-panel {
@@ -184,6 +237,8 @@
         border: 1px solid #e5e7eb;
         border-radius: 16px;
         padding: 1.1rem;
+        max-height: 520px;
+        overflow-y: auto;
     }
 
     .ihist-message {
@@ -245,7 +300,7 @@
         display: block !important;
         width: auto !important;
         font-size: 0.82rem !important;
-        font-weight: 800 !important;
+        font-weight: 900 !important;
         color: #6b7280 !important;
         margin: 0 0 0.3rem 0 !important;
         padding: 0 !important;
@@ -298,10 +353,29 @@
     .ihist-empty {
         background: #ffffff;
         border: 1px solid #e3e8f0;
-        border-radius: 16px;
+        border-radius: 18px;
         padding: 2rem;
         text-align: center;
         color: #6b7280;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+    }
+
+    .ihist-empty h3 {
+        color: #111827;
+        font-weight: 950;
+        margin-top: 0;
+    }
+
+    @keyframes ihistFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     @media (max-width: 768px) {
@@ -324,6 +398,19 @@
         .ihist-bubble {
             max-width: 100% !important;
         }
+
+        .ihist-actions,
+        .ihist-card-actions {
+            flex-direction: column;
+        }
+
+        .ihist-action-btn,
+        .ihist-feedback-btn,
+        .ihist-disabled-btn,
+        .ihist-toggle-btn,
+        .ihist-continue-btn {
+            width: 100%;
+        }
     }
 </style>
 
@@ -334,30 +421,47 @@
 
             <div>
                 <h1>{{ topic.title }}</h1>
-                <p>Role: {{ persona_name }}</p>
-                <p>Topic history chat records</p>
-                <p>主題歷史聊天紀錄</p>
+
+                <p>
+                    Role｜角色：
+                    <strong>{{ persona_name }}</strong>
+                </p>
+
+                <p>
+                    Topic history chat records.
+                    <br>
+                    主題歷史聊天紀錄。
+                </p>
             </div>
         </div>
 
         <div class="ihist-actions">
-            <a href="{{ url_for('interaction.interaction_topics') }}" class="btn btn-secondary">
-                Back to Topics
+            <a href="{{ url_for('interaction.interaction_topics') }}" class="ihist-action-btn secondary">
+                ← Back to Topics｜回到主題列表
             </a>
 
-            <a href="{{ url_for('interaction.start_interaction_session', topic_id=topic.id) }}" class="btn btn-primary">
-                Start New Practice
+            <a href="{{ url_for('interaction.start_interaction_session', topic_id=topic.id) }}" class="ihist-action-btn primary">
+                Start New Practice｜開始新練習
             </a>
         </div>
     </div>
 
     {% if not session_history %}
         <div class="ihist-empty">
-            <h3>No chat history yet.</h3>
-            <p>目前這個主題還沒有任何聊天紀錄。</p>
+            <h3>
+                No chat history yet.
+                <br>
+                目前還沒有聊天紀錄。
+            </h3>
 
-            <a href="{{ url_for('interaction.start_interaction_session', topic_id=topic.id) }}" class="btn btn-primary">
-                Start First Practice
+            <p>
+                Start your first practice session for this topic.
+                <br>
+                開始這個主題的第一次情境對話練習。
+            </p>
+
+            <a href="{{ url_for('interaction.start_interaction_session', topic_id=topic.id) }}" class="ihist-action-btn primary">
+                Start First Practice｜開始第一次練習
             </a>
         </div>
     {% endif %}
@@ -367,51 +471,57 @@
             <div class="ihist-session-top">
                 <div>
                     <h2 class="ihist-session-title">
-                        Session {{ loop.index }}
+                        Session {{ loop.index }}｜第 {{ loop.index }} 次對話
                     </h2>
 
                     <div class="ihist-session-meta">
-                        Started at:
+                        Started at｜開始時間：
                         {% if item.session.started_at %}
                             {{ item.session.started_at.strftime("%Y-%m-%d %H:%M") }}
                         {% else %}
-                            Unknown time
+                            Unknown time｜未知時間
                         {% endif %}
 
-                        · Messages: {{ item.message_count }}
-                        · XP: {{ item.session.xp_gained }}
+                        <br>
+                        Messages｜訊息數：{{ item.message_count }}
+                        · XP｜經驗值：{{ item.session.xp_gained }}
 
                         {% if item.session.completed %}
-                            · Score: {{ item.session.score }}/100
+                            · Score｜分數：{{ item.session.score }}/100
                         {% endif %}
                     </div>
                 </div>
 
                 {% if item.session.completed %}
-                    <span class="ihist-status-badge ihist-status-completed">Completed</span>
+                    <span class="ihist-status-badge ihist-status-completed">
+                        Completed｜已完成
+                    </span>
                 {% else %}
-                    <span class="ihist-status-badge ihist-status-unfinished">Unfinished</span>
+                    <span class="ihist-status-badge ihist-status-unfinished">
+                        Unfinished｜未完成
+                    </span>
                 {% endif %}
             </div>
 
             <div class="ihist-preview">
-                <strong>Preview:</strong> {{ item.preview }}
+                <strong>Preview｜預覽：</strong>
+                {{ item.preview }}
             </div>
 
             <div class="ihist-card-actions">
                 {% if item.session.completed %}
                     <a href="{{ url_for('interaction.interaction_result', session_id=item.session.id) }}" class="ihist-feedback-btn">
-                        View Feedback
+                        View Feedback｜查看回饋
                     </a>
                 {% else %}
                     <button class="ihist-disabled-btn" disabled>
-                        Feedback Not Available
+                        Feedback Not Available｜尚無回饋
                     </button>
                 {% endif %}
 
                 {% if not item.session.completed %}
-                    <a href="{{ url_for('interaction.interaction_chat', session_id=item.session.id) }}" class="btn btn-success">
-                        Continue Chat
+                    <a href="{{ url_for('interaction.interaction_chat', session_id=item.session.id) }}" class="ihist-continue-btn">
+                        Continue Chat｜繼續對話
                     </a>
                 {% endif %}
 
@@ -419,8 +529,10 @@
                     type="button"
                     class="ihist-toggle-btn"
                     onclick="toggleSessionMessages('session-messages-{{ item.session.id }}', this)"
+                    data-show-text="Show Session｜顯示對話"
+                    data-hide-text="Hide Session｜收合對話"
                 >
-                    Show Session
+                    Show Session｜顯示對話
                 </button>
             </div>
 
@@ -432,7 +544,7 @@
                                 <div class="ihist-avatar">你</div>
 
                                 <div class="ihist-body">
-                                    <div class="ihist-name">You</div>
+                                    <div class="ihist-name">You｜你</div>
                                     <div class="ihist-bubble">
                                         {{ message.content | trim }}
                                     </div>
@@ -445,7 +557,7 @@
                                 <div class="ihist-body">
                                     <div class="ihist-name">{{ persona_name }}</div>
                                     <div class="ihist-bubble">
-                                        {{ message.content | trim}}
+                                        {{ message.content | trim }}
                                     </div>
                                 </div>
                             </div>
@@ -468,9 +580,9 @@
         messageList.classList.toggle("open");
 
         if (messageList.classList.contains("open")) {
-            button.textContent = "Hide Session";
+            button.textContent = button.dataset.hideText || "Hide Session｜收合對話";
         } else {
-            button.textContent = "Show Session";
+            button.textContent = button.dataset.showText || "Show Session｜顯示對話";
         }
     }
 </script>

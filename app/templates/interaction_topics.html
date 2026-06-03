@@ -6,62 +6,177 @@
 
 <style>
     .interaction-page {
-        max-width: 1120px;
+        max-width: 1180px;
         margin: 0 auto;
+        animation: interactionFadeIn 0.55s ease both;
     }
 
-    .interaction-header {
-        margin-bottom: 28px;
+    .interaction-hero {
+        margin-bottom: 1.4rem;
+        padding: 1.55rem;
+        border-radius: 26px;
+        background: linear-gradient(135deg, #007bff 0%, #4f46e5 55%, #7c3aed 100%);
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 16px 34px rgba(79, 70, 229, 0.16);
+    }
+
+    .interaction-hero::before {
+        content: "";
+        position: absolute;
+        width: 230px;
+        height: 230px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        right: -90px;
+        top: -105px;
+    }
+
+    .interaction-hero::after {
+        content: "";
+        position: absolute;
+        width: 165px;
+        height: 165px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.09);
+        left: -70px;
+        bottom: -75px;
+    }
+
+    .interaction-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .interaction-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.42rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        font-weight: 950;
+        margin-bottom: 0.85rem;
+        line-height: 1.45;
     }
 
     .interaction-title {
-        font-size: 2.2rem;
-        font-weight: 900;
-        color: #17202a;
-        margin-bottom: 8px;
+        margin: 0;
+        font-size: 2.1rem;
+        font-weight: 950;
+        letter-spacing: -0.03em;
+        line-height: 1.25;
     }
 
     .interaction-subtitle {
-        color: #6c757d;
-        font-size: 1.05rem;
-        line-height: 1.7;
+        margin: 0.8rem 0 0;
+        max-width: 900px;
+        line-height: 1.8;
+        opacity: 0.95;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.15rem;
+    }
+
+    .hero-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        color: #ffffff;
+        font-weight: 950;
+        text-decoration: none;
+        transition: all 0.18s ease;
+    }
+
+    .hero-btn.primary {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .hero-btn.secondary {
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+    }
+
+    .hero-btn:hover {
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.28);
     }
 
     .unlock-alert {
-        border-radius: 14px;
-        padding: 16px 18px;
-        margin-bottom: 24px;
-        line-height: 1.7;
-        font-weight: 700;
-    }
-
-    .unlock-alert.locked {
-        background: #fff3cd;
-        border: 1px solid #ffeeba;
-        color: #856404;
+        margin-bottom: 1.4rem;
+        padding: 1rem 1.1rem;
+        border-radius: 18px;
+        line-height: 1.65;
+        font-weight: 900;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
     }
 
     .unlock-alert.unlocked {
-        background: #d4edda;
-        border: 1px solid #c3e6cb;
-        color: #155724;
+        background: #dcfce7;
+        border: 1px solid #bbf7d0;
+        color: #166534;
+    }
+
+    .unlock-alert.locked {
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        color: #9a3412;
+    }
+
+    .unlock-alert-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.65);
+        flex-shrink: 0;
     }
 
     .topic-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-        gap: 22px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.15rem;
     }
 
     .topic-card {
-        background: #ffffff;
-        border: 1px solid #dee2e6;
-        border-radius: 18px;
-        padding: 22px;
-        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
         position: relative;
         overflow: hidden;
+        min-height: 455px;
+        padding: 1.35rem;
+        border-radius: 24px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        display: flex;
+        flex-direction: column;
+        transition: all 0.18s ease;
+    }
+
+    .topic-card::after {
+        content: "";
+        position: absolute;
+        width: 135px;
+        height: 135px;
+        border-radius: 50%;
+        right: -65px;
+        top: -65px;
+        background: #007bff;
+        opacity: 0.08;
     }
 
     .topic-card.unlocked {
@@ -69,40 +184,42 @@
     }
 
     .topic-card.locked {
-        opacity: 0.72;
         border-left: 6px solid #adb5bd;
-        background: #f8f9fa;
+        opacity: 0.76;
+        filter: grayscale(0.12);
+        background: linear-gradient(135deg, #ffffff, #f8fafc);
     }
 
     .topic-card.unlocked:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+        transform: translateY(-4px);
+        box-shadow: 0 18px 38px rgba(15, 23, 42, 0.1);
     }
 
     .topic-top {
+        position: relative;
+        z-index: 1;
         display: flex;
+        gap: 1rem;
         align-items: flex-start;
-        gap: 14px;
-        margin-bottom: 14px;
+        margin-bottom: 1rem;
     }
 
     .topic-avatar {
-        width: 52px;
-        height: 52px;
-        border-radius: 50%;
+        width: 58px;
+        height: 58px;
+        border-radius: 20px;
         background: #eaf4ff;
-        border: 1px solid #b6ddff;
-        display: flex;
+        border: 1px solid #b6dcff;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.8rem;
+        font-size: 1.75rem;
         flex-shrink: 0;
     }
 
     .topic-card.locked .topic-avatar {
-        background: #e9ecef;
-        border-color: #ced4da;
-        filter: grayscale(1);
+        background: #f1f5f9;
+        border-color: #e5e7eb;
     }
 
     .topic-title-area {
@@ -111,42 +228,66 @@
     }
 
     .topic-title {
-        font-size: 1.25rem;
-        font-weight: 900;
-        color: #212529;
-        margin: 0 0 6px;
+        margin: 0;
+        color: #111827;
+        font-size: 1.32rem;
+        font-weight: 950;
         line-height: 1.35;
     }
 
-    .topic-role {
-        color: #6c757d;
+    .topic-title-zh {
+        margin-top: 0.25rem;
+        color: #4b5563;
         font-size: 0.95rem;
-        font-weight: 700;
+        font-weight: 900;
+        line-height: 1.5;
+    }
+
+    .topic-role {
+        margin-top: 0.45rem;
+        color: #6b7280;
+        font-weight: 850;
+        line-height: 1.45;
     }
 
     .topic-description {
-        color: #495057;
-        line-height: 1.65;
-        margin: 14px 0;
-        min-height: 52px;
+        position: relative;
+        z-index: 1;
+        color: #374151;
+        line-height: 1.75;
+        margin: 0.65rem 0 0.6rem;
+    }
+
+    .topic-description-zh {
+        position: relative;
+        z-index: 1;
+        color: #6b7280;
+        line-height: 1.75;
+        margin: 0 0 1rem;
+        font-size: 0.95rem;
+        font-weight: 750;
     }
 
     .topic-badges {
+        position: relative;
+        z-index: 1;
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
-        margin: 14px 0;
+        gap: 0.5rem;
+        margin: 0.8rem 0 1rem;
     }
 
     .topic-badge {
         display: inline-flex;
         align-items: center;
-        padding: 5px 10px;
+        justify-content: center;
+        padding: 0.36rem 0.7rem;
         border-radius: 999px;
-        background: #f1f3f5;
-        color: #495057;
-        font-size: 0.85rem;
-        font-weight: 800;
+        background: #f1f5f9;
+        color: #64748b;
+        font-size: 0.82rem;
+        font-weight: 950;
+        white-space: nowrap;
     }
 
     .topic-badge.blue {
@@ -155,163 +296,303 @@
     }
 
     .topic-badge.green {
-        background: #d4edda;
-        color: #155724;
+        background: #dcfce7;
+        color: #166534;
     }
 
     .topic-badge.yellow {
-        background: #fff3cd;
-        color: #856404;
+        background: #fef3c7;
+        color: #92400e;
     }
 
     .topic-badge.purple {
-        background: #f1eaff;
+        background: #f3e8ff;
         color: #6f42c1;
     }
 
+    .topic-stats {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .topic-stat {
+        padding: 0.72rem;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+    }
+
+    .topic-stat-label {
+        color: #6b7280;
+        font-size: 0.78rem;
+        font-weight: 850;
+        line-height: 1.45;
+    }
+
+    .topic-stat-value {
+        margin-top: 0.2rem;
+        color: #111827;
+        font-size: 1rem;
+        font-weight: 950;
+    }
+
     .session-status {
-        margin: 14px 0;
-        padding: 12px 14px;
-        border-radius: 12px;
-        background: #f8f9fa;
-        border: 1px solid #e9ecef;
-        color: #495057;
-        line-height: 1.6;
+        position: relative;
+        z-index: 1;
+        margin: 0 0 1rem;
+        padding: 0.85rem;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        color: #4b5563;
+        line-height: 1.65;
+        font-size: 0.92rem;
+        font-weight: 750;
     }
 
     .session-status strong {
-        color: #212529;
+        color: #111827;
+        font-weight: 950;
+    }
+
+    .requirement-text {
+        position: relative;
+        z-index: 1;
+        margin-top: auto;
+        margin-bottom: 1rem;
+        padding: 0.78rem;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px dashed #cbd5e1;
+        color: #64748b;
+        font-size: 0.88rem;
+        line-height: 1.6;
+        font-weight: 800;
     }
 
     .topic-footer {
-        border-top: 1px solid #e9ecef;
-        padding-top: 16px;
-        margin-top: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
+        position: relative;
+        z-index: 1;
+        border-top: 1px solid #e5e7eb;
+        padding-top: 1rem;
     }
 
     .topic-actions {
         display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 0.62rem;
+    }
+
+    .topic-actions form {
+        margin: 0;
+    }
+
+    .topic-btn,
+    .btn-start,
+    .btn-continue,
+    .btn-history,
+    .btn-no-history,
+    .btn-locked {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        font-weight: 950;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.18s ease;
+        font-size: 0.96rem;
     }
 
     .btn-start {
-        display: inline-block;
-        padding: 10px 16px;
-        border-radius: 10px;
         background: #007bff;
         color: #ffffff;
-        text-decoration: none;
-        font-weight: 800;
-        border: none;
-        cursor: pointer;
     }
 
     .btn-start:hover {
         background: #0069d9;
         color: #ffffff;
         text-decoration: none;
+        transform: translateY(-1px);
     }
 
     .btn-continue {
-        display: inline-block;
-        padding: 10px 16px;
-        border-radius: 10px;
         background: #28a745;
         color: #ffffff;
-        text-decoration: none;
-        font-weight: 800;
-        border: none;
-        cursor: pointer;
     }
 
     .btn-continue:hover {
         background: #218838;
         color: #ffffff;
         text-decoration: none;
+        transform: translateY(-1px);
     }
 
     .btn-history {
-        display: inline-block;
-        padding: 10px 16px;
-        border-radius: 10px;
-        background: #6f42c1;
+        background: #111827;
         color: #ffffff;
-        text-decoration: none;
-        font-weight: 800;
-        border: none;
-        cursor: pointer;
     }
 
     .btn-history:hover {
-        background: #5a32a3;
+        background: #020617;
         color: #ffffff;
         text-decoration: none;
+        transform: translateY(-1px);
     }
 
     .btn-no-history {
-        display: inline-block;
-        padding: 10px 16px;
-        border-radius: 10px;
-        background: #e9ecef;
-        color: #6c757d;
-        font-weight: 800;
-        border: none;
+        background: #e5e7eb;
+        color: #6b7280;
         cursor: not-allowed;
     }
 
     .btn-locked {
-        display: inline-block;
-        padding: 10px 16px;
-        border-radius: 10px;
-        background: #adb5bd;
-        color: #ffffff;
-        font-weight: 800;
-        border: none;
+        background: #cbd5e1;
+        color: #475569;
         cursor: not-allowed;
     }
 
-    .requirement-text {
-        color: #6c757d;
-        font-size: 0.9rem;
-        line-height: 1.5;
-    }
-
     .back-link {
-        display: inline-block;
-        margin-top: 26px;
-        color: #007bff;
-        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        margin-top: 1.5rem;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        background: #f1f5f9;
+        color: #334155;
+        font-weight: 950;
         text-decoration: none;
+        transition: all 0.18s ease;
     }
 
     .back-link:hover {
-        text-decoration: underline;
+        background: #e2e8f0;
+        color: #111827;
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+
+    @keyframes interactionFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 1050px) {
+        .topic-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 760px) {
+        .interaction-title {
+            font-size: 1.65rem;
+        }
+
+        .topic-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .topic-card {
+            min-height: auto;
+        }
+
+        .topic-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .interaction-hero {
+            padding: 1.15rem;
+            border-radius: 18px;
+        }
+
+        .hero-actions {
+            flex-direction: column;
+        }
+
+        .hero-btn {
+            width: 100%;
+        }
+
+        .topic-top {
+            flex-direction: column;
+        }
+
+        .topic-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 18px;
+        }
+
+        .topic-card {
+            padding: 1.1rem;
+            border-radius: 18px;
+        }
     }
 </style>
 
 <div class="interaction-page">
 
-    <div class="interaction-header">
-        <h1 class="interaction-title">Course Interaction</h1>
-        <p class="interaction-subtitle">
-            Practice English through realistic AI role-play conversations.
-            Each topic can have multiple practice sessions. Completed sessions are kept as learning records.
-        </p>
-    </div>
+    <section class="interaction-hero">
+        <div class="interaction-hero-content">
+            <div class="interaction-badge">
+                💬 AI Scenario Chat｜AI 情境對話
+            </div>
+
+            <h1 class="interaction-title">
+                Course Interaction
+                <br>
+                課程情境互動練習
+            </h1>
+
+            <p class="interaction-subtitle">
+                Practice English through realistic AI role-play conversations.
+                Each topic can have multiple practice sessions. Completed sessions are kept as learning records.
+                <br>
+                透過真實情境的 AI 角色扮演練習英文。每個主題都可以重複練習，完成的對話會保存為你的學習紀錄。
+            </p>
+
+            <div class="hero-actions">
+                <a href="{{ url_for('course.student_course_dashboard') }}" class="hero-btn secondary">
+                    ← Back to Dashboard｜回到首頁
+                </a>
+            </div>
+        </div>
+    </section>
 
     {% if base_unlocked %}
         <div class="unlock-alert unlocked">
-            ✅ Course Interaction is unlocked. You can start available role-play topics.
+            <div class="unlock-alert-icon">✅</div>
+            <div>
+                <div>Course Interaction is unlocked. You can start available role-play topics.</div>
+                <div>課程情境互動已解鎖，你可以開始可用的角色扮演主題。</div>
+            </div>
         </div>
     {% else %}
         <div class="unlock-alert locked">
-            🔒 Course Interaction is locked. You need to reach Level 5 and complete Path 1 requirements first.
+            <div class="unlock-alert-icon">🔒</div>
+            <div>
+                <div>Course Interaction is locked. You need to reach Level 5 and complete Path 1 requirements first.</div>
+                <div>課程情境互動目前尚未解鎖。你需要達到等級 5，並完成 Path 1 的學習要求。</div>
+            </div>
         </div>
     {% endif %}
 
@@ -343,7 +624,7 @@
                 {% set requirement_text = "Requirement unavailable" %}
             {% endif %}
 
-            <div class="topic-card {% if is_unlocked %}unlocked{% else %}locked{% endif %}">
+            <article class="topic-card {% if is_unlocked %}unlocked{% else %}locked{% endif %}">
 
                 <div class="topic-top">
                     <div class="topic-avatar">
@@ -355,14 +636,23 @@
                             Topic {{ topic.order }}: {{ topic.title }}
                         </h2>
 
+                        <div class="topic-title-zh">
+                            主題 {{ topic.order }}：AI 情境對話練習
+                        </div>
+
                         <div class="topic-role">
-                            Role: {{ persona_name }}
+                            Role｜角色：
+                            <strong>{{ persona_name }}</strong>
                         </div>
                     </div>
                 </div>
 
                 <p class="topic-description">
                     {{ topic.description }}
+                </p>
+
+                <p class="topic-description-zh">
+                    透過這個主題練習真實英文對話，熟悉情境中的常用表達與應答方式。
                 </p>
 
                 <div class="topic-badges">
@@ -386,7 +676,7 @@
                         </span>
                     {% else %}
                         <span class="topic-badge">
-                            Best: No Record
+                            Best: No Record｜無紀錄
                         </span>
                     {% endif %}
 
@@ -396,31 +686,51 @@
                         </span>
                     {% else %}
                         <span class="topic-badge">
-                            Latest: No Record
+                            Latest: No Record｜無紀錄
                         </span>
                     {% endif %}
+                </div>
 
-                    <span class="topic-badge">
-                        Practice Count: {{ practice_count }}
-                    </span>
+                <div class="topic-stats">
+                    <div class="topic-stat">
+                        <div class="topic-stat-label">
+                            Practice Count｜完成練習次數
+                        </div>
+                        <div class="topic-stat-value">
+                            {{ practice_count }}
+                        </div>
+                    </div>
 
-                    <span class="topic-badge">
-                        Total Sessions: {{ total_session_count }}
-                    </span>
+                    <div class="topic-stat">
+                        <div class="topic-stat-label">
+                            Total Sessions｜總對話紀錄
+                        </div>
+                        <div class="topic-stat-value">
+                            {{ total_session_count }}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="session-status">
                     {% if unfinished_session_id %}
-                        <strong>Unfinished Chat:</strong>
+                        <strong>Unfinished Chat｜尚未完成的對話：</strong>
+                        <br>
                         You have an unfinished session for this topic. You can continue it or start a new practice.
+                        <br>
+                        這個主題有尚未完成的對話。你可以繼續對話，也可以開始新的練習。
                     {% else %}
-                        <strong>Session:</strong>
+                        <strong>Session｜對話狀態：</strong>
+                        <br>
                         No unfinished session. Starting a chat will create a new practice record.
+                        <br>
+                        目前沒有尚未完成的對話。開始對話後會建立新的練習紀錄。
                     {% endif %}
                 </div>
 
                 <div class="requirement-text">
-                    Requirement: {{ requirement_text }}
+                    Requirement｜解鎖條件：
+                    <br>
+                    {{ requirement_text }}
                 </div>
 
                 <div class="topic-footer">
@@ -432,17 +742,16 @@
                                     href="{{ url_for('interaction.interaction_chat', session_id=unfinished_session_id) }}"
                                     class="btn-continue"
                                 >
-                                    Continue Chat
+                                    Continue Chat｜繼續對話
                                 </a>
                             {% endif %}
 
                             <form
                                 method="POST"
                                 action="{{ url_for('interaction.start_interaction_session', topic_id=topic.id|string) }}"
-                                style="margin: 0;"
                             >
                                 <button type="submit" class="btn-start">
-                                    Start New Practice
+                                    Start New Practice｜開始新練習
                                 </button>
                             </form>
 
@@ -451,11 +760,11 @@
                                     href="{{ url_for('interaction.interaction_topic_history', topic_id=topic.id|string) }}"
                                     class="btn-history"
                                 >
-                                    View History
+                                    View History｜查看紀錄
                                 </a>
                             {% else %}
                                 <button class="btn-no-history" disabled>
-                                    No History
+                                    No History｜尚無紀錄
                                 </button>
                             {% endif %}
 
@@ -463,7 +772,7 @@
                     {% else %}
                         <div class="topic-actions">
                             <button class="btn-locked" disabled>
-                                Locked
+                                Locked｜尚未解鎖
                             </button>
 
                             {% if total_session_count and total_session_count > 0 %}
@@ -471,21 +780,21 @@
                                     href="{{ url_for('interaction.interaction_topic_history', topic_id=topic.id|string) }}"
                                     class="btn-history"
                                 >
-                                    View History
+                                    View History｜查看紀錄
                                 </a>
                             {% endif %}
                         </div>
                     {% endif %}
                 </div>
 
-            </div>
+            </article>
 
         {% endfor %}
 
     </div>
 
     <a href="{{ url_for('course.student_course_dashboard') }}" class="back-link">
-        ← Back to Dashboard
+        ← Back to Dashboard｜回到首頁
     </a>
 
 </div>

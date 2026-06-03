@@ -14,11 +14,19 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            background-color: #f4f6f8;
+            background: #f4f6f8;
             color: #212529;
+        }
+
+        a {
+            color: inherit;
         }
 
         /* =========================
@@ -26,25 +34,33 @@
         ========================= */
 
         .navbar {
-            background-color: #343a40;
+            background: #2f3742;
             color: white;
             padding: 0 2rem;
-            min-height: 64px;
+            min-height: 68px;
 
             display: flex;
             align-items: center;
             justify-content: space-between;
 
-            position: relative;
+            position: sticky;
+            top: 0;
             z-index: 1000;
+
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.16);
         }
 
         .navbar-brand {
-            font-size: 1.25rem;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+
             color: white;
             white-space: nowrap;
             text-decoration: none;
+            font-size: 1.28rem;
+            font-weight: 950;
+            letter-spacing: 0.1px;
         }
 
         .navbar-brand:hover {
@@ -52,37 +68,132 @@
             text-decoration: none;
         }
 
+        .navbar-brand-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.12);
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
         .navbar-menu {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
+            justify-content: flex-end;
+            gap: 0.35rem;
+            flex-wrap: wrap;
         }
 
-        .navbar-menu a {
-            color: white;
+        .navbar-link,
+        .navbar-logout {
+            color: #f8fafc;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 850;
             white-space: nowrap;
+            font-size: 0.94rem;
+
+            padding: 0.5rem 0.65rem;
+            border-radius: 999px;
+
+            transition: all 0.18s ease;
         }
 
-        .navbar-menu a:hover {
-            text-decoration: underline;
+        .navbar-link:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .navbar-link.active {
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+        }
+
+        .navbar-link.active::before {
+            content: "●";
+            margin-right: 0.35rem;
+            font-size: 0.55rem;
+            color: #7dd3fc;
+            vertical-align: middle;
+        }
+
+        .navbar-logout:hover {
+            background: rgba(220, 53, 69, 0.24);
+            color: #ffffff;
+            text-decoration: none;
         }
 
         .navbar-user {
-            color: white;
-            font-weight: 500;
+            margin-left: 0.45rem;
+
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            padding: 0.42rem 0.75rem;
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            font-weight: 900;
             white-space: nowrap;
+            font-size: 0.94rem;
+        }
+
+        .navbar-user-avatar {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(135deg, #38bdf8, #6366f1);
+            color: #ffffff;
+
+            font-size: 0.75rem;
+            font-weight: 950;
+            flex-shrink: 0;
+        }
+
+        .navbar-user-text {
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .navbar-toggle {
             display: none;
-            background: none;
-            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
             color: white;
-            font-size: 1.8rem;
+            font-size: 1.45rem;
             cursor: pointer;
-            padding: 0.3rem 0.5rem;
+        }
+
+        .navbar-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* =========================
+           Mobile user panel
+        ========================= */
+
+        .mobile-user-panel {
+            display: none;
         }
 
         /* =========================
@@ -90,12 +201,13 @@
         ========================= */
 
         .container {
-            max-width: 1100px;
+            max-width: 1180px;
             margin: 2rem auto;
             padding: 2rem;
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 18px;
+            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
+            border: 1px solid #e5e7eb;
         }
 
         /* =========================
@@ -103,13 +215,25 @@
         ========================= */
 
         .btn {
-            display: inline-block;
-            padding: 0.6rem 1rem;
-            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+
+            padding: 0.62rem 1rem;
+            border-radius: 10px;
             text-decoration: none;
             border: none;
             cursor: pointer;
             font-size: 1rem;
+            font-weight: 900;
+
+            transition: all 0.18s ease;
+        }
+
+        .btn:hover {
+            text-decoration: none;
+            transform: translateY(-1px);
         }
 
         .btn-primary {
@@ -119,6 +243,7 @@
 
         .btn-primary:hover {
             background-color: #0069d9;
+            color: white;
         }
 
         .btn-secondary {
@@ -128,6 +253,7 @@
 
         .btn-secondary:hover {
             background-color: #5a6268;
+            color: white;
         }
 
         .btn-success {
@@ -137,6 +263,7 @@
 
         .btn-success:hover {
             background-color: #218838;
+            color: white;
         }
 
         .btn-danger {
@@ -146,6 +273,7 @@
 
         .btn-danger:hover {
             background-color: #c82333;
+            color: white;
         }
 
         /* =========================
@@ -153,53 +281,76 @@
         ========================= */
 
         .flash-container {
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
         .flash-message {
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            margin-bottom: 0.75rem;
-            font-weight: 500;
+            padding: 0.95rem 1.1rem;
+            border-radius: 14px;
+            font-weight: 700;
+            line-height: 1.65;
+            border: 1px solid transparent;
+        }
+
+        .flash-message .flash-line {
+            display: block;
+        }
+
+        .flash-message .flash-line + .flash-line {
+            margin-top: 0.15rem;
+        }
+
+        .flash-message .flash-line-en {
+            font-size: 0.98rem;
+        }
+
+        .flash-message .flash-line-zh {
+            font-size: 1.02rem;
+            font-weight: 850;
         }
 
         .flash-success {
-            background-color: #d4edda;
+            background-color: #dff5e3;
             color: #155724;
-            border: 1px solid #c3e6cb;
+            border-color: #bde5c4;
         }
 
         .flash-danger,
         .flash-error {
             background-color: #f8d7da;
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border-color: #f5c6cb;
         }
 
         .flash-warning {
             background-color: #fff3cd;
             color: #856404;
-            border: 1px solid #ffeeba;
+            border-color: #ffeeba;
         }
 
         .flash-info {
             background-color: #d1ecf1;
             color: #0c5460;
-            border: 1px solid #bee5eb;
+            border-color: #bee5eb;
         }
 
         /* =========================
-           Mobile responsive layout
+           Responsive
         ========================= */
 
-        @media (max-width: 768px) {
+        @media (max-width: 1180px) {
             .navbar {
-                padding: 0 1rem;
                 min-height: 64px;
+                padding: 0 1rem;
             }
 
             .navbar-toggle {
-                display: block;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .navbar-menu {
@@ -210,42 +361,109 @@
                 left: 0;
                 width: 100%;
 
-                background-color: #343a40;
-                padding: 1rem;
+                background-color: #2f3742;
+                padding: 0.9rem 1rem 1rem;
 
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 0;
+                align-items: stretch;
+                gap: 0.35rem;
 
                 z-index: 999;
                 box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
             }
 
             .navbar-menu.active {
                 display: flex;
             }
 
-            .navbar-menu a,
-            .navbar-user {
-                display: block;
+            .navbar-link,
+            .navbar-logout {
+                display: flex;
+                align-items: center;
                 width: 100%;
-                padding: 0.75rem 0;
+                padding: 0.78rem 0.9rem;
+                border-radius: 12px;
             }
 
-            .navbar-menu a {
-                border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            .navbar-link.active {
+                background: rgba(255, 255, 255, 0.13);
+                box-shadow: inset 3px 0 0 #7dd3fc;
             }
 
-            .navbar-user {
-                color: #dee2e6;
-                font-size: 0.95rem;
+            .navbar-link.active::before {
+                content: "";
+                margin-right: 0;
             }
 
+            .desktop-user {
+                display: none;
+            }
+
+            .mobile-user-panel {
+                display: block;
+
+                width: calc(100% - 2rem);
+                max-width: 1180px;
+                margin: 0.85rem auto 0;
+                padding: 0.85rem 1rem;
+
+                border-radius: 18px;
+                background: #ffffff;
+                border: 1px solid #e5e7eb;
+                box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+            }
+
+            .mobile-user-content {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            .mobile-user-avatar {
+                width: 42px;
+                height: 42px;
+                border-radius: 16px;
+
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+
+                background: linear-gradient(135deg, #38bdf8, #6366f1);
+                color: #ffffff;
+
+                font-size: 1rem;
+                font-weight: 950;
+                flex-shrink: 0;
+            }
+
+            .mobile-user-info {
+                min-width: 0;
+            }
+
+            .mobile-user-label {
+                color: #6b7280;
+                font-size: 0.82rem;
+                font-weight: 800;
+                margin-bottom: 0.12rem;
+            }
+
+            .mobile-user-name {
+                color: #111827;
+                font-size: 1rem;
+                font-weight: 950;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 860px) {
             .container {
                 width: calc(100% - 2rem);
                 margin: 1rem auto;
                 padding: 1.25rem;
-                border-radius: 6px;
+                border-radius: 14px;
             }
 
             h1 {
@@ -263,30 +481,56 @@
             .btn {
                 margin-bottom: 0.5rem;
             }
+
+            .flash-message {
+                padding: 0.85rem 0.95rem;
+                font-size: 0.95rem;
+            }
         }
 
         @media (max-width: 480px) {
+            .navbar {
+                padding: 0 0.8rem;
+            }
+
             .navbar-brand {
-                font-size: 1.1rem;
+                font-size: 1.08rem;
+                gap: 0.45rem;
+            }
+
+            .navbar-brand-icon {
+                width: 30px;
+                height: 30px;
+                border-radius: 10px;
+            }
+
+            .mobile-user-panel {
+                width: calc(100% - 1.4rem);
+                margin-top: 0.7rem;
+                padding: 0.75rem 0.85rem;
+                border-radius: 16px;
             }
 
             .container {
                 width: 100%;
-                margin: 0;
+                margin: 1rem 0 0;
                 padding: 1rem;
                 border-radius: 0;
+                border-left: none;
+                border-right: none;
             }
         }
     </style>
 
     {% block head %}{% endblock %}
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
-
     <nav class="navbar">
         <a href="{{ url_for('main.index') }}" class="navbar-brand">
-            Teaching System
+            <span class="navbar-brand-icon">📘</span>
+            <span>Teaching System</span>
         </a>
 
         {% if current_user.is_authenticated %}
@@ -299,45 +543,79 @@
             {% if current_user.is_authenticated %}
 
                 {% if current_user.role == 'student' %}
-                    <a href="{{ url_for('course.student_course_dashboard') }}">
+                    <a href="{{ url_for('course.student_course_dashboard') }}"
+                       class="navbar-link {% if request.endpoint == 'course.student_course_dashboard' %}active{% endif %}">
                         Dashboard
                     </a>
 
-                    <a href="{{ url_for('course.student_learning_paths') }}">
+                    <a href="{{ url_for('course.student_learning_paths') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('course.') and request.endpoint != 'course.student_course_dashboard' %}active{% endif %}">
                         Courses
                     </a>
 
-                    <a href="{{ url_for('team.teams_dashboard') }}">
+                    <a href="{{ url_for('vocabulary_practice.practice_page') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('vocabulary_practice.') %}active{% endif %}">
+                        Vocabulary
+                    </a>
+
+                    <a href="{{ url_for('srs.review_list') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('srs.') %}active{% endif %}">
+                        Review
+                    </a>
+
+                    <a href="{{ url_for('interaction.interaction_topics') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('interaction.') %}active{% endif %}">
+                        AI Chat
+                    </a>
+
+                    <a href="{{ url_for('team.teams_dashboard') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('team.') %}active{% endif %}">
                         Teams
                     </a>
 
-                    <a href="{{ url_for('achievement.my_achievements') }}">
+                    <a href="{{ url_for('analytics.student_analytics_page') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('analytics.') %}active{% endif %}">
+                        Analysis
+                    </a>
+
+                    <a href="{{ url_for('achievement.my_achievements') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('achievement.') %}active{% endif %}">
                         Achievements
                     </a>
 
                 {% elif current_user.role == 'admin' %}
-                    <a href="{{ url_for('dashboard.index') }}">
+                    <a href="{{ url_for('dashboard.index') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('dashboard.') %}active{% endif %}">
                         Dashboard
                     </a>
 
-                    <a href="{{ url_for('course.admin_course_dashboard') }}">
+                    <a href="{{ url_for('course.admin_course_dashboard') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('course.') %}active{% endif %}">
                         Courses
                     </a>
 
-                    <a href="{{ url_for('word.manage_words') }}">
+                    <a href="{{ url_for('word.manage_words') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('word.') %}active{% endif %}">
                         Vocabulary
                     </a>
 
-                    <a href="{{ url_for('report.admin_reports') }}">
+                    <a href="{{ url_for('report.admin_reports') }}"
+                       class="navbar-link {% if request.endpoint and request.endpoint.startswith('report.') %}active{% endif %}">
                         Reports
                     </a>
                 {% endif %}
 
-                <span class="navbar-user">
-                    Hello, {{ current_user.username }}!
+                <span class="navbar-user desktop-user">
+                    <span class="navbar-user-avatar">
+                        {{ current_user.username[0]|upper }}
+                    </span>
+
+                    <span class="navbar-user-text">
+                        Hello, {{ current_user.username }}!
+                    </span>
                 </span>
 
-                <a href="{{ url_for('auth.logout') }}">
+                <a href="{{ url_for('auth.logout') }}" class="navbar-logout">
                     Logout
                 </a>
 
@@ -345,14 +623,37 @@
         </div>
     </nav>
 
-    <main class="container">
+    {% if current_user.is_authenticated %}
+        <section class="mobile-user-panel">
+            <div class="mobile-user-content">
+                <div class="mobile-user-avatar">
+                    {{ current_user.username[0]|upper }}
+                </div>
 
+                <div class="mobile-user-info">
+                    <div class="mobile-user-label">
+                        Signed in as｜目前登入
+                    </div>
+
+                    <div class="mobile-user-name">
+                        Hello, {{ current_user.username }}!
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <main class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-container">
                     {% for category, message in messages %}
                         <div class="flash-message flash-{{ category }}">
-                            {{ message }}
+                            {% for line in message.split('\n') %}
+                                <span class="flash-line {% if loop.index == 1 %}flash-line-en{% else %}flash-line-zh{% endif %}">
+                                    {{ line }}
+                                </span>
+                            {% endfor %}
                         </div>
                     {% endfor %}
                 </div>
@@ -360,7 +661,6 @@
         {% endwith %}
 
         {% block content %}{% endblock %}
-
     </main>
 
     <script>
@@ -377,6 +677,6 @@
     </script>
 
     {% block scripts %}{% endblock %}
-
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

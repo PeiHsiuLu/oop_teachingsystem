@@ -1,64 +1,70 @@
 {% extends "base.html" %}
-
+{% block title %}Create Team Challenge｜建立團隊挑戰{% endblock %}
 {% block content %}
 
-<h2>Create Team Challenge</h2>
+<style>
+    .challenge-form-page { max-width: 780px; margin: 0 auto; animation: fadeIn .45s ease both; }
+    .challenge-hero { padding:1.5rem; border-radius:24px; background:linear-gradient(135deg,#007bff,#4f46e5 55%,#7c3aed); color:#fff; margin-bottom:1.2rem; }
+    .challenge-hero h2 { margin:0; font-size:1.9rem; font-weight:950; }
+    .challenge-hero p { margin:.65rem 0 0; line-height:1.7; opacity:.95; }
+    .form-card { background:#fff; border:1px solid #e5e7eb; border-radius:22px; padding:1.35rem; box-shadow:0 12px 28px rgba(15,23,42,.06); }
+    .form-group { margin-bottom:1rem; }
+    .form-label { display:block; margin-bottom:.4rem; color:#374151; font-weight:950; }
+    .form-control { width:100%; padding:.78rem .9rem; border:1px solid #d1d5db; border-radius:12px; font-size:1rem; box-sizing:border-box; }
+    .form-control:focus { outline:none; border-color:#007bff; box-shadow:0 0 0 4px rgba(0,123,255,.14); }
+    .actions { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.1rem; }
+    .submit-btn, .back-btn { display:inline-flex; align-items:center; justify-content:center; padding:.75rem 1rem; border-radius:14px; font-weight:950; text-decoration:none; border:none; cursor:pointer; }
+    .submit-btn { background:#007bff; color:#fff; }
+    .submit-btn:hover { background:#0069d9; }
+    .back-btn { background:#6c757d; color:#fff; }
+    .back-btn:hover { background:#5a6268; color:#fff; text-decoration:none; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+</style>
 
-<form method="POST">
-    <div>
-        <label>Challenge Title:</label><br>
-        <input type="text" name="title" required>
-    </div>
+<div class="challenge-form-page">
+    <section class="challenge-hero">
+        <h2>Create Team Challenge｜建立團隊挑戰</h2>
+        <p>Create a shared goal for one team and set XP / credit rewards.<br>為團隊建立共同目標，並設定經驗值與信用分數獎勵。</p>
+    </section>
 
-    <br>
-
-    <div>
-        <label>Description:</label><br>
-        <input type="text" name="description">
-    </div>
-
-    <br>
-
-    <div>
-        <label>Select Team:</label><br>
-        <select name="team_id" required>
-            {% for team in teams %}
-                <option value="{{ team.id }}">{{ team.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <br>
-
-    <div>
-        <label>Target XP:</label><br>
-        <input type="number" name="target_value" required>
-    </div>
-
-    <br>
-
-    <div>
-        <label>Reward XP:</label><br>
-        <input type="number" name="reward_xp" value="0">
-    </div>
-
-    <br>
-
-    <div>
-        <label>Reward Credit:</label><br>
-        <input type="number" name="reward_credit" value="0">
-    </div>
-
-    <br>
-
-    <div>
-        <label>Deadline:</label><br>
-        <input type="date" name="deadline" required>
-    </div>
-
-    <br>
-
-    <button type="submit">Create Challenge</button>
-</form>
+    <form method="POST" class="form-card">
+        <div class="form-group">
+            <label class="form-label">Challenge Title｜挑戰名稱</label>
+            <input class="form-control" type="text" name="title" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Description｜挑戰描述</label>
+            <input class="form-control" type="text" name="description">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Select Team｜選擇團隊</label>
+            <select class="form-control" name="team_id" required>
+                {% for team in teams %}
+                    <option value="{{ team.id }}">{{ team.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Target XP｜目標經驗值</label>
+            <input class="form-control" type="number" name="target_value" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Reward XP｜獎勵經驗值</label>
+            <input class="form-control" type="number" name="reward_xp" value="0">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Reward Credit｜獎勵信用分數</label>
+            <input class="form-control" type="number" name="reward_credit" value="0">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Deadline｜截止日期</label>
+            <input class="form-control" type="date" name="deadline" required>
+        </div>
+        <div class="actions">
+            <button type="submit" class="submit-btn">Create Challenge｜建立挑戰</button>
+            <a href="{{ url_for('team.teams_dashboard') }}" class="back-btn">Back to Teams｜回到團隊列表</a>
+        </div>
+    </form>
+</div>
 
 {% endblock %}

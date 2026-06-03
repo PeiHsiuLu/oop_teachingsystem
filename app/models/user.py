@@ -1,5 +1,11 @@
 from flask_login import UserMixin
-from mongoengine import Document, StringField, IntField, BooleanField
+from mongoengine import (
+    Document,
+    StringField,
+    IntField,
+    DateTimeField,
+    BooleanField
+)
 
 
 class User(Document, UserMixin):
@@ -7,7 +13,6 @@ class User(Document, UserMixin):
     password_hash = StringField(required=True)
     email = StringField(required=True)
 
-    # Polymorphism configuration
     meta = {
         "allow_inheritance": True,
         "indexes": ["username"]
@@ -20,9 +25,10 @@ class User(Document, UserMixin):
     def role(self):
         """
         Dynamically determine the user's role from the class name.
+
         Example:
-        - User.Admin -> admin
-        - User.Student -> student
+        User.Admin -> admin
+        User.Student -> student
         """
         return self._cls.split(".")[-1].lower()
 
@@ -34,9 +40,6 @@ class Admin(User):
 class Student(User):
     xp = IntField(default=0)
     level = IntField(default=1)
-
-    # Used by moderation system.
-    # If credit_score <= 0, the student is treated as muted.
     credit_score = IntField(default=100)
 
     cefr_level = StringField(
@@ -52,18 +55,44 @@ class Student(User):
 
     vocabulary_review_count = IntField(default=0)
 
+    # Daily login reward record
+    # 每日登入獎勵紀錄：用來避免同一天重複領取 XP
+    last_login_reward_date = DateTimeField(default=None)
+
     def add_xp(self, amount):
         """
         Add XP to the student.
         """
-        self.xp = getattr(self, "xp", 0) + amount
+        if amount is None:
+            amount = 0
+
+        current_xp = getattr(self, "xp", 0) or 0
+        self.xp = current_xp + int(amount)
         self.save()
 
     def is_muted(self):
         """
-        Return True if the student is muted.
+        Check whether the student is muted.
 
-        Current moderation rule:
-        - credit_score <= 0 means the student is muted.
+        Current project rule:
+        - When an admin applies the "mute" sanction, report_service.py sets credit_score to 0.
+        - Therefore, credit_score <= 0 means the student is muted.
+
+        判斷學生是否被禁言。
+
+        目前專案規則：
+        - 管理員在檢舉處理中套用 mute 時，report_service.py 會把 credit_score 設為 0。
+        - 因此 credit_score <= 0 就視為被禁言。
         """
-        return getattr(self, "credit_score", 100) <= 0
+        credit_score = getattr(self, "credit_score", 100)
+
+        if credit_score is None:
+            credit_score = 100
+
+        return credit_score <= 0
+
+    def can_send_message(self):
+        """
+        Return True if the student can send chat/dialogue messages.
+        """
+        return not self.is_muted()

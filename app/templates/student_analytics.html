@@ -1,50 +1,995 @@
 {% extends "base.html" %}
+
+{% block title %}Learning Analysis{% endblock %}
+
 {% block content %}
 
-<h2>Result Analysis (Use Case 5)</h2>
-<p>Your personalized weakness report and overall learning performance.</p>
+<style>
+    .analysis-page {
+        max-width: 1180px;
+        margin: 0 auto;
+        animation: analysisFadeIn 0.55s ease both;
+    }
 
-<div id="analytics-container" style="border: 2px solid #17a2b8; padding: 20px; border-radius: 8px; background-color: #fdfdfd;">
-    <h3 style="color: #17a2b8; margin-top: 0;" id="status-title">Loading Report...</h3>
-    <div style="font-size: 1.1rem; margin-bottom: 20px;">
-        <p><strong>Total Interactions Completed:</strong> <span id="total-interactions">--</span></p>
-        <p><strong>Average Accuracy Score:</strong> <span id="avg-score">--</span></p>
+    .analysis-hero {
+        position: relative;
+        overflow: hidden;
+        border-radius: 26px;
+        padding: 1.65rem;
+        margin-bottom: 1.35rem;
+        background: linear-gradient(135deg, #007bff 0%, #4f46e5 55%, #7c3aed 100%);
+        color: #ffffff;
+        box-shadow: 0 16px 34px rgba(79, 70, 229, 0.16);
+    }
+
+    .analysis-hero::before {
+        content: "";
+        position: absolute;
+        width: 230px;
+        height: 230px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        right: -90px;
+        top: -105px;
+    }
+
+    .analysis-hero::after {
+        content: "";
+        position: absolute;
+        width: 165px;
+        height: 165px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.09);
+        left: -70px;
+        bottom: -75px;
+    }
+
+    .analysis-hero-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .analysis-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.42rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        font-weight: 950;
+        margin-bottom: 0.85rem;
+        line-height: 1.45;
+    }
+
+    .analysis-title {
+        margin: 0;
+        font-size: 2.05rem;
+        font-weight: 950;
+        letter-spacing: -0.03em;
+        line-height: 1.25;
+    }
+
+    .analysis-subtitle {
+        margin: 0.8rem 0 0;
+        max-width: 900px;
+        line-height: 1.8;
+        opacity: 0.95;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.1rem;
+    }
+
+    .hero-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        color: #ffffff;
+        font-weight: 950;
+        text-decoration: none;
+        transition: all 0.18s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .hero-btn.primary {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .hero-btn.secondary {
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+    }
+
+    .hero-btn:hover {
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.28);
+    }
+
+    .hero-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .loading-card,
+    .error-card {
+        border-radius: 22px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        padding: 2rem;
+        margin-bottom: 1.25rem;
+        text-align: center;
+    }
+
+    .loading-spinner {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 5px solid #e5e7eb;
+        border-top-color: #007bff;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+    }
+
+    .loading-title,
+    .error-title {
+        color: #111827;
+        font-weight: 950;
+        font-size: 1.25rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .loading-desc,
+    .error-desc {
+        color: #6b7280;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .error-card {
+        display: none;
+        border-color: #fecaca;
+        background: #fff7f7;
+    }
+
+    .error-card.show {
+        display: block;
+    }
+
+    .analysis-content {
+        display: none;
+    }
+
+    .analysis-content.show {
+        display: block;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 1.1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .main-summary-card,
+    .score-card,
+    .section-card {
+        border-radius: 24px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+    }
+
+    .card-header {
+        padding: 1.2rem 1.35rem;
+        border-bottom: 1px solid #e5e7eb;
+        background: linear-gradient(135deg, #ffffff, #f8fafc);
+    }
+
+    .card-title {
+        margin: 0;
+        color: #111827;
+        font-size: 1.28rem;
+        font-weight: 950;
+        line-height: 1.45;
+    }
+
+    .card-subtitle {
+        margin: 0.35rem 0 0;
+        color: #6b7280;
+        line-height: 1.6;
+        font-weight: 750;
+    }
+
+    .card-body {
+        padding: 1.2rem 1.35rem;
+    }
+
+    .overall-text {
+        line-height: 1.75;
+        color: #374151;
+        font-weight: 750;
+        margin: 0;
+    }
+
+    .overall-text + .overall-text {
+        margin-top: 0.75rem;
+    }
+
+    .source-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin-top: 1rem;
+        padding: 0.42rem 0.75rem;
+        border-radius: 999px;
+        background: #eaf4ff;
+        color: #007bff;
+        font-weight: 950;
+        font-size: 0.88rem;
+    }
+
+    .score-card {
+        padding: 1.35rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .score-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: conic-gradient(#007bff 0deg, #e5e7eb 0deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .score-circle::before {
+        content: "";
+        position: absolute;
+        width: 118px;
+        height: 118px;
+        border-radius: 50%;
+        background: #ffffff;
+    }
+
+    .score-number {
+        position: relative;
+        z-index: 1;
+        font-size: 2.2rem;
+        font-weight: 950;
+        color: #007bff;
+    }
+
+    .score-label {
+        color: #111827;
+        font-weight: 950;
+        font-size: 1.1rem;
+    }
+
+    .score-desc {
+        margin-top: 0.35rem;
+        color: #6b7280;
+        line-height: 1.6;
+        font-weight: 750;
+    }
+
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .metric-card {
+        border-radius: 20px;
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+        padding: 1.05rem;
+    }
+
+    .metric-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eaf4ff;
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .metric-label {
+        color: #6b7280;
+        font-weight: 850;
+        line-height: 1.45;
+        font-size: 0.9rem;
+    }
+
+    .metric-value {
+        margin-top: 0.35rem;
+        color: #111827;
+        font-size: 1.55rem;
+        font-weight: 950;
+    }
+
+    .ability-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .ability-box {
+        padding: 1rem;
+        border-radius: 18px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+    }
+
+    .ability-title {
+        color: #111827;
+        font-weight: 950;
+        margin-bottom: 0.55rem;
+        font-size: 1.02rem;
+    }
+
+    .ability-text {
+        color: #4b5563;
+        line-height: 1.7;
+        font-weight: 750;
+        margin: 0;
+    }
+
+    .list-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
+    .analysis-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .analysis-list li {
+        position: relative;
+        padding: 0.8rem 0.9rem 0.8rem 2.6rem;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        color: #374151;
+        line-height: 1.65;
+        font-weight: 750;
+    }
+
+    .analysis-list li::before {
+        position: absolute;
+        left: 0.85rem;
+        top: 0.9rem;
+        width: 24px;
+        height: 24px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 950;
+        font-size: 0.8rem;
+    }
+
+    .strength-list li::before {
+        content: "✓";
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .weakness-list li::before {
+        content: "!";
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .action-list li::before {
+        content: "→";
+        background: #eaf4ff;
+        color: #007bff;
+    }
+
+    .word-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+    }
+
+    .word-tag {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.42rem 0.75rem;
+        border-radius: 999px;
+        background: #f3e8ff;
+        color: #6f42c1;
+        font-weight: 950;
+    }
+
+    .footer-actions {
+        margin-top: 1.25rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .footer-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: 950;
+        transition: all 0.18s ease;
+    }
+
+    .footer-btn.primary {
+        background: #007bff;
+    }
+
+    .footer-btn.secondary {
+        background: #6c757d;
+    }
+
+    .footer-btn.dark {
+        background: #111827;
+    }
+
+    .footer-btn:hover {
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-1px);
+        filter: brightness(0.96);
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes analysisFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 1050px) {
+        .metrics-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 760px) {
+        .analysis-title {
+            font-size: 1.65rem;
+        }
+
+        .ability-grid,
+        .list-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .metrics-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-actions,
+        .footer-actions {
+            flex-direction: column;
+        }
+
+        .hero-btn,
+        .footer-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="analysis-page">
+    <section class="analysis-hero">
+        <div class="analysis-hero-content">
+            <div class="analysis-badge">
+                📊 Learning Analysis｜學習成效分析
+            </div>
+
+            <h1 class="analysis-title">
+                Result Analysis
+                <br>
+                個人化學習狀態分析
+            </h1>
+
+            <p class="analysis-subtitle">
+                Gemini will analyze your CEFR level, AI chat performance, sentence construction, vocabulary review, quizzes, and overall learning progress.
+                <br>
+                Gemini 會分析你的 CEFR 程度、AI 情境對話、句子建構能力、單字複習、章節 Quiz，以及整體學習狀態。
+            </p>
+
+            <div class="hero-actions">
+                <button type="button" class="hero-btn primary" id="reloadAnalysisBtn">
+                    Regenerate Analysis｜重新產生分析
+                </button>
+
+                <a href="{{ url_for('course.student_course_dashboard') }}" class="hero-btn secondary">
+                    ← Back to Dashboard｜回到首頁
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="loading-card" id="loadingCard">
+        <div class="loading-spinner"></div>
+
+        <div class="loading-title">
+            Generating your learning analysis...
+            <br>
+            正在產生你的學習分析……
+        </div>
+
+        <p class="loading-desc">
+            Gemini is reviewing your learning records. This may take a few seconds.
+            <br>
+            Gemini 正在整理你的學習紀錄，可能需要幾秒鐘。
+        </p>
     </div>
-    <hr style="border: 1px solid #eee;">
-    <h4 style="color: #333;">Recommended Review Strategy</h4>
-    <p id="review-strategy">Fetching strategy...</p>
-</div>
 
-<div style="margin-top: 20px;">
-    <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    <div class="error-card" id="errorCard">
+        <div class="error-title">
+            Analysis failed to load.
+            <br>
+            分析載入失敗。
+        </div>
+
+        <p class="error-desc" id="errorText">
+            Please try again later.
+            <br>
+            請稍後再試。
+        </p>
+    </div>
+
+    <div class="analysis-content" id="analysisContent">
+        <section class="summary-grid">
+            <div class="main-summary-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        Overall Status｜整體狀態
+                    </h2>
+
+                    <p class="card-subtitle">
+                        Gemini summarizes your current learning condition.
+                        <br>
+                        Gemini 會總結你目前的學習狀態。
+                    </p>
+                </div>
+
+                <div class="card-body">
+                    <p class="overall-text" id="overallEn"></p>
+                    <p class="overall-text" id="overallZh"></p>
+
+                    <div class="source-pill" id="sourcePill">
+                        Source｜來源：--
+                    </div>
+                </div>
+            </div>
+
+            <div class="score-card">
+                <div class="score-circle" id="scoreCircle">
+                    <div class="score-number" id="compositeScore">--</div>
+                </div>
+
+                <div class="score-label">
+                    Composite Ability Score
+                    <br>
+                    綜合能力分數
+                </div>
+
+                <div class="score-desc">
+                    A system estimate based on your current records.
+                    <br>
+                    這是根據目前紀錄推估的綜合能力。
+                </div>
+            </div>
+        </section>
+
+        <section class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">🎯</div>
+                <div class="metric-label">CEFR｜英文程度</div>
+                <div class="metric-value" id="metricCefr">--</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">💬</div>
+                <div class="metric-label">Completed AI Chats｜完成對話</div>
+                <div class="metric-value" id="metricChats">--</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">🧩</div>
+                <div class="metric-label">Sentence Accuracy｜句子正確率</div>
+                <div class="metric-value" id="metricPractice">--</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">📚</div>
+                <div class="metric-label">Review Success｜複習成功率</div>
+                <div class="metric-value" id="metricReview">--</div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    Ability Breakdown｜能力分析
+                </h2>
+
+                <p class="card-subtitle">
+                    Analysis of CEFR, AI chat, sentence construction, quiz, and vocabulary review.
+                    <br>
+                    分析 CEFR、AI 對話、句子建構、Quiz 與單字複習表現。
+                </p>
+            </div>
+
+            <div class="card-body">
+                <div class="ability-grid">
+                    <div class="ability-box">
+                        <div class="ability-title">CEFR Assessment｜CEFR 程度分析</div>
+                        <p class="ability-text" id="cefrEn"></p>
+                        <p class="ability-text" id="cefrZh"></p>
+                    </div>
+
+                    <div class="ability-box">
+                        <div class="ability-title">AI Chat Ability｜AI 對話能力</div>
+                        <p class="ability-text" id="chatEn"></p>
+                        <p class="ability-text" id="chatZh"></p>
+                    </div>
+
+                    <div class="ability-box">
+                        <div class="ability-title">Sentence Construction｜句子建構能力</div>
+                        <p class="ability-text" id="sentenceEn"></p>
+                        <p class="ability-text" id="sentenceZh"></p>
+                    </div>
+
+                    <div class="ability-box">
+                        <div class="ability-title">Quiz Performance｜Quiz 表現</div>
+                        <p class="ability-text" id="quizEn"></p>
+                        <p class="ability-text" id="quizZh"></p>
+                    </div>
+
+                    <div class="ability-box">
+                        <div class="ability-title">Vocabulary Review｜單字複習能力</div>
+                        <p class="ability-text" id="vocabEn"></p>
+                        <p class="ability-text" id="vocabZh"></p>
+                    </div>
+
+                    <div class="ability-box">
+                        <div class="ability-title">Review Strategy｜複習策略</div>
+                        <p class="ability-text" id="strategyEn"></p>
+                        <p class="ability-text" id="strategyZh"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="list-grid" style="margin-top: 1.25rem;">
+            <div class="section-card">
+                <div class="card-header">
+                    <h2 class="card-title">Strengths｜目前優點</h2>
+                </div>
+
+                <div class="card-body">
+                    <ul class="analysis-list strength-list" id="strengthList"></ul>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="card-header">
+                    <h2 class="card-title">Weaknesses｜需要加強</h2>
+                </div>
+
+                <div class="card-body">
+                    <ul class="analysis-list weakness-list" id="weaknessList"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card" style="margin-top: 1.25rem;">
+            <div class="card-header">
+                <h2 class="card-title">
+                    Recommended Actions｜下一步建議
+                </h2>
+
+                <p class="card-subtitle">
+                    Follow these actions to improve your English learning performance.
+                    <br>
+                    你可以依照以下建議提升英文學習表現。
+                </p>
+            </div>
+
+            <div class="card-body">
+                <ul class="analysis-list action-list" id="actionList"></ul>
+            </div>
+        </section>
+
+        <section class="section-card" style="margin-top: 1.25rem;">
+            <div class="card-header">
+                <h2 class="card-title">
+                    Weak Words｜弱點單字
+                </h2>
+
+                <p class="card-subtitle">
+                    These words appeared in wrong answers, difficult reviews, or low quiz performance.
+                    <br>
+                    這些單字可能出現在錯誤答案、困難複習或 Quiz 弱點中。
+                </p>
+            </div>
+
+            <div class="card-body">
+                <div class="word-tags" id="weakWordTags"></div>
+            </div>
+        </section>
+
+
+    </div>
 </div>
 
 <script>
-    async function loadAnalytics() {
-        try {
-            const response = await fetch('/api/analytics/report');
-            if (!response.ok) {
-                document.getElementById('status-title').innerText = 'Error loading report.';
-                return;
-            }
-            
-            const data = await response.json();
-            const report = data.report;
-            
-            if (report.status === "No Data") {
-                document.getElementById('status-title').innerText = 'Overall Status: Needs Data';
-                document.getElementById('review-strategy').innerText = report.message;
-            } else {
-                document.getElementById('status-title').innerText = `Overall Status: ${report.overall_status}`;
-                document.getElementById('total-interactions').innerText = report.total_interactions_completed;
-                document.getElementById('avg-score').innerText = report.average_score;
-                document.getElementById('review-strategy').innerText = data.strategy;
-            }
-        } catch (error) {
-            console.error("Failed to load analytics", error);
+    const loadingCard = document.getElementById("loadingCard");
+    const errorCard = document.getElementById("errorCard");
+    const errorText = document.getElementById("errorText");
+    const analysisContent = document.getElementById("analysisContent");
+    const reloadAnalysisBtn = document.getElementById("reloadAnalysisBtn");
+
+    function setText(id, text) {
+        const element = document.getElementById(id);
+
+        if (element) {
+            element.textContent = text || "--";
         }
     }
-    loadAnalytics();
+
+    function clearList(id) {
+        const element = document.getElementById(id);
+
+        if (element) {
+            element.innerHTML = "";
+        }
+    }
+
+    function addBilingualListItem(listId, item) {
+        const list = document.getElementById(listId);
+
+        if (!list) {
+            return;
+        }
+
+        const li = document.createElement("li");
+
+        const en = item && item.en ? item.en : "";
+        const zh = item && item.zh ? item.zh : "";
+
+        li.innerHTML = `
+            <div>${escapeHtml(en)}</div>
+            <div style="color:#6b7280; margin-top:0.2rem;">${escapeHtml(zh)}</div>
+        `;
+
+        list.appendChild(li);
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text || "";
+        return div.innerHTML;
+    }
+
+    function setScoreCircle(score) {
+        const circle = document.getElementById("scoreCircle");
+        const scoreText = document.getElementById("compositeScore");
+
+        const value = Number(score) || 0;
+        const degree = Math.max(0, Math.min(100, value)) * 3.6;
+
+        if (circle) {
+            circle.style.background = `conic-gradient(#007bff ${degree}deg, #e5e7eb ${degree}deg)`;
+        }
+
+        if (scoreText) {
+            scoreText.textContent = value;
+        }
+    }
+
+    function showLoading() {
+        loadingCard.style.display = "block";
+        errorCard.classList.remove("show");
+        analysisContent.classList.remove("show");
+
+        if (reloadAnalysisBtn) {
+            reloadAnalysisBtn.disabled = true;
+            reloadAnalysisBtn.textContent = "Generating...｜產生中...";
+        }
+    }
+
+    function hideLoading() {
+        loadingCard.style.display = "none";
+
+        if (reloadAnalysisBtn) {
+            reloadAnalysisBtn.disabled = false;
+            reloadAnalysisBtn.textContent = "Regenerate Analysis｜重新產生分析";
+        }
+    }
+
+    function showError(message) {
+        hideLoading();
+        errorCard.classList.add("show");
+        errorText.textContent = message || "Please try again later. 請稍後再試。";
+    }
+
+    function renderAnalysis(payload) {
+        const analysis = payload.analysis || {};
+        const learningData = payload.learning_data || {};
+        const student = learningData.student || {};
+        const conversation = learningData.conversation || {};
+        const practice = learningData.vocabulary_practice || {};
+        const review = learningData.vocabulary_review || {};
+
+        setText("overallEn", analysis.overall_status_en);
+        setText("overallZh", analysis.overall_status_zh);
+
+        setText("cefrEn", analysis.cefr_assessment_en);
+        setText("cefrZh", analysis.cefr_assessment_zh);
+
+        setText("chatEn", analysis.conversation_ability_en);
+        setText("chatZh", analysis.conversation_ability_zh);
+
+        setText("sentenceEn", analysis.sentence_ability_en);
+        setText("sentenceZh", analysis.sentence_ability_zh);
+
+        setText("quizEn", analysis.quiz_ability_en);
+        setText("quizZh", analysis.quiz_ability_zh);
+
+        setText("vocabEn", analysis.vocabulary_ability_en);
+        setText("vocabZh", analysis.vocabulary_ability_zh);
+
+        setText("strategyEn", analysis.review_strategy_en);
+        setText("strategyZh", analysis.review_strategy_zh);
+
+        setText("metricCefr", student.cefr_level || "--");
+        setText("metricChats", conversation.completed_sessions ?? "--");
+        setText("metricPractice", practice.accuracy !== undefined ? practice.accuracy + "%" : "--");
+        setText("metricReview", review.success_rate !== undefined ? review.success_rate + "%" : "--");
+
+        setScoreCircle(analysis.composite_score);
+
+        const source = analysis.source === "gemini"
+            ? "Gemini AI｜Gemini 分析"
+            : "System Fallback｜系統備用分析";
+
+        setText("sourcePill", "Source｜來源：" + source);
+
+        clearList("strengthList");
+        clearList("weaknessList");
+        clearList("actionList");
+
+        (analysis.strengths || []).forEach(function (item) {
+            addBilingualListItem("strengthList", item);
+        });
+
+        (analysis.weaknesses || []).forEach(function (item) {
+            addBilingualListItem("weaknessList", item);
+        });
+
+        (analysis.recommended_actions || []).forEach(function (item) {
+            addBilingualListItem("actionList", item);
+        });
+
+        const weakWordTags = document.getElementById("weakWordTags");
+
+        if (weakWordTags) {
+            weakWordTags.innerHTML = "";
+
+            const words = analysis.weak_words || [];
+
+            if (words.length === 0) {
+                const tag = document.createElement("span");
+                tag.className = "word-tag";
+                tag.textContent = "No obvious weak words yet｜目前沒有明顯弱點單字";
+                weakWordTags.appendChild(tag);
+            } else {
+                words.forEach(function (word) {
+                    const tag = document.createElement("span");
+                    tag.className = "word-tag";
+                    tag.textContent = word;
+                    weakWordTags.appendChild(tag);
+                });
+            }
+        }
+
+        hideLoading();
+        analysisContent.classList.add("show");
+    }
+
+    async function loadAnalytics() {
+        showLoading();
+
+        try {
+            const response = await fetch("/api/analytics/report", {
+                method: "GET",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
+
+            let data = null;
+
+            try {
+                data = await response.json();
+            } catch (jsonError) {
+                data = null;
+            }
+
+            if (!response.ok || !data || !data.ok) {
+                const errorMessage = data && data.error
+                    ? data.error
+                    : "Failed to load analysis. 分析載入失敗。";
+
+                throw new Error(errorMessage);
+            }
+
+            renderAnalysis(data);
+
+        } catch (error) {
+            console.error("Failed to load analytics:", error);
+            showError(error.message || "Failed to load analysis. 分析載入失敗。");
+        }
+    }
+
+    if (reloadAnalysisBtn) {
+        reloadAnalysisBtn.addEventListener("click", loadAnalytics);
+    }
+
+    document.addEventListener("DOMContentLoaded", loadAnalytics);
 </script>
 
 {% endblock %}

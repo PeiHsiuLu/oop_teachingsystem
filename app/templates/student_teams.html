@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Team Up{% endblock %}
+{% block title %}Team Up｜團隊學習｜團隊學習{% endblock %}
 
 {% block content %}
 
@@ -602,7 +602,7 @@
             <div class="team-up-icon">👥</div>
 
             <div>
-                <h2 class="team-up-title">Team Up</h2>
+                <h2 class="team-up-title">Team Up｜團隊學習</h2>
                 <p class="team-up-subtitle">
                     Create or join a study group, learn with teammates, and track your team progress together.
                 </p>
@@ -611,7 +611,7 @@
 
         <div class="top-actions">
             <a href="{{ url_for('team.leaderboard') }}" class="top-link-btn">
-                🏆 View Team Leaderboard
+                🏆 View Team Leaderboard｜排行榜
             </a>
         </div>
     </div>
@@ -622,7 +622,7 @@
         <form action="{{ url_for('team.create_team') }}" method="POST">
             <div class="form-grid">
                 <div class="form-group">
-                    <label class="form-label" for="name">Team Name</label>
+                    <label class="form-label" for="name">Team Name｜團隊名稱</label>
                     <input
                         type="text"
                         id="name"
@@ -634,7 +634,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="description">Description</label>
+                    <label class="form-label" for="description">Description｜團隊描述</label>
                     <input
                         type="text"
                         id="description"
@@ -646,7 +646,7 @@
                 </div>
 
                 <button type="submit" class="create-btn">
-                    Create Team
+                    Create Team｜建立團隊
                 </button>
             </div>
         </form>
@@ -654,9 +654,9 @@
 
     <div class="groups-header">
         <div>
-            <h3 class="groups-title">Available Study Groups</h3>
+            <h3 class="groups-title">Available Study Groups｜可加入的學習團隊</h3>
             <p class="groups-subtitle">
-                Join a group, open a team page, or expand the leaderboard inside each team card.
+                Join｜加入 a group, open a team page, or expand the leaderboard inside each team card.<br>你可以加入團隊、查看團隊頁面，或展開團隊排行榜。
             </p>
         </div>
     </div>
@@ -691,10 +691,10 @@
                     </div>
 
                     <div class="group-stats">
-                        <span class="group-pill">Members: {{ group.members|length }}</span>
+                        <span class="group-pill">Members｜成員｜成員： {{ group.members|length }}</span>
 
                         {% if ns.is_member %}
-                            <span class="group-pill member">Joined</span>
+                            <span class="group-pill member">Join｜加入ed｜已加入</span>
                         {% endif %}
                     </div>
 
@@ -702,35 +702,35 @@
                         {% if ns.is_member %}
                             <form action="{{ url_for('team.leave_team', group_id=group.id) }}" method="POST">
                                 <button type="submit" class="team-btn leave">
-                                    Leave
+                                    Leave｜離開
                                 </button>
                             </form>
                         {% else %}
                             <form action="{{ url_for('team.join_team', group_id=group.id) }}" method="POST">
                                 <button type="submit" class="team-btn join">
-                                    Join
+                                    Join｜加入
                                 </button>
                             </form>
                         {% endif %}
 
                         <a href="{{ url_for('team.team_detail', group_id=group.id) }}" class="team-btn page">
-                            Team Page
+                            Team Page｜團隊頁面
                         </a>
                     </div>
 
                     <div class="leaderboard-preview">
                         <div class="leaderboard-preview-title">
-                            <h5>Leaderboard</h5>
+                            <h5>Leaderboard｜排行榜</h5>
 
                             <div class="leaderboard-title-actions">
-                                <span class="leaderboard-tag">Top 3</span>
+                                <span class="leaderboard-tag">Top 3｜前三名</span>
 
                                 <button
                                     type="button"
                                     class="toggle-rank-btn"
                                     onclick="toggleFullRank('full-rank-{{ group.id }}', this)"
                                 >
-                                    Show Full
+                                    Show Full｜展開
                                 </button>
                             </div>
                         </div>
@@ -761,7 +761,7 @@
                                             </div>
 
                                             <div class="rank-meta">
-                                                XP: {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
+                                                XP｜經驗值： {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
                                             </div>
                                         </div>
                                     {% endif %}
@@ -784,14 +784,14 @@
                                         </div>
 
                                         <div class="rank-meta">
-                                            XP: {{ ns.my_member.xp|default(0) }} · Lv. {{ ns.my_member.level|default(1) }}
+                                            XP｜經驗值： {{ ns.my_member.xp|default(0) }} · Lv. {{ ns.my_member.level|default(1) }}
                                         </div>
                                     </div>
                                 {% endif %}
                             </div>
 
                             <div class="full-rank-list" id="full-rank-{{ group.id }}">
-                                <p class="full-rank-label">Full Leaderboard</p>
+                                <p class="full-rank-label">Full Leaderboard｜完整排行榜｜排行榜</p>
 
                                 {% for member in ranked_members %}
                                     <div class="rank-row {% if member.id|string == current_user.id|string %}me{% endif %}">
@@ -816,7 +816,7 @@
                                         </div>
 
                                         <div class="rank-meta">
-                                            XP: {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
+                                            XP｜經驗值： {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -829,7 +829,7 @@
                     </div>
 
                     <div class="members-preview">
-                        <p class="members-preview-title">Members</p>
+                        <p class="members-preview-title">Members｜成員</p>
 
                         {% if group.members %}
                             <div class="member-list">
@@ -846,14 +846,14 @@
                                         </div>
 
                                         <div class="member-meta">
-                                            XP: {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
+                                            XP｜經驗值： {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
                                         </div>
                                     </div>
                                 {% endfor %}
                             </div>
                         {% else %}
                             <div class="small-empty-state">
-                                No members yet.
+                                No members yet.｜目前尚無成員。
                             </div>
                         {% endif %}
                     </div>
@@ -878,9 +878,9 @@
         panel.classList.toggle("open");
 
         if (panel.classList.contains("open")) {
-            button.textContent = "Hide Full";
+            button.textContent = "Hide Full｜收合";
         } else {
-            button.textContent = "Show Full";
+            button.textContent = "Show Full｜展開";
         }
     }
 </script>

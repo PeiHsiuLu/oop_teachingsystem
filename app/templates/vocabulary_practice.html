@@ -4,75 +4,281 @@
 {% block content %}
 
 <style>
-    .practice-card {
-        border: 2px solid #007bff;
-        border-radius: 10px;
-        padding: 24px;
-        background-color: #fdfdfd;
-        margin-top: 20px;
+    .vocab-practice-page {
+        max-width: 980px;
+        margin: 0 auto;
+        animation: fadeSlideUp 0.55s ease both;
     }
 
-    .sentence-box {
-        font-size: 1.5rem;
-        line-height: 1.8;
-        margin: 20px 0;
-        padding: 18px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        border: 1px solid #e0e0e0;
+    .practice-header {
+        margin-bottom: 1.35rem;
+    }
+
+    .practice-title {
+        margin: 0;
+        color: #111827;
+        font-size: 2rem;
+        font-weight: 950;
+        letter-spacing: -0.03em;
+    }
+
+    .practice-subtitle {
+        margin-top: 0.5rem;
+        color: #6b7280;
+        line-height: 1.7;
+    }
+
+    .level-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        margin-top: 0.8rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        background: #eaf4ff;
+        color: #007bff;
+        font-weight: 950;
+    }
+
+    .practice-card {
+        border: 1px solid #dbeafe;
+        border-radius: 22px;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        margin-top: 1.2rem;
+    }
+
+    .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.1rem;
+        flex-wrap: wrap;
+    }
+
+    .card-title {
+        margin: 0;
+        color: #111827;
+        font-size: 1.35rem;
+        font-weight: 950;
+    }
+
+    .card-title-zh {
+        margin-top: 0.25rem;
+        color: #4b5563;
+        font-weight: 900;
+    }
+
+    .difficulty-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.4rem 0.8rem;
+        border-radius: 999px;
+        background: #f3e8ff;
+        color: #6f42c1;
+        font-weight: 950;
+        white-space: nowrap;
     }
 
     .hint-box {
         background-color: #eaf4ff;
         border-left: 5px solid #007bff;
-        padding: 12px 16px;
-        border-radius: 6px;
-        margin-bottom: 20px;
+        padding: 0.9rem 1rem;
+        border-radius: 12px;
+        margin-bottom: 1.2rem;
+        color: #1f2937;
+        line-height: 1.65;
+    }
+
+    .hint-label {
+        font-weight: 950;
+        color: #111827;
+    }
+
+    .hint-muted {
+        color: #4b5563;
+        font-weight: 700;
+    }
+
+    .sentence-box {
+        font-size: 1.45rem;
+        line-height: 1.85;
+        margin: 1.2rem 0;
+        padding: 1.2rem;
+        background-color: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.02);
+        color: #111827;
+    }
+
+    .form-section {
+        margin-top: 1.3rem;
+    }
+
+    .answer-label {
+        display: block;
+        margin-bottom: 0.55rem;
+        color: #111827;
+        font-weight: 950;
+        line-height: 1.5;
+    }
+
+    .answer-label span {
+        color: #6b7280;
+        font-size: 0.92rem;
+        font-weight: 850;
     }
 
     .answer-input {
-        padding: 10px;
-        width: 320px;
+        padding: 0.8rem 0.95rem;
+        width: min(100%, 360px);
         font-size: 1rem;
-        margin-top: 8px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        background: #ffffff;
+        transition: all 0.18s ease;
     }
 
     .answer-input:focus {
         outline: none;
         border-color: #007bff;
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+        box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
+    }
+
+    .form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.2rem;
     }
 
     .result-box {
-        border-radius: 10px;
-        padding: 20px;
-        background-color: #fdfdfd;
-        margin-top: 20px;
+        border-radius: 22px;
+        padding: 1.5rem;
+        background-color: #ffffff;
+        margin-top: 1.2rem;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
     }
 
     .correct-box {
-        border: 2px solid #28a745;
+        border: 1px solid #86efac;
+        background: linear-gradient(135deg, #ffffff, #f0fdf4);
     }
 
     .incorrect-box {
-        border: 2px solid #dc3545;
+        border: 1px solid #fecaca;
+        background: linear-gradient(135deg, #ffffff, #fff7f7);
+    }
+
+    .result-title {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 950;
+    }
+
+    .result-title.correct {
+        color: #15803d;
+    }
+
+    .result-title.incorrect {
+        color: #dc3545;
+    }
+
+    .result-subtitle {
+        margin: 0.35rem 0 0;
+        color: #6b7280;
+        font-weight: 850;
+    }
+
+    .answer-summary {
+        margin-top: 1rem;
+        padding: 0.9rem 1rem;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        line-height: 1.7;
+    }
+
+    .xp-box {
+        padding: 1rem;
+        border-radius: 16px;
+        background-color: #eaf4ff;
+        border: 1px solid #b6dcff;
+        margin-top: 1rem;
+        line-height: 1.75;
+        color: #1f2937;
     }
 
     .word-detail {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 16px;
-        margin-top: 16px;
+        background-color: #f8fafc;
+        border-radius: 18px;
+        padding: 1.1rem;
+        margin-top: 1rem;
+        border: 1px solid #e5e7eb;
+    }
+
+    .word-detail-title {
+        margin: 0;
+        color: #111827;
+        font-size: 1.25rem;
+        font-weight: 950;
+    }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    .detail-item {
+        padding: 0.85rem;
+        border-radius: 14px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        line-height: 1.65;
+    }
+
+    .detail-label {
+        display: block;
+        margin-bottom: 0.25rem;
+        color: #6b7280;
+        font-size: 0.88rem;
+        font-weight: 900;
+    }
+
+    .detail-value {
+        color: #111827;
+        font-weight: 750;
     }
 
     .level-up-box {
-        padding: 12px;
-        border-radius: 8px;
+        padding: 1rem;
+        border-radius: 16px;
         background-color: #fff3cd;
         border: 1px solid #ffeeba;
-        margin-top: 15px;
+        margin-top: 1rem;
+        color: #856404;
+        font-weight: 900;
+        line-height: 1.7;
+    }
+
+    .empty-card {
+        border: 1px solid #facc15;
+        border-radius: 20px;
+        padding: 1.4rem;
+        margin-top: 1.2rem;
+        background: #fffbeb;
+        color: #78350f;
+    }
+
+    .empty-card h3 {
+        margin-top: 0;
+        font-weight: 950;
     }
 
     /* Modal */
@@ -84,201 +290,336 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.55);
+        background: rgba(15, 23, 42, 0.58);
         justify-content: center;
         align-items: center;
+        padding: 1rem;
     }
 
     .modal-content {
         background: white;
-        width: 90%;
-        max-width: 620px;
-        border-radius: 12px;
-        padding: 28px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        width: 100%;
+        max-width: 650px;
+        border-radius: 22px;
+        padding: 1.6rem;
+        box-shadow: 0 24px 54px rgba(0, 0, 0, 0.25);
+        border: 1px solid #e5e7eb;
     }
 
     .modal-content h3 {
         margin-top: 0;
-        color: #343a40;
+        color: #111827;
+        font-size: 1.45rem;
+        font-weight: 950;
+    }
+
+    .modal-content p {
+        color: #4b5563;
+        line-height: 1.7;
     }
 
     .modal-content ul {
         line-height: 1.8;
-        padding-left: 20px;
+        padding-left: 1.3rem;
+        color: #374151;
     }
 
     .modal-example {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 12px 16px;
-        margin: 16px 0;
-        border: 1px solid #e0e0e0;
+        background-color: #f8fafc;
+        border-radius: 16px;
+        padding: 1rem;
+        margin: 1rem 0;
+        border: 1px solid #e5e7eb;
+        line-height: 1.75;
+    }
+
+    .modal-note {
+        padding: 0.85rem 1rem;
+        border-radius: 14px;
+        background: #eaf4ff;
+        border: 1px solid #b6dcff;
+        color: #1f2937;
+        margin-bottom: 1rem;
+        line-height: 1.7;
+    }
+
+    @keyframes fadeSlideUp {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .practice-title {
+            font-size: 1.65rem;
+        }
+
+        .practice-card,
+        .result-box {
+            padding: 1.1rem;
+            border-radius: 18px;
+        }
+
+        .sentence-box {
+            font-size: 1.2rem;
+            padding: 1rem;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .form-actions .btn {
+            width: 100%;
+        }
+
+        .modal-content {
+            padding: 1.25rem;
+        }
     }
 </style>
 
-<h2>Vocabulary Practice</h2>
+<div class="vocab-practice-page">
+    <div class="practice-header">
+        <h2 class="practice-title">
+            Vocabulary Practice｜單字練習
+        </h2>
 
-<p>
-    Current CEFR Level:
-    <strong>{{ current_user.cefr_level | default("A1") }}</strong>
-</p>
-
-{% if question %}
-
-<div class="practice-card">
-    <h3>Fill in the blank</h3>
-
-    <div class="hint-box">
-        <strong>Hint:</strong>
-        The missing word shows its first and last letters.
-        <br>
-        Hint format:
-        <strong>{{ question.hint_word }}</strong>
-    </div>
-
-    <div class="sentence-box">
-        {{ question.blank_sentence }}
-    </div>
-
-    <p>
-        Difficulty:
-        <strong>{{ question.difficulty_level }}</strong>
-    </p>
-
-    <form method="POST" action="{{ url_for('vocabulary_practice.submit_practice_answer') }}">
-        <input type="hidden" name="word_id" value="{{ question.word_id }}">
-        <input type="hidden" name="target_answer" value="{{ question.target_answer }}">
-
-        <label for="user_answer">
-            <strong>Your Answer:</strong>
-        </label>
-        <br>
-
-        <input
-            type="text"
-            id="user_answer"
-            name="user_answer"
-            class="answer-input"
-            placeholder="Type the missing word here"
-            autocomplete="off"
-            required
-        >
-
-        <br><br>
-
-        <button type="submit" class="btn btn-primary">
-            Submit Answer
-        </button>
-
-        <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary" style="margin-left: 10px;">
-            Back to Dashboard
-        </a>
-    </form>
-</div>
-
-{% elif result %}
-
-<div class="result-box {% if result.is_correct %}correct-box{% else %}incorrect-box{% endif %}">
-    {% if result.is_correct %}
-        <h3 style="color: #28a745;">Correct!</h3>
-    {% else %}
-        <h3 style="color: #dc3545;">Incorrect</h3>
-        <p>
-            Your answer:
-            <strong>{{ result.user_answer }}</strong>
-        </p>
-    {% endif %}
-
-    <p>
-        Correct answer:
-        <strong>{{ result.correct_answer }}</strong>
-    </p>
-    <div style="padding: 12px; border-radius: 8px; background-color: #eaf4ff; border: 1px solid #b6dcff; margin-top: 15px;">
-        You gained <strong>{{ result.xp_gained }}</strong> XP.
-        <br>
-        Current Level: <strong>{{ result.user_level }}</strong>
-        <br>
-        Total XP: <strong>{{ result.user_xp }}</strong>
-    </div>
-
-    <hr>
-
-    <h3>Word Detail</h3>
-
-    <div class="word-detail">
-        <p>
-            <strong>Word:</strong>
-            {{ result.word_text }}
+        <p class="practice-subtitle">
+            Complete the sentence by typing the missing English word.
+            <br>
+            請根據句子脈絡，輸入空格中缺少的英文單字。
         </p>
 
-        <p>
-            <strong>Definition:</strong>
-            {{ result.definition }}
-        </p>
-
-        <p>
-            <strong>Part of Speech:</strong>
-            {{ result.part_of_speech }}
-        </p>
-
-        <p>
-            <strong>Difficulty:</strong>
-            {{ result.difficulty_level }}
-        </p>
-
-        <p>
-            <strong>Example:</strong>
-            {{ result.example_sentence }}
-        </p>
-    </div>
-
-    {% if result.leveled_up %}
-        <div class="level-up-box">
-            🎉 Congratulations! Your CEFR level has been upgraded to
-            <strong>{{ result.current_cefr_level }}</strong>.
+        <div class="level-pill">
+            Current CEFR Level｜目前 CEFR 等級：
+            <strong>{{ current_user.cefr_level | default("A1") }}</strong>
         </div>
+    </div>
+
+    {% if question %}
+
+        <div class="practice-card">
+            <div class="card-top">
+                <div>
+                    <h3 class="card-title">
+                        Fill in the Blank
+                    </h3>
+
+                    <div class="card-title-zh">
+                        句子填空
+                    </div>
+                </div>
+
+                <div class="difficulty-pill">
+                    Difficulty｜難度：{{ question.difficulty_level }}
+                </div>
+            </div>
+
+            <div class="hint-box">
+                <div>
+                    <span class="hint-label">Hint｜提示：</span>
+                    <span class="hint-muted">
+                        The missing word shows its first and last letters.
+                        <br>
+                        缺少的單字會顯示第一個與最後一個字母。
+                    </span>
+                </div>
+
+                <div style="margin-top: 0.45rem;">
+                    <span class="hint-label">Hint format｜提示格式：</span>
+                    <strong>{{ question.hint_word }}</strong>
+                </div>
+            </div>
+
+            <div class="sentence-box">
+                {{ question.blank_sentence }}
+            </div>
+
+            <form method="POST" action="{{ url_for('vocabulary_practice.submit_practice_answer') }}" class="form-section">
+                <input type="hidden" name="word_id" value="{{ question.word_id }}">
+                <input type="hidden" name="target_answer" value="{{ question.target_answer }}">
+
+                <label for="user_answer" class="answer-label">
+                    Your Answer｜你的答案
+                    <br>
+                    <span>Type the complete missing English word. 請輸入完整的英文單字。</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="user_answer"
+                    name="user_answer"
+                    class="answer-input"
+                    placeholder="Type the missing word here"
+                    autocomplete="off"
+                    required
+                >
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        Submit Answer｜送出答案
+                    </button>
+
+                    <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
+                        Back to Dashboard｜回到首頁
+                    </a>
+                </div>
+            </form>
+        </div>
+
+    {% elif result %}
+
+        <div class="result-box {% if result.is_correct %}correct-box{% else %}incorrect-box{% endif %}">
+            {% if result.is_correct %}
+                <h3 class="result-title correct">
+                    Correct!｜答對了！
+                </h3>
+
+                <p class="result-subtitle">
+                    Great job. You completed this vocabulary sentence.
+                    <br>
+                    做得很好，你完成了這題單字句子練習。
+                </p>
+            {% else %}
+                <h3 class="result-title incorrect">
+                    Incorrect｜答錯了
+                </h3>
+
+                <p class="result-subtitle">
+                    Review the correct answer and word details below.
+                    <br>
+                    請查看下方的正確答案與單字資訊。
+                </p>
+
+                <div class="answer-summary">
+                    Your answer｜你的答案：
+                    <strong>{{ result.user_answer }}</strong>
+                </div>
+            {% endif %}
+
+            <div class="answer-summary">
+                Correct answer｜正確答案：
+                <strong>{{ result.correct_answer }}</strong>
+            </div>
+
+            <div class="xp-box">
+                You gained <strong>{{ result.xp_gained }}</strong> XP.
+                <br>
+                你獲得了 <strong>{{ result.xp_gained }}</strong> 點經驗值。
+                <br>
+                Current Level｜目前等級：
+                <strong>{{ result.user_level }}</strong>
+                <br>
+                Total XP｜總經驗值：
+                <strong>{{ result.user_xp }}</strong>
+            </div>
+
+            <div class="word-detail">
+                <h3 class="word-detail-title">
+                    Word Detail｜單字資訊
+                </h3>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Word｜單字</span>
+                        <span class="detail-value">{{ result.word_text }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Definition｜定義</span>
+                        <span class="detail-value">{{ result.definition }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Part of Speech｜詞性</span>
+                        <span class="detail-value">{{ result.part_of_speech }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Difficulty｜難度</span>
+                        <span class="detail-value">{{ result.difficulty_level }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Example｜例句</span>
+                        <span class="detail-value">{{ result.example_sentence }}</span>
+                    </div>
+                </div>
+            </div>
+
+            {% if result.leveled_up %}
+                <div class="level-up-box">
+                    🎉 Congratulations! Your CEFR level has been upgraded to
+                    <strong>{{ result.current_cefr_level }}</strong>.
+                    <br>
+                    恭喜！你的 CEFR 等級已提升至
+                    <strong>{{ result.current_cefr_level }}</strong>。
+                </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <a href="{{ url_for('vocabulary_practice.practice_page') }}" class="btn btn-primary">
+                    Next Question｜下一題
+                </a>
+
+                <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
+                    Back to Dashboard｜回到首頁
+                </a>
+            </div>
+        </div>
+
+    {% else %}
+
+        <div class="empty-card">
+            <h3>
+                No vocabulary question available.
+                <br>
+                目前沒有可用的單字題目。
+            </h3>
+
+            <p>
+                There are no words with example sentences for your current CEFR level.
+                Please ask the admin to add more words.
+                <br>
+                目前你的 CEFR 等級沒有足夠的單字例句題目，請請管理員新增更多單字。
+            </p>
+
+            <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
+                Back to Dashboard｜回到首頁
+            </a>
+        </div>
+
     {% endif %}
-
-    <br>
-
-    <a href="{{ url_for('vocabulary_practice.practice_page') }}" class="btn btn-primary">
-        Next Question
-    </a>
-
-    <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary" style="margin-left: 10px;">
-        Back to Dashboard
-    </a>
 </div>
-
-{% else %}
-
-<div style="border: 2px solid #ffc107; border-radius: 8px; padding: 20px; margin-top: 20px;">
-    <h3>No vocabulary question available.</h3>
-
-    <p>
-        There are no words with example sentences for your current CEFR level.
-        Please ask the admin to add more words.
-    </p>
-
-    <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
-        Back to Dashboard
-    </a>
-</div>
-
-{% endif %}
 
 <!-- First-time instruction modal -->
 <div id="practiceGuideModal" class="modal-overlay">
     <div class="modal-content">
-        <h3>How to Play Vocabulary Practice</h3>
+        <h3>
+            How to Play Vocabulary Practice｜單字練習玩法
+        </h3>
 
         <p>
             In this activity, you will complete a sentence by guessing the missing vocabulary word.
+            <br>
+            在這個練習中，你需要根據句子脈絡猜出空格中的英文單字。
         </p>
 
+        <div class="modal-note">
+            The test sentence itself will remain in English because it is used to evaluate your vocabulary ability.
+            <br>
+            題目句子本身會維持英文，因為它是用來測試你的單字理解能力。
+        </div>
+
         <div class="modal-example">
-            <strong>Example:</strong>
+            <strong>Example｜範例：</strong>
             <br>
             Sentence: I eat an a___e every day.
             <br>
@@ -286,16 +627,16 @@
         </div>
 
         <ul>
-            <li>The system chooses words based on your current CEFR level.</li>
-            <li>The missing word will show its first and last letters as hints.</li>
-            <li>Type the full missing word in the answer box.</li>
-            <li>After you submit, the system will show whether your answer is correct.</li>
-            <li>Whether you answer correctly or incorrectly, you will see the word details.</li>
-            <li>If you keep performing well, your CEFR level may increase automatically.</li>
+            <li>The system chooses words based on your current CEFR level. 系統會根據你目前的 CEFR 等級出題。</li>
+            <li>The missing word will show its first and last letters as hints. 缺少的單字會顯示第一個與最後一個字母作為提示。</li>
+            <li>Type the full missing word in the answer box. 請在答案欄輸入完整的英文單字。</li>
+            <li>After you submit, the system will show whether your answer is correct. 送出後，系統會顯示你的答案是否正確。</li>
+            <li>Whether you answer correctly or incorrectly, you will see the word details. 不論答對或答錯，你都會看到單字資訊。</li>
+            <li>If you keep performing well, your CEFR level may increase automatically. 如果表現穩定進步，CEFR 等級可能會自動提升。</li>
         </ul>
 
         <button id="startPracticeBtn" class="btn btn-primary">
-            Start Playing
+            Start Playing｜開始練習
         </button>
     </div>
 </div>

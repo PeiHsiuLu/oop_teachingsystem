@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block title %}Team Detail｜團隊頁面{% endblock %}
 {% block content %}
 
 <style>
@@ -383,14 +384,14 @@
                 {% if group.description %}
                     <p class="team-description">{{ group.description }}</p>
                 {% else %}
-                    <p class="team-description">No description provided.</p>
+                    <p class="team-description">No description provided.｜尚未提供團隊描述。</p>
                 {% endif %}
             </div>
         </div>
 
         <div class="team-actions">
             <a href="{{ url_for('group_chat.chat_room', group_id=group.id) }}" class="team-btn chat">
-                💬 Group Chat
+                💬 Group Chat｜團隊聊天室
             </a>
 
             {% if current_user_id == leader_id %}
@@ -403,12 +404,12 @@
 
     <div class="team-summary-grid">
         <div class="summary-card">
-            <div class="summary-label">Leader</div>
+            <div class="summary-label">Leader｜隊長</div>
             <div class="summary-value">{{ group.leader.username }}</div>
         </div>
 
         <div class="summary-card">
-            <div class="summary-label">Members</div>
+            <div class="summary-label">Members｜成員</div>
             <div class="summary-value">{{ group.members|length }}</div>
         </div>
     </div>
@@ -416,8 +417,8 @@
     <div class="section-card">
         <div class="section-title-row">
             <div>
-                <h3 class="section-title">Members</h3>
-                <p class="section-subtitle">Team members and their current learning progress.</p>
+                <h3 class="section-title">Members｜成員</h3>
+                <p class="section-subtitle">Team members and their current learning progress.<br>查看團隊成員與目前的學習進度。</p>
             </div>
         </div>
 
@@ -433,13 +434,13 @@
                             {{ member.username }}
 
                             {% if member.id|string == leader_id %}
-                                <span class="leader-badge">Leader</span>
+                                <span class="leader-badge">Leader｜隊長</span>
                             {% endif %}
                         </div>
 
                         <div class="member-meta">
                             XP: {{ member.xp|default(0) }}
-                            · Level: {{ member.level|default(1) }}
+                            · Level｜等級: {{ member.level|default(1) }}
                         </div>
                     </div>
                 </div>
@@ -450,8 +451,8 @@
     <div class="section-card">
         <div class="section-title-row">
             <div>
-                <h3 class="section-title">Team Challenges</h3>
-                <p class="section-subtitle">Work together to complete team goals and earn rewards.</p>
+                <h3 class="section-title">Team Challenges｜團隊挑戰</h3>
+                <p class="section-subtitle">Work together to complete team goals and earn rewards.<br>一起完成團隊目標並獲得獎勵。</p>
             </div>
         </div>
 
@@ -474,7 +475,7 @@
                         </div>
 
                         <div class="progress-meta">
-                            <span>Progress</span>
+                            <span>Progress｜進度</span>
                             <span>{{ challenge.current_value }} / {{ challenge.target_value }} XP</span>
                         </div>
 
@@ -489,7 +490,7 @@
 
                         <div class="challenge-detail-grid">
                             <div class="challenge-detail">
-                                <div class="challenge-detail-label">Deadline</div>
+                                <div class="challenge-detail-label">Deadline｜截止日期</div>
                                 <div class="challenge-detail-value">
                                     {% if challenge.deadline %}
                                         {{ challenge.deadline.strftime('%Y-%m-%d') }}
@@ -500,14 +501,14 @@
                             </div>
 
                             <div class="challenge-detail">
-                                <div class="challenge-detail-label">Reward XP</div>
+                                <div class="challenge-detail-label">Reward XP｜獎勵經驗值</div>
                                 <div class="challenge-detail-value">
                                     +{{ challenge.reward_xp }} XP
                                 </div>
                             </div>
 
                             <div class="challenge-detail">
-                                <div class="challenge-detail-label">Reward Credit</div>
+                                <div class="challenge-detail-label">Reward Credit｜獎勵信用分數</div>
                                 <div class="challenge-detail-value">
                                     +{{ challenge.reward_credit }} Credit
                                 </div>
@@ -521,23 +522,23 @@
                                 </a>
                             </div>
                         {% elif challenge.reward_claimed == "yes" %}
-                            <p class="reward-claimed">Reward already claimed.</p>
+                            <p class="reward-claimed">Reward already claimed.｜獎勵已領取。</p>
                         {% else %}
-                            <p class="challenge-progress-text">Challenge in progress...</p>
+                            <p class="challenge-progress-text">Challenge in progress...｜挑戰進行中...</p>
                         {% endif %}
                     </div>
                 {% endfor %}
             </div>
         {% else %}
             <div class="empty-state">
-                No team challenges yet.
+                No team challenges yet.｜目前尚無團隊挑戰。
             </div>
         {% endif %}
     </div>
 
     <div class="page-footer-actions">
         <a href="{{ url_for('team.teams_dashboard') }}" class="team-btn back">
-            ← Back to Teams
+            ← Back to Teams｜回到團隊列表
         </a>
     </div>
 </div>

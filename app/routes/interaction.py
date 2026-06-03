@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import login_required, current_user
 
 from app.models.interaction import (
@@ -158,10 +158,6 @@ def get_topic_sessions(user, topic, limit=20):
         student=user,
         topic=topic,
     ).order_by("-started_at")[:limit]
-
-
-def get_session_message_count(session):
-    return InteractionMessage.objects(session=session).count()
 
 
 def get_session_preview(session):
@@ -430,7 +426,7 @@ def start_interaction_session(topic_id):
     topic = InteractionTopic.objects.get(id=topic_id)
 
     if not is_topic_unlocked(user, topic):
-        flash("This interaction topic is locked.", "warning")
+        flash("This interaction topic is locked. 此互動主題尚未解鎖。", "warning")
         return redirect(url_for("interaction.interaction_topics"))
 
     session = InteractionSession(
@@ -482,22 +478,38 @@ def interaction_chat(session_id):
 
     if request.method == "POST":
         action = request.form.get("action", "send")
+        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
 
         if action == "finish":
+            if is_ajax:
+                return jsonify({
+                    "ok": True,
+                    "redirect_url": url_for("interaction.finish_interaction_session", session_id=session.id),
+                })
+
             return redirect(url_for("interaction.finish_interaction_session", session_id=session.id))
 
         user_message = request.form.get("message", "").strip()
 
         if not user_message:
-            flash("Please enter a message.", "warning")
+            if is_ajax:
+                return jsonify({
+                    "ok": False,
+                    "error": "Please enter a message. 請輸入訊息。",
+                }), 400
+
+            flash("Please enter a message. 請輸入訊息。", "warning")
             return redirect(url_for("interaction.interaction_chat", session_id=session.id))
 
-        InteractionMessage(
+        user_created_at = datetime.utcnow()
+
+        user_message_doc = InteractionMessage(
             session=session,
             role="user",
             content=user_message,
-            created_at=datetime.utcnow(),
-        ).save()
+            created_at=user_created_at,
+        )
+        user_message_doc.save()
 
         message_xp = safe_add_xp(user, 2)
         session.xp_gained = getattr(session, "xp_gained", 0) + message_xp
@@ -505,19 +517,48 @@ def interaction_chat(session_id):
 
         messages = InteractionMessage.objects(session=session).order_by("created_at")
 
-        assistant_reply = gemini_service.generate_reply(
-            topic=topic,
-            student=user,
-            messages=messages,
-            user_message=user_message,
-        )
+        try:
+            assistant_reply = gemini_service.generate_reply(
+                topic=topic,
+                student=user,
+                messages=messages,
+                user_message=user_message,
+            )
+        except Exception as e:
+            print(f"[Interaction Chat] Failed to generate reply: {e}")
+            assistant_reply = (
+                "Sorry, I could not generate a reply right now. Please try again.\n"
+                "抱歉，我現在無法產生回覆，請稍後再試。"
+            )
 
-        InteractionMessage(
+        assistant_created_at = datetime.utcnow()
+
+        assistant_message_doc = InteractionMessage(
             session=session,
             role="assistant",
             content=assistant_reply,
-            created_at=datetime.utcnow(),
-        ).save()
+            created_at=assistant_created_at,
+        )
+        assistant_message_doc.save()
+
+        if is_ajax:
+            return jsonify({
+                "ok": True,
+                "user_message": {
+                    "id": str(user_message_doc.id),
+                    "role": "user",
+                    "content": user_message_doc.content,
+                    "created_at": user_created_at.isoformat(),
+                },
+                "assistant_message": {
+                    "id": str(assistant_message_doc.id),
+                    "role": "assistant",
+                    "content": assistant_message_doc.content,
+                    "created_at": assistant_created_at.isoformat(),
+                },
+                "xp_added": message_xp,
+                "session_xp_gained": session.xp_gained,
+            })
 
         return redirect(url_for("interaction.interaction_chat", session_id=session.id))
 

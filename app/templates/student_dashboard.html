@@ -4,125 +4,359 @@
 {% block content %}
 
 <style>
-    .leaderboard-section {
-        margin-top: 1.5rem;
-        padding: 1.5rem;
+    .student-dashboard {
+        animation: dashboardFadeIn 0.65s ease both;
+    }
+
+    .dashboard-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+        gap: 1rem;
+        align-items: stretch;
+        margin-bottom: 1.25rem;
+    }
+
+    .hero-main {
+        border-radius: 24px;
+        padding: 1.6rem;
+        background: linear-gradient(135deg, #007bff 0%, #4f46e5 55%, #7c3aed 100%);
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 18px 36px rgba(79, 70, 229, 0.18);
+    }
+
+    .hero-main::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        right: -80px;
+        top: -90px;
+    }
+
+    .hero-main::after {
+        content: "";
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.09);
+        left: -75px;
+        bottom: -85px;
+    }
+
+    .hero-badge,
+    .hero-title,
+    .hero-subtitle,
+    .hero-actions {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.42rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        font-weight: 950;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+    }
+
+    .hero-title {
+        margin: 0;
+        font-size: clamp(1.7rem, 3vw, 2.35rem);
+        line-height: 1.22;
+        font-weight: 950;
+        letter-spacing: -0.03em;
+    }
+
+    .hero-subtitle {
+        margin: 0.8rem 0 0;
+        line-height: 1.8;
+        opacity: 0.95;
+        max-width: 760px;
+    }
+
+    .hero-actions {
+        margin-top: 1.35rem;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+        max-width: 760px;
+    }
+
+    .hero-btn {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.65rem;
+
+        min-height: 68px;
+        padding: 0.85rem 1rem;
+        border-radius: 18px;
+
+        color: #ffffff;
+        font-weight: 950;
+        text-decoration: none;
+
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.26);
+        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+
+        transition: all 0.18s ease;
+    }
+
+    .hero-btn:hover {
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 16px 30px rgba(15, 23, 42, 0.14);
+    }
+
+    .hero-btn.primary {
+        background: rgba(255, 255, 255, 0.22);
+        border-color: rgba(255, 255, 255, 0.38);
+    }
+
+    .hero-btn-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 14px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 1.15rem;
+        flex-shrink: 0;
+
+        background: rgba(255, 255, 255, 0.22);
+        color: #ffffff;
+    }
+
+    .hero-btn.primary .hero-btn-icon {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .hero-btn-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.25;
+        min-width: 0;
+    }
+
+    .hero-btn-text span {
+        font-size: 0.98rem;
+        font-weight: 950;
+        white-space: nowrap;
+    }
+
+    .hero-btn-text small {
+        margin-top: 0.15rem;
+        font-size: 0.78rem;
+        font-weight: 850;
+        opacity: 0.85;
+        white-space: nowrap;
+    }
+
+    .profile-card {
+        border-radius: 24px;
+        padding: 1.3rem;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .profile-title {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 950;
+        color: #111827;
+        line-height: 1.5;
+    }
+
+    .profile-subtitle {
+        margin: 0.35rem 0 1rem;
+        color: #6b7280;
+        line-height: 1.6;
+    }
+
+    .profile-metrics {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+    }
+
+    .profile-metric {
+        padding: 0.85rem;
         border-radius: 16px;
-        background: linear-gradient(135deg, #ffffff, #f8f9ff);
-        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        background: #f8fafc;
         border: 1px solid #e5e7eb;
     }
 
-    .leaderboard-header {
+    .metric-label {
+        color: #6b7280;
+        font-size: 0.86rem;
+        font-weight: 850;
+    }
+
+    .metric-value {
+        margin-top: 0.2rem;
+        color: #111827;
+        font-size: 1.35rem;
+        font-weight: 950;
+    }
+
+    .metric-value.green {
+        color: #198754;
+    }
+
+    .metric-value.purple {
+        color: #6f42c1;
+    }
+
+    .metric-value.blue {
+        color: #007bff;
+    }
+
+    .dashboard-section {
+        margin-top: 1.25rem;
+        padding: 1.35rem;
+        border-radius: 22px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+    }
+
+    .section-header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
+        gap: 1rem;
         margin-bottom: 1rem;
     }
 
-    .leaderboard-title {
+    .section-title {
         margin: 0;
-        color: #343a40;
+        color: #111827;
+        font-size: 1.3rem;
+        font-weight: 950;
+        line-height: 1.4;
     }
 
-    .leaderboard-subtitle {
-        margin: 0.3rem 0 0;
-        color: #6c757d;
+    .section-subtitle {
+        margin: 0.35rem 0 0;
+        color: #6b7280;
+        line-height: 1.6;
     }
 
     .leaderboard-table-wrapper {
-        max-height: 420px;
+        max-height: 380px;
         overflow-y: auto;
         overflow-x: auto;
         padding-right: 0.4rem;
+        border-radius: 18px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
     }
 
     .leaderboard-table {
         width: 100%;
+        min-width: 720px;
         border-collapse: separate;
         border-spacing: 0 10px;
-    }
-
-    .leaderboard-table th {
-        padding: 10px;
-        color: #6c757d;
+        padding: 0.65rem;
     }
 
     .leaderboard-table thead th {
         position: sticky;
         top: 0;
         z-index: 5;
-        background: #f8f9ff;
-    }
-
-    .leaderboard-row {
-        background-color: #ffffff;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        border-radius: 12px;
-    }
-
-    .current-user-row {
-        background-color: #fff3cd;
-    }
-
-    .rank-cell {
-        padding: 14px 10px;
+        background: #f8fafc;
+        color: #6b7280;
+        padding: 0.8rem 0.75rem;
+        font-weight: 950;
         text-align: center;
-        border-top-left-radius: 12px;
-        border-bottom-left-radius: 12px;
-        font-weight: bold;
-        font-size: 1.1rem;
+        border-bottom: 1px solid #e5e7eb;
     }
 
-    .username-cell {
-        padding: 14px 10px;
+    .leaderboard-table thead th.username-head {
         text-align: left;
     }
 
-    .username-cell strong {
-        color: #212529;
+    .leaderboard-row td {
+        background: #ffffff;
+        padding: 0.85rem 0.75rem;
+        box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .leaderboard-row td:first-child {
+        border-top-left-radius: 14px;
+        border-bottom-left-radius: 14px;
+    }
+
+    .leaderboard-row td:last-child {
+        border-top-right-radius: 14px;
+        border-bottom-right-radius: 14px;
+    }
+
+    .current-user-row td {
+        background: #fff3cd;
+    }
+
+    .rank-cell {
+        text-align: center;
+        font-weight: 950;
+        font-size: 1.05rem;
+    }
+
+    .username-cell {
+        text-align: left;
+        font-weight: 950;
+        color: #111827;
     }
 
     .center-cell {
-        padding: 14px 10px;
         text-align: center;
     }
 
-    .last-cell {
-        border-top-right-radius: 12px;
-        border-bottom-right-radius: 12px;
-    }
-
     .you-badge {
-        margin-left: 8px;
-        padding: 3px 8px;
+        margin-left: 0.5rem;
+        padding: 0.25rem 0.55rem;
         border-radius: 999px;
         background-color: #ffc107;
         color: #212529;
         font-size: 0.75rem;
-        font-weight: bold;
+        font-weight: 950;
+    }
+
+    .xp-badge,
+    .level-badge,
+    .credit-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        font-weight: 950;
     }
 
     .xp-badge {
-        padding: 5px 12px;
-        border-radius: 8px;
         background-color: #e9f7ef;
         color: #198754;
-        font-weight: bold;
     }
 
     .level-badge {
-        padding: 5px 12px;
-        border-radius: 8px;
         background-color: #f3e8ff;
         color: #6f42c1;
-        font-weight: bold;
-    }
-
-    .credit-badge {
-        padding: 5px 12px;
-        border-radius: 8px;
-        font-weight: bold;
     }
 
     .credit-good {
@@ -146,334 +380,542 @@
         background-color: #f8f9fa;
         color: #6c757d;
         text-align: center;
+        font-weight: 850;
     }
 
-    .dashboard-grid {
+    .feature-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin-bottom: 30px;
-        margin-top: 30px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 1.25rem;
     }
 
-    .dashboard-card {
-        padding: 1rem;
-        background: #e9ecef;
-        border-radius: 8px;
+    .feature-card {
+        position: relative;
+        overflow: hidden;
+        min-height: 210px;
+        padding: 1.25rem;
+        border-radius: 22px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+        transition: all 0.18s ease;
     }
 
-    .feature-section {
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 30px;
-        background-color: #fdfdfd;
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.09);
     }
 
-    .feature-header {
-        padding-bottom: 10px;
-        margin-bottom: 15px;
+    .feature-card::after {
+        content: "";
+        position: absolute;
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        right: -60px;
+        top: -60px;
+        opacity: 0.12;
     }
 
-    .vocabulary-section {
-        border: 2px solid #007bff;
+    .feature-card.vocabulary::after {
+        background: #007bff;
     }
 
-    .vocabulary-header {
-        border-bottom: 2px solid #007bff;
+    .feature-card.course::after {
+        background: #28a745;
     }
 
-    .vocabulary-title {
-        color: #007bff;
+    .feature-card.analysis::after {
+        background: #17a2b8;
+    }
+
+    .feature-card.team::after {
+        background: #6f42c1;
+    }
+
+    .feature-card.achievement::after {
+        background: #ffc107;
+    }
+
+    .feature-card.interaction::after {
+        background: #22c55e;
+    }
+
+    .feature-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.55rem;
+        background: #f1f5f9;
+        margin-bottom: 0.9rem;
+    }
+
+    .feature-title {
         margin: 0;
+        font-size: 1.15rem;
+        font-weight: 950;
+        color: #111827;
     }
 
-    .course-section {
-        border: 2px solid #28a745;
+    .feature-title-zh {
+        margin-top: 0.2rem;
+        color: #4b5563;
+        font-weight: 900;
     }
 
-    .course-header {
-        border-bottom: 2px solid #28a745;
+    .feature-text {
+        margin: 0.8rem 0 1rem;
+        color: #6b7280;
+        line-height: 1.65;
     }
 
-    .course-title {
-        color: #28a745;
-        margin: 0;
+    .feature-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: auto;
     }
 
-    .analysis-section {
-        border: 2px solid #17a2b8;
-    }
-
-    .analysis-header {
-        border-bottom: 2px solid #17a2b8;
-    }
-
-    .analysis-title {
-        color: #17a2b8;
-        margin: 0;
-    }
-
-    .team-section {
-        border: 2px solid #6f42c1;
-    }
-
-    .team-header {
-        border-bottom: 2px solid #6f42c1;
-    }
-
-    .team-title {
-        color: #6f42c1;
-        margin: 0;
-    }
-
-    .green-button {
-        background-color: #28a745;
-        color: white;
+    .feature-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.62rem 0.9rem;
+        border-radius: 12px;
+        color: #ffffff;
+        font-weight: 950;
         text-decoration: none;
-        padding: 10px 15px;
-        border-radius: 4px;
-        font-weight: bold;
-        display: inline-block;
+        transition: all 0.18s ease;
     }
 
-    .green-button:hover {
-        background-color: #218838;
-        color: white;
+    .feature-btn:hover {
+        color: #ffffff;
         text-decoration: none;
+        transform: translateY(-1px);
     }
 
-    .blue-button {
-        background-color: #17a2b8;
-        color: white;
-        text-decoration: none;
-        padding: 10px 15px;
-        border-radius: 4px;
-        font-weight: bold;
-        display: inline-block;
+    .feature-btn.blue {
+        background: #007bff;
     }
 
-    .blue-button:hover {
-        background-color: #138496;
-        color: white;
-        text-decoration: none;
+    .feature-btn.green {
+        background: #28a745;
     }
 
-    .purple-button {
-        background-color: #6f42c1;
-        color: white;
-        text-decoration: none;
-        padding: 10px 15px;
-        border-radius: 4px;
-        font-weight: bold;
-        display: inline-block;
+    .feature-btn.cyan {
+        background: #17a2b8;
     }
 
-    .purple-button:hover {
-        background-color: #5a32a3;
-        color: white;
-        text-decoration: none;
+    .feature-btn.purple {
+        background: #6f42c1;
     }
 
-    @media (max-width: 768px) {
-        .dashboard-grid {
+    .feature-btn.dark {
+        background: #111827;
+    }
+
+    .feature-btn.gray {
+        background: #6c757d;
+    }
+
+    @keyframes dashboardFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 1100px) {
+        .dashboard-hero {
             grid-template-columns: 1fr;
         }
 
+        .profile-card {
+            width: 100%;
+        }
+
+        .profile-metrics {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 760px) {
+        .hero-main {
+            padding: 1.35rem;
+        }
+
+        .hero-title {
+            font-size: 1.75rem;
+        }
+
+        .hero-actions {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-btn {
+            width: 100%;
+        }
+
+        .profile-metrics {
+            grid-template-columns: 1fr;
+        }
+
+        .section-header {
+            flex-direction: column;
+        }
+
         .leaderboard-table-wrapper {
-            max-height: 360px;
+            max-height: 340px;
+        }
+
+        .feature-actions {
+            flex-direction: column;
+        }
+
+        .feature-btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-main {
+            padding: 1.1rem;
+            border-radius: 18px;
+        }
+
+        .hero-badge {
+            font-size: 0.9rem;
+            align-items: flex-start;
+        }
+
+        .hero-title {
+            font-size: 1.45rem;
+        }
+
+        .hero-subtitle {
+            font-size: 0.94rem;
+            line-height: 1.7;
+        }
+
+        .hero-btn {
+            min-height: 62px;
+            padding: 0.75rem 0.85rem;
+        }
+
+        .dashboard-section,
+        .profile-card,
+        .feature-card {
+            border-radius: 18px;
+            padding: 1rem;
         }
     }
 </style>
 
-<h2>Student Dashboard</h2>
+<div class="student-dashboard">
+    <section class="dashboard-hero">
+        <div class="hero-main">
+            <div class="hero-badge">
+                👋 Student Dashboard｜學生首頁
+            </div>
 
-<p>
-    Welcome back, <strong>{{ current_user.username }}</strong>!
-    Here is your daily learning overview.
-</p>
+            <h2 class="hero-title">
+                Welcome back, {{ current_user.username }}!
+                <br>
+                歡迎回來，{{ current_user.username }}！
+            </h2>
 
-<!-- Account Leaderboard Section -->
-<div class="leaderboard-section">
-    <div class="leaderboard-header">
-        <div>
-            <h3 class="leaderboard-title">🏆 Account Leaderboard</h3>
-            <p class="leaderboard-subtitle">
-                Ranking all students by XP.
+            <p class="hero-subtitle">
+                Here is your daily learning overview. Track your XP, CEFR level, vocabulary progress, AI chat practice, and team learning activities.
+                <br>
+                這裡是你的每日學習總覽。你可以追蹤經驗值、CEFR 等級、單字練習、AI 情境對話與團隊學習進度。
             </p>
+
+            <div class="hero-actions">
+                <a href="{{ url_for('course.student_learning_paths') }}" class="hero-btn primary">
+                    <span class="hero-btn-icon">🧩</span>
+                    <span class="hero-btn-text">
+                        <span>Start Learning</span>
+                        <small>開始學習</small>
+                    </span>
+                </a>
+
+                <a href="{{ url_for('vocabulary_practice.practice_page') }}" class="hero-btn secondary">
+                    <span class="hero-btn-icon">📚</span>
+                    <span class="hero-btn-text">
+                        <span>Vocabulary</span>
+                        <small>單字練習</small>
+                    </span>
+                </a>
+
+                <a href="{{ url_for('interaction.interaction_topics') }}" class="hero-btn secondary">
+                    <span class="hero-btn-icon">💬</span>
+                    <span class="hero-btn-text">
+                        <span>AI Chat</span>
+                        <small>AI 情境對話</small>
+                    </span>
+                </a>
+            </div>
         </div>
-    </div>
 
-    {% if user_leaderboard %}
-        <div class="leaderboard-table-wrapper">
-            <table class="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th style="text-align: center;">Rank</th>
-                        <th style="text-align: left;">Username</th>
-                        <th style="text-align: center;">XP</th>
-                        <th style="text-align: center;">Level</th>
-                        <th style="text-align: center;">Credit Score</th>
-                    </tr>
-                </thead>
+        <aside class="profile-card">
+            <h3 class="profile-title">
+                My Learning Profile｜我的學習資訊
+            </h3>
 
-                <tbody>
-                    {% for item in user_leaderboard %}
-                        {% set is_current = item.username == current_user.username %}
+            <p class="profile-subtitle">
+                Quick summary of your current progress.
+                <br>
+                快速查看目前的學習狀態。
+            </p>
 
-                        {% if item.credit_score >= 80 %}
-                            {% set credit_class = "credit-good" %}
-                        {% elif item.credit_score >= 50 %}
-                            {% set credit_class = "credit-medium" %}
-                        {% else %}
-                            {% set credit_class = "credit-low" %}
-                        {% endif %}
+            <div class="profile-metrics">
+                <div class="profile-metric">
+                    <div class="metric-label">XP｜經驗值</div>
+                    <div class="metric-value green">{{ current_user.xp | default(0) }}</div>
+                </div>
 
-                        <tr class="leaderboard-row {% if is_current %}current-user-row{% endif %}">
-                            <td class="rank-cell">
-                                {% if loop.index == 1 %}
-                                    🥇
-                                {% elif loop.index == 2 %}
-                                    🥈
-                                {% elif loop.index == 3 %}
-                                    🥉
-                                {% else %}
-                                    #{{ loop.index }}
-                                {% endif %}
-                            </td>
+                <div class="profile-metric">
+                    <div class="metric-label">Level｜等級</div>
+                    <div class="metric-value purple">Lv. {{ current_user.level | default(1) }}</div>
+                </div>
 
-                            <td class="username-cell">
-                                <strong>{{ item.username }}</strong>
+                <div class="profile-metric">
+                    <div class="metric-label">CEFR｜英文程度</div>
+                    <div class="metric-value blue">{{ current_user.cefr_level | default("A1") }}</div>
+                </div>
 
-                                {% if is_current %}
-                                    <span class="you-badge">You</span>
-                                {% endif %}
-                            </td>
+                <div class="profile-metric">
+                    <div class="metric-label">Credit Score｜信用分數</div>
+                    <div class="metric-value">{{ current_user.credit_score | default(100) }}</div>
+                </div>
+            </div>
+        </aside>
+    </section>
 
-                            <td class="center-cell">
-                                <span class="xp-badge">
-                                    {{ item.xp }} XP
-                                </span>
-                            </td>
+    <section class="dashboard-section">
+        <div class="section-header">
+            <div>
+                <h3 class="section-title">
+                    🏆 Account Leaderboard｜學生排行榜
+                </h3>
 
-                            <td class="center-cell">
-                                <span class="level-badge">
-                                    Lv. {{ item.level }}
-                                </span>
-                            </td>
+                <p class="section-subtitle">
+                    Ranking all students by XP. Your row will be highlighted if you are in the list.
+                    <br>
+                    依照經驗值排序所有學生。如果你在排行榜中，你的列會被標示出來。
+                </p>
+            </div>
+        </div>
 
-                            <td class="center-cell last-cell">
-                                <span class="credit-badge {{ credit_class }}">
-                                    {{ item.credit_score }}
-                                </span>
-                            </td>
+        {% if user_leaderboard %}
+            <div class="leaderboard-table-wrapper">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank<br>排名</th>
+                            <th class="username-head">Username<br>使用者</th>
+                            <th>XP<br>經驗值</th>
+                            <th>Level<br>等級</th>
+                            <th>Credit Score<br>信用分數</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        {% for item in user_leaderboard %}
+                            {% set is_current = item.username == current_user.username %}
+
+                            {% if item.credit_score >= 80 %}
+                                {% set credit_class = "credit-good" %}
+                            {% elif item.credit_score >= 50 %}
+                                {% set credit_class = "credit-medium" %}
+                            {% else %}
+                                {% set credit_class = "credit-low" %}
+                            {% endif %}
+
+                            <tr class="leaderboard-row {% if is_current %}current-user-row{% endif %}">
+                                <td class="rank-cell">
+                                    {% if loop.index == 1 %}
+                                        🥇
+                                    {% elif loop.index == 2 %}
+                                        🥈
+                                    {% elif loop.index == 3 %}
+                                        🥉
+                                    {% else %}
+                                        #{{ loop.index }}
+                                    {% endif %}
+                                </td>
+
+                                <td class="username-cell">
+                                    {{ item.username }}
+
+                                    {% if is_current %}
+                                        <span class="you-badge">You｜你</span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="center-cell">
+                                    <span class="xp-badge">
+                                        {{ item.xp }} XP
+                                    </span>
+                                </td>
+
+                                <td class="center-cell">
+                                    <span class="level-badge">
+                                        Lv. {{ item.level }}
+                                    </span>
+                                </td>
+
+                                <td class="center-cell">
+                                    <span class="credit-badge {{ credit_class }}">
+                                        {{ item.credit_score }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-leaderboard">
+                No students found.
+                <br>
+                目前沒有學生排行榜資料。
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="feature-grid">
+        <div class="feature-card vocabulary">
+            <div class="feature-icon">📚</div>
+
+            <h3 class="feature-title">Vocabulary Learning</h3>
+            <div class="feature-title-zh">單字學習</div>
+
+            <p class="feature-text">
+                Practice sentence completion and review vocabulary using spaced repetition.
+                <br>
+                透過句子填空與間隔複習強化單字能力。
+            </p>
+
+            <div class="feature-actions">
+                <a href="{{ url_for('vocabulary_practice.practice_page') }}" class="feature-btn blue">
+                    Practice｜練習
+                </a>
+
+                <a href="{{ url_for('srs.review_list') }}" class="feature-btn gray">
+                    Review｜複習
+                </a>
+            </div>
         </div>
-    {% else %}
-        <div class="empty-leaderboard">
-            No students found.
+
+        <div class="feature-card course">
+            <div class="feature-icon">🧩</div>
+
+            <h3 class="feature-title">Course Learning</h3>
+            <div class="feature-title-zh">課程學習</div>
+
+            <p class="feature-text">
+                Complete learning paths, chapters, units, and quizzes to earn XP.
+                <br>
+                完成學習路徑、章節、單元與測驗來累積經驗值。
+            </p>
+
+            <div class="feature-actions">
+                <a href="{{ url_for('course.student_learning_paths') }}" class="feature-btn green">
+                    Courses｜課程
+                </a>
+            </div>
         </div>
-    {% endif %}
-</div>
 
-<!-- Dashboard Grid -->
-<div class="dashboard-grid">
-    <div class="dashboard-card">
-        <h3>Learning Stats</h3>
-        <p>🏆 Level: <strong>{{ current_user.level | default(1) }}</strong></p>
-        <p>⭐ Current XP: <strong>{{ current_user.xp | default(0) }}</strong></p>
-    </div>
+        <div class="feature-card interaction">
+            <div class="feature-icon">💬</div>
 
-    <div class="dashboard-card">
-        <h3>Reputation</h3>
-        <p>Credit Score: <strong>{{ current_user.credit_score | default(100) }}</strong></p>
-    </div>
+            <h3 class="feature-title">AI Scenario Chat</h3>
+            <div class="feature-title-zh">AI 情境對話</div>
 
-    <div class="dashboard-card">
-        <h3>My Group</h3>
-        <a href="{{ url_for('team.teams_dashboard') }}" class="btn btn-primary">
-            View Study Groups
-        </a>
-    </div>
+            <p class="feature-text">
+                Practice realistic English conversations with Gemini-powered role-play topics.
+                <br>
+                使用 Gemini 情境角色扮演練習真實英文對話。
+            </p>
 
-    <div class="dashboard-card">
-        <h3>View Courses</h3>
-        <a href="{{ url_for('course.student_learning_paths') }}" class="btn btn-secondary">
-            Start Learning
-        </a>
-    </div>
-</div>
+            <div class="feature-actions">
+                <a href="{{ url_for('interaction.interaction_topics') }}" class="feature-btn green">
+                    Start Chat｜開始對話
+                </a>
+            </div>
+        </div>
 
-<!-- Vocabulary Learning Section -->
-<div class="feature-section vocabulary-section">
-    <div class="feature-header vocabulary-header">
-        <h3 class="vocabulary-title">Vocabulary Learning</h3>
-    </div>
+        <div class="feature-card analysis">
+            <div class="feature-icon">📊</div>
 
-    <p>
-        Practice vocabulary based on your current English level.
-    </p>
+            <h3 class="feature-title">Performance Analysis</h3>
+            <div class="feature-title-zh">學習成效分析</div>
 
-    <p>
-        Current CEFR Level:
-        <strong>{{ current_user.cefr_level | default("A1") }}</strong>
-    </p>
+            <p class="feature-text">
+                View your learning performance, weaknesses, and future improvement suggestions.
+                <br>
+                查看你的學習表現、弱點分析與後續改進建議。
+            </p>
 
-    <a href="{{ url_for('vocabulary_practice.practice_page') }}" class="btn btn-primary">
-        Start Sentence Practice
-    </a>
+            <div class="feature-actions">
+                <a href="{{ url_for('analytics.student_analytics_page') }}" class="feature-btn cyan">
+                    Analysis｜分析
+                </a>
+            </div>
+        </div>
 
-    <a href="{{ url_for('srs.review_list') }}" class="btn btn-secondary" style="margin-left: 10px;">
-        Start Vocabulary Review
-    </a>
-</div>
+        <div class="feature-card team">
+            <div class="feature-icon">👥</div>
 
-<!-- Course Interaction Section -->
-<div class="feature-section course-section">
-    <div class="feature-header course-header">
-        <h3 class="course-title">Course Interaction</h3>
-    </div>
+            <h3 class="feature-title">Team Up</h3>
+            <div class="feature-title-zh">團隊學習</div>
 
-    <p>
-        Practice Gemini-powered English scenario chatrooms.
-        Unlock this feature after reaching Level 5 and completing Path 1.
-    </p>
+            <p class="feature-text">
+                Join study groups, compare progress, and complete team challenges.
+                <br>
+                加入學習小組、比較進度，並完成團隊挑戰。
+            </p>
 
-    <a href="{{ url_for('interaction.interaction_topics') }}" class="green-button">
-        Start AI Scenario Chatrooms
-    </a>
-</div>
+            <div class="feature-actions">
+                <a href="{{ url_for('team.teams_dashboard') }}" class="feature-btn purple">
+                    Teams｜團隊
+                </a>
+            </div>
+        </div>
 
-<!-- Result Analysis Section -->
-<div class="feature-section analysis-section">
-    <div class="feature-header analysis-header">
-        <h3 class="analysis-title">Result Analysis</h3>
-    </div>
+        <div class="feature-card achievement">
+            <div class="feature-icon">🏅</div>
 
-    <p>
-        View your weakness reports and overall learning performance.
-    </p>
+            <h3 class="feature-title">Achievements</h3>
+            <div class="feature-title-zh">成就徽章</div>
 
-    <a href="{{ url_for('analytics.student_analytics_page') }}" class="blue-button">
-        View Performance Report
-    </a>
-</div>
+            <p class="feature-text">
+                Unlock badges by practicing, chatting, reviewing vocabulary, and taking quizzes.
+                <br>
+                透過練習、對話、單字複習與測驗解鎖徽章。
+            </p>
 
-<!-- Team Up Section -->
-<div class="feature-section team-section">
-    <div class="feature-header team-header">
-        <h3 class="team-title">Team Up</h3>
-    </div>
-
-    <p>
-        Create or join a study group and compare learning progress with your teammates.
-    </p>
-
-    <a href="{{ url_for('team.teams_dashboard') }}" class="purple-button">
-        Go to Teams
-    </a>
+            <div class="feature-actions">
+                <a href="{{ url_for('achievement.my_achievements') }}" class="feature-btn dark">
+                    Badges｜徽章
+                </a>
+            </div>
+        </div>
+    </section>
 </div>
 
 {% endblock %}

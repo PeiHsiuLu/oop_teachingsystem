@@ -1,67 +1,69 @@
 {% extends "base.html" %}
-
+{% block title %}Team Challenges｜團隊挑戰{% endblock %}
 {% block content %}
 
-<h2>Team Challenges</h2>
+<style>
+    .challenges-page { max-width: 980px; margin:0 auto; animation:fadeIn .45s ease both; }
+    .hero { padding:1.5rem; border-radius:24px; background:linear-gradient(135deg,#007bff,#4f46e5 55%,#7c3aed); color:#fff; margin-bottom:1.2rem; }
+    .hero h2 { margin:0; font-size:1.9rem; font-weight:950; }
+    .hero p { margin:.65rem 0 0; line-height:1.7; opacity:.95; }
+    .top-actions { margin-bottom:1.2rem; }
+    .primary-btn { display:inline-flex; align-items:center; justify-content:center; padding:.72rem 1rem; border-radius:14px; background:#007bff; color:#fff; font-weight:950; text-decoration:none; }
+    .primary-btn:hover { background:#0069d9; color:#fff; text-decoration:none; }
+    .challenge-card { background:#fff; border:1px solid #e5e7eb; border-radius:22px; padding:1.25rem; margin-bottom:1rem; box-shadow:0 12px 28px rgba(15,23,42,.06); }
+    .challenge-card h3 { margin:0 0 .5rem; font-weight:950; color:#111827; }
+    .muted { color:#6b7280; line-height:1.6; }
+    .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.75rem; margin:1rem 0; }
+    .info-item { padding:.8rem; border-radius:14px; background:#f8fafc; border:1px solid #e5e7eb; }
+    .info-label { color:#6b7280; font-size:.85rem; font-weight:900; }
+    .info-value { margin-top:.2rem; color:#111827; font-weight:950; }
+    .progress-shell { width:100%; background:#e5e7eb; border-radius:999px; overflow:hidden; margin:.8rem 0; }
+    .progress-bar { background:#22c55e; color:#fff; text-align:center; padding:.35rem; font-weight:950; min-width:2rem; }
+    .claim-btn { display:inline-flex; padding:.65rem .9rem; border-radius:12px; background:#22c55e; color:#fff; font-weight:950; text-decoration:none; }
+    .claim-btn:hover { background:#16a34a; color:#fff; text-decoration:none; }
+    .status-text { color:#64748b; font-weight:850; }
+    .empty { padding:1.5rem; border-radius:18px; background:#f8fafc; border:1px solid #e5e7eb; color:#6b7280; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+</style>
 
-<a href="{{ url_for('team_challenge.create_challenge') }}">
-    Create New Challenge
-</a>
+<div class="challenges-page">
+    <section class="hero">
+        <h2>Team Challenges<br>團隊挑戰</h2>
+        <p>Complete team goals together and earn rewards.<br>和團隊一起完成共同目標並獲得獎勵。</p>
+    </section>
 
-<br><br>
-
-{% for challenge in challenges %}
-<div style="border: 1px solid #ccc; padding: 16px; margin-bottom: 16px; border-radius: 8px;">
-    <h3>{{ challenge.title }}</h3>
-
-    <p>{{ challenge.description }}</p>
-
-    <p>
-        <strong>Team:</strong>
-        {{ challenge.team.name }}
-    </p>
-
-    <p>
-        <strong>Goal:</strong>
-        {{ challenge.current_value }} / {{ challenge.target_value }} XP
-    </p>
-
-    <div style="width: 100%; background-color: #eee; border-radius: 8px;">
-        <div style="
-            width: {{ challenge.progress_percent() }}%;
-            background-color: #4caf50;
-            color: white;
-            text-align: center;
-            padding: 4px;
-            border-radius: 8px;">
-            {{ challenge.progress_percent() }}%
-        </div>
+    <div class="top-actions">
+        <a href="{{ url_for('team_challenge.create_challenge') }}" class="primary-btn">Create New Challenge｜建立新挑戰</a>
     </div>
 
-    <p>
-        <strong>Reward:</strong>
-        +{{ challenge.reward_xp }} XP,
-        +{{ challenge.reward_credit }} Credit
-    </p>
+    {% if challenges %}
+        {% for challenge in challenges %}
+            <div class="challenge-card">
+                <h3>{{ challenge.title }}</h3>
+                <p class="muted">{{ challenge.description }}</p>
 
-    <p>
-        <strong>Status:</strong>
-        {{ challenge.status }}
-    </p>
+                <div class="info-grid">
+                    <div class="info-item"><div class="info-label">Team｜團隊</div><div class="info-value">{{ challenge.team.name }}</div></div>
+                    <div class="info-item"><div class="info-label">Goal｜目標</div><div class="info-value">{{ challenge.current_value }} / {{ challenge.target_value }} XP</div></div>
+                    <div class="info-item"><div class="info-label">Reward｜獎勵</div><div class="info-value">+{{ challenge.reward_xp }} XP, +{{ challenge.reward_credit }} Credit</div></div>
+                    <div class="info-item"><div class="info-label">Status｜狀態</div><div class="info-value">{{ challenge.status }}</div></div>
+                    <div class="info-item"><div class="info-label">Deadline｜截止日期</div><div class="info-value">{{ challenge.deadline.strftime('%Y-%m-%d') }}</div></div>
+                </div>
 
-    <p>
-        <strong>Deadline:</strong>
-        {{ challenge.deadline.strftime('%Y-%m-%d') }}
-    </p>
+                <div class="progress-shell">
+                    <div class="progress-bar" style="width: {{ challenge.progress_percent() }}%;">{{ challenge.progress_percent() }}%</div>
+                </div>
 
-    {% if challenge.status == "completed" %}
-        <a href="{{ url_for('team_challenge.claim_reward', challenge_id=challenge.id) }}">
-            Claim Reward
-        </a>
+                {% if challenge.status == "completed" %}
+                    <a href="{{ url_for('team_challenge.claim_reward', challenge_id=challenge.id) }}" class="claim-btn">Claim Reward｜領取獎勵</a>
+                {% else %}
+                    <p class="status-text">Challenge in progress...｜挑戰進行中...</p>
+                {% endif %}
+            </div>
+        {% endfor %}
     {% else %}
-        <p>Challenge in progress...</p>
+        <div class="empty">No team challenges yet.<br>目前尚無團隊挑戰。</div>
     {% endif %}
 </div>
-{% endfor %}
 
 {% endblock %}

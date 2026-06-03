@@ -5,130 +5,308 @@
 {% block content %}
 
 <style>
-    .achievement-page-title {
-        margin-bottom: 0.5rem;
-        color: #343a40;
-        font-size: 2rem;
-        font-weight: 800;
+    .achievement-page {
+        max-width: 1120px;
+        margin: 0 auto;
+        animation: fadeSlideUp 0.7s ease both;
     }
 
-    .achievement-description {
-        margin-bottom: 1.8rem;
-        color: #6c757d;
-        line-height: 1.6;
+    .achievement-hero {
+        padding: 1.5rem;
+        border-radius: 24px;
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+        margin-bottom: 1.4rem;
+    }
+
+    .achievement-hero-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .achievement-title {
+        margin: 0;
+        color: #111827;
+        font-size: 2.2rem;
+        font-weight: 950;
+        letter-spacing: -0.03em;
+    }
+
+    .achievement-subtitle {
+        margin: 0.55rem 0 0;
+        color: #6b7280;
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+
+    .achievement-summary-card {
+        min-width: 240px;
+        padding: 1rem 1.1rem;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+    }
+
+    .summary-number {
+        font-size: 2rem;
+        font-weight: 950;
+        color: #007bff;
+        line-height: 1;
+    }
+
+    .summary-label {
+        margin-top: 0.4rem;
+        color: #6b7280;
+        font-weight: 800;
+        line-height: 1.5;
+    }
+
+    .progress-shell {
+        width: 100%;
+        height: 12px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        overflow: hidden;
+        margin-top: 0.85rem;
+    }
+
+    .progress-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #007bff, #22c55e);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+        gap: 0.8rem;
+        margin-top: 1.2rem;
+    }
+
+    .stat-card {
+        padding: 0.9rem 1rem;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+    }
+
+    .stat-value {
+        color: #111827;
+        font-size: 1.35rem;
+        font-weight: 950;
+    }
+
+    .stat-label {
+        margin-top: 0.25rem;
+        color: #6b7280;
+        font-size: 0.86rem;
+        font-weight: 800;
+        line-height: 1.4;
     }
 
     .achievement-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1.2rem;
+        grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+        gap: 1rem;
     }
 
-    .badge-card {
+    .achievement-card {
         position: relative;
-        border-radius: 16px;
-        padding: 1.2rem;
+        min-height: 305px;
+        padding: 1.25rem;
+        border-radius: 22px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+        transition: all 0.2s ease;
         overflow: hidden;
-        animation: fadeSlideUp 0.55s ease both;
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .badge-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    .achievement-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 34px rgba(15, 23, 42, 0.09);
     }
 
-    .badge-unlocked {
-        border: 1px solid #28a745;
-        background: linear-gradient(135deg, #f0fff4, #ffffff);
-        opacity: 1;
-        box-shadow: 0 6px 18px rgba(40, 167, 69, 0.12);
+    .achievement-card.unlocked {
+        border-color: #86efac;
+        background: linear-gradient(135deg, #ffffff, #f0fdf4);
     }
 
-    .badge-unlocked::before {
+    .achievement-card.unlocked::before {
         content: "";
         position: absolute;
-        top: -40%;
-        left: -60%;
-        width: 80%;
-        height: 180%;
+        top: -60%;
+        left: -90%;
+        width: 70%;
+        height: 220%;
         background: linear-gradient(
             120deg,
             transparent,
-            rgba(255, 255, 255, 0.65),
+            rgba(255, 255, 255, 0.75),
             transparent
         );
-        transform: rotate(20deg);
-        animation: shine 2.8s ease-in-out infinite;
+        transform: rotate(22deg);
+        animation: shine 3.2s ease-in-out infinite;
     }
 
-    .badge-locked {
-        border: 1px solid #ccc;
-        background-color: #f8f8f8;
+    .achievement-card.locked {
+        background: #f8fafc;
+        opacity: 0.86;
+    }
+
+    .achievement-card.locked .achievement-icon {
+        filter: grayscale(100%);
         opacity: 0.55;
-        filter: grayscale(0.6);
     }
 
-    .badge-icon {
-        font-size: 2.4rem;
-        margin-bottom: 0.6rem;
-        position: relative;
-        z-index: 1;
-    }
-
-    .badge-unlocked .badge-icon {
-        animation: iconPop 1.4s ease-in-out infinite;
-    }
-
-    .badge-title {
-        margin: 0.5rem 0;
-        color: #343a40;
-        position: relative;
-        z-index: 1;
-    }
-
-    .badge-description {
-        color: #6c757d;
-        line-height: 1.5;
-        min-height: 48px;
-        position: relative;
-        z-index: 1;
-    }
-
-    .badge-status {
-        display: inline-block;
-        margin-top: 1rem;
-        padding: 0.35rem 0.75rem;
+    .achievement-status {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.35rem 0.65rem;
         border-radius: 999px;
-        font-weight: bold;
-        font-size: 0.9rem;
+        font-size: 0.78rem;
+        font-weight: 950;
+        z-index: 2;
+    }
+
+    .achievement-status.unlocked {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .achievement-status.locked {
+        background: #e5e7eb;
+        color: #4b5563;
+    }
+
+    .achievement-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 20px;
+        background: #eaf4ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        box-shadow: inset 0 0 0 1px rgba(0, 123, 255, 0.08);
         position: relative;
         z-index: 1;
     }
 
-    .badge-status-unlocked {
-        color: #155724;
-        background-color: #d4edda;
+    .achievement-card.unlocked .achievement-icon {
+        background: #dcfce7;
+        animation: iconPop 1.8s ease-in-out infinite;
     }
 
-    .badge-status-locked {
-        color: #6c757d;
-        background-color: #e9ecef;
+    .achievement-title-en {
+        margin: 0;
+        color: #111827;
+        font-size: 1.15rem;
+        font-weight: 950;
+        position: relative;
+        z-index: 1;
     }
 
-    .achievement-progress-note {
-        margin-top: 1.5rem;
-        padding: 1rem;
-        border-radius: 12px;
-        background-color: #f8f9fa;
-        color: #6c757d;
-        line-height: 1.6;
+    .achievement-title-zh {
+        margin: 0.25rem 0 0;
+        color: #4b5563;
+        font-size: 0.95rem;
+        font-weight: 900;
+        position: relative;
+        z-index: 1;
+    }
+
+    .achievement-desc {
+        margin: 0.75rem 0 0;
+        color: #6b7280;
+        line-height: 1.65;
+        font-size: 0.94rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .condition-box {
+        margin-top: 1rem;
+        padding: 0.75rem 0.85rem;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid #e5e7eb;
+        color: #4b5563;
+        line-height: 1.55;
+        font-size: 0.88rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .condition-box strong {
+        color: #111827;
+    }
+
+    .mini-progress {
+        margin-top: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .mini-progress-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #6b7280;
+        font-size: 0.82rem;
+        font-weight: 900;
+        margin-bottom: 0.35rem;
+    }
+
+    .mini-progress-shell {
+        width: 100%;
+        height: 9px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        overflow: hidden;
+    }
+
+    .mini-progress-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: #007bff;
+    }
+
+    .achievement-card.unlocked .mini-progress-fill {
+        background: #22c55e;
+    }
+
+    .unlocked-time {
+        margin-top: 0.75rem;
+        color: #166534;
+        font-size: 0.82rem;
+        font-weight: 900;
+        position: relative;
+        z-index: 1;
+    }
+
+    .bottom-note {
+        margin-top: 1.3rem;
+        padding: 1rem 1.1rem;
+        border-radius: 18px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        color: #6b7280;
+        line-height: 1.7;
+        font-weight: 800;
     }
 
     @keyframes fadeSlideUp {
         from {
             opacity: 0;
-            transform: translateY(16px);
+            transform: translateY(18px);
         }
 
         to {
@@ -139,15 +317,15 @@
 
     @keyframes shine {
         0% {
-            left: -80%;
+            left: -90%;
         }
 
         45% {
-            left: 120%;
+            left: 130%;
         }
 
         100% {
-            left: 120%;
+            left: 130%;
         }
     }
 
@@ -157,63 +335,150 @@
         }
 
         50% {
-            transform: scale(1.08);
+            transform: scale(1.07);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .achievement-title {
+            font-size: 1.8rem;
+        }
+
+        .achievement-summary-card {
+            width: 100%;
         }
     }
 </style>
 
-<h2 class="achievement-page-title">My Achievements</h2>
+<div class="achievement-page">
+    <section class="achievement-hero">
+        <div class="achievement-hero-top">
+            <div>
+                <h2 class="achievement-title">
+                    My Achievements｜我的成就徽章
+                </h2>
 
-<p class="achievement-description">
-    View the badges you have unlocked through learning activities.
-</p>
-
-<div class="achievement-grid">
-    {% for badge in all_badges %}
-        {% set unlocked = badge.id in unlocked_badge_ids %}
-
-        {% if unlocked %}
-            <div class="badge-card badge-unlocked">
-                <div class="badge-icon">
-                    {{ badge.icon }}
-                </div>
-
-                <h4 class="badge-title">
-                    {{ badge.name }}
-                </h4>
-
-                <p class="badge-description">
-                    {{ badge.description }}
-                </p>
-
-                <p class="badge-status badge-status-unlocked">
-                    ✨ Unlocked
+                <p class="achievement-subtitle">
+                    Unlock badges by learning, practicing vocabulary, chatting, taking quizzes, and joining team challenges.
+                    <br>
+                    透過課程學習、單字練習、AI 對話、測驗與團隊挑戰來解鎖徽章。
                 </p>
             </div>
-        {% else %}
-            <div class="badge-card badge-locked">
-                <div class="badge-icon">
-                    {{ badge.icon }}
+
+            <div class="achievement-summary-card">
+                <div class="summary-number">
+                    {{ unlocked_count }} / {{ total_count }}
                 </div>
 
-                <h4 class="badge-title">
-                    {{ badge.name }}
-                </h4>
+                <div class="summary-label">
+                    Unlocked Badges<br>
+                    已解鎖徽章
+                </div>
 
-                <p class="badge-description">
-                    {{ badge.description }}
-                </p>
-
-                <p class="badge-status badge-status-locked">
-                    🔒 Locked
-                </p>
+                <div class="progress-shell">
+                    <div class="progress-fill" style="width: {{ completion_rate }}%;"></div>
+                </div>
             </div>
-        {% endif %}
-    {% endfor %}
-</div>
+        </div>
 
-<div class="achievement-progress-note">
-    Keep practicing sentence exercises, vocabulary review, and course activities to unlock more achievements.
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.level }}</div>
+                <div class="stat-label">Level｜目前等級</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.xp }}</div>
+                <div class="stat-label">XP｜經驗值</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.chat_messages }}</div>
+                <div class="stat-label">Chat Messages｜聊天訊息</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.vocabulary_review_count }}</div>
+                <div class="stat-label">Vocabulary Reviews｜單字複習</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.vocabulary_practice_count }}</div>
+                <div class="stat-label">Vocabulary Practice｜單字練習</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-value">{{ stats.quiz_attempt_count }}</div>
+                <div class="stat-label">Quiz Attempts｜測驗次數</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="achievement-grid">
+        {% for achievement in achievements %}
+            <article class="achievement-card {% if achievement.unlocked %}unlocked{% else %}locked{% endif %}">
+                {% if achievement.unlocked %}
+                    <div class="achievement-status unlocked">
+                        ✅ Unlocked｜已解鎖
+                    </div>
+                {% else %}
+                    <div class="achievement-status locked">
+                        🔒 Locked｜未解鎖
+                    </div>
+                {% endif %}
+
+                <div class="achievement-icon">
+                    {{ achievement.icon }}
+                </div>
+
+                <h3 class="achievement-title-en">
+                    {{ achievement.title_en }}
+                </h3>
+
+                <div class="achievement-title-zh">
+                    {{ achievement.title_zh }}
+                </div>
+
+                <p class="achievement-desc">
+                    {{ achievement.description_en }}
+                    <br>
+                    {{ achievement.description_zh }}
+                </p>
+
+                <div class="condition-box">
+                    <strong>Condition｜解鎖條件：</strong>
+                    <br>
+                    {{ achievement.condition_en }}
+                    <br>
+                    {{ achievement.condition_zh }}
+                </div>
+
+                <div class="mini-progress">
+                    <div class="mini-progress-top">
+                        <span>Progress｜進度</span>
+                        <span>{{ achievement.progress }} / {{ achievement.target }}</span>
+                    </div>
+
+                    <div class="mini-progress-shell">
+                        <div class="mini-progress-fill" style="width: {{ achievement.progress_percent }}%;"></div>
+                    </div>
+                </div>
+
+                {% if achievement.unlocked_at %}
+                    <div class="unlocked-time">
+                        Unlocked at｜解鎖時間：
+                        {{ achievement.unlocked_at.strftime("%Y-%m-%d %H:%M") }}
+                    </div>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </section>
+
+    <div class="bottom-note">
+        Keep practicing sentence exercises, vocabulary review, quizzes, AI scenario conversations, and team challenges to unlock more achievements.
+        <br>
+        持續完成句子練習、單字複習、課程測驗、AI 情境對話與團隊挑戰，就能解鎖更多徽章。
+    </div>
 </div>
 
 {% endblock %}

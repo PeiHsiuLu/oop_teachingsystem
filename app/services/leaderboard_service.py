@@ -2,27 +2,33 @@ from app.models.user import User
 
 
 class LeaderboardService:
-    def get_user_leaderboard(self, limit=10):
+    def get_user_leaderboard(self, limit=50):
         collection = User._get_collection()
 
         users = list(collection.find())
-
-        print("DEBUG raw user count:", len(users))
 
         ranking = []
 
         for user in users:
             username = user.get("username", "Unknown")
-            role = user.get("role", "Unknown")
+
+            # MongoEngine inheritance stores role information in _cls.
+            # Example:
+            # - User.Student
+            # - User.Admin
+            user_class = user.get("_cls", "")
+
+            # Only students should appear on the account leaderboard.
+            if not user_class.endswith("Student"):
+                continue
+
             xp = user.get("xp", 0) or 0
             level = user.get("level", 1) or 1
             credit_score = user.get("credit_score", 100) or 100
 
-            print("DEBUG raw user:", username, role, xp, level, credit_score)
-
             ranking.append({
                 "username": username,
-                "role": role,
+                "role": "student",
                 "xp": xp,
                 "level": level,
                 "credit_score": credit_score

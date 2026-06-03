@@ -1,45 +1,142 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SelectField, SubmitField, IntegerField, TextAreaField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms.validators import DataRequired, Email, Length, Regexp
+
 
 # --- AUTH FORMS ---
 
+USERNAME_REQUIRED_MESSAGE = "Username is required. 請輸入使用者名稱。"
+EMAIL_REQUIRED_MESSAGE = "Email is required. 請輸入 Email。"
+EMAIL_FORMAT_MESSAGE = "Please enter a valid email address. 請輸入正確的 Email 格式。"
+PASSWORD_REQUIRED_MESSAGE = "Password is required. 請輸入密碼。"
+PASSWORD_LENGTH_MESSAGE = "Password must be at least 8 characters. 密碼至少需要 8 個字元。"
+ROLE_REQUIRED_MESSAGE = "Role is required. 請選擇身分。"
+
+STRONG_PASSWORD_MESSAGE = (
+    "Password must be at least 8 characters and include uppercase, lowercase, number, and special character. "
+    "密碼至少需要 8 個字元，並且必須包含大寫英文、小寫英文、數字與特殊符號。"
+)
+
+
 class LoginForm(FlaskForm):
-    """The base for authentication."""
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
+    """Login form for user authentication."""
 
-class RegistrationForm(LoginForm):
-    """Extends Login by adding email and role."""
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    role = SelectField('Role', choices=[('student', 'Student'), ('admin', 'Admin')])
-    submit = SubmitField('Register') # Overrides the label
+    username = StringField(
+        "Username",
+        validators=[
+            DataRequired(message=USERNAME_REQUIRED_MESSAGE)
+        ]
+    )
 
-# --- COURSE/CONTENT FORMS ---
+    password = PasswordField(
+        "Password",
+        validators=[
+            DataRequired(message=PASSWORD_REQUIRED_MESSAGE)
+        ]
+    )
+
+    submit = SubmitField("Login")
+
+
+class RegistrationForm(FlaskForm):
+    """Registration form with strong password rules."""
+
+    username = StringField(
+        "Username",
+        validators=[
+            DataRequired(message=USERNAME_REQUIRED_MESSAGE)
+        ]
+    )
+
+    email = StringField(
+        "Email",
+        validators=[
+            DataRequired(message=EMAIL_REQUIRED_MESSAGE),
+            Email(message=EMAIL_FORMAT_MESSAGE)
+        ]
+    )
+
+    password = PasswordField(
+        "Password",
+        validators=[
+            DataRequired(message=PASSWORD_REQUIRED_MESSAGE),
+            Length(min=8, message=PASSWORD_LENGTH_MESSAGE),
+            Regexp(
+                r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$",
+                message=STRONG_PASSWORD_MESSAGE
+            )
+        ]
+    )
+
+    role = SelectField(
+        "Role",
+        choices=[
+            ("student", "Student"),
+            ("admin", "Admin")
+        ],
+        validators=[
+            DataRequired(message=ROLE_REQUIRED_MESSAGE)
+        ]
+    )
+
+    submit = SubmitField("Register")
+
+
+# --- COURSE / CONTENT FORMS ---
 
 class TitleForm(FlaskForm):
-    """Base form for anything that just needs a title/name."""
-    title = StringField('Title', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    """Base form for anything that only needs a title/name."""
+
+    title = StringField(
+        "Title",
+        validators=[
+            DataRequired(message="Title is required. 請輸入標題。")
+        ]
+    )
+
+    submit = SubmitField("Submit")
+
 
 class CreatePathForm(TitleForm):
-    """Uses the title field as the 'Path Name'."""
-    submit = SubmitField('Create Path')
+    """Form for creating a learning path."""
+
+    submit = SubmitField("Create Path")
+
 
 class AddUnitForm(TitleForm):
-    """Exactly the same as TitleForm, just a different button label."""
-    submit = SubmitField('Add Unit')
+    """Form for adding a unit."""
+
+    submit = SubmitField("Add Unit")
+
 
 class AddChapterForm(TitleForm):
-    """Extends TitleForm by adding rules."""
-    rule_type = SelectField('Unlock Rule', choices=[
-        ('none', 'None'), ('level', 'Level'), ('score', 'Score')
-    ])
-    threshold = IntegerField('Threshold', default=0)
-    submit = SubmitField('Add Chapter')
+    """Form for adding a chapter with unlock rules."""
+
+    rule_type = SelectField(
+        "Unlock Rule",
+        choices=[
+            ("none", "None"),
+            ("level", "Level"),
+            ("score", "Score")
+        ]
+    )
+
+    threshold = IntegerField(
+        "Threshold",
+        default=0
+    )
+
+    submit = SubmitField("Add Chapter")
+
 
 class EditUnitForm(FlaskForm):
-    """Unique enough to stay separate, or could inherit from TitleForm if you edit titles too."""
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Save Changes')
+    """Form for editing unit content."""
+
+    content = TextAreaField(
+        "Content",
+        validators=[
+            DataRequired(message="Content is required. 請輸入內容。")
+        ]
+    )
+
+    submit = SubmitField("Save Changes")

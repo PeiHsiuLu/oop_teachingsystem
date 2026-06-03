@@ -3,27 +3,607 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-    <h2>Register a New Account</h2>
-    <form method="POST" action="{{ url_for('auth.register') }}">
-    {{ form.hidden_tag() }}
-    
-    <div>
-        {{ form.username.label }} {{ form.username() }}
+
+<style>
+    .auth-page-wrapper {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 12px 0 24px;
+    }
+
+    .auth-page {
+        min-height: 680px;
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 1.6rem;
+        align-items: stretch;
+        animation: fadeSlideUp 0.7s ease both;
+    }
+
+    .auth-info {
+        border-radius: 24px;
+        padding: 2rem;
+        background: linear-gradient(135deg, #22c55e 0%, #14b8a6 55%, #0ea5e9 100%);
+        color: #ffffff;
+        box-shadow: 0 18px 40px rgba(14, 165, 233, 0.18);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-info::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -60px;
+        width: 220px;
+        height: 220px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 50%;
+    }
+
+    .auth-info::after {
+        content: "";
+        position: absolute;
+        bottom: -90px;
+        left: -70px;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+    }
+
+    .auth-info-badge,
+    .auth-info h1,
+    .auth-info p,
+    .auth-feature-list {
+        position: relative;
+        z-index: 2;
+    }
+
+    .auth-info-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.42rem 0.85rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.17);
+        font-weight: 900;
+        font-size: 1rem;
+        margin-bottom: 1.4rem;
+    }
+
+    .auth-info h1 {
+        margin: 0 0 1rem 0;
+        font-size: 2.15rem;
+        line-height: 1.2;
+        font-weight: 950;
+        letter-spacing: -0.02em;
+    }
+
+    .auth-info p {
+        margin: 0 0 1.2rem 0;
+        line-height: 1.85;
+        font-size: 1rem;
+        opacity: 0.96;
+        max-width: 92%;
+    }
+
+    .auth-feature-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+        width: 100%;
+        margin-top: 0.3rem;
+    }
+
+    .auth-feature {
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 0.85rem 1rem;
+        font-weight: 800;
+        line-height: 1.55;
+        width: 100%;
+    }
+
+    .auth-card {
+        border-radius: 24px;
+        padding: 2rem;
+        padding-bottom: 5.3rem;
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.07);
+        position: relative;
+    }
+
+    .auth-card h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 950;
+        color: #111827;
+        letter-spacing: -0.02em;
+    }
+
+    .auth-subtitle {
+        margin: 0.7rem 0 1.4rem;
+        color: #6b7280;
+        line-height: 1.75;
+        font-size: 1rem;
+    }
+
+    .rules-details {
+        margin-bottom: 1.35rem;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        background: #f8fafc;
+        overflow: hidden;
+    }
+
+    .rules-details summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 1rem 1.15rem;
+        font-weight: 900;
+        font-size: 1rem;
+        color: #111827;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        user-select: none;
+    }
+
+    .rules-details summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .rules-summary-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .rules-arrow {
+        font-size: 0.95rem;
+        color: #6b7280;
+        transition: transform 0.25s ease;
+    }
+
+    .rules-details[open] .rules-arrow {
+        transform: rotate(180deg);
+    }
+
+    .rules-content {
+        padding: 0 1.15rem 1rem;
+        color: #4b5563;
+        line-height: 1.8;
+        font-size: 0.95rem;
+    }
+
+    .rules-content ul {
+        margin: 0;
+        padding-left: 1.2rem;
+    }
+
+    .rules-content li {
+        margin-bottom: 0.75rem;
+    }
+
+    .rules-content strong {
+        color: #111827;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.42rem;
+        color: #374151;
+        font-weight: 900;
+    }
+
+    .form-input,
+    .form-select {
+        width: 100%;
+        padding: 0.82rem 0.95rem;
+        border-radius: 12px;
+        border: 1px solid #d1d5db;
+        font-size: 1rem;
+        background: #ffffff;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+        border-color: #0ea5e9;
+        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12);
+    }
+
+    .field-errors {
+        margin-top: 0.4rem;
+        color: #dc3545;
+        font-size: 0.88rem;
+        line-height: 1.5;
+        font-weight: 800;
+    }
+
+    .form-hint {
+        margin-top: 0.35rem;
+        color: #6b7280;
+        font-size: 0.87rem;
+        line-height: 1.6;
+    }
+
+    .password-rule-box {
+        margin-top: 0.5rem;
+        padding: 0.75rem 0.9rem;
+        border-radius: 12px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        color: #4b5563;
+        font-size: 0.88rem;
+        line-height: 1.65;
+    }
+
+    .password-rule-box strong {
+        color: #111827;
+    }
+
+    .auth-submit {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        border-radius: 13px;
+        border: none;
+        background: #007bff;
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 950;
+        cursor: pointer;
+        margin-top: 0.4rem;
+        transition: all 0.2s ease;
+    }
+
+    .auth-submit:hover {
+        background: #0069d9;
+        transform: translateY(-1px);
+    }
+
+    .auth-bottom {
+        margin-top: 1.2rem;
+        text-align: center;
+        color: #6b7280;
+        line-height: 1.7;
+    }
+
+    .auth-bottom a {
+        color: #007bff;
+        font-weight: 900;
+        text-decoration: none;
+    }
+
+    .auth-bottom a:hover {
+        text-decoration: underline;
+    }
+
+    .back-home-fixed {
+        position: absolute;
+        right: 2rem;
+        bottom: 1.55rem;
+
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+
+        padding: 0.55rem 0.85rem 0.55rem 0.6rem;
+        border-radius: 999px;
+
+        background: #eef6ff;
+        color: #0f172a;
+        border: 1px solid #dbeafe;
+
+        font-size: 0.9rem;
+        font-weight: 900;
+        text-decoration: none;
+
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+        transition: all 0.2s ease;
+    }
+
+    .back-home-fixed:hover {
+        background: #007bff;
+        color: #ffffff;
+        border-color: #007bff;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(0, 123, 255, 0.22);
+    }
+
+    .back-home-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #ffffff;
+        color: #007bff;
+
+        font-size: 1rem;
+        font-weight: 950;
+        flex-shrink: 0;
+
+        transition: all 0.2s ease;
+    }
+
+    .back-home-fixed:hover .back-home-icon {
+        background: rgba(255, 255, 255, 0.22);
+        color: #ffffff;
+    }
+
+    .back-home-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.1;
+    }
+
+    .back-home-text span {
+        font-size: 0.9rem;
+        font-weight: 950;
+    }
+
+    .back-home-text small {
+        margin-top: 0.12rem;
+        font-size: 0.72rem;
+        font-weight: 800;
+        opacity: 0.72;
+    }
+
+    @keyframes fadeSlideUp {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 900px) {
+        .auth-page {
+            grid-template-columns: 1fr;
+        }
+
+        .auth-info,
+        .auth-card {
+            padding: 1.5rem;
+        }
+
+        .auth-card {
+            padding-bottom: 5rem;
+        }
+
+        .auth-info h1 {
+            font-size: 1.85rem;
+        }
+
+        .auth-card h2 {
+            font-size: 1.8rem;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .back-home-fixed {
+            position: static;
+            width: 100%;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .back-home-text {
+            align-items: center;
+        }
+
+        .auth-card {
+            padding-bottom: 1.5rem;
+        }
+    }
+</style>
+
+<div class="auth-page-wrapper">
+    <div class="auth-page">
+        <div class="auth-info">
+            <div class="auth-info-badge">
+                Start Learning｜開始學習
+            </div>
+
+            <h1>
+                Create your account and begin step by step.
+            </h1>
+
+            <p>
+                建立帳號後，你可以開始進行課程學習、單字練習、AI 情境對話、
+                團隊互動，以及未來的能力分析與成就徽章解鎖。
+            </p>
+
+            <div class="auth-feature-list">
+                <div class="auth-feature">
+                    ✍️ <strong>Vocabulary Practice｜單字練習</strong><br>
+                    透過填空與複習系統逐步累積字彙能力。
+                </div>
+
+                <div class="auth-feature">
+                    🤖 <strong>AI Role-play Chat｜AI 情境對話</strong><br>
+                    和 AI 練習真實情境英文對話，提升表達與應對能力。
+                </div>
+
+                <div class="auth-feature">
+                    🏅 <strong>Achievements & Growth｜成就與成長</strong><br>
+                    記錄學習歷程，逐步解鎖徽章，看到自己的進步。
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-card">
+            <h2>Register｜註冊</h2>
+
+            <p class="auth-subtitle">
+                Create a new account to start your English learning journey.<br>
+                建立一個新帳號，開始累積你的英文學習進度。
+            </p>
+
+            <details class="rules-details">
+                <summary>
+                    <span class="rules-summary-left">
+                        <span>📘 Account Rules｜帳號建立規則</span>
+                    </span>
+                    <span class="rules-arrow">▼</span>
+                </summary>
+
+                <div class="rules-content">
+                    <ul>
+                        <li>
+                            <strong>Username｜使用者名稱：</strong>
+                            Required and must not already be used.<br>
+                            必填，而且不能和已存在的帳號名稱重複。
+                        </li>
+
+                        <li>
+                            <strong>Email｜電子信箱：</strong>
+                            Required and must be a valid email format.<br>
+                            必填，而且必須是正確的 Email 格式。
+                        </li>
+
+                        <li>
+                            <strong>Password｜密碼：</strong>
+                            At least 8 characters, including uppercase, lowercase, number, and special character.<br>
+                            至少 8 個字元，並且包含大寫英文、小寫英文、數字與特殊符號。
+                        </li>
+
+                        <li>
+                            <strong>Role｜身分：</strong>
+                            Most users should choose Student.<br>
+                            一般使用者請選擇 Student。
+                        </li>
+                    </ul>
+                </div>
+            </details>
+
+            <form method="POST" action="{{ url_for('auth.register') }}">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    <label for="username" class="form-label">
+                        Username｜使用者名稱
+                    </label>
+
+                    {{ form.username(id="username", class="form-input", placeholder="Example: paul123") }}
+
+                    {% if form.username.errors %}
+                        <div class="field-errors">
+                            {% for error in form.username.errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-hint">
+                        This name will be used for login and leaderboard display.<br>
+                        這個名稱會用於登入，也可能顯示在排行榜上。
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        Email｜電子信箱
+                    </label>
+
+                    {{ form.email(id="email", class="form-input", placeholder="Example: paul@example.com") }}
+
+                    {% if form.email.errors %}
+                        <div class="field-errors">
+                            {% for error in form.email.errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-hint">
+                        Please enter a valid email format.<br>
+                        請輸入正確的 Email 格式。
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        Password｜密碼
+                    </label>
+
+                    {{ form.password(id="password", class="form-input", placeholder="Example: Abcd1234!") }}
+
+                    {% if form.password.errors %}
+                        <div class="field-errors">
+                            {% for error in form.password.errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="password-rule-box">
+                        <strong>Password Rule｜密碼規則：</strong><br>
+                        At least 8 characters, including uppercase, lowercase, number, and special character.<br>
+                        至少 8 個字元，並且包含大寫英文、小寫英文、數字與特殊符號。
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="role" class="form-label">
+                        Role｜身分
+                    </label>
+
+                    {{ form.role(id="role", class="form-select") }}
+
+                    {% if form.role.errors %}
+                        <div class="field-errors">
+                            {% for error in form.role.errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-hint">
+                        Student accounts are recommended for normal users.<br>
+                        一般使用者建議選擇 Student。
+                    </div>
+                </div>
+
+                {{ form.submit(class="auth-submit", value="Register｜註冊") }}
+            </form>
+
+            <div class="auth-bottom">
+                Already have an account?
+                <a href="{{ url_for('auth.login') }}">Login｜登入</a>
+            </div>
+
+            <a href="{{ url_for('main.index') }}" class="back-home-fixed">
+                <span class="back-home-icon">←</span>
+                <span class="back-home-text">
+                    <span>Home</span>
+                    <small>回到首頁</small>
+                </span>
+            </a>
+        </div>
     </div>
-    <br>
-    <div>
-        {{ form.email.label }} {{ form.email() }}
-    </div>
-    <br>
-    <div>
-        {{ form.password.label }} {{ form.password() }}
-    </div>
-    <br>
-    <div>
-        {{ form.role.label }} {{ form.role() }}
-    </div>
-    <br>
-    {{ form.submit(class="btn btn-primary") }}
-</form>
-    </form>
+</div>
+
 {% endblock %}

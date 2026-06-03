@@ -31,7 +31,10 @@
     }
 
     .leaderboard-table-wrapper {
+        max-height: 420px;
+        overflow-y: auto;
         overflow-x: auto;
+        padding-right: 0.4rem;
     }
 
     .leaderboard-table {
@@ -43,6 +46,13 @@
     .leaderboard-table th {
         padding: 10px;
         color: #6c757d;
+    }
+
+    .leaderboard-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: #f8f9ff;
     }
 
     .leaderboard-row {
@@ -226,6 +236,12 @@
         display: inline-block;
     }
 
+    .green-button:hover {
+        background-color: #218838;
+        color: white;
+        text-decoration: none;
+    }
+
     .blue-button {
         background-color: #17a2b8;
         color: white;
@@ -236,6 +252,12 @@
         display: inline-block;
     }
 
+    .blue-button:hover {
+        background-color: #138496;
+        color: white;
+        text-decoration: none;
+    }
+
     .purple-button {
         background-color: #6f42c1;
         color: white;
@@ -244,6 +266,22 @@
         border-radius: 4px;
         font-weight: bold;
         display: inline-block;
+    }
+
+    .purple-button:hover {
+        background-color: #5a32a3;
+        color: white;
+        text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .leaderboard-table-wrapper {
+            max-height: 360px;
+        }
     }
 </style>
 
@@ -260,7 +298,7 @@
         <div>
             <h3 class="leaderboard-title">🏆 Account Leaderboard</h3>
             <p class="leaderboard-subtitle">
-                Ranking all users by XP.
+                Ranking all students by XP.
             </p>
         </div>
     </div>
@@ -335,7 +373,7 @@
         </div>
     {% else %}
         <div class="empty-leaderboard">
-            No users found.
+            No students found.
         </div>
     {% endif %}
 </div>
@@ -398,7 +436,10 @@
         <h3 class="course-title">Course Interaction</h3>
     </div>
 
-    <p>Practice Gemini-powered English scenario chatrooms. Unlock this feature after reaching Level 5 and completing Path 1.</p>
+    <p>
+        Practice Gemini-powered English scenario chatrooms.
+        Unlock this feature after reaching Level 5 and completing Path 1.
+    </p>
 
     <a href="{{ url_for('interaction.interaction_topics') }}" class="green-button">
         Start AI Scenario Chatrooms
@@ -411,7 +452,9 @@
         <h3 class="analysis-title">Result Analysis</h3>
     </div>
 
-    <p>View your weakness reports and overall learning performance.</p>
+    <p>
+        View your weakness reports and overall learning performance.
+    </p>
 
     <a href="{{ url_for('analytics.student_analytics_page') }}" class="blue-button">
         View Performance Report
@@ -424,58 +467,13 @@
         <h3 class="team-title">Team Up</h3>
     </div>
 
-    <p>Create or join a study group and compare learning progress with your teammates.</p>
+    <p>
+        Create or join a study group and compare learning progress with your teammates.
+    </p>
 
     <a href="{{ url_for('team.teams_dashboard') }}" class="purple-button">
         Go to Teams
     </a>
 </div>
-
-<!--
-Report Section (Use Case 8)
-
-<div class="feature-section" style="border: 2px solid #dc3545;">
-    <div class="feature-header" style="border-bottom: 2px solid #dc3545;">
-        <h3 style="color: #dc3545; margin: 0;">Report Inappropriate Content</h3>
-    </div>
-
-    <p>If you find inappropriate content or behavior, you can submit a report for admin review.</p>
-
-    <form method="POST" action="{{ url_for('report.create_report') }}">
-        <input type="hidden" name="target_type" value="user">
-        <input type="hidden" name="target_id" value="{{ current_user.id }}">
-        <input type="hidden" name="target_user_id" value="{{ current_user.id }}">
-
-        <label for="reason">Reason:</label><br>
-
-        <input
-            type="text"
-            id="reason"
-            name="reason"
-            placeholder="Enter report reason"
-            required
-            style="
-                width: 100%;
-                padding: 0.5rem;
-                margin: 0.5rem 0 1rem 0;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            "
-        >
-
-        <button type="submit" style="
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-        ">
-            Submit Report
-        </button>
-    </form>
-</div>
--->
 
 {% endblock %}

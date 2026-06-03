@@ -3,20 +3,720 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
-    <h1>Welcome to the OOP Teaching System</h1>
-    <p>This is the main dashboard. From here you can access your learning materials and manage your profile.</p>
-    
-    {% if current_user.is_authenticated %}
-        <hr>
-        <h3>Your Dashboard</h3>
-        {% if current_user.role == 'student' %}
-            <p>Ready to learn? Head over to your student dashboard to see your progress.</p>
-            <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
-        {% elif current_user.role == 'admin' %} {# This is the admin role check #}
-            <p>Manage the application content.</p>
-            <a href="{{ url_for('dashboard.index') }}" class="btn btn-primary">Go to Dashboard</a>
-        {% endif %}
-    {% else %}
-        <p>Please <a href="{{ url_for('auth.login') }}">log in</a> or <a href="{{ url_for('auth.register') }}">register</a> to get started.</p>
-    {% endif %}
+
+<style>
+    .container {
+        max-width: 1180px;
+        background: transparent;
+        box-shadow: none;
+        padding: 0 1.5rem;
+    }
+
+    .landing-page {
+        max-width: 1180px;
+        margin: 0 auto;
+    }
+
+    .hero-section {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 2rem;
+        align-items: center;
+        padding: 2rem 0 2.2rem;
+    }
+
+    .hero-copy {
+        animation: fadeSlideUp 0.8s ease both;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        background: #eaf4ff;
+        color: #007bff;
+        font-weight: 900;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-title {
+        margin: 0;
+        color: #111827;
+        font-size: 3rem;
+        line-height: 1.15;
+        font-weight: 950;
+        letter-spacing: -0.04em;
+    }
+
+    .hero-title span {
+        color: #007bff;
+    }
+
+    .hero-subtitle-en {
+        margin: 1rem 0 0;
+        color: #374151;
+        font-size: 1.12rem;
+        line-height: 1.8;
+        max-width: 720px;
+        font-weight: 700;
+    }
+
+    .hero-subtitle-zh {
+        margin: 0.45rem 0 0;
+        color: #6b7280;
+        font-size: 1rem;
+        line-height: 1.8;
+        max-width: 720px;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin-top: 1.5rem;
+    }
+
+    .hero-btn {
+        display: inline-block;
+        padding: 0.85rem 1.15rem;
+        border-radius: 14px;
+        text-decoration: none;
+        font-weight: 900;
+        border: 1px solid transparent;
+        transition: 0.2s ease;
+    }
+
+    .hero-btn.primary {
+        background: #007bff;
+        color: #ffffff;
+        box-shadow: 0 8px 18px rgba(0, 123, 255, 0.22);
+    }
+
+    .hero-btn.primary:hover {
+        background: #0069d9;
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+
+    .hero-btn.secondary {
+        background: #ffffff;
+        color: #111827;
+        border-color: #dbe4ee;
+    }
+
+    .hero-btn.secondary:hover {
+        background: #f8fafc;
+        color: #111827;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+
+    .hero-visual {
+        animation: fadeSlideUp 0.9s ease 0.1s both;
+    }
+
+    .floating-panel {
+        position: relative;
+        padding: 1.25rem;
+        border-radius: 24px;
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.1);
+        animation: floatPanel 4s ease-in-out infinite;
+    }
+
+    .floating-panel-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .floating-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 18px;
+        background: #eaf4ff;
+        color: #007bff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7rem;
+        flex-shrink: 0;
+    }
+
+    .floating-title {
+        margin: 0;
+        color: #111827;
+        font-weight: 950;
+        font-size: 1.15rem;
+    }
+
+    .floating-subtitle {
+        margin: 0.2rem 0 0;
+        color: #6b7280;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .mini-feature-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .mini-feature {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 0.85rem;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+    }
+
+    .mini-feature-left {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        font-weight: 900;
+        color: #111827;
+    }
+
+    .mini-feature-zh {
+        display: block;
+        color: #6b7280;
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-top: 0.15rem;
+    }
+
+    .mini-feature-pill {
+        padding: 0.25rem 0.55rem;
+        border-radius: 999px;
+        background: #dcfce7;
+        color: #166534;
+        font-size: 0.78rem;
+        font-weight: 900;
+        white-space: nowrap;
+    }
+
+    .section-block {
+        margin-top: 2rem;
+        animation: fadeSlideUp 0.8s ease 0.2s both;
+    }
+
+    .section-heading {
+        text-align: center;
+        margin-bottom: 1.25rem;
+    }
+
+    .section-heading h2 {
+        margin: 0;
+        color: #111827;
+        font-size: 2rem;
+        font-weight: 950;
+    }
+
+    .section-heading p {
+        margin: 0.55rem auto 0;
+        color: #6b7280;
+        max-width: 720px;
+        line-height: 1.7;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1rem;
+    }
+
+    .feature-card {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 20px;
+        padding: 1.25rem 1.3rem;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+        transition: 0.2s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.09);
+        border-color: #bfdbfe;
+    }
+
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        background: #eaf4ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.55rem;
+        margin-bottom: 0.85rem;
+    }
+
+    .feature-card h3 {
+        margin: 0;
+        color: #111827;
+        font-size: 1.15rem;
+        font-weight: 950;
+    }
+
+    .feature-card h3 span {
+        color: #6b7280;
+        font-size: 0.95rem;
+        font-weight: 800;
+    }
+
+    .feature-en {
+        margin: 0.55rem 0 0;
+        color: #374151;
+        line-height: 1.65;
+        font-size: 0.96rem;
+        font-weight: 700;
+    }
+
+    .feature-zh {
+        margin: 0.35rem 0 0;
+        color: #6b7280;
+        line-height: 1.65;
+        font-size: 0.95rem;
+    }
+
+    .feature-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.9rem;
+    }
+
+    .feature-tag {
+        padding: 0.25rem 0.55rem;
+        border-radius: 999px;
+        background: #f1f5f9;
+        color: #334155;
+        font-size: 0.78rem;
+        font-weight: 800;
+    }
+
+    .flow-section {
+        margin-top: 2rem;
+        padding: 1.4rem;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    .flow-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 0.9rem;
+        margin-top: 1rem;
+    }
+
+    .flow-step {
+        padding: 1rem;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+    }
+
+    .flow-number {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #007bff;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 950;
+        margin-bottom: 0.65rem;
+    }
+
+    .flow-step h4 {
+        margin: 0;
+        color: #111827;
+        font-weight: 950;
+    }
+
+    .flow-step h4 span {
+        color: #6b7280;
+        font-size: 0.95rem;
+    }
+
+    .flow-step p {
+        margin: 0.45rem 0 0;
+        color: #6b7280;
+        line-height: 1.55;
+        font-size: 0.93rem;
+    }
+
+    @keyframes fadeSlideUp {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes floatPanel {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    @media (max-width: 900px) {
+        .hero-section {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-title {
+            font-size: 2.35rem;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .floating-panel {
+            animation: none;
+        }
+    }
+</style>
+
+<div class="landing-page">
+    <section class="hero-section">
+        <div class="hero-copy">
+            <div class="hero-badge">
+                ✨ AI-Powered English Learning Platform｜AI 英文學習平台
+            </div>
+
+            <h1 class="hero-title">
+                Learn English <span>Step by Step</span>
+            </h1>
+
+            <p class="hero-subtitle-en">
+                Practice English through courses, vocabulary exercises, AI conversations, performance analysis,
+                teams, and achievement badges.
+            </p>
+
+            <p class="hero-subtitle-zh">
+                透過課程學習、單字練習、AI 情境對話、成效分析、團隊學習與成就徽章，
+                一步一步建立英文能力，不用一開始就害怕開口。
+            </p>
+
+            <div class="hero-actions">
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role == 'student' %}
+                        <a href="{{ url_for('course.student_course_dashboard') }}" class="hero-btn primary">
+                            Go to Dashboard｜前往學習首頁
+                        </a>
+
+                        <a href="{{ url_for('course.student_learning_paths') }}" class="hero-btn secondary">
+                            Start Learning｜開始學習
+                        </a>
+                    {% elif current_user.role == 'admin' %}
+                        <a href="{{ url_for('dashboard.index') }}" class="hero-btn primary">
+                            Go to Admin Dashboard｜管理後台
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ url_for('auth.register') }}" class="hero-btn primary">
+                        Get Started｜建立帳號
+                    </a>
+
+                    <a href="{{ url_for('auth.login') }}" class="hero-btn secondary">
+                        Login｜登入
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="floating-panel">
+                <div class="floating-panel-header">
+                    <div class="floating-icon">🤖</div>
+
+                    <div>
+                        <h3 class="floating-title">Smart Learning Overview</h3>
+                        <p class="floating-subtitle">
+                            Courses, AI chat, review, and progress in one place.
+                            <br>
+                            把課程、對話、複習與學習進度整合在一起。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mini-feature-list">
+                    <div class="mini-feature">
+                        <div class="mini-feature-left">
+                            📚 Course Quiz
+                            <span class="mini-feature-zh">課程測驗</span>
+                        </div>
+                        <span class="mini-feature-pill">Practice</span>
+                    </div>
+
+                    <div class="mini-feature">
+                        <div class="mini-feature-left">
+                            🧠 Vocabulary Review
+                            <span class="mini-feature-zh">單字複習</span>
+                        </div>
+                        <span class="mini-feature-pill">SRS</span>
+                    </div>
+
+                    <div class="mini-feature">
+                        <div class="mini-feature-left">
+                            💬 AI Scenario Chat
+                            <span class="mini-feature-zh">AI 情境對話</span>
+                        </div>
+                        <span class="mini-feature-pill">Gemini</span>
+                    </div>
+
+                    <div class="mini-feature">
+                        <div class="mini-feature-left">
+                            🏅 Achievements
+                            <span class="mini-feature-zh">成就徽章</span>
+                        </div>
+                        <span class="mini-feature-pill">Unlock</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-block">
+        <div class="section-heading">
+            <h2>What You Can Do｜你可以使用的功能</h2>
+            <p>
+                This system helps you learn, practice, review, analyze, and stay motivated.
+                <br>
+                這個系統會協助你學習、練習、複習、分析表現，並透過遊戲化機制保持學習動力。
+            </p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Course Learning <span>｜課程學習</span></h3>
+
+                <p class="feature-en">
+                    Follow structured learning paths, complete chapters and units, and test your understanding with quizzes.
+                </p>
+
+                <p class="feature-zh">
+                    依照學習路徑完成章節與單元，並透過測驗確認自己的理解程度。
+                </p>
+
+                <div class="feature-tags">
+                    <span class="feature-tag">Learning Path</span>
+                    <span class="feature-tag">Chapter</span>
+                    <span class="feature-tag">Quiz</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✍️</div>
+                <h3>Vocabulary Practice <span>｜單字填空練習</span></h3>
+
+                <p class="feature-en">
+                    Practice sentence building with vocabulary fill-in-the-blank exercises.
+                </p>
+
+                <p class="feature-zh">
+                    透過單字填空練習句子建構能力，幫助你把單字真正用在句子裡。
+                </p>
+
+                <div class="feature-tags">
+                    <span class="feature-tag">CEFR</span>
+                    <span class="feature-tag">Sentence Building</span>
+                    <span class="feature-tag">Vocabulary</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Vocabulary Review <span>｜單字複習</span></h3>
+
+                <p class="feature-en">
+                    Review words with a spaced repetition system.
+                </p>
+
+                <p class="feature-zh">
+                    使用間隔重複系統複習單字，幫助你把單字記得更久。
+                </p>
+
+                <div class="feature-tags">
+                    <span class="feature-tag">SRS</span>
+                    <span class="feature-tag">Review History</span>
+                    <span class="feature-tag">Memory</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>AI Scenario Chat <span>｜AI 情境對話</span></h3>
+
+                <p class="feature-en">
+                    Practice realistic English conversations with AI role-play topics.
+                </p>
+
+                <p class="feature-zh">
+                    透過機場、飯店、交朋友等情境，和 AI 進行英文角色扮演對話。
+                </p>
+
+                <div class="feature-tags">
+                    <span class="feature-tag">Gemini</span>
+                    <span class="feature-tag">Role Play</span>
+                    <span class="feature-tag">Conversation</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Performance Analysis <span>｜成效分析</span></h3>
+
+                <p class="feature-en">
+                    Gemini analyzes your CEFR level, conversation ability, sentence-building ability, and overall progress.
+                </p>
+
+                <p class="feature-zh">
+                    Gemini 會分析你的 CEFR 程度、對話能力、句子建構能力與整體學習表現。
+                </p>
+
+                <div class="feature-tags">
+                    <span class="feature-tag">CEFR Ability</span>
+                    <span class="feature-tag">AI Feedback</span>
+                    <span class="feature-tag">Progress</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏅</div>
+                <h3>Achievement System <span>｜成就徽章</span></h3>
+
+                <p class="feature-en">
+                    Unlock badges by completing learning goals and practicing consistently.
+                </p>
+
+                <p class="feature-zh">
+                    完成指定條件後解鎖徽章，讓學習過程更有目標感與成就感。
+                </p>
+
+                <div class="feature-tags">
+                    <span class="feature-tag">Badges</span>
+                    <span class="feature-tag">XP</span>
+                    <span class="feature-tag">Motivation</span>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Team Up <span>｜團隊學習</span></h3>
+
+                <p class="feature-en">
+                    Join study groups, compare progress, and complete team challenges together.
+                </p>
+
+                <p class="feature-zh">
+                    加入學習小組，和隊友一起比較進度、完成團隊挑戰。
+                </p>
+
+                <div class="feature-tags">
+                    <span class="feature-tag">Groups</span>
+                    <span class="feature-tag">Leaderboard</span>
+                    <span class="feature-tag">Team Challenge</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="flow-section">
+        <div class="section-heading">
+            <h2>Learning Flow｜學習流程</h2>
+            <p>
+                A simple learning cycle helps users practice, receive feedback, review weaknesses, and stay motivated.
+                <br>
+                透過固定的學習循環，幫助使用者練習、獲得回饋、找出弱點，並持續保持動力。
+            </p>
+        </div>
+
+        <div class="flow-grid">
+            <div class="flow-step">
+                <div class="flow-number">1</div>
+                <h4>Learn <span>｜學習</span></h4>
+                <p>
+                    Study lessons through learning paths.
+                    <br>
+                    透過學習路徑完成課程內容。
+                </p>
+            </div>
+
+            <div class="flow-step">
+                <div class="flow-number">2</div>
+                <h4>Practice <span>｜練習</span></h4>
+                <p>
+                    Build vocabulary and sentence ability.
+                    <br>
+                    透過單字填空與 Quiz 建立句子能力。
+                </p>
+            </div>
+
+            <div class="flow-step">
+                <div class="flow-number">3</div>
+                <h4>Interact <span>｜互動</span></h4>
+                <p>
+                    Talk with AI in real-life scenarios.
+                    <br>
+                    在真實情境中和 AI 練習英文對話。
+                </p>
+            </div>
+
+            <div class="flow-step">
+                <div class="flow-number">4</div>
+                <h4>Analyze <span>｜分析</span></h4>
+                <p>
+                    Review your strengths and weaknesses.
+                    <br>
+                    查看自己的強項與需要加強的地方。
+                </p>
+            </div>
+
+            <div class="flow-step">
+                <div class="flow-number">5</div>
+                <h4>Achieve <span>｜成就</span></h4>
+                <p>
+                    Earn XP, unlock badges, and keep improving.
+                    <br>
+                    獲得 XP、解鎖徽章，持續累積學習成果。
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+
 {% endblock %}

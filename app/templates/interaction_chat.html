@@ -1,0 +1,698 @@
+{% extends "base.html" %}
+
+{% block title %}Interaction Chat{% endblock %}
+
+{% block content %}
+<style>
+    .chat-layout {
+        max-width: 1180px;
+        height: 760px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 1.4rem;
+        align-items: stretch;
+    }
+
+    .history-panel {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        overflow: hidden;
+        height: 100%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .history-header {
+        padding: 1.2rem 1.25rem;
+        border-bottom: 1px solid #e5e7eb;
+        background: #ffffff;
+        flex-shrink: 0;
+    }
+
+    .history-header h2 {
+        margin: 0 0 0.4rem;
+        font-size: 1.25rem;
+        font-weight: 900;
+        color: #111827;
+    }
+
+    .history-header p {
+        margin: 0;
+        color: #6b7280;
+        line-height: 1.5;
+        font-size: 0.95rem;
+    }
+
+    .history-list {
+        padding: 0.85rem;
+        overflow-y: auto;
+        flex: 1;
+        min-height: 0;
+        background: #f8fafc;
+    }
+
+    .history-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 0.9rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .history-card.current {
+        border: 2px solid #007bff;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.12);
+    }
+
+    .history-card-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+        align-items: flex-start;
+        margin-bottom: 0.45rem;
+    }
+
+    .history-time {
+        font-weight: 900;
+        color: #111827;
+        font-size: 0.95rem;
+    }
+
+    .history-status {
+        display: inline-block;
+        padding: 0.25rem 0.55rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 900;
+        white-space: nowrap;
+    }
+
+    .history-status.unfinished {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .history-status.completed {
+        background: #dbeafe;
+        color: #0066d6;
+    }
+
+    .history-preview {
+        color: #6b7280;
+        font-size: 0.9rem;
+        line-height: 1.45;
+        margin-bottom: 0.55rem;
+    }
+
+    .history-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-bottom: 0.65rem;
+    }
+
+    .history-pill {
+        display: inline-block;
+        padding: 0.22rem 0.5rem;
+        border-radius: 999px;
+        background: #f1f3f5;
+        color: #374151;
+        font-size: 0.78rem;
+        font-weight: 800;
+    }
+
+    .history-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+
+    .history-btn {
+        display: inline-block;
+        padding: 0.42rem 0.65rem;
+        border-radius: 9px;
+        border: none;
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 900;
+        cursor: pointer;
+    }
+
+    .history-btn.continue {
+        background: #22c55e;
+        color: #ffffff;
+    }
+
+    .history-btn.feedback {
+        background: #6f42c1;
+        color: #ffffff;
+    }
+
+    .history-btn.session {
+        background: #0f172a;
+        color: #ffffff;
+    }
+
+    .history-btn.disabled {
+        background: #e5e7eb;
+        color: #6b7280;
+        cursor: not-allowed;
+    }
+
+    .history-mini-session {
+        display: none;
+        margin-top: 0.75rem;
+        padding: 0.75rem;
+        border-radius: 12px;
+        background: #f3f6fa;
+        border: 1px solid #e5e7eb;
+    }
+
+    .history-mini-session.open {
+        display: block;
+    }
+
+    .mini-message {
+        display: flex;
+        width: 100%;
+        margin-bottom: 0.65rem;
+        align-items: flex-start;
+    }
+
+    .mini-message:last-child {
+        margin-bottom: 0;
+    }
+
+    .mini-message.user {
+        justify-content: flex-end;
+    }
+
+    .mini-message.assistant {
+        justify-content: flex-start;
+    }
+
+    .mini-bubble-wrap {
+        max-width: 82%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mini-message.user .mini-bubble-wrap {
+        align-items: flex-end;
+    }
+
+    .mini-message.assistant .mini-bubble-wrap {
+        align-items: flex-start;
+    }
+
+    .mini-name {
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: #6b7280;
+        margin-bottom: 0.2rem;
+    }
+
+    .mini-bubble {
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+        padding: 0.5rem 0.65rem;
+        border-radius: 12px;
+        font-size: 0.82rem;
+        line-height: 1.45;
+        white-space: normal;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        text-align: left;
+    }
+
+    .mini-message.assistant .mini-bubble {
+        background: #ffffff;
+        color: #111827;
+        border: 1px solid #e5e7eb;
+        border-top-left-radius: 4px;
+    }
+
+    .mini-message.user .mini-bubble {
+        background: #007bff;
+        color: #ffffff;
+        border-top-right-radius: 4px;
+    }
+
+    .history-footer {
+        padding: 0.9rem 1rem;
+        border-top: 1px solid #e5e7eb;
+        background: #ffffff;
+        flex-shrink: 0;
+    }
+
+    .back-topics-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 0.7rem 0.85rem;
+        border-radius: 10px;
+        background: #f1f5f9;
+        color: #334155;
+        text-decoration: none;
+        font-weight: 900;
+        border: 1px solid #dbe4ee;
+    }
+
+    .back-topics-btn:hover {
+        background: #e2e8f0;
+        color: #111827;
+        text-decoration: none;
+    }
+
+    .chat-main {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        overflow: hidden;
+        height: 100%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        padding: 1.5rem 1.75rem;
+        border-bottom: 1px solid #e5e7eb;
+        background: #ffffff;
+        flex-shrink: 0;
+    }
+
+    .chat-title-row {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .topic-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: #eef6ff;
+        border: 1px solid #bfdbfe;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.9rem;
+        flex-shrink: 0;
+    }
+
+    .chat-header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 900;
+        color: #111827;
+    }
+
+    .chat-header p {
+        margin: 0.25rem 0 0;
+        color: #6b7280;
+    }
+
+    .chat-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin-top: 0.85rem;
+    }
+
+    .chat-badge {
+        display: inline-block;
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        background: #f1f3f5;
+        color: #374151;
+        font-size: 0.85rem;
+        font-weight: 800;
+    }
+
+    .chat-badge.blue {
+        background: #eaf4ff;
+        color: #007bff;
+    }
+
+    .chat-badge.green {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .scenario-box {
+        margin-top: 1rem;
+        padding: 0.9rem 1rem;
+        border-radius: 12px;
+        border: 1px solid #e3e8f0;
+        background: #f8fafc;
+        color: #374151;
+        line-height: 1.6;
+    }
+
+    .chat-messages {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        background: #f3f6fa;
+        padding: 1.4rem 1.75rem;
+    }
+
+    .message-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.65rem;
+        margin-bottom: 1.1rem;
+    }
+
+    .message-row.user {
+        justify-content: flex-end;
+    }
+
+    .message-row.assistant {
+        justify-content: flex-start;
+    }
+
+    .message-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 1px solid #dbe4ee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1rem;
+    }
+
+    .message-row.user .message-avatar {
+        order: 2;
+    }
+
+    .message-body {
+        max-width: 70%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message-row.user .message-body {
+        align-items: flex-end;
+    }
+
+    .message-name {
+        color: #6b7280;
+        font-size: 0.82rem;
+        font-weight: 900;
+        margin-bottom: 0.3rem;
+    }
+
+    .message-bubble-main {
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+        padding: 0.78rem 0.95rem;
+        border-radius: 16px;
+        line-height: 1.6;
+        white-space: normal;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        text-align: left;
+    }
+
+    .message-row.assistant .message-bubble-main {
+        background: #ffffff;
+        color: #111827;
+        border: 1px solid #e5e7eb;
+        border-top-left-radius: 6px;
+    }
+
+    .message-row.user .message-bubble-main {
+        background: #007bff;
+        color: #ffffff;
+        border-top-right-radius: 6px;
+    }
+
+    .chat-form {
+        background: #ffffff;
+        border-top: 1px solid #e5e7eb;
+        padding: 1rem 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .chat-form-row {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .chat-input {
+        flex: 1;
+        min-height: 48px;
+        max-height: 120px;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        padding: 0.8rem 1rem;
+        resize: vertical;
+        font-size: 1rem;
+    }
+
+    .chat-submit {
+        padding: 0.8rem 1.1rem;
+        border-radius: 12px;
+        border: none;
+        background: #007bff;
+        color: #ffffff;
+        font-weight: 900;
+        cursor: pointer;
+    }
+
+    .chat-finish {
+        padding: 0.8rem 1.1rem;
+        border-radius: 12px;
+        border: none;
+        background: #28a745;
+        color: #ffffff;
+        font-weight: 900;
+        cursor: pointer;
+    }
+
+    @media (max-width: 980px) {
+        .chat-layout {
+            height: auto;
+            grid-template-columns: 1fr;
+        }
+
+        .history-panel {
+            height: 520px;
+        }
+
+        .chat-main {
+            height: 760px;
+        }
+
+        .message-body {
+            max-width: 82%;
+        }
+    }
+</style>
+
+<div class="chat-layout">
+    <aside class="history-panel">
+        <div class="history-header">
+            <h2>Chat History</h2>
+            <p>
+                Preview sessions, review feedback, or continue an unfinished conversation.
+            </p>
+        </div>
+
+        <div class="history-list">
+            {% for item in session_history %}
+                <div class="history-card {% if item.is_current %}current{% endif %}">
+                    <div class="history-card-top">
+                        <div class="history-time">
+                            {% if item.started_at %}
+                                {{ item.started_at.strftime("%m/%d %H:%M") }}
+                            {% else %}
+                                Unknown
+                            {% endif %}
+                        </div>
+
+                        {% if item.completed %}
+                            <span class="history-status completed">Completed</span>
+                        {% else %}
+                            <span class="history-status unfinished">Continue</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="history-preview">
+                        {{ item.preview }}
+                    </div>
+
+                    <div class="history-meta">
+                        <span class="history-pill">{{ item.message_count }} messages</span>
+
+                        {% if item.completed %}
+                            <span class="history-pill">Score {{ item.score }}/100</span>
+                        {% else %}
+                            <span class="history-pill">Unfinished</span>
+                        {% endif %}
+
+                        {% if item.xp_gained %}
+                            <span class="history-pill">+{{ item.xp_gained }} XP</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="history-actions">
+                        {% if item.completed %}
+                            <a
+                                href="{{ url_for('interaction.interaction_result', session_id=item.id) }}"
+                                class="history-btn feedback"
+                            >
+                                Show Feedback
+                            </a>
+                        {% else %}
+                            <button class="history-btn disabled" disabled>
+                                No Feedback
+                            </button>
+                        {% endif %}
+
+                        {% if not item.completed %}
+                            <a
+                                href="{{ url_for('interaction.interaction_chat', session_id=item.id) }}"
+                                class="history-btn continue"
+                            >
+                                Continue
+                            </a>
+                        {% endif %}
+
+                        <button
+                            type="button"
+                            class="history-btn session"
+                            onclick="toggleMiniSession('mini-session-{{ item.id }}', this)"
+                        >
+                            Show Session
+                        </button>
+                    </div>
+
+                    <div class="history-mini-session" id="mini-session-{{ item.id }}">
+                        {% for message in item.messages %}
+                            <div class="mini-message {% if message.role == 'user' %}user{% else %}assistant{% endif %}">
+                                <div class="mini-bubble-wrap">
+                                    <div class="mini-name">
+                                        {% if message.role == "user" %}
+                                            You
+                                        {% else %}
+                                            {{ persona_name }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="mini-bubble">{{ message.content | trim }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="history-footer">
+            <a href="{{ url_for('interaction.interaction_topics') }}" class="back-topics-btn">
+                ← Back to Topics
+            </a>
+        </div>
+    </aside>
+
+    <main class="chat-main">
+        <div class="chat-header">
+            <div class="chat-title-row">
+                <div class="topic-icon">{{ persona_emoji }}</div>
+
+                <div>
+                    <h1>{{ topic.title }}</h1>
+                    <p>
+                        You are talking to <strong>{{ persona_name }}</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="chat-badges">
+                <span class="chat-badge blue">Role: {{ persona_name }}</span>
+                <span class="chat-badge">CEFR: {{ current_user.cefr_level }}</span>
+                <span class="chat-badge">Level: {{ current_user.level }}</span>
+                <span class="chat-badge green">XP this session: {{ session.xp_gained }}</span>
+            </div>
+
+            <div class="scenario-box">
+                This is a realistic role-play conversation. Reply in English and stay in the situation.
+                Your partner will respond as a real scenario character, not as a generic tutor.
+            </div>
+        </div>
+
+        <div class="chat-messages">
+            {% for message in messages %}
+                <div class="message-row {% if message.role == 'user' %}user{% else %}assistant{% endif %}">
+                    <div class="message-avatar">
+                        {% if message.role == "user" %}
+                            你
+                        {% else %}
+                            {{ persona_emoji }}
+                        {% endif %}
+                    </div>
+
+                    <div class="message-body">
+                        <div class="message-name">
+                            {% if message.role == "user" %}
+                                You
+                            {% else %}
+                                {{ persona_name }}
+                            {% endif %}
+                        </div>
+
+                        <div class="message-bubble-main">{{ message.content | trim }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <form method="POST" class="chat-form">
+            <div class="chat-form-row">
+                <textarea
+                    name="message"
+                    class="chat-input"
+                    placeholder="Type your English reply here..."
+                ></textarea>
+
+                <button type="submit" name="action" value="send" class="chat-submit">
+                    Send
+                </button>
+
+                <button type="submit" name="action" value="finish" class="chat-finish">
+                    Finish & Evaluate
+                </button>
+            </div>
+        </form>
+    </main>
+</div>
+
+<script>
+    function toggleMiniSession(targetId, button) {
+        const panel = document.getElementById(targetId);
+
+        if (!panel) {
+            return;
+        }
+
+        panel.classList.toggle("open");
+
+        if (panel.classList.contains("open")) {
+            button.textContent = "Hide Session";
+        } else {
+            button.textContent = "Show Session";
+        }
+    }
+</script>
+{% endblock %}

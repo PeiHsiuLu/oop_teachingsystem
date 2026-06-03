@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Interaction Result{% endblock %}
+
+{% block content %}
+<style>
+    .result-page {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .score-card {
+        text-align: center;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        padding: 2rem;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        margin-bottom: 1.5rem;
+    }
+
+    .score {
+        font-size: 3rem;
+        font-weight: 900;
+        color: #007bff;
+        margin-bottom: 0.5rem;
+    }
+
+    .feedback-box,
+    .next-box {
+        padding: 1rem 1.2rem;
+        border-radius: 14px;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        margin-bottom: 1rem;
+        line-height: 1.7;
+    }
+
+    .feedback-list {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0 0;
+    }
+
+    .feedback-item {
+        position: relative;
+        padding: 0.9rem 1rem 0.9rem 2.25rem;
+        margin-bottom: 0.75rem;
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 12px;
+    }
+
+    .feedback-item::before {
+        content: "•";
+        position: absolute;
+        left: 1rem;
+        top: 0.85rem;
+        color: #007bff;
+        font-size: 1.4rem;
+        line-height: 1;
+    }
+
+    .feedback-label-en {
+        display: block;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 0.1rem;
+    }
+
+    .feedback-label-zh {
+        display: block;
+        font-weight: 700;
+        color: #4b5563;
+        margin-bottom: 0.55rem;
+    }
+
+    .feedback-content-en {
+        margin: 0 0 0.35rem;
+        color: #1f2937;
+    }
+
+    .feedback-content-zh {
+        margin: 0;
+        color: #4b5563;
+    }
+
+    .next-box.unlocked {
+        background: #f0fff4;
+        border-color: #28a745;
+        color: #155724;
+    }
+
+    .next-box.locked {
+        background: #fff8e1;
+        border-color: #ffc107;
+        color: #856404;
+    }
+
+    .actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+</style>
+
+<div class="result-page">
+    <div class="score-card">
+        <div class="score">{{ session.score }} / 100</div>
+        <h2>{{ topic.title }}</h2>
+        <p>You gained <strong>{{ session.xp_gained }}</strong> XP in this session.</p>
+    </div>
+
+    <div class="feedback-box">
+        <h3>Feedback</h3>
+        <p style="margin: 0; color: #6b7280;">學習回饋</p>
+
+        <ul class="feedback-list">
+            {% for item in feedback_items %}
+                <li class="feedback-item">
+                    <span class="feedback-label-en">{{ item.label_en }}</span>
+
+                    {% if item.label_zh %}
+                        <span class="feedback-label-zh">{{ item.label_zh }}</span>
+                    {% endif %}
+
+                    {% if item.content_en %}
+                        <p class="feedback-content-en">{{ item.content_en }}</p>
+                    {% endif %}
+
+                    {% if item.content_zh %}
+                        <p class="feedback-content-zh">{{ item.content_zh }}</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if next_topic %}
+        {% if next_unlocked %}
+            <div class="next-box unlocked">
+                ✅ Next topic unlocked: <strong>{{ next_topic.title }}</strong>
+            </div>
+        {% else %}
+            <div class="next-box locked">
+                🔒 Next topic is still locked: <strong>{{ next_topic.title }}</strong>
+                <ul>
+                    {% for reason in next_reasons %}
+                        <li>{{ reason }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="next-box unlocked">
+            🎉 You completed the final interaction topic.
+        </div>
+    {% endif %}
+
+    <div class="actions">
+        <a href="{{ url_for('interaction.interaction_topics') }}" class="btn btn-primary">
+            Back to Topics
+        </a>
+        <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

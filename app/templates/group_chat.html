@@ -2,110 +2,460 @@
 
 {% block content %}
 
-<h2>{{ group.name }} - Group Chat</h2>
+<style>
+    .group-chat-page {
+        max-width: 980px;
+        margin: 0 auto;
+    }
 
-<div style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px; height: 400px; overflow-y: auto; margin-bottom: 1rem;">
-    {% if messages %}
-        {% for message in messages %}
-            {% set is_mine = (message.sender.id|string == current_user.id|string) %}
+    .group-chat-card {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+    }
 
-            <div style="
-                margin-bottom: 1rem;
-                display: flex;
-                flex-direction: column;
-                align-items: {% if is_mine %}flex-end{% else %}flex-start{% endif %};
-            ">
-                <div style="font-size: 0.85rem; color: gray; margin-bottom: 0.25rem;">
-                    {% if is_mine %}
-                        You
-                    {% else %}
-                        {{ message.sender.username }}
-                    {% endif %}
-                    · {{ message.created_at.strftime('%Y-%m-%d %H:%M') }}
+    .group-chat-header {
+        padding: 1.5rem 1.75rem;
+        border-bottom: 1px solid #e5e7eb;
+        background: linear-gradient(135deg, #ffffff, #f8fafc);
+    }
+
+    .group-chat-title-row {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+    }
+
+    .group-chat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: #eaf4ff;
+        color: #007bff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.65rem;
+        flex-shrink: 0;
+    }
+
+    .group-chat-title {
+        margin: 0;
+        font-size: 1.75rem;
+        font-weight: 900;
+        color: #111827;
+    }
+
+    .group-chat-subtitle {
+        margin: 0.25rem 0 0;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+    .chat-box {
+        height: 500px;
+        overflow-y: auto;
+        padding: 1.35rem 1.5rem;
+        background: #f3f6fa;
+    }
+
+    .empty-chat {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280;
+        text-align: center;
+    }
+
+    .message-row {
+        display: flex;
+        width: 100%;
+        margin-bottom: 1.1rem;
+        align-items: flex-start;
+        gap: 0.65rem;
+    }
+
+    .message-row.mine {
+        justify-content: flex-end;
+    }
+
+    .message-row.other {
+        justify-content: flex-start;
+    }
+
+    .message-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 1px solid #dbe4ee;
+        color: #334155;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        font-weight: 900;
+        flex-shrink: 0;
+    }
+
+    .message-row.mine .message-avatar {
+        order: 2;
+    }
+
+    .message-content-wrap {
+        max-width: 72%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message-row.mine .message-content-wrap {
+        align-items: flex-end;
+    }
+
+    .message-row.other .message-content-wrap {
+        align-items: flex-start;
+    }
+
+    .message-meta {
+        font-size: 0.8rem;
+        color: #6b7280;
+        margin-bottom: 0.3rem;
+        line-height: 1.2;
+    }
+
+    .message-row.mine .message-meta {
+        text-align: right;
+    }
+
+    .message-bubble {
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+        padding: 0.72rem 0.9rem;
+        border-radius: 16px;
+        line-height: 1.55;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+    }
+
+    .message-row.mine .message-bubble {
+        background: #007bff;
+        color: #ffffff;
+        border-top-right-radius: 6px;
+    }
+
+    .message-row.other .message-bubble {
+        background: #ffffff;
+        color: #111827;
+        border: 1px solid #e5e7eb;
+        border-top-left-radius: 6px;
+    }
+
+    .report-area {
+        margin-top: 0.35rem;
+    }
+
+    .report-button {
+        padding: 0.22rem 0.5rem;
+        border-radius: 999px;
+        border: none;
+        background: #fee2e2;
+        color: #991b1b;
+        font-size: 0.76rem;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .report-button:hover {
+        background: #fecaca;
+    }
+
+    .report-form {
+        display: none;
+        margin-top: 0.4rem;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .report-input {
+        min-width: 180px;
+        padding: 0.35rem 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 0.82rem;
+    }
+
+    .report-submit {
+        padding: 0.35rem 0.55rem;
+        border-radius: 8px;
+        border: none;
+        background: #dc3545;
+        color: #ffffff;
+        font-size: 0.8rem;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .report-cancel {
+        padding: 0.35rem 0.55rem;
+        border-radius: 8px;
+        border: none;
+        background: #6c757d;
+        color: #ffffff;
+        font-size: 0.8rem;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .chat-composer {
+        padding: 1rem 1.25rem;
+        background: #ffffff;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .chat-form-row {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+    }
+
+    .chat-input {
+        flex: 1;
+        min-height: 46px;
+        padding: 0.75rem 0.9rem;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        font-size: 1rem;
+        outline: none;
+    }
+
+    .chat-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12);
+    }
+
+    .send-button {
+        min-height: 46px;
+        padding: 0 1.15rem;
+        border-radius: 12px;
+        border: none;
+        background: #007bff;
+        color: #ffffff;
+        font-weight: 900;
+        cursor: pointer;
+    }
+
+    .send-button:hover {
+        background: #0069d9;
+    }
+
+    .page-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .back-team-btn {
+        display: inline-block;
+        padding: 0.7rem 1rem;
+        border-radius: 10px;
+        background: #6c757d;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 800;
+    }
+
+    .back-team-btn:hover {
+        background: #5a6268;
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+        .group-chat-title-row {
+            align-items: flex-start;
+        }
+
+        .chat-box {
+            height: 460px;
+            padding: 1rem;
+        }
+
+        .message-content-wrap {
+            max-width: 82%;
+        }
+
+        .chat-form-row {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .send-button {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="group-chat-page">
+    <div class="group-chat-card">
+        <div class="group-chat-header">
+            <div class="group-chat-title-row">
+                <div class="group-chat-icon">💬</div>
+
+                <div>
+                    <h2 class="group-chat-title">{{ group.name }} - Group Chat</h2>
+                    <p class="group-chat-subtitle">
+                        Share messages with your team members. Keep the conversation friendly and respectful.
+                    </p>
                 </div>
-
-                <div style="
-                    max-width: 70%;
-                    padding: 0.6rem 0.8rem;
-                    border-radius: 12px;
-                    background-color: {% if is_mine %}#007bff{% else %}#f1f1f1{% endif %};
-                    color: {% if is_mine %}white{% else %}black{% endif %};
-                    text-align: left;
-                ">
-                    {{ message.content }}
-                </div>
-
-                {% if not is_mine %}
-                    <div style="margin-top: 0.4rem;">
-                        <button type="button"
-                                class="btn btn-sm btn-danger"
-                                onclick="showReportForm('{{ message.id }}')"
-                                id="report-btn-{{ message.id }}"
-                                style="padding: 0.25rem 0.5rem;">
-                            Report
-                        </button>
-
-                        <form action="{{ url_for('report.create_report') }}"
-                              method="POST"
-                              id="report-form-{{ message.id }}"
-                              style="display: none; margin-top: 0.4rem; max-width: 70%; gap: 0.4rem;">
-
-                            <input type="hidden" name="target_user_id" value="{{ message.sender.id }}">
-                            <input type="hidden" name="target_type" value="chat_message">
-                            <input type="hidden" name="target_id" value="{{ message.id }}">
-
-                            <input type="text"
-                                   name="reason"
-                                   placeholder="Reason"
-                                   required
-                                   style="padding: 0.3rem; font-size: 0.85rem;">
-
-                            <button type="submit"
-                                    class="btn btn-sm btn-danger"
-                                    style="padding: 0.25rem 0.5rem;">
-                                Submit
-                            </button>
-
-                            <button type="button"
-                                    class="btn btn-sm btn-secondary"
-                                    onclick="hideReportForm('{{ message.id }}')"
-                                    style="padding: 0.25rem 0.5rem;">
-                                Cancel
-                            </button>
-                        </form>
-                    </div>
-                {% endif %}
             </div>
-        {% endfor %}
-    {% else %}
-        <p>No messages yet. Start the conversation!</p>
-    {% endif %}
+        </div>
+
+        <div id="chat-box" class="chat-box">
+            {% if messages %}
+                {% for message in messages %}
+                    {% set is_mine = (message.sender.id|string == current_user.id|string) %}
+
+                    <div class="message-row {% if is_mine %}mine{% else %}other{% endif %}">
+                        <div class="message-avatar">
+                            {% if is_mine %}
+                                You
+                            {% else %}
+                                {{ message.sender.username[:1]|upper }}
+                            {% endif %}
+                        </div>
+
+                        <div class="message-content-wrap">
+                            <div class="message-meta">
+                                {% if is_mine %}
+                                    You
+                                {% else %}
+                                    {{ message.sender.username }}
+                                {% endif %}
+                                · {{ message.created_at.strftime('%Y-%m-%d %H:%M') }}
+                            </div>
+
+                            <div class="message-bubble">
+                                {{ message.content | trim }}
+                            </div>
+
+                            {% if not is_mine %}
+                                <div class="report-area">
+                                    <button
+                                        type="button"
+                                        class="report-button"
+                                        onclick="showReportForm('{{ message.id }}')"
+                                        id="report-btn-{{ message.id }}"
+                                    >
+                                        Report
+                                    </button>
+
+                                    <form
+                                        action="{{ url_for('report.create_report') }}"
+                                        method="POST"
+                                        id="report-form-{{ message.id }}"
+                                        class="report-form"
+                                    >
+                                        <input type="hidden" name="target_user_id" value="{{ message.sender.id }}">
+                                        <input type="hidden" name="target_type" value="chat_message">
+                                        <input type="hidden" name="target_id" value="{{ message.id }}">
+
+                                        <input
+                                            type="text"
+                                            name="reason"
+                                            placeholder="Reason"
+                                            required
+                                            class="report-input"
+                                        >
+
+                                        <button type="submit" class="report-submit">
+                                            Submit
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="report-cancel"
+                                            onclick="hideReportForm('{{ message.id }}')"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-chat">
+                    <div>
+                        <h3>No messages yet.</h3>
+                        <p>Start the conversation with your team!</p>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div id="chat-bottom"></div>
+        </div>
+
+        <form method="POST" id="chat-form" class="chat-composer">
+            <div class="chat-form-row">
+                <input
+                    type="text"
+                    name="content"
+                    placeholder="Type your message..."
+                    required
+                    class="chat-input"
+                    autocomplete="off"
+                >
+
+                <button type="submit" class="send-button">
+                    Send
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="page-actions">
+        <a href="{{ url_for('team.team_detail', group_id=group.id) }}" class="back-team-btn">
+            ← Back to Team
+        </a>
+    </div>
 </div>
 
-<form method="POST">
-    <div style="display: flex; gap: 0.5rem;">
-        <input type="text"
-               name="content"
-               placeholder="Type your message..."
-               required
-               style="flex: 1; padding: 0.5rem;">
-
-        <button type="submit" class="btn btn-primary">
-            Send
-        </button>
-    </div>
-</form>
-
-<br>
-
-<a href="{{ url_for('team.team_detail', group_id=group.id) }}" class="btn btn-secondary">
-    Back to Team
-</a>
-
 <script>
+    function scrollChatToBottom() {
+        const chatBox = document.getElementById("chat-box");
+
+        if (!chatBox) {
+            return;
+        }
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    window.addEventListener("load", function () {
+        scrollChatToBottom();
+
+        const input = document.querySelector("input[name='content']");
+        if (input) {
+            input.focus();
+        }
+    });
+
     function showReportForm(messageId) {
         const form = document.getElementById("report-form-" + messageId);
         const button = document.getElementById("report-btn-" + messageId);
+
+        if (!form || !button) {
+            return;
+        }
 
         form.style.display = "flex";
         button.style.display = "none";
@@ -114,6 +464,10 @@
     function hideReportForm(messageId) {
         const form = document.getElementById("report-form-" + messageId);
         const button = document.getElementById("report-btn-" + messageId);
+
+        if (!form || !button) {
+            return;
+        }
 
         form.style.display = "none";
         button.style.display = "inline-block";

@@ -1,5 +1,6 @@
 from flask_login import UserMixin
-from mongoengine import Document, StringField, IntField, ReferenceField, ListField,  BooleanField
+from mongoengine import Document, StringField, IntField, BooleanField
+
 
 class User(Document, UserMixin):
     username = StringField(required=True, unique=True)
@@ -8,26 +9,34 @@ class User(Document, UserMixin):
 
     # Polymorphism configuration
     meta = {
-        'allow_inheritance': True,
-        'indexes': ['username']
+        "allow_inheritance": True,
+        "indexes": ["username"]
     }
 
     def get_id(self):
         return str(self.id)
-    
+
     @property
     def role(self):
-        """Dynamically determine the user's role from the class name."""
-        # The _cls field from MongoEngine holds the class name (e.g., 'User.Admin')
-        return self._cls.split('.')[-1].lower()
+        """
+        Dynamically determine the user's role from the class name.
+        Example:
+        - User.Admin -> admin
+        - User.Student -> student
+        """
+        return self._cls.split(".")[-1].lower()
+
 
 class Admin(User):
     admin_level = IntField(default=1)
-    # SRP: Admin uses CourseService
+
 
 class Student(User):
     xp = IntField(default=0)
     level = IntField(default=1)
+
+    # Used by moderation system.
+    # If credit_score <= 0, the student is treated as muted.
     credit_score = IntField(default=100)
 
     cefr_level = StringField(
@@ -49,3 +58,12 @@ class Student(User):
         """
         self.xp = getattr(self, "xp", 0) + amount
         self.save()
+
+    def is_muted(self):
+        """
+        Return True if the student is muted.
+
+        Current moderation rule:
+        - credit_score <= 0 means the student is muted.
+        """
+        return getattr(self, "credit_score", 100) <= 0

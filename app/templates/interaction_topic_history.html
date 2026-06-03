@@ -1,0 +1,477 @@
+{% extends "base.html" %}
+
+{% block title %}Interaction History{% endblock %}
+
+{% block content %}
+<style>
+    .ihist-page {
+        max-width: 980px;
+        margin: 0 auto;
+    }
+
+    .ihist-header {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        padding: 1.5rem 1.75rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    }
+
+    .ihist-title-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .ihist-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eef6ff;
+        border: 1px solid #bfdbfe;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+    }
+
+    .ihist-header h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: #111827;
+    }
+
+    .ihist-header p {
+        margin: 0.25rem 0 0;
+        color: #6b7280;
+    }
+
+    .ihist-actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .ihist-session-card {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 16px;
+        padding: 1.25rem 1.4rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+
+    .ihist-session-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: flex-start;
+        margin-bottom: 0.75rem;
+    }
+
+    .ihist-session-title {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #111827;
+        margin: 0;
+    }
+
+    .ihist-session-meta {
+        color: #6b7280;
+        font-size: 0.95rem;
+        margin-top: 0.25rem;
+        line-height: 1.6;
+    }
+
+    .ihist-status-badge {
+        display: inline-block;
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .ihist-status-completed {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .ihist-status-unfinished {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .ihist-preview {
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 0.9rem 1rem;
+        color: #374151;
+        margin-bottom: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .ihist-card-actions {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.5rem;
+    }
+
+    .ihist-feedback-btn {
+        display: inline-block;
+        padding: 0.55rem 0.9rem;
+        border-radius: 10px;
+        background: #6f42c1;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 800;
+        border: none;
+    }
+
+    .ihist-feedback-btn:hover {
+        background: #5a32a3;
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    .ihist-disabled-btn {
+        display: inline-block;
+        padding: 0.55rem 0.9rem;
+        border-radius: 10px;
+        background: #e5e7eb;
+        color: #6b7280;
+        font-weight: 800;
+        border: none;
+        cursor: not-allowed;
+    }
+
+    .ihist-toggle-btn {
+        display: inline-block;
+        padding: 0.55rem 0.9rem;
+        border-radius: 10px;
+        background: #0f172a;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 800;
+        border: none;
+        cursor: pointer;
+    }
+
+    .ihist-toggle-btn:hover {
+        background: #1e293b;
+    }
+
+    .ihist-panel {
+        display: none;
+        margin-top: 1rem;
+        border-top: 1px solid #e5e7eb;
+        padding-top: 1rem;
+    }
+
+    .ihist-panel.open {
+        display: block;
+    }
+
+    .ihist-window {
+        background: #f3f6fa;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 1.1rem;
+    }
+
+    .ihist-message {
+        display: flex !important;
+        width: 100% !important;
+        margin-bottom: 1rem !important;
+        align-items: flex-start !important;
+    }
+
+    .ihist-message.ihist-user {
+        justify-content: flex-end !important;
+    }
+
+    .ihist-message.ihist-partner {
+        justify-content: flex-start !important;
+    }
+
+    .ihist-avatar {
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+        border-radius: 50% !important;
+        background: #ffffff !important;
+        border: 1px solid #dbe4ee !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1rem !important;
+        flex-shrink: 0 !important;
+        margin-right: 0.65rem !important;
+    }
+
+    .ihist-user .ihist-avatar {
+        order: 2 !important;
+        margin-right: 0 !important;
+        margin-left: 0.65rem !important;
+    }
+
+    .ihist-body {
+        display: flex !important;
+        flex-direction: column !important;
+        width: auto !important;
+        max-width: 430px !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    .ihist-user .ihist-body {
+        align-items: flex-end !important;
+    }
+
+    .ihist-partner .ihist-body {
+        align-items: flex-start !important;
+    }
+
+    .ihist-name {
+        display: block !important;
+        width: auto !important;
+        font-size: 0.82rem !important;
+        font-weight: 800 !important;
+        color: #6b7280 !important;
+        margin: 0 0 0.3rem 0 !important;
+        padding: 0 !important;
+        line-height: 1.2 !important;
+        text-align: left !important;
+    }
+
+    .ihist-user .ihist-name {
+        text-align: right !important;
+    }
+
+    .ihist-bubble {
+        display: inline-block !important;
+        width: auto !important;
+        max-width: 420px !important;
+        height: auto !important;
+        min-height: 0 !important;
+        padding: 0.65rem 0.85rem !important;
+        margin: 0 !important;
+        border-radius: 16px !important;
+        line-height: 1.55 !important;
+
+        white-space: normal !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+
+        box-sizing: border-box !important;
+        text-align: left !important;
+        font-size: 0.96rem !important;
+    }
+
+    .ihist-bubble * {
+        text-align: left !important;
+    }
+
+    .ihist-partner .ihist-bubble {
+        background: #ffffff !important;
+        color: #111827 !important;
+        border: 1px solid #e5e7eb !important;
+        border-top-left-radius: 6px !important;
+    }
+
+    .ihist-user .ihist-bubble {
+        background: #007bff !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-top-right-radius: 6px !important;
+    }
+
+    .ihist-empty {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    @media (max-width: 768px) {
+        .ihist-page {
+            max-width: 100%;
+        }
+
+        .ihist-title-row {
+            align-items: flex-start;
+        }
+
+        .ihist-session-top {
+            flex-direction: column;
+        }
+
+        .ihist-body {
+            max-width: 86% !important;
+        }
+
+        .ihist-bubble {
+            max-width: 100% !important;
+        }
+    }
+</style>
+
+<div class="ihist-page">
+    <div class="ihist-header">
+        <div class="ihist-title-row">
+            <div class="ihist-icon">{{ persona_emoji }}</div>
+
+            <div>
+                <h1>{{ topic.title }}</h1>
+                <p>Role: {{ persona_name }}</p>
+                <p>Topic history chat records</p>
+                <p>主題歷史聊天紀錄</p>
+            </div>
+        </div>
+
+        <div class="ihist-actions">
+            <a href="{{ url_for('interaction.interaction_topics') }}" class="btn btn-secondary">
+                Back to Topics
+            </a>
+
+            <a href="{{ url_for('interaction.start_interaction_session', topic_id=topic.id) }}" class="btn btn-primary">
+                Start New Practice
+            </a>
+        </div>
+    </div>
+
+    {% if not session_history %}
+        <div class="ihist-empty">
+            <h3>No chat history yet.</h3>
+            <p>目前這個主題還沒有任何聊天紀錄。</p>
+
+            <a href="{{ url_for('interaction.start_interaction_session', topic_id=topic.id) }}" class="btn btn-primary">
+                Start First Practice
+            </a>
+        </div>
+    {% endif %}
+
+    {% for item in session_history %}
+        <div class="ihist-session-card">
+            <div class="ihist-session-top">
+                <div>
+                    <h2 class="ihist-session-title">
+                        Session {{ loop.index }}
+                    </h2>
+
+                    <div class="ihist-session-meta">
+                        Started at:
+                        {% if item.session.started_at %}
+                            {{ item.session.started_at.strftime("%Y-%m-%d %H:%M") }}
+                        {% else %}
+                            Unknown time
+                        {% endif %}
+
+                        · Messages: {{ item.message_count }}
+                        · XP: {{ item.session.xp_gained }}
+
+                        {% if item.session.completed %}
+                            · Score: {{ item.session.score }}/100
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if item.session.completed %}
+                    <span class="ihist-status-badge ihist-status-completed">Completed</span>
+                {% else %}
+                    <span class="ihist-status-badge ihist-status-unfinished">Unfinished</span>
+                {% endif %}
+            </div>
+
+            <div class="ihist-preview">
+                <strong>Preview:</strong> {{ item.preview }}
+            </div>
+
+            <div class="ihist-card-actions">
+                {% if item.session.completed %}
+                    <a href="{{ url_for('interaction.interaction_result', session_id=item.session.id) }}" class="ihist-feedback-btn">
+                        View Feedback
+                    </a>
+                {% else %}
+                    <button class="ihist-disabled-btn" disabled>
+                        Feedback Not Available
+                    </button>
+                {% endif %}
+
+                {% if not item.session.completed %}
+                    <a href="{{ url_for('interaction.interaction_chat', session_id=item.session.id) }}" class="btn btn-success">
+                        Continue Chat
+                    </a>
+                {% endif %}
+
+                <button
+                    type="button"
+                    class="ihist-toggle-btn"
+                    onclick="toggleSessionMessages('session-messages-{{ item.session.id }}', this)"
+                >
+                    Show Session
+                </button>
+            </div>
+
+            <div class="ihist-panel" id="session-messages-{{ item.session.id }}">
+                <div class="ihist-window">
+                    {% for message in item.messages %}
+                        {% if message.role == "user" %}
+                            <div class="ihist-message ihist-user">
+                                <div class="ihist-avatar">你</div>
+
+                                <div class="ihist-body">
+                                    <div class="ihist-name">You</div>
+                                    <div class="ihist-bubble">
+                                        {{ message.content | trim }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="ihist-message ihist-partner">
+                                <div class="ihist-avatar">{{ persona_emoji }}</div>
+
+                                <div class="ihist-body">
+                                    <div class="ihist-name">{{ persona_name }}</div>
+                                    <div class="ihist-bubble">
+                                        {{ message.content | trim}}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    function toggleSessionMessages(targetId, button) {
+        const messageList = document.getElementById(targetId);
+
+        if (!messageList) {
+            return;
+        }
+
+        messageList.classList.toggle("open");
+
+        if (messageList.classList.contains("open")) {
+            button.textContent = "Hide Session";
+        } else {
+            button.textContent = "Show Session";
+        }
+    }
+</script>
+{% endblock %}

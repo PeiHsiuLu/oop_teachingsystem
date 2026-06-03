@@ -1,105 +1,888 @@
 {% extends "base.html" %}
+{% block title %}Team Up{% endblock %}
+
 {% block content %}
 
-<h2>Team Up (Use Case 7)</h2>
-<p>Join an existing study group or create your own to learn together!</p>
+<style>
+    .team-up-page {
+        max-width: 1120px;
+        margin: 0 auto;
+    }
 
-<a href="{{ url_for('team.leaderboard') }}" class="btn btn-primary" style="margin-bottom: 1rem;">
-    View Team Leaderboard
-</a>
-<div class="card" style="margin-bottom: 2rem; padding: 1.5rem; border: 1px solid #ddd; border-radius: 8px; background-color: #fdfdfd;">
-    <h3>Create a New Team</h3>
-    <form action="{{ url_for('team.create_team') }}" method="POST">
-        <div style="margin-bottom: 1rem;">
-            <label for="name">Team Name:</label><br>
-            <input type="text" id="name" name="name" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+    .team-up-hero {
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
+        border: 1px solid #e3e8f0;
+        border-radius: 22px;
+        padding: 1.8rem 2rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .team-up-hero-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .team-up-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        background: #eaf4ff;
+        color: #007bff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        flex-shrink: 0;
+    }
+
+    .team-up-title {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 900;
+        color: #111827;
+    }
+
+    .team-up-subtitle {
+        margin: 0.35rem 0 0;
+        color: #6b7280;
+        line-height: 1.6;
+    }
+
+    .top-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 1.25rem;
+    }
+
+    .top-link-btn {
+        display: inline-block;
+        padding: 0.65rem 0.95rem;
+        border-radius: 12px;
+        background: #0f172a;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 900;
+    }
+
+    .top-link-btn:hover {
+        background: #1e293b;
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+    .create-team-card {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        padding: 1.35rem 1.45rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .section-title {
+        margin: 0 0 1rem;
+        font-size: 1.35rem;
+        font-weight: 900;
+        color: #111827;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.95rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .form-label {
+        color: #374151;
+        font-weight: 800;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 0.9rem;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        font-size: 1rem;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .form-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12);
+    }
+
+    .create-btn {
+        width: fit-content;
+        padding: 0.7rem 1rem;
+        border-radius: 12px;
+        border: none;
+        background: #007bff;
+        color: #ffffff;
+        font-weight: 900;
+        cursor: pointer;
+        margin-top: 0.25rem;
+    }
+
+    .create-btn:hover {
+        background: #0069d9;
+    }
+
+    .groups-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .groups-title {
+        margin: 0;
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: #111827;
+    }
+
+    .groups-subtitle {
+        margin: 0.25rem 0 0;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+    .group-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+        gap: 1rem;
+    }
+
+    .group-card {
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        border-radius: 18px;
+        padding: 1.2rem 1.25rem;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+        display: flex;
+        flex-direction: column;
+        min-height: 420px;
+    }
+
+    .group-card.joined {
+        border-color: #22c55e;
+        box-shadow: 0 6px 20px rgba(34, 197, 94, 0.12);
+    }
+
+    .group-card-top {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.85rem;
+        margin-bottom: 0.9rem;
+    }
+
+    .group-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        background: #eaf4ff;
+        color: #007bff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.45rem;
+        flex-shrink: 0;
+    }
+
+    .group-name {
+        margin: 0;
+        font-size: 1.18rem;
+        font-weight: 900;
+        color: #111827;
+        line-height: 1.35;
+    }
+
+    .group-description {
+        margin: 0.3rem 0 0;
+        color: #6b7280;
+        line-height: 1.55;
+        min-height: 44px;
+    }
+
+    .group-stats {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin: 0.75rem 0 0.85rem;
+    }
+
+    .group-pill {
+        display: inline-block;
+        padding: 0.32rem 0.65rem;
+        border-radius: 999px;
+        background: #f1f3f5;
+        color: #374151;
+        font-size: 0.82rem;
+        font-weight: 800;
+    }
+
+    .group-pill.member {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .group-actions {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 0.45rem;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .group-actions form {
+        margin: 0;
+    }
+
+    .team-btn {
+        display: inline-block;
+        padding: 0.45rem 0.7rem;
+        border-radius: 9px;
+        border: none;
+        text-decoration: none;
+        font-weight: 800;
+        cursor: pointer;
+        font-size: 0.85rem;
+        line-height: 1.2;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .team-btn:hover {
+        text-decoration: none;
+    }
+
+    .team-btn.join {
+        background: #6c757d;
+        color: #ffffff;
+    }
+
+    .team-btn.join:hover {
+        background: #5a6268;
+        color: #ffffff;
+    }
+
+    .team-btn.leave {
+        background: #dc3545;
+        color: #ffffff;
+    }
+
+    .team-btn.leave:hover {
+        background: #c82333;
+        color: #ffffff;
+    }
+
+    .team-btn.page {
+        background: #0f172a;
+        color: #ffffff;
+    }
+
+    .team-btn.page:hover {
+        background: #1e293b;
+        color: #ffffff;
+    }
+
+    .leaderboard-preview {
+        margin-top: 0.1rem;
+        margin-bottom: 1rem;
+        padding: 0.85rem;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+    }
+
+    .leaderboard-preview-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.65rem;
+    }
+
+    .leaderboard-preview-title h5 {
+        margin: 0;
+        color: #111827;
+        font-size: 0.95rem;
+        font-weight: 900;
+    }
+
+    .leaderboard-title-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+    }
+
+    .leaderboard-tag {
+        color: #6b7280;
+        font-size: 0.78rem;
+        font-weight: 800;
+    }
+
+    .toggle-rank-btn {
+        padding: 0.25rem 0.5rem;
+        border-radius: 999px;
+        border: none;
+        background: #eaf4ff;
+        color: #007bff;
+        font-size: 0.75rem;
+        font-weight: 900;
+        cursor: pointer;
+    }
+
+    .toggle-rank-btn:hover {
+        background: #dbeafe;
+    }
+
+    .leaderboard-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+    }
+
+    .rank-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.55rem 0.65rem;
+        border-radius: 11px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+    }
+
+    .rank-row.me {
+        border: 2px solid #007bff;
+        background: #eef6ff;
+    }
+
+    .rank-left {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        min-width: 0;
+    }
+
+    .rank-badge {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #eaf4ff;
+        color: #007bff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.78rem;
+        font-weight: 900;
+        flex-shrink: 0;
+    }
+
+    .rank-badge.gold {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .rank-badge.silver {
+        background: #e5e7eb;
+        color: #374151;
+    }
+
+    .rank-badge.bronze {
+        background: #ffedd5;
+        color: #9a3412;
+    }
+
+    .rank-name-wrap {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        min-width: 0;
+    }
+
+    .rank-medal {
+        font-size: 1rem;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .rank-name {
+        color: #111827;
+        font-weight: 900;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .rank-meta {
+        color: #6b7280;
+        font-size: 0.82rem;
+        white-space: nowrap;
+    }
+
+    .your-rank-label {
+        margin: 0.65rem 0 0.35rem;
+        color: #007bff;
+        font-size: 0.8rem;
+        font-weight: 900;
+    }
+
+    .full-rank-list {
+        display: none;
+        margin-top: 0.75rem;
+        border-top: 1px solid #e5e7eb;
+        max-height: 180px;
+        overflow-y: auto;
+        padding: 0 0.25rem 0.25rem 0;
+    }
+
+    .full-rank-list.open {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+    }
+
+    .full-rank-label {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+
+        margin: 0 0 0.5rem;
+        padding: 0.75rem 0 0.5rem;
+
+        background: #f8fafc;
+        color: #374151;
+        font-size: 0.85rem;
+        font-weight: 900;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .members-preview {
+        margin-top: auto;
+        padding-top: 0.9rem;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .members-preview-title {
+        margin: 0 0 0.65rem;
+        color: #374151;
+        font-weight: 900;
+        font-size: 0.95rem;
+    }
+
+    .member-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        max-height: 140px;
+        overflow-y: auto;
+        padding-right: 0.25rem;
+    }
+
+    .member-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.5rem 0.6rem;
+        border-radius: 10px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+    }
+
+    .member-item.me {
+        border: 2px solid #007bff;
+        background: #eef6ff;
+    }
+
+    .member-left {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        min-width: 0;
+    }
+
+    .member-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #eaf4ff;
+        color: #007bff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.78rem;
+        font-weight: 900;
+        flex-shrink: 0;
+    }
+
+    .member-name {
+        color: #111827;
+        font-weight: 800;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .member-meta {
+        color: #6b7280;
+        font-size: 0.82rem;
+        white-space: nowrap;
+    }
+
+    .empty-state {
+        padding: 2rem;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px dashed #cbd5e1;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    .small-empty-state {
+        padding: 0.9rem;
+        border-radius: 12px;
+        background: #f8fafc;
+        border: 1px dashed #cbd5e1;
+        color: #6b7280;
+        text-align: center;
+    }
+
+    @media (max-width: 768px) {
+        .team-up-hero {
+            padding: 1.35rem;
+        }
+
+        .team-up-hero-row {
+            align-items: flex-start;
+        }
+
+        .team-up-title {
+            font-size: 1.6rem;
+        }
+
+        .groups-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .create-btn,
+        .top-link-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .group-actions {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .team-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="team-up-page">
+    <div class="team-up-hero">
+        <div class="team-up-hero-row">
+            <div class="team-up-icon">👥</div>
+
+            <div>
+                <h2 class="team-up-title">Team Up</h2>
+                <p class="team-up-subtitle">
+                    Create or join a study group, learn with teammates, and track your team progress together.
+                </p>
+            </div>
         </div>
-        <div style="margin-bottom: 1rem;">
-            <label for="description">Description:</label><br>
-            <input type="text" id="description" name="description" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+
+        <div class="top-actions">
+            <a href="{{ url_for('team.leaderboard') }}" class="top-link-btn">
+                🏆 View Team Leaderboard
+            </a>
         </div>
-        <button type="submit" class="btn btn-primary">Create Team</button>
-    </form>
+    </div>
+
+    <div class="create-team-card">
+        <h3 class="section-title">Create a New Team</h3>
+
+        <form action="{{ url_for('team.create_team') }}" method="POST">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="name">Team Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        placeholder="Enter a team name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="description">Description</label>
+                    <input
+                        type="text"
+                        id="description"
+                        name="description"
+                        class="form-input"
+                        placeholder="Describe your study group"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="create-btn">
+                    Create Team
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="groups-header">
+        <div>
+            <h3 class="groups-title">Available Study Groups</h3>
+            <p class="groups-subtitle">
+                Join a group, open a team page, or expand the leaderboard inside each team card.
+            </p>
+        </div>
+    </div>
+
+    {% if groups %}
+        <div class="group-grid">
+            {% for group in groups %}
+                {% set ns = namespace(is_member=false, my_rank=0, my_member=None) %}
+                {% set ranked_members = group.members|sort(attribute='xp', reverse=true) %}
+
+                {% for member in ranked_members %}
+                    {% if member.id|string == current_user.id|string %}
+                        {% set ns.is_member = true %}
+                        {% set ns.my_rank = loop.index %}
+                        {% set ns.my_member = member %}
+                    {% endif %}
+                {% endfor %}
+
+                <div class="group-card {% if ns.is_member %}joined{% endif %}">
+                    <div class="group-card-top">
+                        <div class="group-avatar">👥</div>
+
+                        <div>
+                            <h4 class="group-name">{{ group.name }}</h4>
+
+                            {% if group.description %}
+                                <p class="group-description">{{ group.description }}</p>
+                            {% else %}
+                                <p class="group-description">No description provided.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="group-stats">
+                        <span class="group-pill">Members: {{ group.members|length }}</span>
+
+                        {% if ns.is_member %}
+                            <span class="group-pill member">Joined</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="group-actions">
+                        {% if ns.is_member %}
+                            <form action="{{ url_for('team.leave_team', group_id=group.id) }}" method="POST">
+                                <button type="submit" class="team-btn leave">
+                                    Leave
+                                </button>
+                            </form>
+                        {% else %}
+                            <form action="{{ url_for('team.join_team', group_id=group.id) }}" method="POST">
+                                <button type="submit" class="team-btn join">
+                                    Join
+                                </button>
+                            </form>
+                        {% endif %}
+
+                        <a href="{{ url_for('team.team_detail', group_id=group.id) }}" class="team-btn page">
+                            Team Page
+                        </a>
+                    </div>
+
+                    <div class="leaderboard-preview">
+                        <div class="leaderboard-preview-title">
+                            <h5>Leaderboard</h5>
+
+                            <div class="leaderboard-title-actions">
+                                <span class="leaderboard-tag">Top 3</span>
+
+                                <button
+                                    type="button"
+                                    class="toggle-rank-btn"
+                                    onclick="toggleFullRank('full-rank-{{ group.id }}', this)"
+                                >
+                                    Show Full
+                                </button>
+                            </div>
+                        </div>
+
+                        {% if ranked_members %}
+                            <div class="leaderboard-list">
+                                {% for member in ranked_members %}
+                                    {% if loop.index <= 3 %}
+                                        <div class="rank-row {% if member.id|string == current_user.id|string %}me{% endif %}">
+                                            <div class="rank-left">
+                                                <div class="rank-badge {% if loop.index == 1 %}gold{% elif loop.index == 2 %}silver{% elif loop.index == 3 %}bronze{% endif %}">
+                                                    {{ loop.index }}
+                                                </div>
+
+                                                <div class="rank-name-wrap">
+                                                    {% if loop.index == 1 %}
+                                                        <span class="rank-medal">🥇</span>
+                                                    {% elif loop.index == 2 %}
+                                                        <span class="rank-medal">🥈</span>
+                                                    {% elif loop.index == 3 %}
+                                                        <span class="rank-medal">🥉</span>
+                                                    {% endif %}
+
+                                                    <div class="rank-name">
+                                                        {{ member.username }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="rank-meta">
+                                                XP: {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if ns.is_member and ns.my_rank > 3 and ns.my_member %}
+                                    <div class="your-rank-label">Your Rank</div>
+
+                                    <div class="rank-row me">
+                                        <div class="rank-left">
+                                            <div class="rank-badge">
+                                                {{ ns.my_rank }}
+                                            </div>
+
+                                            <div class="rank-name-wrap">
+                                                <div class="rank-name">
+                                                    {{ ns.my_member.username }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="rank-meta">
+                                            XP: {{ ns.my_member.xp|default(0) }} · Lv. {{ ns.my_member.level|default(1) }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="full-rank-list" id="full-rank-{{ group.id }}">
+                                <p class="full-rank-label">Full Leaderboard</p>
+
+                                {% for member in ranked_members %}
+                                    <div class="rank-row {% if member.id|string == current_user.id|string %}me{% endif %}">
+                                        <div class="rank-left">
+                                            <div class="rank-badge {% if loop.index == 1 %}gold{% elif loop.index == 2 %}silver{% elif loop.index == 3 %}bronze{% endif %}">
+                                                {{ loop.index }}
+                                            </div>
+
+                                            <div class="rank-name-wrap">
+                                                {% if loop.index == 1 %}
+                                                    <span class="rank-medal">🥇</span>
+                                                {% elif loop.index == 2 %}
+                                                    <span class="rank-medal">🥈</span>
+                                                {% elif loop.index == 3 %}
+                                                    <span class="rank-medal">🥉</span>
+                                                {% endif %}
+
+                                                <div class="rank-name">
+                                                    {{ member.username }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="rank-meta">
+                                            XP: {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="small-empty-state">
+                                No ranking yet.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="members-preview">
+                        <p class="members-preview-title">Members</p>
+
+                        {% if group.members %}
+                            <div class="member-list">
+                                {% for member in group.members %}
+                                    <div class="member-item {% if member.id|string == current_user.id|string %}me{% endif %}">
+                                        <div class="member-left">
+                                            <div class="member-avatar">
+                                                {{ member.username[:1]|upper }}
+                                            </div>
+
+                                            <div class="member-name">
+                                                {{ member.username }}
+                                            </div>
+                                        </div>
+
+                                        <div class="member-meta">
+                                            XP: {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="small-empty-state">
+                                No members yet.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            No study groups available yet. Create the first team!
+        </div>
+    {% endif %}
 </div>
 
-<h3>Available Study Groups</h3>
-
-
-
-{% if groups %}
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
-        {% for group in groups %}
-        <div class="card" style="border: 1px solid #007bff; padding: 1rem; border-radius: 6px;">
-            <h4 style="margin-top: 0; color: #007bff;">{{ group.name }}</h4>
-            <p style="min-height: 40px;">{{ group.description }}</p>
-            <p><small><strong>Members:</strong> {{ group.members|length }}</small></p>
-    
-            {% set ns = namespace(is_member=false) %}
-
-            {% for member in group.members %}
-                {% if member.id|string == current_user.id|string %}
-                    {% set ns.is_member = true %}
-                {% endif %}
-            {% endfor %}
-
-            {% if ns.is_member %}
-                <form action="{{ url_for('team.leave_team', group_id=group.id) }}" method="POST" style="display:inline;">
-                    <button type="submit" class="btn" style="background-color:#dc3545; color:white;">
-                        Leave Team
-                    </button>
-                </form>
-            {% else %}
-                <form action="{{ url_for('team.join_team', group_id=group.id) }}" method="POST" style="display:inline;">
-                    <button type="submit" class="btn btn-secondary">
-                        Join Team
-                    </button>
-                </form>
-            {% endif %}
-    
-            <button class="btn btn-primary" style="margin-top: 10px;" onclick="loadLeaderboard('{{ group.id }}')">
-                View Leaderboard
-            </button>
-            
-            <a href="{{ url_for('team.team_detail', group_id=group.id) }}" class="btn btn-primary" style="margin-top: 10px;">
-                View Team Page
-            </a>
-    
-            <div id="leaderboard-{{ group.id }}" style="margin-top: 10px;"></div>
-    
-        </div>
-    {% endfor %}
-    </div>
-{% else %}
-    <p style="color: #6c757d;">No study groups available yet. Be the first to create one!</p>
-{% endif %}
-
 <script>
-async function loadLeaderboard(groupId) {
-    const box = document.getElementById(`leaderboard-${groupId}`);
-    box.innerHTML = "Loading leaderboard...";
+    function toggleFullRank(targetId, button) {
+        const panel = document.getElementById(targetId);
 
-    const response = await fetch(`/api/teams/${groupId}/leaderboard`);
+        if (!panel) {
+            return;
+        }
 
-    if (!response.ok) {
-        box.innerHTML = "<p style='color:red;'>Failed to load leaderboard.</p>";
-        return;
+        panel.classList.toggle("open");
+
+        if (panel.classList.contains("open")) {
+            button.textContent = "Hide Full";
+        } else {
+            button.textContent = "Show Full";
+        }
     }
-
-    const data = await response.json();
-
-    if (data.length === 0) {
-        box.innerHTML = "<p>No members yet.</p>";
-        return;
-    }
-
-    let html = "<ol>";
-    data.forEach(member => {
-        html += `<li>${member.username} - XP: ${member.xp}, Level: ${member.level}</li>`;
-    });
-    html += "</ol>";
-
-    box.innerHTML = html;
-}
 </script>
 
 {% endblock %}

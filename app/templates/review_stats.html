@@ -4,6 +4,11 @@
 {% block content %}
 
 <style>
+    .vocab-stats-page {
+        max-width: 1120px;
+        margin: 0 auto;
+    }
+
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -16,7 +21,7 @@
         border-radius: 14px;
         background: linear-gradient(135deg, #ffffff, #f8f9ff);
         border: 1px solid #e5e7eb;
-        box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
         text-align: center;
     }
 
@@ -36,12 +41,28 @@
         border-radius: 14px;
         background-color: #ffffff;
         border: 1px solid #e5e7eb;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+
+    .history-card h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+    }
+
+    .history-table-wrapper {
+        max-height: 360px;
+        overflow-y: auto;
+        overflow-x: auto;
+        margin-top: 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #ffffff;
     }
 
     .history-table {
         width: 100%;
+        min-width: 760px;
         border-collapse: collapse;
-        margin-top: 12px;
     }
 
     .history-table th,
@@ -49,6 +70,25 @@
         padding: 12px;
         border-bottom: 1px solid #e9ecef;
         text-align: left;
+        vertical-align: middle;
+    }
+
+    .history-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: #ffffff;
+        color: #111827;
+        font-weight: 800;
+        box-shadow: 0 1px 0 #e9ecef;
+    }
+
+    .history-table tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    .history-table tbody tr:last-child td {
+        border-bottom: none;
     }
 
     .quality-badge {
@@ -56,6 +96,7 @@
         border-radius: 999px;
         font-weight: bold;
         font-size: 0.85rem;
+        display: inline-block;
     }
 
     .quality-forgot {
@@ -72,100 +113,132 @@
         background-color: #d4edda;
         color: #155724;
     }
+
+    .empty-history {
+        margin-top: 12px;
+        padding: 16px;
+        border-radius: 12px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        color: #6b7280;
+    }
+
+    .page-actions {
+        margin-top: 18px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+        .history-table-wrapper {
+            max-height: 320px;
+        }
+
+        .stats-number {
+            font-size: 1.75rem;
+        }
+    }
 </style>
 
-<h2>Vocabulary Review Stats</h2>
+<div class="vocab-stats-page">
+    <h2>Vocabulary Review Stats</h2>
 
-<p>
-    Review your vocabulary performance and recent review history.
-</p>
+    <p>
+        Review your vocabulary performance and recent review history.
+    </p>
 
-<div class="stats-grid">
-    <div class="stats-card">
-        <div class="stats-number">{{ total_reviews }}</div>
-        <div class="stats-label">Total Reviews</div>
+    <div class="stats-grid">
+        <div class="stats-card">
+            <div class="stats-number">{{ total_reviews }}</div>
+            <div class="stats-label">Total Reviews</div>
+        </div>
+
+        <div class="stats-card">
+            <div class="stats-number">{{ successful_reviews }}</div>
+            <div class="stats-label">Successful Reviews</div>
+        </div>
+
+        <div class="stats-card">
+            <div class="stats-number">{{ forgot_reviews }}</div>
+            <div class="stats-label">Forgot Reviews</div>
+        </div>
+
+        <div class="stats-card">
+            <div class="stats-number">{{ accuracy }}%</div>
+            <div class="stats-label">Success Rate</div>
+        </div>
     </div>
 
-    <div class="stats-card">
-        <div class="stats-number">{{ successful_reviews }}</div>
-        <div class="stats-label">Successful Reviews</div>
+    <div class="history-card">
+        <h3>Recent Review History</h3>
+
+        {% if recent_logs %}
+            <div class="history-table-wrapper">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Word</th>
+                            <th>Result</th>
+                            <th>XP</th>
+                            <th>Reviewed At</th>
+                            <th>Next Review</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for log in recent_logs %}
+                            <tr>
+                                <td>
+                                    <strong>{{ log.word.word_text }}</strong>
+                                </td>
+
+                                <td>
+                                    {% if log.quality_label == "Forgot" %}
+                                        <span class="quality-badge quality-forgot">Forgot</span>
+                                    {% elif log.quality_label == "Hard" %}
+                                        <span class="quality-badge quality-hard">Hard</span>
+                                    {% else %}
+                                        <span class="quality-badge quality-easy">Easy</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    +{{ log.xp_gained }} XP
+                                </td>
+
+                                <td>
+                                    {{ log.reviewed_at.strftime("%Y-%m-%d %H:%M:%S") }}
+                                </td>
+
+                                <td>
+                                    {% if log.next_review_at %}
+                                        {{ log.next_review_at.strftime("%Y-%m-%d %H:%M:%S") }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-history">
+                No review history yet.
+            </div>
+        {% endif %}
     </div>
 
-    <div class="stats-card">
-        <div class="stats-number">{{ forgot_reviews }}</div>
-        <div class="stats-label">Forgot Reviews</div>
-    </div>
+    <div class="page-actions">
+        <a href="{{ url_for('srs.review_list') }}" class="btn btn-primary">
+            Back to Review List
+        </a>
 
-    <div class="stats-card">
-        <div class="stats-number">{{ accuracy }}%</div>
-        <div class="stats-label">Success Rate</div>
+        <a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
+            Back to Dashboard
+        </a>
     </div>
 </div>
-
-<div class="history-card">
-    <h3>Recent Review History</h3>
-
-    {% if recent_logs %}
-        <table class="history-table">
-            <thead>
-                <tr>
-                    <th>Word</th>
-                    <th>Result</th>
-                    <th>XP</th>
-                    <th>Reviewed At</th>
-                    <th>Next Review</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for log in recent_logs %}
-                    <tr>
-                        <td>
-                            <strong>{{ log.word.word_text }}</strong>
-                        </td>
-
-                        <td>
-                            {% if log.quality_label == "Forgot" %}
-                                <span class="quality-badge quality-forgot">Forgot</span>
-                            {% elif log.quality_label == "Hard" %}
-                                <span class="quality-badge quality-hard">Hard</span>
-                            {% else %}
-                                <span class="quality-badge quality-easy">Easy</span>
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            +{{ log.xp_gained }} XP
-                        </td>
-
-                        <td>
-                            {{ log.reviewed_at.strftime("%Y-%m-%d %H:%M:%S") }}
-                        </td>
-
-                        <td>
-                            {% if log.next_review_at %}
-                                {{ log.next_review_at.strftime("%Y-%m-%d %H:%M:%S") }}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No review history yet.</p>
-    {% endif %}
-</div>
-
-<br>
-
-<a href="{{ url_for('srs.review_list') }}" class="btn btn-primary">
-    Back to Review List
-</a>
-
-<a href="{{ url_for('course.student_course_dashboard') }}" class="btn btn-secondary">
-    Back to Dashboard
-</a>
 
 {% endblock %}

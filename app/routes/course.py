@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 import markdown
@@ -23,12 +24,9 @@ from app.models.analytics import Progress
 from app.services.course_service import CourseService
 from app.services.leaderboard_service import LeaderboardService
 from app.services.vocabulary_service import VocabularyService
-from app.services.srs_service import SRSManager, SuperMemo2Strategy
 from app.services.level_system import LevelSystem
 from app.services.achievement_service import AchievementService
 from app.services.course_vocabulary_service import CourseVocabularyService
-
-from app.repositories.word_repository import WordRepository
 
 try:
     from app.utils.decorators import no_cache
@@ -46,13 +44,6 @@ level_system = LevelSystem()
 achievement_service = AchievementService()
 course_vocabulary_service = CourseVocabularyService()
 
-word_repo = WordRepository()
-srs_strategy = SuperMemo2Strategy()
-srs_manager = SRSManager(
-    strategy=srs_strategy,
-    word_repository=word_repo
-)
-
 
 # ============================================================
 # Helper functions
@@ -60,7 +51,7 @@ srs_manager = SRSManager(
 
 def safe_add_xp(user, xp_amount):
     """
-    Add XP safely and update level.
+    Add XP safely and update level / achievement if available.
     """
 
     if not user or xp_amount <= 0:
@@ -76,13 +67,13 @@ def safe_add_xp(user, xp_amount):
 
         try:
             level_system.update_user_level(user)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[XP] Level update skipped: {e}")
 
         try:
             achievement_service.check_level_badge(user)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[XP] Achievement check skipped: {e}")
 
         return xp_amount
 
@@ -95,6 +86,9 @@ def get_path_display_name(path):
     """
     Support path_name / name / title.
     """
+
+    if not path:
+        return ""
 
     path_name = getattr(path, "path_name", "")
 
@@ -119,6 +113,9 @@ def get_path_index_by_unit(unit):
     Find which LearningPath this unit belongs to.
     Used by CourseVocabularyService to decide target CEFR level.
     """
+
+    if not unit:
+        return 1
 
     for path in LearningPath.objects.all():
         for chapter in getattr(path, "chapters", []):
@@ -160,6 +157,162 @@ def get_chapter_by_unit(unit):
                 return chapter
 
     return None
+
+
+def get_all_ordered_chapters():
+    """
+    Return all chapters in global learning order.
+
+    Important:
+    This keeps the order:
+    Path 1 Chapter 1
+    Path 1 Chapter 2
+    Path 2 Chapter 1
+    Path 2 Chapter 2
+    Path 3 Chapter 1
+    ...
+
+    This is required because the first chapter of Path 2 should check
+    the last chapter of Path 1 as its previous chapter.
+    """
+
+    ordered_chapters = []
+
+    for path in LearningPath.objects.all():
+        for chapter in getattr(path, "chapters", []):
+            ordered_chapters.append(chapter)
+
+    return ordered_chapters
+
+
+def get_previous_chapter(target_chapter):
+    """
+    Find the previous chapter across all learning paths.
+
+    Logic:
+    - Path 1 Chapter 1 has no previous chapter.
+    - Path 1 Chapter 2 uses Path 1 Chapter 1.
+    - Path 2 Chapter 1 uses Path 1's last chapter.
+    - Path 3 Chapter 1 uses Path 2's last chapter.
+    """
+
+    if not target_chapter:
+        return None
+
+    ordered_chapters = get_all_ordered_chapters()
+
+    for index, chapter in enumerate(ordered_chapters):
+        if str(chapter.id) == str(target_chapter.id):
+            if index == 0:
+                return None
+
+            return ordered_chapters[index - 1]
+
+    return None
+
+
+def get_best_quiz_score(user, chapter):
+    """
+    Get user's best quiz score for a specific chapter.
+    """
+
+    if not user or not chapter:
+        return 0
+
+    best_attempt = ChapterQuizAttempt.objects(
+        student=user,
+        chapter=chapter
+    ).order_by("-score").first()
+
+    if best_attempt:
+        return best_attempt.score
+
+    return 0
+
+
+def cefr_to_rank(cefr_level):
+    """
+    Convert CEFR level to comparable rank.
+    """
+
+    levels = {
+        "A1": 1,
+        "A2": 2,
+        "B1": 3,
+        "B2": 4,
+        "C1": 5,
+        "C2": 6,
+    }
+
+    return levels.get(str(cefr_level).upper(), 1)
+
+
+def check_chapter_unlocked(user, chapter):
+    """
+    Correct chapter unlock logic.
+
+    Important:
+    - level rule checks current user level
+    - cefr rule checks current user CEFR
+    - score rule checks PREVIOUS chapter best score across all paths
+
+    Example:
+    Path 2 Chapter 1 with Quiz Score >= 80 checks Path 1 Chapter 2 best score.
+    """
+
+    if not user or not chapter:
+        return False
+
+    unlock_rules = getattr(chapter, "unlock_rules", [])
+
+    if not unlock_rules:
+        try:
+            return chapter.is_unlocked(user)
+        except Exception:
+            return True
+
+    previous_chapter = get_previous_chapter(chapter)
+
+    for rule in unlock_rules:
+        rule_type = getattr(rule, "rule_type", "none")
+        value = getattr(rule, "value", "")
+
+        if rule_type == "none":
+            continue
+
+        if rule_type == "level":
+            try:
+                required_level = int(value)
+            except ValueError:
+                required_level = 0
+
+            user_level = getattr(user, "level", 1)
+
+            if user_level < required_level:
+                return False
+
+        elif rule_type == "score":
+            try:
+                required_score = int(value)
+            except ValueError:
+                required_score = 0
+
+            # Only the very first chapter in the entire course can skip score rule.
+            if previous_chapter is None:
+                continue
+
+            previous_best_score = get_best_quiz_score(user, previous_chapter)
+
+            if previous_best_score < required_score:
+                return False
+
+        elif rule_type == "cefr":
+            user_cefr = getattr(user, "cefr_level", "A1")
+
+            if cefr_to_rank(user_cefr) < cefr_to_rank(value):
+                return False
+
+    return True
 
 
 def has_completed_unit(user, unit):
@@ -221,6 +374,9 @@ def can_access_unit(user, chapter, unit):
     if not user or not chapter or not unit:
         return False
 
+    if not check_chapter_unlocked(user, chapter):
+        return False
+
     units = list(getattr(chapter, "units", []))
 
     if not units:
@@ -256,7 +412,7 @@ def can_take_chapter_quiz(user, chapter):
     if not user or not chapter:
         return False
 
-    if not chapter.is_unlocked(user):
+    if not check_chapter_unlocked(user, chapter):
         return False
 
     if not chapter.is_quiz_ready():
@@ -274,12 +430,27 @@ def can_take_chapter_quiz(user, chapter):
     return True
 
 
+def get_word_text_safely(word):
+    """
+    Get English word text from Word document safely.
+    """
+
+    if not word:
+        return ""
+
+    for field_name in ["word_text", "word", "english", "term", "vocabulary"]:
+        value = getattr(word, field_name, None)
+
+        if value:
+            return str(value).strip()
+
+    return ""
+
+
 def get_word_by_text(target_word):
     """
-    Find Word by word_text.
-
-    Your current Word model uses:
-    Word.word_text
+    Find Word by possible field names.
+    Your current Word model mainly uses Word.word_text.
     """
 
     if not target_word:
@@ -290,10 +461,31 @@ def get_word_by_text(target_word):
     if not target_word:
         return None
 
-    word = Word.objects(word_text__iexact=target_word).first()
+    possible_fields = [
+        "word_text",
+        "word",
+        "english",
+        "term",
+        "vocabulary",
+    ]
 
-    if word:
-        return word
+    for field_name in possible_fields:
+        try:
+            if field_name in Word._fields:
+                word = Word.objects(
+                    __raw__={
+                        field_name: {
+                            "$regex": f"^{re.escape(target_word)}$",
+                            "$options": "i"
+                        }
+                    }
+                ).first()
+
+                if word:
+                    return word
+
+        except Exception as e:
+            print(f"[Quiz Review] Search field {field_name} failed: {e}")
 
     print(f"[Quiz Review] Word not found: {target_word}")
     return None
@@ -315,26 +507,48 @@ def create_or_get_review_item(user, word):
     ).first()
 
     if existing:
-        print(f"[Quiz Review] ReviewItem already exists: {word.word_text}")
+        print(f"[Quiz Review] ReviewItem already exists: {get_word_text_safely(word)}")
         return existing
 
     try:
-        review_item = ReviewItem(
-            user=user,
-            word=word,
-            due_date=datetime.utcnow(),
-            interval=0,
-            ease_factor=2.5,
-            last_reviewed=datetime.utcnow(),
-            review_count=0
-        )
+        fields = getattr(ReviewItem, "_fields", {})
+        kwargs = {}
+
+        if "user" in fields:
+            kwargs["user"] = user
+
+        if "word" in fields:
+            kwargs["word"] = word
+
+        if "due_date" in fields:
+            kwargs["due_date"] = datetime.utcnow()
+
+        if "interval" in fields:
+            kwargs["interval"] = 0
+
+        if "ease_factor" in fields:
+            kwargs["ease_factor"] = 2.5
+
+        if "review_count" in fields:
+            kwargs["review_count"] = 0
+
+        if "last_reviewed" in fields:
+            kwargs["last_reviewed"] = datetime.utcnow()
+
+        if "created_at" in fields:
+            kwargs["created_at"] = datetime.utcnow()
+
+        if "updated_at" in fields:
+            kwargs["updated_at"] = datetime.utcnow()
+
+        review_item = ReviewItem(**kwargs)
         review_item.save()
 
-        print(f"[Quiz Review] ReviewItem created: {word.word_text}")
+        print(f"[Quiz Review] ReviewItem created: {get_word_text_safely(word)}")
         return review_item
 
     except Exception as e:
-        print(f"[Quiz Review] Failed to create ReviewItem for {word.word_text}: {e}")
+        print(f"[Quiz Review] Failed to create ReviewItem for {get_word_text_safely(word)}: {e}")
         return None
 
 
@@ -361,11 +575,11 @@ def create_vocabulary_practice_log(user, word, user_answer, correct_answer, is_c
         )
         log.save()
 
-        print(f"[Quiz Review] VocabularyPracticeLog created: {word.word_text}")
+        print(f"[Quiz Review] VocabularyPracticeLog created: {get_word_text_safely(word)}")
         return log
 
     except Exception as e:
-        print(f"[Quiz Review] Failed to create VocabularyPracticeLog for {word.word_text}: {e}")
+        print(f"[Quiz Review] Failed to create VocabularyPracticeLog for {get_word_text_safely(word)}: {e}")
         return None
 
 
@@ -378,6 +592,10 @@ def add_quiz_word_to_review(user, target_word, user_answer, correct_answer, is_c
     2. VocabularyPracticeLog must exist.
 
     Without VocabularyPracticeLog, review_list() will hide the word.
+
+    Repeating quiz:
+    - does NOT overwrite ReviewItem
+    - creates a new VocabularyPracticeLog every time
     """
 
     if not user or not target_word:
@@ -405,23 +623,15 @@ def add_quiz_word_to_review(user, target_word, user_answer, correct_answer, is_c
     if not practice_log:
         return False
 
-    print(f"[Quiz Review] SUCCESS: added to review list: {word.word_text}")
+    print(f"[Quiz Review] SUCCESS: added to review list: {get_word_text_safely(word)}")
     return True
 
 
-def get_int_from_form(field_name, default=0):
-    raw_value = request.form.get(field_name, "")
-
-    if raw_value is None or raw_value == "":
-        return default
-
-    try:
-        return int(raw_value)
-    except ValueError:
-        return default
-
-
 def normalize_quiz_options(options):
+    """
+    Normalize quiz options to exactly 4 strings.
+    """
+
     cleaned_options = []
 
     for option in options:
@@ -802,7 +1012,7 @@ def edit_unit(unit_id):
 
     try:
         vocabulary_entries = course_vocabulary_service.get_vocabulary_entries_from_content(
-            content=unit.content,
+            content=unit.content or "",
             path_index=path_index,
             count=8
         )
@@ -887,7 +1097,11 @@ def student_course_dashboard():
     if current_user.role != "student":
         return "Unauthorized", 403
 
-    user_leaderboard = leaderboard_service.get_user_leaderboard(limit=10)
+    try:
+        user_leaderboard = leaderboard_service.get_user_leaderboard(limit=10)
+    except Exception as e:
+        print(f"[Dashboard] Leaderboard failed: {e}")
+        user_leaderboard = []
 
     return render_template(
         "student_dashboard.html",
@@ -970,9 +1184,15 @@ def student_learning_paths():
     unit_access_map = {}
     unit_completed_map = {}
     quiz_access_map = {}
+    chapter_unlock_map = {}
 
     for path in all_paths:
         for chapter in path.chapters:
+            chapter_unlock_map[str(chapter.id)] = check_chapter_unlocked(
+                user,
+                chapter
+            )
+
             latest_attempt = ChapterQuizAttempt.objects(
                 student=user,
                 chapter=chapter
@@ -1012,8 +1232,9 @@ def student_learning_paths():
         unit_access_map=unit_access_map,
         unit_completed_map=unit_completed_map,
         quiz_access_map=quiz_access_map,
+        chapter_unlock_map=chapter_unlock_map,
 
-        # Keep this for old student_course.html compatibility.
+        # Compatibility for old template code.
         ChapterQuizAttempt=ChapterQuizAttempt
     )
 
@@ -1032,7 +1253,7 @@ def view_unit(unit_id):
         flash("Cannot find chapter for this unit.", "danger")
         return redirect(url_for("course.student_learning_paths"))
 
-    if not chapter.is_unlocked(user):
+    if not check_chapter_unlocked(user, chapter):
         flash("This chapter is locked.", "warning")
         return redirect(url_for("course.student_learning_paths"))
 
@@ -1045,28 +1266,47 @@ def view_unit(unit_id):
     xp_gained = safe_add_xp(user, 2)
     flash(f"You gained {xp_gained} XP for studying this unit.", "success")
 
-    html_content = markdown.markdown(
-        unit.content or "",
-        extensions=["fenced_code", "tables"]
-    )
-
     path_index = get_path_index_by_unit(unit)
+
+    highlighted_content = unit.content or ""
     vocabulary_entries = []
 
     try:
-        vocabulary_entries = course_vocabulary_service.get_vocabulary_entries_from_content(
-            content=unit.content,
+        result = course_vocabulary_service.process_course_content(
+            content=unit.content or "",
             path_index=path_index,
             count=8
         )
+
+        if isinstance(result, tuple):
+            highlighted_content, vocabulary_entries = result
+        else:
+            vocabulary_entries = result
+
     except Exception as e:
-        print(f"[Course Vocabulary] View unit extraction failed: {e}")
+        print(f"[Course Vocabulary] View unit process failed: {e}")
+
+        try:
+            vocabulary_entries = course_vocabulary_service.get_vocabulary_entries_from_content(
+                content=unit.content or "",
+                path_index=path_index,
+                count=8
+            )
+        except Exception as inner_e:
+            print(f"[Course Vocabulary] View unit extraction failed: {inner_e}")
+            vocabulary_entries = []
+
+    html_content = markdown.markdown(
+        highlighted_content or "",
+        extensions=["fenced_code", "tables"]
+    )
 
     return render_template(
         "view_unit.html",
         unit=unit,
         html_content=html_content,
-        vocabulary_entries=vocabulary_entries
+        vocabulary_entries=vocabulary_entries,
+        path_index=path_index
     )
 
 
@@ -1164,13 +1404,7 @@ def take_chapter_quiz(chapter_id):
             total=total,
             results=results,
             xp_gained=xp_gained,
-
-            # New name
-            review_words_added=review_words_added,
-
-            # Compatibility with template that uses review_added_count
             review_added_count=review_words_added,
-
             attempt=attempt
         )
 
@@ -1191,7 +1425,11 @@ def admin_vocabulary():
     if current_user.role != "admin":
         return "Unauthorized", 403
 
-    vocabs = vocab_service.get_all_vocabulary()
+    try:
+        vocabs = vocab_service.get_all_vocabulary()
+    except Exception as e:
+        print(f"[Vocabulary] get_all_vocabulary failed: {e}")
+        vocabs = []
 
     return render_template(
         "admin_vocabulary.html",

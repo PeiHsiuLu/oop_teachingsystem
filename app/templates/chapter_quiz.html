@@ -36,16 +36,50 @@
 
     .attempt-history h3 {
         margin-top: 0;
+        margin-bottom: 14px;
+    }
+
+    .attempt-list {
+        max-height: 320px;
+        overflow-y: auto;
+        padding-right: 8px;
+        border: 1px solid #e3e8f0;
+        border-radius: 12px;
+        background: #ffffff;
     }
 
     .attempt-row {
-        padding: 8px 0;
+        padding: 12px 14px;
         border-bottom: 1px solid #dee2e6;
         color: #495057;
+        line-height: 1.6;
+        background: #ffffff;
     }
 
     .attempt-row:last-child {
         border-bottom: none;
+    }
+
+    .attempt-row:hover {
+        background: #f8fafc;
+    }
+
+    .attempt-score {
+        font-weight: 800;
+        color: #007bff;
+    }
+
+    .attempt-xp {
+        font-weight: 800;
+        color: #155724;
+    }
+
+    .attempt-empty {
+        padding: 14px;
+        border-radius: 12px;
+        background: #ffffff;
+        border: 1px solid #e3e8f0;
+        color: #6c757d;
     }
 
     .question-card {
@@ -102,6 +136,10 @@
             width: 100%;
             text-align: center;
         }
+
+        .attempt-list {
+            max-height: 280px;
+        }
     }
 </style>
 
@@ -116,20 +154,30 @@
         </p>
     </div>
 
-    {% if previous_attempts and previous_attempts|length > 0 %}
-        <div class="attempt-history">
-            <h3>Recent Quiz Records</h3>
+    <div class="attempt-history">
+        <h3>Recent Quiz Records</h3>
 
-            {% for attempt in previous_attempts %}
-                <div class="attempt-row">
-                    Score: <strong>{{ attempt.score }}</strong> / 100，
-                    Correct: <strong>{{ attempt.correct_count }}</strong> / {{ attempt.total_questions }}，
-                    XP: <strong>{{ attempt.xp_gained }}</strong>，
-                    Time: {{ attempt.created_at.strftime('%Y-%m-%d %H:%M') }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+        {% if previous_attempts and previous_attempts|length > 0 %}
+            <div class="attempt-list">
+                {% for attempt in previous_attempts %}
+                    <div class="attempt-row">
+                        Score:
+                        <strong class="attempt-score">{{ attempt.score }}</strong> / 100，
+                        Correct:
+                        <strong>{{ attempt.correct_count }}</strong> / {{ attempt.total_questions }}，
+                        XP:
+                        <strong class="attempt-xp">{{ attempt.xp_gained }}</strong>，
+                        Time:
+                        {{ attempt.created_at.strftime('%Y-%m-%d %H:%M') }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="attempt-empty">
+                No quiz records yet.
+            </div>
+        {% endif %}
+    </div>
 
     <form method="POST">
         {% for question in chapter.quiz_questions %}

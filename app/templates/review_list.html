@@ -2,22 +2,36 @@
 {% block title %}Vocabulary Review List{% endblock %}
 
 {% block content %}
-
 <style>
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
     .review-page {
-        max-width: 1180px;
+        width: 100%;
+        max-width: 1200px;
         margin: 0 auto;
-        animation: reviewFadeIn 0.55s ease both;
+        overflow-x: hidden;
+        animation: reviewFadeIn 0.5s ease both;
     }
 
     .review-hero {
+        position: relative;
+        overflow: hidden;
         margin-bottom: 1.4rem;
-        padding: 1.4rem;
+        padding: 1.5rem;
         border-radius: 24px;
         background: linear-gradient(135deg, #007bff 0%, #4f46e5 55%, #7c3aed 100%);
         color: #ffffff;
-        position: relative;
-        overflow: hidden;
         box-shadow: 0 16px 34px rgba(79, 70, 229, 0.16);
     }
 
@@ -28,19 +42,19 @@
         height: 220px;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.12);
-        right: -90px;
-        top: -100px;
+        right: -80px;
+        top: -90px;
     }
 
     .review-hero::after {
         content: "";
         position: absolute;
-        width: 160px;
-        height: 160px;
+        width: 170px;
+        height: 170px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.09);
+        background: rgba(255, 255, 255, 0.08);
         left: -70px;
-        bottom: -75px;
+        bottom: -80px;
     }
 
     .review-hero-content {
@@ -52,33 +66,35 @@
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
-        padding: 0.42rem 0.85rem;
+        padding: 0.45rem 0.9rem;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.18);
-        font-weight: 950;
-        margin-bottom: 0.85rem;
+        font-weight: 900;
+        font-size: 0.92rem;
+        margin-bottom: 0.9rem;
     }
 
     .review-hero-title {
         margin: 0;
         font-size: 2rem;
         font-weight: 950;
+        line-height: 1.22;
         letter-spacing: -0.03em;
-        line-height: 1.25;
     }
 
     .review-hero-subtitle {
-        margin: 0.75rem 0 0;
-        max-width: 850px;
+        margin: 0.8rem 0 0;
+        max-width: 900px;
         line-height: 1.75;
-        opacity: 0.95;
+        font-size: 1rem;
+        opacity: 0.96;
     }
 
     .header-actions {
         display: flex;
-        gap: 0.75rem;
+        gap: 0.8rem;
         flex-wrap: wrap;
-        margin-top: 1.15rem;
+        margin-top: 1.2rem;
     }
 
     .hero-action-btn {
@@ -86,11 +102,13 @@
         align-items: center;
         justify-content: center;
         gap: 0.45rem;
-        padding: 0.72rem 1rem;
+        padding: 0.78rem 1.05rem;
         border-radius: 14px;
-        font-weight: 950;
+        font-weight: 900;
         text-decoration: none;
+        line-height: 1.45;
         transition: all 0.18s ease;
+        text-align: center;
     }
 
     .hero-action-btn.primary {
@@ -100,16 +118,16 @@
     }
 
     .hero-action-btn.secondary {
-        background: rgba(255, 255, 255, 0.13);
+        background: rgba(255, 255, 255, 0.12);
         color: #ffffff;
-        border: 1px solid rgba(255, 255, 255, 0.24);
+        border: 1px solid rgba(255, 255, 255, 0.22);
     }
 
     .hero-action-btn:hover {
-        color: #ffffff;
         text-decoration: none;
+        color: #ffffff;
         transform: translateY(-2px);
-        background: rgba(255, 255, 255, 0.28);
+        background: rgba(255, 255, 255, 0.27);
     }
 
     .review-summary-grid {
@@ -120,14 +138,15 @@
     }
 
     .summary-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
         padding: 1.15rem;
         border-radius: 20px;
         background: linear-gradient(135deg, #ffffff, #f8fbff);
         border: 1px solid #e5e7eb;
         box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+        min-width: 0;
     }
 
     .summary-icon {
@@ -137,8 +156,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.35rem;
         background: #eaf4ff;
+        font-size: 1.35rem;
         flex-shrink: 0;
     }
 
@@ -162,7 +181,7 @@
         font-weight: 850;
     }
 
-    .review-list-card {
+    .review-section {
         border: 1px solid #e5e7eb;
         border-radius: 24px;
         background: #ffffff;
@@ -170,118 +189,131 @@
         overflow: hidden;
     }
 
-    .review-card-header {
-        padding: 1.25rem 1.35rem;
-        border-bottom: 1px solid #e5e7eb;
-        background: linear-gradient(135deg, #ffffff, #f8fafc);
+    .review-section-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         gap: 1rem;
         flex-wrap: wrap;
+        padding: 1.3rem 1.35rem;
+        border-bottom: 1px solid #e5e7eb;
+        background: linear-gradient(135deg, #ffffff, #f8fafc);
     }
 
-    .review-card-title {
+    .review-section-title {
         margin: 0;
-        color: #111827;
-        font-size: 1.25rem;
+        font-size: 1.28rem;
         font-weight: 950;
+        color: #111827;
     }
 
-    .review-card-desc {
-        margin: 0.35rem 0 0;
+    .review-section-desc {
+        margin: 0.38rem 0 0;
         color: #6b7280;
-        line-height: 1.6;
+        line-height: 1.65;
     }
 
-    .table-scroll-note {
-        padding: 0.45rem 0.75rem;
+    .review-tip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.5rem 0.8rem;
         border-radius: 999px;
         background: #f1f5f9;
         color: #64748b;
-        font-size: 0.85rem;
+        font-size: 0.86rem;
         font-weight: 850;
-        white-space: nowrap;
+        text-align: center;
     }
 
-    .review-table-wrapper {
-        max-height: 520px;
-        overflow: auto;
-        padding: 0.85rem;
+    .review-card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        padding: 1rem;
         background: #f8fafc;
     }
 
-    .review-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 10px;
-        min-width: 1120px;
+    .review-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        min-width: 0;
+        padding: 1.1rem;
+        border-radius: 20px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .review-table th {
-        position: sticky;
-        top: 0;
-        z-index: 5;
-        text-align: left;
-        padding: 0.9rem 0.75rem;
-        color: #64748b;
-        font-size: 0.88rem;
-        font-weight: 950;
-        white-space: nowrap;
-        background: #f8fafc;
-        border-bottom: 1px solid #e5e7eb;
+    .review-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
     }
 
-    .review-table td {
-        padding: 0.9rem 0.75rem;
-        background-color: #ffffff;
-        vertical-align: middle;
-        border-top: 1px solid #e5e7eb;
-        border-bottom: 1px solid #e5e7eb;
+    .review-card.ready {
+        border-color: #bbf7d0;
+        box-shadow: 0 10px 24px rgba(22, 101, 52, 0.08);
     }
 
-    .review-table tr td:first-child {
-        border-left: 1px solid #e5e7eb;
-        border-top-left-radius: 16px;
-        border-bottom-left-radius: 16px;
+    .review-card.waiting {
+        border-color: #fde68a;
+        box-shadow: 0 10px 24px rgba(146, 64, 14, 0.07);
     }
 
-    .review-table tr td:last-child {
-        border-right: 1px solid #e5e7eb;
-        border-top-right-radius: 16px;
-        border-bottom-right-radius: 16px;
+    .review-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .word-block {
+        min-width: 0;
+        flex: 1;
     }
 
     .word-title {
-        display: block;
-        font-weight: 950;
         color: #111827;
-        font-size: 1.08rem;
+        font-size: 1.45rem;
+        font-weight: 950;
+        line-height: 1.2;
+        word-break: break-word;
     }
 
     .word-subtitle {
-        display: block;
-        margin-top: 0.2rem;
+        margin-top: 0.25rem;
         color: #6b7280;
-        font-size: 0.82rem;
+        font-size: 0.85rem;
         font-weight: 800;
     }
 
-    .definition-cell {
-        max-width: 250px;
+    .definition-text {
+        margin-top: 0.45rem;
         color: #374151;
+        font-size: 1rem;
+        font-weight: 800;
         line-height: 1.55;
-        font-weight: 750;
+        word-break: break-word;
     }
 
+    .status-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.4rem;
+        flex-shrink: 0;
+    }
+
+    .status-ready,
+    .status-waiting,
     .pos-badge,
     .practice-correct,
     .practice-incorrect,
     .practice-unknown,
     .difficulty-badge,
-    .count-badge,
-    .status-ready,
-    .status-waiting {
+    .count-badge {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -289,70 +321,151 @@
         border-radius: 999px;
         font-weight: 950;
         font-size: 0.84rem;
+        line-height: 1.35;
+        text-align: center;
         white-space: nowrap;
     }
 
+    .status-ready {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-waiting {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
     .pos-badge {
-        background-color: #f8fafc;
+        background: #f8fafc;
         color: #475569;
         border: 1px solid #dbe4ee;
     }
 
     .practice-correct {
-        background-color: #dcfce7;
+        background: #dcfce7;
         color: #166534;
     }
 
     .practice-incorrect {
-        background-color: #fee2e2;
+        background: #fee2e2;
         color: #991b1b;
     }
 
     .practice-unknown {
-        background-color: #e5e7eb;
+        background: #e5e7eb;
         color: #4b5563;
     }
 
-    .practice-answer-detail {
-        display: block;
-        margin-top: 0.45rem;
-        color: #6b7280;
-        font-size: 0.8rem;
-        line-height: 1.45;
-        font-weight: 750;
-    }
-
     .difficulty-badge {
-        background-color: #eaf4ff;
+        background: #eaf4ff;
         color: #007bff;
     }
 
     .count-badge {
-        background-color: #f3e8ff;
+        background: #f3e8ff;
         color: #6f42c1;
     }
 
-    .status-ready {
-        background-color: #dcfce7;
+    .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.65rem;
+    }
+
+    .meta-item {
+        min-width: 0;
+        padding: 0.78rem;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+    }
+
+    .meta-label {
+        color: #64748b;
+        font-size: 0.8rem;
+        font-weight: 950;
+        line-height: 1.35;
+        margin-bottom: 0.35rem;
+    }
+
+    .meta-value {
+        color: #111827;
+        font-weight: 950;
+        line-height: 1.45;
+        word-break: break-word;
+    }
+
+    .practice-box {
+        padding: 0.82rem;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+    }
+
+    .practice-title {
+        color: #111827;
+        font-weight: 950;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .practice-detail {
+        margin-top: 0.55rem;
+        color: #6b7280;
+        font-size: 0.88rem;
+        line-height: 1.6;
+        font-weight: 800;
+        word-break: break-word;
+    }
+
+    .next-review-box {
+        padding: 0.8rem;
+        border-radius: 16px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        color: #374151;
+        font-weight: 900;
+        line-height: 1.55;
+        word-break: break-word;
+    }
+
+    .ready-text {
+        font-weight: 950;
         color: #166534;
+        white-space: nowrap;
     }
 
-    .status-waiting {
-        background-color: #fef3c7;
+    .countdown {
+        font-weight: 950;
         color: #92400e;
+        white-space: nowrap;
     }
 
-    .review-action-btn {
+    .card-actions {
+        display: flex;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+    }
+
+    .review-action-btn,
+    .disabled-button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0.62rem 0.9rem;
-        border-radius: 12px;
+        min-width: 0;
+        max-width: 100%;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        font-weight: 950;
+        line-height: 1.45;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .review-action-btn {
         background: #007bff;
         color: #ffffff;
-        text-decoration: none;
-        font-weight: 950;
-        white-space: nowrap;
         transition: all 0.18s ease;
     }
 
@@ -364,16 +477,9 @@
     }
 
     .disabled-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.62rem 0.9rem;
-        border-radius: 12px;
-        background-color: #cbd5e1;
+        background: #cbd5e1;
         color: #475569;
-        font-weight: 950;
         cursor: not-allowed;
-        white-space: nowrap;
     }
 
     .empty-box {
@@ -387,21 +493,14 @@
     }
 
     .empty-box h3 {
-        color: #111827;
         margin-top: 0;
+        color: #111827;
         font-weight: 950;
+        line-height: 1.5;
     }
 
-    .countdown {
-        font-weight: 950;
-        color: #92400e;
-        white-space: nowrap;
-    }
-
-    .ready-text {
-        font-weight: 950;
-        color: #166534;
-        white-space: nowrap;
+    .empty-box p {
+        line-height: 1.75;
     }
 
     @keyframes reviewFadeIn {
@@ -409,40 +508,50 @@
             opacity: 0;
             transform: translateY(14px);
         }
-
         to {
             opacity: 1;
             transform: translateY(0);
         }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 992px) {
         .review-summary-grid {
             grid-template-columns: 1fr;
         }
 
-        .summary-card {
-            padding: 1rem;
+        .review-card-grid {
+            grid-template-columns: 1fr;
         }
 
         .review-hero-title {
-            font-size: 1.65rem;
-        }
-
-        .review-card-header {
-            flex-direction: column;
-        }
-
-        .table-scroll-note {
-            border-radius: 12px;
-            white-space: normal;
+            font-size: 1.8rem;
         }
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 640px) {
         .review-hero {
             padding: 1.15rem;
             border-radius: 18px;
+            margin-bottom: 1rem;
+        }
+
+        .review-hero-badge {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+            white-space: normal;
+            border-radius: 16px;
+            font-size: 0.86rem;
+        }
+
+        .review-hero-title {
+            font-size: 1.55rem;
+            line-height: 1.28;
+        }
+
+        .review-hero-subtitle {
+            font-size: 0.94rem;
+            line-height: 1.7;
         }
 
         .header-actions {
@@ -453,9 +562,137 @@
             width: 100%;
         }
 
-        .review-table-wrapper {
-            max-height: 460px;
-            padding: 0.65rem;
+        .summary-card {
+            padding: 0.95rem;
+            border-radius: 18px;
+        }
+
+        .summary-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            font-size: 1.18rem;
+        }
+
+        .summary-number {
+            font-size: 1.55rem;
+        }
+
+        .review-section {
+            border-radius: 18px;
+        }
+
+        .review-section-header {
+            padding: 1rem;
+        }
+
+        .review-section-title {
+            font-size: 1.12rem;
+        }
+
+        .review-section-desc {
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        .review-tip {
+            width: 100%;
+            justify-content: center;
+            white-space: normal;
+            text-align: center;
+        }
+
+        .review-card-grid {
+            padding: 0.75rem;
+            gap: 0.75rem;
+        }
+
+        .review-card {
+            padding: 0.92rem;
+            border-radius: 16px;
+        }
+
+        .review-card-top {
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .status-wrap {
+            width: 100%;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .word-title {
+            font-size: 1.22rem;
+        }
+
+        .definition-text {
+            font-size: 0.92rem;
+        }
+
+        .meta-grid {
+            grid-template-columns: 1fr;
+            gap: 0.55rem;
+        }
+
+        .meta-item,
+        .practice-box,
+        .next-review-box {
+            padding: 0.72rem;
+            border-radius: 14px;
+        }
+
+        .pos-badge,
+        .practice-correct,
+        .practice-incorrect,
+        .practice-unknown,
+        .difficulty-badge,
+        .count-badge,
+        .status-ready,
+        .status-waiting {
+            font-size: 0.78rem;
+            padding: 0.32rem 0.58rem;
+            white-space: normal;
+        }
+
+        .card-actions {
+            flex-direction: column;
+        }
+
+        .review-action-btn,
+        .disabled-button {
+            width: 100%;
+        }
+
+        .empty-box {
+            margin: 0.75rem;
+            padding: 1.2rem;
+            border-radius: 16px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .review-hero,
+        .review-card,
+        .review-section-header {
+            padding: 0.85rem;
+        }
+
+        .review-hero-title {
+            font-size: 1.36rem;
+        }
+
+        .word-title {
+            font-size: 1.08rem;
+        }
+
+        .definition-text,
+        .review-section-desc,
+        .review-hero-subtitle {
+            font-size: 0.86rem;
         }
     }
 </style>
@@ -484,7 +721,6 @@
                 <a href="{{ url_for('course.student_course_dashboard') }}" class="hero-action-btn secondary">
                     ← Back to Dashboard｜回到首頁
                 </a>
-
                 <a href="{{ url_for('srs.review_stats') }}" class="hero-action-btn primary">
                     📊 View Review Stats｜查看複習統計
                 </a>
@@ -494,7 +730,6 @@
 
     {% if items %}
         {% set ns = namespace(ready_count=0, waiting_count=0) %}
-
         {% for item in items %}
             {% if item.is_due %}
                 {% set ns.ready_count = ns.ready_count + 1 %}
@@ -516,9 +751,7 @@
             <div class="summary-card">
                 <div class="summary-icon">✅</div>
                 <div>
-                    <div class="summary-number" id="readyCount">
-                        {{ ns.ready_count }}
-                    </div>
+                    <div class="summary-number" id="readyCount">{{ ns.ready_count }}</div>
                     <div class="summary-label">Ready Now</div>
                     <div class="summary-label-zh">現在可複習</div>
                 </div>
@@ -527,9 +760,7 @@
             <div class="summary-card">
                 <div class="summary-icon">⏳</div>
                 <div>
-                    <div class="summary-number" id="waitingCount">
-                        {{ ns.waiting_count }}
-                    </div>
+                    <div class="summary-number" id="waitingCount">{{ ns.waiting_count }}</div>
                     <div class="summary-label">Waiting</div>
                     <div class="summary-label-zh">等待中</div>
                 </div>
@@ -537,157 +768,147 @@
         </section>
     {% endif %}
 
-    <section class="review-list-card">
-        <div class="review-card-header">
+    <section class="review-section">
+        <div class="review-section-header">
             <div>
-                <h3 class="review-card-title">
-                    Review Words｜複習單字
-                </h3>
-
-                <p class="review-card-desc">
+                <h3 class="review-section-title">Review Words｜複習單字</h3>
+                <p class="review-section-desc">
                     Review ready words first. Waiting words will unlock after the countdown ends.
                     <br>
                     建議先複習狀態為 Ready 的單字。Waiting 的單字會在倒數結束後開放複習。
                 </p>
             </div>
 
-            <div class="table-scroll-note">
-                Tip｜提示：表格可上下與左右滑動
+            <div class="review-tip">
+                Tip｜提示：已改為卡片式閱讀，更方便查看
             </div>
         </div>
 
         {% if items %}
-            <div class="review-table-wrapper">
-                <table class="review-table">
-                    <thead>
-                        <tr>
-                            <th>Word<br>單字</th>
-                            <th>Definition<br>定義</th>
-                            <th>Part of Speech<br>詞性</th>
-                            <th>Sentence / Quiz<br>句子 / 測驗</th>
-                            <th>Difficulty<br>難度</th>
-                            <th>Review Count<br>複習次數</th>
-                            <th>Status<br>狀態</th>
-                            <th>Next Review<br>下次複習</th>
-                            <th>Action<br>操作</th>
-                        </tr>
-                    </thead>
+            <div class="review-card-grid">
+                {% for item in items %}
+                    <div class="review-card {% if item.is_due %}ready{% else %}waiting{% endif %}">
+                        <div class="review-card-top">
+                            <div class="word-block">
+                                <div class="word-title">{{ item.word.word_text }}</div>
+                                <div class="word-subtitle">Vocabulary item｜單字項目</div>
 
-                    <tbody>
-                        {% for item in items %}
-                            <tr>
-                                <td>
-                                    <span class="word-title">
-                                        {{ item.word.word_text }}
-                                    </span>
-                                    <span class="word-subtitle">
-                                        Vocabulary item
-                                    </span>
-                                </td>
-
-                                <td class="definition-cell">
+                                <div class="definition-text">
                                     {% if item.word.definition %}
                                         {{ item.word.definition }}
                                     {% else %}
-                                        -
+                                        No definition｜無定義
                                     {% endif %}
-                                </td>
+                                </div>
+                            </div>
 
-                                <td>
+                            <div class="status-wrap">
+                                {% if item.is_due %}
+                                    <span class="status-ready">Ready｜可複習</span>
+                                {% else %}
+                                    <span class="status-waiting">Waiting｜等待中</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="meta-grid">
+                            <div class="meta-item">
+                                <div class="meta-label">Part of Speech｜詞性</div>
+                                <div class="meta-value">
                                     {% if item.word.part_of_speech %}
-                                        <span class="pos-badge">
-                                            {{ item.word.part_of_speech }}
-                                        </span>
+                                        <span class="pos-badge">{{ item.word.part_of_speech }}</span>
                                     {% else %}
                                         -
                                     {% endif %}
-                                </td>
+                                </div>
+                            </div>
 
-                                <td>
-                                    {% if item.practice_status == "Correct" %}
-                                        <span class="practice-correct">
-                                            Correct｜答對
-                                        </span>
+                            <div class="meta-item">
+                                <div class="meta-label">Difficulty｜難度</div>
+                                <div class="meta-value">
+                                    <span class="difficulty-badge">{{ item.word.difficulty_level }}</span>
+                                </div>
+                            </div>
 
-                                        <span class="practice-answer-detail">
-                                            Answer｜答案：{{ item.practice_answer }}
-                                        </span>
+                            <div class="meta-item">
+                                <div class="meta-label">Review Count｜複習次數</div>
+                                <div class="meta-value">
+                                    <span class="count-badge">{{ item.review_item.review_count }}</span>
+                                </div>
+                            </div>
 
-                                    {% elif item.practice_status == "Incorrect" %}
-                                        <span class="practice-incorrect">
-                                            Incorrect｜答錯
-                                        </span>
-
-                                        <span class="practice-answer-detail">
-                                            Your answer｜你的答案：{{ item.practice_answer }}
-                                            <br>
-                                            Correct｜正確答案：{{ item.practice_correct_answer }}
-                                        </span>
-
-                                    {% else %}
-                                        <span class="practice-unknown">
-                                            Unknown｜未知
-                                        </span>
-
-                                        <span class="practice-answer-detail">
-                                            No sentence practice record.
-                                            <br>
-                                            尚無句子練習紀錄。
-                                        </span>
-                                    {% endif %}
-                                </td>
-
-                                <td>
-                                    <span class="difficulty-badge">
-                                        {{ item.word.difficulty_level }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <span class="count-badge">
-                                        {{ item.review_item.review_count }}
-                                    </span>
-                                </td>
-
-                                <td>
-                                    {% if item.is_due %}
-                                        <span class="status-ready">Ready｜可複習</span>
-                                    {% else %}
-                                        <span class="status-waiting">Waiting｜等待中</span>
-                                    {% endif %}
-                                </td>
-
-                                <td>
+                            <div class="meta-item">
+                                <div class="meta-label">Next Review｜下次複習</div>
+                                <div class="meta-value">
                                     {% if item.is_due %}
                                         <span class="ready-text">Now｜現在</span>
                                     {% else %}
-                                        <span
-                                            class="countdown"
-                                            data-seconds-left="{{ item.seconds_left }}"
-                                        >
+                                        <span class="countdown" data-seconds-left="{{ item.seconds_left }}">
                                             {{ item.seconds_left }} seconds
                                         </span>
                                     {% endif %}
-                                </td>
+                                </div>
+                            </div>
+                        </div>
 
-                                <td>
-                                    {% if item.is_due %}
-                                        <a
-                                            href="{{ url_for('srs.review_word', word_id=item.word.id) }}"
-                                            class="review-action-btn"
-                                        >
-                                            Review Now｜立即複習
-                                        </a>
-                                    {% else %}
-                                        <span class="disabled-button">
-                                            Not Ready｜尚未開放
-                                        </span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        <div class="practice-box">
+                            <div class="practice-title">Sentence / Quiz Result｜句子 / 測驗結果</div>
+
+                            {% if item.practice_status == "Correct" %}
+                                <span class="practice-correct">Correct｜答對</span>
+                                <div class="practice-detail">
+                                    Answer｜答案：{{ item.practice_answer }}
+                                </div>
+
+                            {% elif item.practice_status == "Incorrect" %}
+                                <span class="practice-incorrect">Incorrect｜答錯</span>
+                                <div class="practice-detail">
+                                    Your answer｜你的答案：{{ item.practice_answer }}
+                                    <br>
+                                    Correct｜正確答案：{{ item.practice_correct_answer }}
+                                </div>
+
+                            {% else %}
+                                <span class="practice-unknown">Unknown｜未知</span>
+                                <div class="practice-detail">
+                                    No sentence practice record.
+                                    <br>
+                                    尚無句子練習紀錄。
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="next-review-box">
+                            {% if item.is_due %}
+                                This word is ready to review now.
+                                <br>
+                                這個單字現在可以複習。
+                            {% else %}
+                                This word will unlock after:
+                                <br>
+                                距離開放複習還剩：
+                                <span class="countdown" data-seconds-left="{{ item.seconds_left }}">
+                                    {{ item.seconds_left }} seconds
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <div class="card-actions">
+                            {% if item.is_due %}
+                                <a
+                                    href="{{ url_for('srs.review_word', word_id=item.word.id) }}"
+                                    class="review-action-btn"
+                                >
+                                    Review Now｜立即複習
+                                </a>
+                            {% else %}
+                                <span class="disabled-button">
+                                    Not Ready｜尚未開放
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         {% else %}
             <div class="empty-box">
@@ -778,5 +999,4 @@
         setInterval(updateCountdowns, 1000);
     });
 </script>
-
 {% endblock %}

@@ -382,6 +382,7 @@
         color: #374151;
         font-size: 0.85rem;
         font-weight: 850;
+        max-width: 100%;
     }
 
     .chat-badge.blue {
@@ -405,9 +406,29 @@
         font-weight: 750;
     }
 
-    .scenario-box strong {
+    .scenario-box summary {
+        cursor: pointer;
         color: #111827;
         font-weight: 950;
+    }
+
+    .scenario-box summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .scenario-box summary::after {
+        content: "▾";
+        float: right;
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    .scenario-box[open] summary::after {
+        content: "▴";
+    }
+
+    .scenario-text {
+        margin-top: 0.55rem;
     }
 
     .chat-messages {
@@ -647,12 +668,14 @@
             grid-template-columns: 1fr;
         }
 
-        .history-panel {
-            height: 520px;
+        .chat-main {
+            order: 1;
+            height: 760px;
         }
 
-        .chat-main {
-            height: 760px;
+        .history-panel {
+            order: 2;
+            height: 520px;
         }
 
         .message-body {
@@ -661,33 +684,237 @@
     }
 
     @media (max-width: 640px) {
+        .chat-layout {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            gap: 0.8rem;
+        }
+
+        .chat-main {
+            height: auto;
+            min-height: auto;
+            border-radius: 16px;
+        }
+
+        .history-panel {
+            height: auto;
+            min-height: 560px;
+            max-height: none;
+            border-radius: 16px;
+        }
+
+        .history-header {
+            padding: 0.85rem 1rem;
+        }
+
+        .history-header h2 {
+            font-size: 1.08rem;
+            line-height: 1.35;
+        }
+
+        .history-header p {
+            font-size: 0.84rem;
+            line-height: 1.55;
+        }
+
+        .history-list {
+            max-height: 430px;
+            min-height: 430px;
+            padding: 0.7rem;
+            overflow-y: auto;
+        }
+
+        .history-card {
+            padding: 0.85rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .history-footer {
+            padding: 0.65rem 0.7rem;
+        }
+
+        .back-topics-btn {
+            min-height: 46px;
+            padding: 0.55rem 0.75rem;
+        }
+
+        .back-topics-en {
+            font-size: 0.9rem;
+        }
+
+        .back-topics-zh {
+            font-size: 0.78rem;
+        }
+
         .chat-header {
-            padding: 1.15rem;
+            padding: 0.75rem 0.85rem;
         }
 
         .chat-title-row {
+            display: grid;
+            grid-template-columns: 44px minmax(0, 1fr);
+            gap: 0.65rem;
             align-items: flex-start;
         }
 
+        .topic-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            font-size: 1.45rem;
+        }
+
         .chat-header h1 {
-            font-size: 1.55rem;
+            font-size: 1.22rem;
+            line-height: 1.22;
+            word-break: normal;
+            overflow-wrap: anywhere;
+        }
+
+        .chat-header p {
+            font-size: 0.8rem;
+            line-height: 1.45;
+        }
+
+        .chat-badges {
+            gap: 0.35rem;
+            margin-top: 0.55rem;
+        }
+
+        .chat-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.45rem;
+            line-height: 1.3;
+            white-space: normal;
+            text-align: left;
+        }
+
+        .scenario-box {
+            margin-top: 0.55rem;
+            padding: 0.65rem 0.75rem;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .scenario-text {
+            max-height: 110px;
+            overflow-y: auto;
         }
 
         .chat-messages {
-            padding: 1rem;
+            height: 390px;
+            min-height: 390px;
+            flex: none;
+            padding: 0.85rem;
+            overflow-y: auto;
+        }
+
+        .message-row {
+            gap: 0.45rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .message-avatar {
+            width: 28px;
+            height: 28px;
+            font-size: 0.82rem;
+        }
+
+        .message-body {
+            max-width: 88%;
+        }
+
+        .message-name {
+            font-size: 0.74rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .message-bubble-main {
+            padding: 0.65rem 0.75rem;
+            border-radius: 14px;
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .typing-bubble {
+            padding: 0.65rem 0.75rem;
+            font-size: 0.86rem;
+        }
+
+        .chat-form {
+            padding: 0.65rem 0.7rem;
         }
 
         .chat-form-row {
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            grid-column: 1 / -1;
+            min-height: 42px;
+            max-height: 76px;
+            padding: 0.6rem 0.7rem;
+            font-size: 0.88rem;
+            resize: none;
         }
 
         .chat-submit,
         .chat-finish {
             width: 100%;
+            padding: 0.68rem 0.5rem;
+            font-size: 0.8rem;
+            line-height: 1.25;
+            white-space: normal;
+        }
+
+        .chat-error {
+            margin-top: 0.55rem;
+            padding: 0.65rem 0.75rem;
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .chat-messages {
+            height: 430px;
+            min-height: 430px;
+        }
+
+        .history-panel {
+            min-height: 620px;
+        }
+
+        .history-list {
+            max-height: 500px;
+            min-height: 500px;
+        }
+
+        .chat-header h1 {
+            font-size: 1.12rem;
+        }
+
+        .chat-header p {
+            font-size: 0.76rem;
+        }
+
+        .chat-badge {
+            font-size: 0.66rem;
+        }
+
+        .scenario-box {
+            font-size: 0.76rem;
         }
 
         .message-body {
-            max-width: 86%;
+            max-width: 90%;
+        }
+
+        .chat-submit,
+        .chat-finish {
+            font-size: 0.76rem;
         }
     }
 </style>
@@ -855,15 +1082,19 @@
                 </span>
             </div>
 
-            <div class="scenario-box">
-                <strong>Instruction｜練習說明：</strong>
-                <br>
-                This is a realistic role-play conversation. Reply in English and stay in the situation.
-                Your partner will respond as a real scenario character, not as a generic tutor.
-                <br>
-                這是真實情境的角色扮演對話。請用英文回覆，並盡量維持在情境中。
-                你的對話對象會以真實角色回應，而不是一般英文老師。
-            </div>
+            <details class="scenario-box" id="scenarioBox" open>
+                <summary>
+                    Instruction｜練習說明
+                </summary>
+
+                <div class="scenario-text">
+                    This is a realistic role-play conversation. Reply in English and stay in the situation.
+                    Your partner will respond as a real scenario character, not as a generic tutor.
+                    <br>
+                    這是真實情境的角色扮演對話。請用英文回覆，並盡量維持在情境中。
+                    你的對話對象會以真實角色回應，而不是一般英文老師。
+                </div>
+            </details>
         </div>
 
         <div class="chat-messages" id="chatMessages">
@@ -907,6 +1138,7 @@
                 <button type="submit" name="action" value="send" class="chat-submit" id="sendButton">
                     Send｜送出
                 </button>
+
                 <button
                     type="submit"
                     name="action"
@@ -950,11 +1182,16 @@
         const finishButton = document.getElementById("finishButton");
         const chatError = document.getElementById("chatError");
         const sessionXpBadge = document.getElementById("sessionXpBadge");
+        const scenarioBox = document.getElementById("scenarioBox");
 
         const personaName = {{ persona_name | tojson }};
         const personaEmoji = {{ persona_emoji | tojson }};
         const chatPostUrl = {{ url_for('interaction.interaction_chat', session_id=session.id) | tojson }};
         const finishUrl = {{ url_for('interaction.finish_interaction_session', session_id=session.id) | tojson }};
+
+        if (scenarioBox && window.innerWidth <= 640) {
+            scenarioBox.removeAttribute("open");
+        }
 
         function scrollChatToBottom() {
             if (chatMessages) {

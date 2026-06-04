@@ -5,24 +5,52 @@
 {% block content %}
 
 <style>
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
     .container {
+        width: 100%;
         max-width: 1180px;
         background: transparent;
         box-shadow: none;
+        border: none;
+        border-radius: 0;
         padding: 0 1.5rem;
+        overflow-x: hidden;
     }
 
     .landing-page {
+        width: 100%;
         max-width: 1180px;
         margin: 0 auto;
+        overflow-x: hidden;
     }
 
     .hero-section {
+        width: 100%;
+        max-width: 100%;
         display: grid;
-        grid-template-columns: 1.15fr 0.85fr;
+        grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
         gap: 2rem;
         align-items: center;
         padding: 2rem 0 2.2rem;
+        overflow-x: hidden;
+    }
+
+    .hero-copy,
+    .hero-visual {
+        min-width: 0;
+        max-width: 100%;
     }
 
     .hero-copy {
@@ -33,6 +61,7 @@
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
+        max-width: 100%;
         padding: 0.45rem 0.75rem;
         border-radius: 999px;
         background: #eaf4ff;
@@ -40,15 +69,19 @@
         font-weight: 900;
         font-size: 0.9rem;
         margin-bottom: 1rem;
+        line-height: 1.45;
+        white-space: normal;
     }
 
     .hero-title {
         margin: 0;
         color: #111827;
-        font-size: 3rem;
+        font-size: clamp(2rem, 5vw, 3rem);
         line-height: 1.15;
         font-weight: 950;
         letter-spacing: -0.04em;
+        max-width: 100%;
+        overflow-wrap: anywhere;
     }
 
     .hero-title span {
@@ -62,6 +95,7 @@
         line-height: 1.8;
         max-width: 720px;
         font-weight: 700;
+        overflow-wrap: anywhere;
     }
 
     .hero-subtitle-zh {
@@ -70,6 +104,7 @@
         font-size: 1rem;
         line-height: 1.8;
         max-width: 720px;
+        overflow-wrap: anywhere;
     }
 
     .hero-actions {
@@ -77,16 +112,25 @@
         flex-wrap: wrap;
         gap: 0.8rem;
         margin-top: 1.5rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .hero-btn {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        max-width: 100%;
         padding: 0.85rem 1.15rem;
         border-radius: 14px;
         text-decoration: none;
         font-weight: 900;
         border: 1px solid transparent;
         transition: 0.2s ease;
+        text-align: center;
+        line-height: 1.45;
+        white-space: normal;
     }
 
     .hero-btn.primary {
@@ -121,12 +165,15 @@
 
     .floating-panel {
         position: relative;
+        width: 100%;
+        max-width: 100%;
         padding: 1.25rem;
         border-radius: 24px;
         background: linear-gradient(135deg, #ffffff, #f8fbff);
         border: 1px solid #e3e8f0;
         box-shadow: 0 18px 45px rgba(15, 23, 42, 0.1);
         animation: floatPanel 4s ease-in-out infinite;
+        overflow: hidden;
     }
 
     .floating-panel-header {
@@ -134,6 +181,7 @@
         align-items: center;
         gap: 0.75rem;
         margin-bottom: 1rem;
+        min-width: 0;
     }
 
     .floating-icon {
@@ -154,6 +202,8 @@
         color: #111827;
         font-weight: 950;
         font-size: 1.15rem;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .floating-subtitle {
@@ -161,12 +211,15 @@
         color: #6b7280;
         font-size: 0.9rem;
         line-height: 1.5;
+        overflow-wrap: anywhere;
     }
 
     .mini-feature-list {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .mini-feature {
@@ -174,6 +227,9 @@
         justify-content: space-between;
         align-items: center;
         gap: 0.75rem;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
         padding: 0.75rem 0.85rem;
         border-radius: 16px;
         background: #ffffff;
@@ -182,10 +238,12 @@
 
     .mini-feature-left {
         display: flex;
-        align-items: center;
-        gap: 0.65rem;
+        flex-direction: column;
+        min-width: 0;
         font-weight: 900;
         color: #111827;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .mini-feature-zh {
@@ -204,23 +262,31 @@
         font-size: 0.78rem;
         font-weight: 900;
         white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .section-block {
+        width: 100%;
+        max-width: 100%;
         margin-top: 2rem;
         animation: fadeSlideUp 0.8s ease 0.2s both;
+        overflow-x: hidden;
     }
 
     .section-heading {
         text-align: center;
         margin-bottom: 1.25rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .section-heading h2 {
         margin: 0;
         color: #111827;
-        font-size: 2rem;
+        font-size: clamp(1.55rem, 4vw, 2rem);
         font-weight: 950;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .section-heading p {
@@ -228,21 +294,29 @@
         color: #6b7280;
         max-width: 720px;
         line-height: 1.7;
+        overflow-wrap: anywhere;
     }
 
     .feature-grid {
+        width: 100%;
+        max-width: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 1rem;
+        overflow-x: hidden;
     }
 
     .feature-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
         background: #ffffff;
         border: 1px solid #e3e8f0;
         border-radius: 20px;
         padding: 1.25rem 1.3rem;
         box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
         transition: 0.2s ease;
+        overflow: hidden;
     }
 
     .feature-card:hover {
@@ -261,6 +335,7 @@
         justify-content: center;
         font-size: 1.55rem;
         margin-bottom: 0.85rem;
+        flex-shrink: 0;
     }
 
     .feature-card h3 {
@@ -268,6 +343,8 @@
         color: #111827;
         font-size: 1.15rem;
         font-weight: 950;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
     }
 
     .feature-card h3 span {
@@ -282,6 +359,7 @@
         line-height: 1.65;
         font-size: 0.96rem;
         font-weight: 700;
+        overflow-wrap: anywhere;
     }
 
     .feature-zh {
@@ -289,6 +367,7 @@
         color: #6b7280;
         line-height: 1.65;
         font-size: 0.95rem;
+        overflow-wrap: anywhere;
     }
 
     .feature-tags {
@@ -296,6 +375,8 @@
         flex-wrap: wrap;
         gap: 0.4rem;
         margin-top: 0.9rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .feature-tag {
@@ -305,29 +386,41 @@
         color: #334155;
         font-size: 0.78rem;
         font-weight: 800;
+        max-width: 100%;
+        overflow-wrap: anywhere;
     }
 
     .flow-section {
+        width: 100%;
+        max-width: 100%;
         margin-top: 2rem;
         padding: 1.4rem;
         border-radius: 22px;
         background: linear-gradient(135deg, #ffffff, #f8fbff);
         border: 1px solid #e3e8f0;
         box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+        overflow-x: hidden;
     }
 
     .flow-grid {
+        width: 100%;
+        max-width: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
         gap: 0.9rem;
         margin-top: 1rem;
+        overflow-x: hidden;
     }
 
     .flow-step {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
         padding: 1rem;
         border-radius: 16px;
         background: #ffffff;
         border: 1px solid #e5e7eb;
+        overflow: hidden;
     }
 
     .flow-number {
@@ -347,6 +440,8 @@
         margin: 0;
         color: #111827;
         font-weight: 950;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
     }
 
     .flow-step h4 span {
@@ -359,6 +454,7 @@
         color: #6b7280;
         line-height: 1.55;
         font-size: 0.93rem;
+        overflow-wrap: anywhere;
     }
 
     @keyframes fadeSlideUp {
@@ -388,23 +484,171 @@
             grid-template-columns: 1fr;
         }
 
-        .hero-title {
-            font-size: 2.35rem;
+        .hero-visual {
+            max-width: 620px;
         }
     }
 
     @media (max-width: 640px) {
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 0.85rem;
+            padding-right: 0.85rem;
+            overflow-x: hidden;
+        }
+
+        .landing-page {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            width: 100%;
+            max-width: 100%;
+            padding: 1.45rem 0 1.6rem;
+            gap: 1.25rem;
+            overflow-x: hidden;
+        }
+
+        .hero-badge {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+            border-radius: 16px;
+            font-size: 0.82rem;
+            padding: 0.55rem 0.65rem;
+        }
+
         .hero-title {
             font-size: 2rem;
+            line-height: 1.18;
+            letter-spacing: -0.035em;
+        }
+
+        .hero-subtitle-en {
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        .hero-subtitle-zh {
+            font-size: 0.95rem;
+            line-height: 1.75;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
         .hero-btn {
             width: 100%;
+            max-width: 100%;
             text-align: center;
         }
 
         .floating-panel {
             animation: none;
+            border-radius: 20px;
+            padding: 1rem;
+        }
+
+        .floating-panel-header {
+            align-items: flex-start;
+        }
+
+        .floating-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 15px;
+            font-size: 1.4rem;
+        }
+
+        .floating-title {
+            font-size: 1rem;
+        }
+
+        .floating-subtitle {
+            font-size: 0.84rem;
+        }
+
+        .mini-feature {
+            align-items: flex-start;
+            padding: 0.7rem;
+        }
+
+        .mini-feature-pill {
+            font-size: 0.72rem;
+            padding: 0.22rem 0.45rem;
+        }
+
+        .feature-grid {
+            grid-template-columns: 1fr;
+            gap: 0.85rem;
+        }
+
+        .feature-card {
+            border-radius: 18px;
+            padding: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.05rem;
+        }
+
+        .feature-en,
+        .feature-zh {
+            font-size: 0.9rem;
+        }
+
+        .flow-section {
+            border-radius: 18px;
+            padding: 1rem;
+        }
+
+        .flow-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .container {
+            padding-left: 0.65rem;
+            padding-right: 0.65rem;
+        }
+
+        .hero-title {
+            font-size: 1.78rem;
+        }
+
+        .hero-subtitle-en,
+        .hero-subtitle-zh {
+            font-size: 0.9rem;
+        }
+
+        .hero-btn {
+            padding: 0.78rem 0.9rem;
+            font-size: 0.95rem;
+        }
+
+        .floating-panel {
+            padding: 0.85rem;
+        }
+
+        .mini-feature {
+            gap: 0.5rem;
+        }
+
+        .mini-feature-left {
+            font-size: 0.88rem;
+        }
+
+        .mini-feature-zh {
+            font-size: 0.76rem;
         }
     }
 </style>
@@ -586,19 +830,19 @@
                 </p>
 
                 <p class="feature-zh">
-                    透過機場、飯店、交朋友等情境，和 AI 進行英文角色扮演對話。
+                    透過 AI 角色扮演練習機場、旅館、交朋友等真實英文情境。
                 </p>
 
                 <div class="feature-tags">
                     <span class="feature-tag">Gemini</span>
-                    <span class="feature-tag">Role Play</span>
+                    <span class="feature-tag">Role-play</span>
                     <span class="feature-tag">Conversation</span>
                 </div>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">📊</div>
-                <h3>Performance Analysis <span>｜成效分析</span></h3>
+                <h3>Learning Analysis <span>｜學習成效分析</span></h3>
 
                 <p class="feature-en">
                     Gemini analyzes your CEFR level, conversation ability, sentence-building ability, and overall progress.

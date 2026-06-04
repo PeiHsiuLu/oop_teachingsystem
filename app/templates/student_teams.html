@@ -1,27 +1,47 @@
 {% extends "base.html" %}
-{% block title %}Team Up｜團隊學習｜團隊學習{% endblock %}
+{% block title %}Team Up｜團隊學習{% endblock %}
 
 {% block content %}
 
 <style>
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
     .team-up-page {
+        width: 100%;
         max-width: 1120px;
         margin: 0 auto;
+        overflow-x: hidden;
+        animation: teamFadeIn 0.55s ease both;
     }
 
     .team-up-hero {
+        width: 100%;
+        max-width: 100%;
         background: linear-gradient(135deg, #ffffff, #f8fbff);
         border: 1px solid #e3e8f0;
         border-radius: 22px;
         padding: 1.8rem 2rem;
         margin-bottom: 1.25rem;
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
     }
 
     .team-up-hero-row {
         display: flex;
         align-items: center;
         gap: 1rem;
+        min-width: 0;
     }
 
     .team-up-icon {
@@ -40,14 +60,18 @@
     .team-up-title {
         margin: 0;
         font-size: 2rem;
-        font-weight: 900;
+        font-weight: 950;
         color: #111827;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
     }
 
     .team-up-subtitle {
         margin: 0.35rem 0 0;
         color: #6b7280;
-        line-height: 1.6;
+        line-height: 1.7;
+        font-weight: 700;
+        overflow-wrap: anywhere;
     }
 
     .top-actions {
@@ -55,65 +79,95 @@
         gap: 0.75rem;
         flex-wrap: wrap;
         margin-top: 1.25rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .top-link-btn {
-        display: inline-block;
-        padding: 0.65rem 0.95rem;
-        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        max-width: 100%;
+        padding: 0.7rem 1rem;
+        border-radius: 14px;
         background: #0f172a;
         color: #ffffff;
         text-decoration: none;
-        font-weight: 900;
+        font-weight: 950;
+        line-height: 1.4;
+        text-align: center;
+        white-space: normal;
+        transition: all 0.18s ease;
     }
 
     .top-link-btn:hover {
         background: #1e293b;
         color: #ffffff;
         text-decoration: none;
+        transform: translateY(-1px);
     }
 
     .create-team-card {
+        width: 100%;
+        max-width: 100%;
         background: #ffffff;
         border: 1px solid #e3e8f0;
         border-radius: 18px;
         padding: 1.35rem 1.45rem;
         margin-bottom: 1.5rem;
         box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+        overflow: hidden;
     }
 
     .section-title {
         margin: 0 0 1rem;
         font-size: 1.35rem;
-        font-weight: 900;
+        font-weight: 950;
         color: #111827;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+    }
+
+    .section-title-zh {
+        display: block;
+        margin-top: 0.15rem;
+        color: #6b7280;
+        font-size: 1rem;
+        font-weight: 900;
     }
 
     .form-grid {
         display: grid;
         grid-template-columns: 1fr;
         gap: 0.95rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .form-group {
         display: flex;
         flex-direction: column;
         gap: 0.35rem;
+        min-width: 0;
     }
 
     .form-label {
         color: #374151;
-        font-weight: 800;
+        font-weight: 900;
+        line-height: 1.45;
     }
 
     .form-input {
         width: 100%;
+        max-width: 100%;
         padding: 0.75rem 0.9rem;
         border: 1px solid #d1d5db;
         border-radius: 12px;
         font-size: 1rem;
         outline: none;
         box-sizing: border-box;
+        min-width: 0;
     }
 
     .form-input:focus {
@@ -123,18 +177,23 @@
 
     .create-btn {
         width: fit-content;
-        padding: 0.7rem 1rem;
+        max-width: 100%;
+        padding: 0.75rem 1.05rem;
         border-radius: 12px;
         border: none;
         background: #007bff;
         color: #ffffff;
-        font-weight: 900;
+        font-weight: 950;
         cursor: pointer;
         margin-top: 0.25rem;
+        line-height: 1.4;
+        white-space: normal;
+        transition: all 0.18s ease;
     }
 
     .create-btn:hover {
         background: #0069d9;
+        transform: translateY(-1px);
     }
 
     .groups-header {
@@ -143,28 +202,39 @@
         align-items: flex-end;
         gap: 1rem;
         margin-bottom: 1rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .groups-title {
         margin: 0;
         font-size: 1.4rem;
-        font-weight: 900;
+        font-weight: 950;
         color: #111827;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .groups-subtitle {
         margin: 0.25rem 0 0;
         color: #6b7280;
-        line-height: 1.5;
+        line-height: 1.65;
+        overflow-wrap: anywhere;
     }
 
     .group-grid {
+        width: 100%;
+        max-width: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
         gap: 1rem;
+        overflow-x: hidden;
     }
 
     .group-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
         background: #ffffff;
         border: 1px solid #e3e8f0;
         border-radius: 18px;
@@ -173,6 +243,7 @@
         display: flex;
         flex-direction: column;
         min-height: 420px;
+        overflow: hidden;
     }
 
     .group-card.joined {
@@ -185,6 +256,7 @@
         align-items: flex-start;
         gap: 0.85rem;
         margin-bottom: 0.9rem;
+        min-width: 0;
     }
 
     .group-avatar {
@@ -200,12 +272,18 @@
         flex-shrink: 0;
     }
 
+    .group-info {
+        min-width: 0;
+        flex: 1;
+    }
+
     .group-name {
         margin: 0;
         font-size: 1.18rem;
-        font-weight: 900;
+        font-weight: 950;
         color: #111827;
         line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .group-description {
@@ -213,6 +291,7 @@
         color: #6b7280;
         line-height: 1.55;
         min-height: 44px;
+        overflow-wrap: anywhere;
     }
 
     .group-stats {
@@ -220,16 +299,23 @@
         gap: 0.5rem;
         flex-wrap: wrap;
         margin: 0.75rem 0 0.85rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .group-pill {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         padding: 0.32rem 0.65rem;
         border-radius: 999px;
         background: #f1f3f5;
         color: #374151;
         font-size: 0.82rem;
-        font-weight: 800;
+        font-weight: 850;
+        line-height: 1.35;
+        white-space: normal;
+        max-width: 100%;
     }
 
     .group-pill.member {
@@ -239,32 +325,40 @@
 
     .group-actions {
         display: grid;
-        grid-template-columns: auto auto;
-        gap: 0.45rem;
-        align-items: center;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        align-items: stretch;
         margin-bottom: 1rem;
+        width: 100%;
     }
 
     .group-actions form {
         margin: 0;
+        width: 100%;
     }
 
     .team-btn {
-        display: inline-block;
-        padding: 0.45rem 0.7rem;
-        border-radius: 9px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-width: 0;
+        padding: 0.58rem 0.7rem;
+        border-radius: 11px;
         border: none;
         text-decoration: none;
-        font-weight: 800;
+        font-weight: 900;
         cursor: pointer;
-        font-size: 0.85rem;
-        line-height: 1.2;
+        font-size: 0.88rem;
+        line-height: 1.25;
         text-align: center;
-        white-space: nowrap;
+        white-space: normal;
+        transition: all 0.18s ease;
     }
 
     .team-btn:hover {
         text-decoration: none;
+        transform: translateY(-1px);
     }
 
     .team-btn.join {
@@ -298,12 +392,15 @@
     }
 
     .leaderboard-preview {
+        width: 100%;
+        max-width: 100%;
         margin-top: 0.1rem;
         margin-bottom: 1rem;
         padding: 0.85rem;
         border-radius: 14px;
         background: #f8fafc;
         border: 1px solid #e5e7eb;
+        overflow: hidden;
     }
 
     .leaderboard-preview-title {
@@ -312,36 +409,43 @@
         align-items: center;
         gap: 0.5rem;
         margin-bottom: 0.65rem;
+        min-width: 0;
     }
 
     .leaderboard-preview-title h5 {
         margin: 0;
         color: #111827;
         font-size: 0.95rem;
-        font-weight: 900;
+        font-weight: 950;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .leaderboard-title-actions {
         display: flex;
         align-items: center;
         gap: 0.45rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .leaderboard-tag {
         color: #6b7280;
         font-size: 0.78rem;
-        font-weight: 800;
+        font-weight: 850;
+        white-space: nowrap;
     }
 
     .toggle-rank-btn {
-        padding: 0.25rem 0.5rem;
+        padding: 0.3rem 0.55rem;
         border-radius: 999px;
         border: none;
         background: #eaf4ff;
         color: #007bff;
         font-size: 0.75rem;
-        font-weight: 900;
+        font-weight: 950;
         cursor: pointer;
+        white-space: nowrap;
     }
 
     .toggle-rank-btn:hover {
@@ -352,17 +456,21 @@
         display: flex;
         flex-direction: column;
         gap: 0.45rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .rank-row {
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
         align-items: center;
-        justify-content: space-between;
         gap: 0.75rem;
         padding: 0.55rem 0.65rem;
         border-radius: 11px;
         background: #ffffff;
         border: 1px solid #e5e7eb;
+        min-width: 0;
+        width: 100%;
     }
 
     .rank-row.me {
@@ -387,7 +495,7 @@
         align-items: center;
         justify-content: center;
         font-size: 0.78rem;
-        font-weight: 900;
+        font-weight: 950;
         flex-shrink: 0;
     }
 
@@ -421,23 +529,25 @@
 
     .rank-name {
         color: #111827;
-        font-weight: 900;
+        font-weight: 950;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        min-width: 0;
     }
 
     .rank-meta {
         color: #6b7280;
         font-size: 0.82rem;
         white-space: nowrap;
+        font-weight: 800;
     }
 
     .your-rank-label {
         margin: 0.65rem 0 0.35rem;
         color: #007bff;
         font-size: 0.8rem;
-        font-weight: 900;
+        font-weight: 950;
     }
 
     .full-rank-list {
@@ -459,14 +569,12 @@
         position: sticky;
         top: 0;
         z-index: 5;
-
         margin: 0 0 0.5rem;
         padding: 0.75rem 0 0.5rem;
-
         background: #f8fafc;
         color: #374151;
         font-size: 0.85rem;
-        font-weight: 900;
+        font-weight: 950;
         border-bottom: 1px solid #e5e7eb;
     }
 
@@ -474,12 +582,15 @@
         margin-top: auto;
         padding-top: 0.9rem;
         border-top: 1px solid #e5e7eb;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
     }
 
     .members-preview-title {
         margin: 0 0 0.65rem;
         color: #374151;
-        font-weight: 900;
+        font-weight: 950;
         font-size: 0.95rem;
     }
 
@@ -490,17 +601,20 @@
         max-height: 140px;
         overflow-y: auto;
         padding-right: 0.25rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .member-item {
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
         align-items: center;
-        justify-content: space-between;
         gap: 0.75rem;
         padding: 0.5rem 0.6rem;
         border-radius: 10px;
         background: #f8fafc;
         border: 1px solid #e5e7eb;
+        min-width: 0;
     }
 
     .member-item.me {
@@ -525,22 +639,24 @@
         align-items: center;
         justify-content: center;
         font-size: 0.78rem;
-        font-weight: 900;
+        font-weight: 950;
         flex-shrink: 0;
     }
 
     .member-name {
         color: #111827;
-        font-weight: 800;
+        font-weight: 900;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        min-width: 0;
     }
 
     .member-meta {
         color: #6b7280;
         font-size: 0.82rem;
         white-space: nowrap;
+        font-weight: 800;
     }
 
     .empty-state {
@@ -550,6 +666,7 @@
         border: 1px dashed #cbd5e1;
         text-align: center;
         color: #6b7280;
+        line-height: 1.7;
     }
 
     .small-empty-state {
@@ -559,11 +676,29 @@
         border: 1px dashed #cbd5e1;
         color: #6b7280;
         text-align: center;
+        line-height: 1.6;
+    }
+
+    @keyframes teamFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     @media (max-width: 768px) {
+        .team-up-page {
+            max-width: 100%;
+        }
+
         .team-up-hero {
-            padding: 1.35rem;
+            padding: 1.15rem;
+            border-radius: 18px;
         }
 
         .team-up-hero-row {
@@ -571,7 +706,7 @@
         }
 
         .team-up-title {
-            font-size: 1.6rem;
+            font-size: 1.55rem;
         }
 
         .groups-header {
@@ -585,13 +720,232 @@
             text-align: center;
         }
 
-        .group-actions {
-            grid-template-columns: 1fr 1fr;
-        }
-
         .team-btn {
             width: 100%;
             text-align: center;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .team-up-page {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .team-up-hero,
+        .create-team-card,
+        .group-card {
+            border-radius: 18px;
+        }
+
+        .team-up-hero {
+            padding: 1rem;
+        }
+
+        .team-up-hero-row {
+            display: grid;
+            grid-template-columns: 48px minmax(0, 1fr);
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .team-up-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            font-size: 1.45rem;
+        }
+
+        .team-up-title {
+            font-size: 1.45rem;
+            line-height: 1.25;
+        }
+
+        .team-up-subtitle {
+            font-size: 0.94rem;
+            line-height: 1.65;
+        }
+
+        .top-actions {
+            margin-top: 1rem;
+        }
+
+        .top-link-btn {
+            padding: 0.72rem 0.8rem;
+            font-size: 0.92rem;
+        }
+
+        .create-team-card {
+            padding: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .section-title {
+            font-size: 1.22rem;
+            line-height: 1.35;
+        }
+
+        .form-input {
+            padding: 0.72rem 0.8rem;
+            font-size: 0.94rem;
+        }
+
+        .create-btn {
+            width: 100%;
+            padding: 0.75rem 0.85rem;
+        }
+
+        .groups-title {
+            font-size: 1.25rem;
+        }
+
+        .groups-subtitle {
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        .group-grid {
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+        }
+
+        .group-card {
+            padding: 1rem;
+            min-height: auto;
+        }
+
+        .group-card-top {
+            gap: 0.7rem;
+        }
+
+        .group-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            font-size: 1.25rem;
+        }
+
+        .group-name {
+            font-size: 1.08rem;
+        }
+
+        .group-description {
+            min-height: auto;
+            font-size: 0.92rem;
+        }
+
+        .group-pill {
+            font-size: 0.76rem;
+            padding: 0.28rem 0.52rem;
+        }
+
+        .group-actions {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+
+        .team-btn {
+            padding: 0.68rem 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .leaderboard-preview {
+            padding: 0.75rem;
+        }
+
+        .leaderboard-preview-title {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .leaderboard-title-actions {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .toggle-rank-btn {
+            padding: 0.35rem 0.65rem;
+        }
+
+        .rank-row {
+            grid-template-columns: 1fr;
+            gap: 0.4rem;
+            align-items: flex-start;
+            padding: 0.62rem;
+        }
+
+        .rank-left {
+            width: 100%;
+        }
+
+        .rank-name {
+            max-width: 170px;
+        }
+
+        .rank-meta {
+            white-space: normal;
+            padding-left: 2.6rem;
+            font-size: 0.78rem;
+            line-height: 1.45;
+        }
+
+        .full-rank-list {
+            max-height: 240px;
+        }
+
+        .members-preview {
+            margin-top: 1rem;
+        }
+
+        .member-list {
+            max-height: 220px;
+        }
+
+        .member-item {
+            grid-template-columns: 1fr;
+            gap: 0.35rem;
+            align-items: flex-start;
+        }
+
+        .member-meta {
+            white-space: normal;
+            padding-left: 2.45rem;
+            font-size: 0.78rem;
+            line-height: 1.45;
+        }
+
+        .empty-state {
+            padding: 1.25rem;
+            border-radius: 16px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .team-up-hero,
+        .create-team-card,
+        .group-card {
+            padding: 0.85rem;
+        }
+
+        .team-up-title {
+            font-size: 1.25rem;
+        }
+
+        .team-up-subtitle,
+        .groups-subtitle,
+        .group-description {
+            font-size: 0.86rem;
+        }
+
+        .top-link-btn,
+        .team-btn,
+        .create-btn {
+            font-size: 0.84rem;
+        }
+
+        .rank-name {
+            max-width: 130px;
         }
     }
 </style>
@@ -605,19 +959,24 @@
                 <h2 class="team-up-title">Team Up｜團隊學習</h2>
                 <p class="team-up-subtitle">
                     Create or join a study group, learn with teammates, and track your team progress together.
+                    <br>
+                    建立或加入學習團隊，和隊友一起學習，並追蹤團隊進度。
                 </p>
             </div>
         </div>
 
         <div class="top-actions">
             <a href="{{ url_for('team.leaderboard') }}" class="top-link-btn">
-                🏆 View Team Leaderboard｜排行榜
+                🏆 View Team Leaderboard｜查看團隊排行榜
             </a>
         </div>
     </div>
 
     <div class="create-team-card">
-        <h3 class="section-title">Create a New Team</h3>
+        <h3 class="section-title">
+            Create a New Team
+            <span class="section-title-zh">建立新團隊</span>
+        </h3>
 
         <form action="{{ url_for('team.create_team') }}" method="POST">
             <div class="form-grid">
@@ -628,7 +987,7 @@
                         id="name"
                         name="name"
                         class="form-input"
-                        placeholder="Enter a team name"
+                        placeholder="Enter a team name｜輸入團隊名稱"
                         required
                     >
                 </div>
@@ -640,7 +999,7 @@
                         id="description"
                         name="description"
                         class="form-input"
-                        placeholder="Describe your study group"
+                        placeholder="Describe your study group｜描述你的學習團隊"
                         required
                     >
                 </div>
@@ -656,7 +1015,9 @@
         <div>
             <h3 class="groups-title">Available Study Groups｜可加入的學習團隊</h3>
             <p class="groups-subtitle">
-                Join｜加入 a group, open a team page, or expand the leaderboard inside each team card.<br>你可以加入團隊、查看團隊頁面，或展開團隊排行榜。
+                Join a group, open a team page, or expand the leaderboard inside each team card.
+                <br>
+                你可以加入團隊、查看團隊頁面，或展開團隊排行榜。
             </p>
         </div>
     </div>
@@ -679,19 +1040,23 @@
                     <div class="group-card-top">
                         <div class="group-avatar">👥</div>
 
-                        <div>
+                        <div class="group-info">
                             <h4 class="group-name">{{ group.name }}</h4>
 
                             {% if group.description %}
                                 <p class="group-description">{{ group.description }}</p>
                             {% else %}
-                                <p class="group-description">No description provided.</p>
+                                <p class="group-description">
+                                    No description provided.
+                                    <br>
+                                    尚未提供團隊描述。
+                                </p>
                             {% endif %}
                         </div>
                     </div>
 
                     <div class="group-stats">
-                        <span class="group-pill">Members｜成員｜成員： {{ group.members|length }}</span>
+                        <span class="group-pill">Members｜成員：{{ group.members|length }}</span>
 
                         {% if ns.is_member %}
                             <span class="group-pill member">Joined｜已加入</span>
@@ -761,14 +1126,14 @@
                                             </div>
 
                                             <div class="rank-meta">
-                                                XP｜經驗值： {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
+                                                XP｜經驗值：{{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
                                             </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
 
                                 {% if ns.is_member and ns.my_rank > 3 and ns.my_member %}
-                                    <div class="your-rank-label">Your Rank</div>
+                                    <div class="your-rank-label">Your Rank｜你的排名</div>
 
                                     <div class="rank-row me">
                                         <div class="rank-left">
@@ -784,14 +1149,14 @@
                                         </div>
 
                                         <div class="rank-meta">
-                                            XP｜經驗值： {{ ns.my_member.xp|default(0) }} · Lv. {{ ns.my_member.level|default(1) }}
+                                            XP｜經驗值：{{ ns.my_member.xp|default(0) }} · Lv. {{ ns.my_member.level|default(1) }}
                                         </div>
                                     </div>
                                 {% endif %}
                             </div>
 
                             <div class="full-rank-list" id="full-rank-{{ group.id }}">
-                                <p class="full-rank-label">Full Leaderboard｜完整排行榜｜排行榜</p>
+                                <p class="full-rank-label">Full Leaderboard｜完整排行榜</p>
 
                                 {% for member in ranked_members %}
                                     <div class="rank-row {% if member.id|string == current_user.id|string %}me{% endif %}">
@@ -816,7 +1181,7 @@
                                         </div>
 
                                         <div class="rank-meta">
-                                            XP｜經驗值： {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
+                                            XP｜經驗值：{{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -824,6 +1189,8 @@
                         {% else %}
                             <div class="small-empty-state">
                                 No ranking yet.
+                                <br>
+                                目前尚無排行榜資料。
                             </div>
                         {% endif %}
                     </div>
@@ -846,14 +1213,16 @@
                                         </div>
 
                                         <div class="member-meta">
-                                            XP｜經驗值： {{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
+                                            XP｜經驗值：{{ member.xp|default(0) }} · Lv. {{ member.level|default(1) }}
                                         </div>
                                     </div>
                                 {% endfor %}
                             </div>
                         {% else %}
                             <div class="small-empty-state">
-                                No members yet.｜目前尚無成員。
+                                No members yet.
+                                <br>
+                                目前尚無成員。
                             </div>
                         {% endif %}
                     </div>
@@ -863,6 +1232,8 @@
     {% else %}
         <div class="empty-state">
             No study groups available yet. Create the first team!
+            <br>
+            目前尚無可加入的學習團隊，建立第一個團隊吧！
         </div>
     {% endif %}
 </div>

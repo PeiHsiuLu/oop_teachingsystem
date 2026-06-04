@@ -5,24 +5,39 @@
 {% block content %}
 
 <style>
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
     .word-admin-page {
+        width: 100%;
         max-width: 1180px;
         margin: 0 auto;
-        animation: wordAdminFadeIn 0.5s ease both;
+        overflow-x: hidden;
+        animation: adminWordsFadeIn 0.45s ease both;
     }
 
-    .word-hero {
+    .admin-hero {
         position: relative;
         overflow: hidden;
-        border-radius: 26px;
-        padding: 1.55rem;
         margin-bottom: 1.25rem;
-        background: linear-gradient(135deg, #0f766e 0%, #007bff 55%, #4f46e5 100%);
+        padding: 1.5rem;
+        border-radius: 24px;
+        background: linear-gradient(135deg, #007bff 0%, #4f46e5 55%, #7c3aed 100%);
         color: #ffffff;
-        box-shadow: 0 16px 34px rgba(15, 118, 110, 0.14);
+        box-shadow: 0 16px 34px rgba(79, 70, 229, 0.16);
     }
 
-    .word-hero::before {
+    .admin-hero::before {
         content: "";
         position: absolute;
         width: 220px;
@@ -30,112 +45,149 @@
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.12);
         right: -90px;
-        top: -105px;
+        top: -95px;
     }
 
-    .word-hero-content {
+    .admin-hero::after {
+        content: "";
+        position: absolute;
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        left: -70px;
+        bottom: -85px;
+    }
+
+    .admin-hero-content {
         position: relative;
         z-index: 1;
     }
 
-    .word-badge {
+    .admin-hero-badge {
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
-        padding: 0.42rem 0.85rem;
+        max-width: 100%;
+        padding: 0.45rem 0.85rem;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.18);
         font-weight: 950;
         margin-bottom: 0.85rem;
+        line-height: 1.45;
     }
 
-    .word-title {
+    .admin-hero-title {
         margin: 0;
         font-size: 2rem;
         font-weight: 950;
         line-height: 1.25;
         letter-spacing: -0.03em;
+        overflow-wrap: anywhere;
     }
 
-    .word-subtitle {
+    .admin-hero-subtitle {
         margin: 0.75rem 0 0;
-        max-width: 880px;
-        line-height: 1.8;
-        opacity: 0.95;
+        max-width: 900px;
+        line-height: 1.75;
+        opacity: 0.96;
+        overflow-wrap: anywhere;
     }
 
-    .back-link {
+    .hero-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 1.15rem;
+    }
+
+    .hero-btn {
         display: inline-flex;
         align-items: center;
-        gap: 0.35rem;
-        margin-bottom: 1rem;
-        padding: 0.6rem 0.85rem;
-        border-radius: 999px;
-        background: #f1f5f9;
-        color: #334155;
+        justify-content: center;
+        min-width: 0;
+        max-width: 100%;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.16);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.28);
         text-decoration: none;
         font-weight: 950;
+        line-height: 1.45;
+        text-align: center;
+        transition: all 0.18s ease;
     }
 
-    .back-link:hover {
-        background: #e2e8f0;
-        color: #111827;
+    .hero-btn:hover {
+        color: #ffffff;
         text-decoration: none;
+        background: rgba(255, 255, 255, 0.26);
+        transform: translateY(-2px);
     }
 
     .admin-section {
+        width: 100%;
+        max-width: 100%;
         border: 1px solid #e5e7eb;
         border-radius: 22px;
-        padding: 1.25rem;
-        margin-bottom: 1.25rem;
+        padding: 1.35rem;
+        margin-bottom: 1.4rem;
         background-color: #ffffff;
-        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+        overflow: hidden;
     }
 
     .admin-section-title {
-        margin: 0 0 0.35rem;
+        margin: 0 0 0.45rem;
         color: #111827;
-        font-size: 1.25rem;
+        font-size: 1.32rem;
         font-weight: 950;
+        line-height: 1.35;
     }
 
-    .section-help {
-        margin: 0 0 1rem;
+    .admin-section-subtitle {
+        margin: 0 0 1.15rem;
         color: #6b7280;
         line-height: 1.65;
-        font-weight: 750;
     }
 
     .form-row {
         display: flex;
-        gap: 1rem;
-        margin-bottom: 1rem;
+        gap: 0.9rem;
+        margin-bottom: 0.95rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .form-group {
         display: flex;
         flex-direction: column;
+        min-width: 0;
     }
 
     .form-group label {
         font-weight: 950;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.42rem;
         color: #374151;
+        line-height: 1.45;
     }
 
     .form-control {
+        width: 100%;
+        max-width: 100%;
         padding: 0.72rem 0.85rem;
         border: 1px solid #d1d5db;
         border-radius: 12px;
         font-size: 1rem;
         background-color: #ffffff;
-        width: 100%;
+        min-width: 0;
     }
 
     .form-control:focus {
         outline: none;
         border-color: #007bff;
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.14);
+        box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.12);
     }
 
     .flex-1 {
@@ -146,182 +198,327 @@
         flex: 2;
     }
 
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        max-width: 100%;
+        padding: 0.66rem 0.95rem;
+        border-radius: 12px;
+        border: none;
+        text-decoration: none;
+        font-weight: 950;
+        cursor: pointer;
+        line-height: 1.4;
+        text-align: center;
+        transition: all 0.18s ease;
+        white-space: normal;
+    }
+
+    .btn:hover {
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #ffffff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+        color: #ffffff;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #ffffff;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5c636a;
+        color: #ffffff;
+    }
+
+    .btn-warning {
+        background-color: #f59e0b;
+        color: #ffffff;
+    }
+
+    .btn-warning:hover {
+        background-color: #d97706;
+        color: #ffffff;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #ffffff;
+    }
+
+    .btn-danger:hover {
+        background-color: #bb2d3b;
+        color: #ffffff;
+    }
+
+    .word-list-section {
+        width: 100%;
+        max-width: 100%;
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        background: #ffffff;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+        overflow: hidden;
+    }
+
     .word-list-header {
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
         gap: 1rem;
         flex-wrap: wrap;
-        margin: 1.25rem 0 1rem;
+        padding: 1.25rem 1.35rem;
+        border-bottom: 1px solid #e5e7eb;
+        background: linear-gradient(135deg, #ffffff, #f8fafc);
     }
 
     .word-list-title {
         margin: 0;
         color: #111827;
-        font-size: 1.25rem;
+        font-size: 1.32rem;
         font-weight: 950;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .word-list-subtitle {
-        margin: 0.25rem 0 0;
+        margin: 0.35rem 0 0;
         color: #6b7280;
+        line-height: 1.6;
         font-weight: 750;
     }
 
     .search-form {
         display: flex;
-        gap: 0.5rem;
+        gap: 0.55rem;
         flex-wrap: wrap;
+        align-items: stretch;
     }
 
     .search-input {
+        width: 300px;
+        max-width: 100%;
         padding: 0.72rem 0.85rem;
         border: 1px solid #d1d5db;
         border-radius: 12px;
-        min-width: 260px;
         font-size: 1rem;
+        min-width: 0;
     }
 
-    .table-card {
-        border: 1px solid #e5e7eb;
-        border-radius: 22px;
-        overflow: hidden;
-        background: #ffffff;
-        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+    .search-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.12);
     }
 
-    .table-wrapper {
-        overflow-x: auto;
+    .word-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+        padding: 1rem;
+        background: #f8fafc;
     }
 
-    .word-table {
+    .word-card {
+        display: grid;
+        grid-template-columns: minmax(160px, 0.9fr) minmax(220px, 1.2fr) minmax(260px, 1.7fr) auto;
+        gap: 1rem;
+        align-items: stretch;
         width: 100%;
-        border-collapse: collapse;
-        background-color: #ffffff;
+        max-width: 100%;
+        min-width: 0;
+        padding: 1rem;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+        transition: all 0.18s ease;
+        overflow: hidden;
     }
 
-    .word-table th {
-        background-color: #111827;
-        color: white;
-        text-align: left;
-        padding: 0.95rem;
-        white-space: nowrap;
+    .word-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+        border-color: #bfdbfe;
     }
 
-    .word-table td {
-        border-bottom: 1px solid #e5e7eb;
-        padding: 0.95rem;
-        vertical-align: middle;
-    }
-
-    .word-table tr:hover td {
-        background-color: #f8fafc;
+    .word-main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
     }
 
     .word-text {
-        font-weight: 950;
         color: #111827;
-        font-size: 1.05rem;
+        font-size: 1.35rem;
+        font-weight: 950;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
     }
 
-    .level-pill,
-    .pos-pill {
+    .word-label {
+        color: #64748b;
+        font-size: 0.82rem;
+        font-weight: 950;
+        line-height: 1.35;
+    }
+
+    .word-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .word-badge {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0.35rem 0.65rem;
+        padding: 0.32rem 0.65rem;
         border-radius: 999px;
+        font-size: 0.8rem;
         font-weight: 950;
-        font-size: 0.85rem;
-        white-space: nowrap;
+        line-height: 1.35;
+        text-align: center;
+        max-width: 100%;
     }
 
-    .level-pill {
+    .pos-badge {
+        background: #f1f5f9;
+        color: #334155;
+        border: 1px solid #dbe4ee;
+    }
+
+    .cefr-badge {
         background: #eaf4ff;
         color: #007bff;
     }
 
-    .pos-pill {
-        background: #f1f5f9;
-        color: #334155;
-    }
-
-    .example-sentence {
-        color: #4b5563;
-        line-height: 1.5;
-        font-style: italic;
-        min-width: 260px;
-    }
-
-    .action-buttons {
+    .word-detail-box {
+        min-width: 0;
         display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 0.35rem;
+        padding: 0.8rem;
+        border-radius: 15px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
     }
 
-    .btn-warning {
-        background-color: #f59e0b;
-        color: white;
+    .detail-title {
+        color: #64748b;
+        font-size: 0.8rem;
+        font-weight: 950;
+        line-height: 1.35;
     }
 
-    .btn-warning:hover {
-        background-color: #d97706;
-        color: white;
+    .detail-content {
+        color: #111827;
+        font-weight: 850;
+        line-height: 1.65;
+        overflow-wrap: anywhere;
+    }
+
+    .example-content {
+        color: #374151;
+        font-style: italic;
+        font-weight: 750;
+    }
+
+    .word-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        align-items: stretch;
+        justify-content: center;
+        min-width: 120px;
+    }
+
+    .word-actions .btn {
+        width: 100%;
+        padding: 0.65rem 0.85rem;
     }
 
     .empty-box {
-        padding: 2rem;
-        border-radius: 22px;
-        background-color: #ffffff;
-        border: 1px solid #e5e7eb;
+        margin: 1rem;
+        padding: 1.6rem;
+        border: 1px dashed #cbd5e1;
+        border-radius: 18px;
+        background-color: #f8fafc;
         color: #6b7280;
         text-align: center;
-        line-height: 1.7;
-        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        line-height: 1.75;
+        font-weight: 800;
     }
 
     .pagination {
-        margin-top: 1.25rem;
-        text-align: center;
-        font-size: 1rem;
-        padding-bottom: 0.5rem;
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         gap: 0.75rem;
         flex-wrap: wrap;
+        margin-top: 1.15rem;
+        padding: 1rem 0 0.2rem;
+        font-size: 1rem;
     }
 
     .pagination a {
-        padding: 0.65rem 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.62rem 0.9rem;
         background: #007bff;
-        color: white;
+        color: #ffffff;
         text-decoration: none;
         border-radius: 12px;
         font-weight: 950;
+        transition: all 0.18s ease;
     }
 
-    .pagination-info {
-        padding: 0.65rem 0.95rem;
-        border-radius: 12px;
-        background: #f1f5f9;
-        color: #334155;
+    .pagination a:hover {
+        background: #0069d9;
+        color: #ffffff;
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+
+    .pagination-current {
+        color: #374151;
         font-weight: 950;
+        line-height: 1.45;
+        text-align: center;
     }
 
     .pagination-form {
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
+        justify-content: center;
+        gap: 0.45rem;
         flex-wrap: wrap;
+        margin: 0;
+        color: #374151;
+        font-weight: 850;
     }
 
     .pagination-input {
-        width: 70px;
-        padding: 0.55rem;
+        width: 72px;
+        padding: 0.55rem 0.6rem;
         text-align: center;
         border: 1px solid #d1d5db;
         border-radius: 10px;
+        font-size: 1rem;
     }
 
     .modal {
@@ -332,19 +529,21 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(15, 23, 42, 0.58);
         padding: 1rem;
+        background-color: rgba(15, 23, 42, 0.56);
+        overflow-y: auto;
     }
 
     .modal-content {
-        background-color: #fff;
+        background-color: #ffffff;
         margin: 4% auto;
-        padding: 1.4rem;
+        padding: 1.55rem;
         border-radius: 22px;
         width: 92%;
-        max-width: 850px;
+        max-width: 880px;
         border-top: 6px solid #f59e0b;
-        box-shadow: 0 24px 70px rgba(0,0,0,0.22);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+        animation: modalFadeIn 0.22s ease both;
     }
 
     .modal-header {
@@ -360,22 +559,38 @@
         color: #111827;
         font-size: 1.35rem;
         font-weight: 950;
-        line-height: 1.4;
+        line-height: 1.35;
+    }
+
+    .modal-subtitle {
+        margin: 0.25rem 0 0;
+        color: #6b7280;
+        line-height: 1.55;
+        font-weight: 750;
     }
 
     .close {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: #f1f5f9;
         color: #64748b;
-        font-size: 1.8rem;
-        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 950;
         cursor: pointer;
-        line-height: 1;
+        flex-shrink: 0;
+        transition: all 0.18s ease;
     }
 
     .close:hover {
+        background: #e2e8f0;
         color: #111827;
     }
 
-    @keyframes wordAdminFadeIn {
+    @keyframes adminWordsFadeIn {
         from {
             opacity: 0;
             transform: translateY(14px);
@@ -387,71 +602,243 @@
         }
     }
 
+    @keyframes modalFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(12px) scale(0.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @media (max-width: 1080px) {
+        .word-card {
+            grid-template-columns: minmax(160px, 0.8fr) minmax(220px, 1fr) minmax(220px, 1.2fr);
+        }
+
+        .word-actions {
+            grid-column: 1 / -1;
+            flex-direction: row;
+            justify-content: flex-end;
+            min-width: 0;
+        }
+
+        .word-actions .btn {
+            width: auto;
+            min-width: 120px;
+        }
+    }
+
     @media (max-width: 768px) {
-        .form-row {
+        .admin-hero {
+            padding: 1.15rem;
+            border-radius: 18px;
+        }
+
+        .admin-hero-badge {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+            border-radius: 16px;
+            white-space: normal;
+        }
+
+        .admin-hero-title {
+            font-size: 1.55rem;
+            line-height: 1.28;
+        }
+
+        .admin-hero-subtitle {
+            font-size: 0.94rem;
+            line-height: 1.7;
+        }
+
+        .hero-actions {
             flex-direction: column;
         }
 
+        .hero-btn {
+            width: 100%;
+        }
+
+        .admin-section {
+            padding: 1rem;
+            border-radius: 18px;
+        }
+
+        .admin-section-title {
+            font-size: 1.18rem;
+        }
+
+        .form-row {
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
         .word-list-header {
+            padding: 1rem;
             align-items: stretch;
+        }
+
+        .word-list-title {
+            font-size: 1.18rem;
+        }
+
+        .word-list-subtitle {
+            font-size: 0.9rem;
         }
 
         .search-form {
             width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
         }
 
-        .search-input {
+        .search-input,
+        .search-form .btn {
             width: 100%;
-            min-width: 0;
         }
 
-        .search-form .btn,
-        .action-buttons .btn,
+        .word-card-list {
+            padding: 0.75rem;
+            gap: 0.75rem;
+        }
+
+        .word-card {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            padding: 0.92rem;
+            border-radius: 16px;
+        }
+
+        .word-text {
+            font-size: 1.22rem;
+        }
+
+        .word-detail-box {
+            padding: 0.72rem;
+            border-radius: 14px;
+        }
+
+        .detail-content {
+            font-size: 0.92rem;
+        }
+
+        .word-actions {
+            grid-column: auto;
+            flex-direction: column;
+            justify-content: stretch;
+        }
+
+        .word-actions .btn {
+            width: 100%;
+        }
+
+        .pagination {
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .pagination a,
+        .pagination-form,
         .pagination-form .btn {
-            flex: 1;
-            text-align: center;
+            width: 100%;
         }
 
-        .word-table {
-            min-width: 920px;
+        .pagination-form {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 0.5rem;
+        }
+
+        .pagination-form .btn {
+            grid-column: 1 / -1;
+        }
+
+        .pagination-input {
+            width: 100%;
+        }
+
+        .modal {
+            padding: 0.75rem;
         }
 
         .modal-content {
-            width: 96%;
-            margin-top: 8%;
+            width: 100%;
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 18px;
+        }
+
+        .modal-title {
+            font-size: 1.16rem;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .admin-hero,
+        .admin-section,
+        .word-card,
+        .word-list-header {
+            padding: 0.85rem;
+        }
+
+        .admin-hero-title {
+            font-size: 1.35rem;
+        }
+
+        .admin-hero-subtitle,
+        .admin-section-subtitle,
+        .word-list-subtitle,
+        .detail-content {
+            font-size: 0.86rem;
+        }
+
+        .word-text {
+            font-size: 1.08rem;
+        }
+
+        .btn {
+            font-size: 0.88rem;
         }
     }
 </style>
 
 <div class="word-admin-page">
-    <a href="{{ url_for('dashboard.index') }}" class="back-link">
-        ← Back to Dashboard｜回到儀表板
-    </a>
-
-    <section class="word-hero">
-        <div class="word-hero-content">
-            <div class="word-badge">
-                🧠 Vocabulary Admin｜單字庫管理
+    <section class="admin-hero">
+        <div class="admin-hero-content">
+            <div class="admin-hero-badge">
+                🧠 Vocabulary Bank Management｜系統單字庫管理
             </div>
 
-            <h1 class="word-title">
-                Vocabulary Bank Management
+            <h2 class="admin-hero-title">
+                Manage System Words
                 <br>
-                系統單字庫管理
-            </h1>
+                管理系統單字
+            </h2>
 
-            <p class="word-subtitle">
-                Add, search, edit, and delete vocabulary used by course content, sentence practice, quizzes, and SRS review.
+            <p class="admin-hero-subtitle">
+                Add, search, edit, and delete vocabulary items used in courses, sentence practice, and review activities.
                 <br>
-                管理課程內容、句子填空、Quiz 與 SRS 複習所使用的系統單字。
+                你可以新增、搜尋、編輯與刪除課程、句子練習與複習活動會使用到的系統單字。
             </p>
+
+            <div class="hero-actions">
+                <a href="{{ url_for('dashboard.index') }}" class="hero-btn">
+                    ← Back to Dashboard｜回到儀表板
+                </a>
+            </div>
         </div>
     </section>
 
-    <div class="admin-section">
-        <h2 class="admin-section-title">Add New Word｜新增單字</h2>
-        <p class="section-help">
-            Word must be English. Definition should contain Chinese. Example sentence should include the word.
+    <section class="admin-section">
+        <h3 class="admin-section-title">Add New Word｜新增單字</h3>
+        <p class="admin-section-subtitle">
+            Word must be English. Chinese definition should include Chinese characters. Example sentence should include the word.
             <br>
             單字需為英文；中文定義需包含中文字；英文例句需包含該單字。
         </p>
@@ -460,12 +847,24 @@
             <div class="form-row">
                 <div class="form-group flex-1">
                     <label>Word｜單字</label>
-                    <input type="text" name="word_text" class="form-control" placeholder="Example: passport" required>
+                    <input
+                        type="text"
+                        name="word_text"
+                        class="form-control"
+                        placeholder="Example: passport"
+                        required
+                    >
                 </div>
 
                 <div class="form-group flex-2">
                     <label>Chinese Definition｜中文定義</label>
-                    <input type="text" name="definition" class="form-control" placeholder="Example: 護照" required>
+                    <input
+                        type="text"
+                        name="definition"
+                        class="form-control"
+                        placeholder="Example: 護照"
+                        required
+                    >
                 </div>
             </div>
 
@@ -493,7 +892,12 @@
 
                 <div class="form-group flex-2">
                     <label>Example Sentence｜英文例句</label>
-                    <input type="text" name="example_sentences" class="form-control" placeholder="Example: I need to show my passport.">
+                    <input
+                        type="text"
+                        name="example_sentences"
+                        class="form-control"
+                        placeholder="Example: I need to show my passport."
+                    >
                 </div>
 
                 <div class="form-group flex-1">
@@ -514,129 +918,123 @@
                 Add Word｜新增單字
             </button>
         </form>
-    </div>
+    </section>
 
-    <div class="word-list-header">
-        <div>
-            <h2 class="word-list-title">
-                System Word List｜系統單字列表
-            </h2>
-            <p class="word-list-subtitle">
-                Total Words｜單字總數：{{ total_words }}
-            </p>
-        </div>
-
-        <form method="GET" action="{{ url_for('word.manage_words') }}" class="search-form">
-            <input
-                type="text"
-                name="search"
-                class="search-input"
-                placeholder="Search word...｜搜尋單字..."
-                value="{{ search }}"
-            >
-
-            <button type="submit" class="btn btn-primary">
-                Search｜搜尋
-            </button>
-
-            <a href="{{ url_for('word.manage_words') }}" class="btn btn-secondary">
-                Clear｜清除
-            </a>
-        </form>
-    </div>
-
-    {% if total_words > 0 %}
-        <div class="table-card">
-            <div class="table-wrapper">
-                <table class="word-table">
-                    <thead>
-                        <tr>
-                            <th>Word｜單字</th>
-                            <th>Definition｜定義</th>
-                            <th>Part of Speech｜詞性</th>
-                            <th>CEFR｜難度</th>
-                            <th>Example｜例句</th>
-                            <th>Actions｜操作</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for w in words %}
-                            <tr>
-                                <td>
-                                    <span class="word-text">{{ w.word_text }}</span>
-                                </td>
-
-                                <td>
-                                    {{ w.definition }}
-                                </td>
-
-                                <td>
-                                    <span class="pos-pill">{{ w.part_of_speech }}</span>
-                                </td>
-
-                                <td>
-                                    <span class="level-pill">{{ w.difficulty_level }}</span>
-                                </td>
-
-                                <td class="example-sentence">
-                                    {{ w.example_sentences[0] if w.example_sentences else 'No example｜無例句' }}
-                                </td>
-
-                                <td>
-                                    <div class="action-buttons">
-                                        <button
-                                            data-id="{{ w.id }}"
-                                            data-word="{{ w.word_text }}"
-                                            data-def="{{ w.definition }}"
-                                            data-pos="{{ w.part_of_speech }}"
-                                            data-diff="{{ w.difficulty_level }}"
-                                            data-ex="{{ w.example_sentences[0] if w.example_sentences else '' }}"
-                                            onclick="openEditModal(this)"
-                                            class="btn btn-warning"
-                                            type="button"
-                                        >
-                                            Edit｜編輯
-                                        </button>
-
-                                        <button
-                                            onclick="deleteWord('{{ w.id }}')"
-                                            class="btn btn-danger"
-                                            type="button"
-                                        >
-                                            Delete｜刪除
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+    <section class="word-list-section">
+        <div class="word-list-header">
+            <div>
+                <h3 class="word-list-title">
+                    System Word List｜系統單字列表
+                </h3>
+                <p class="word-list-subtitle">
+                    Total Words｜單字總數：<strong>{{ total_words }}</strong>
+                </p>
             </div>
+
+            <form method="GET" action="{{ url_for('word.manage_words') }}" class="search-form">
+                <input
+                    type="text"
+                    name="search"
+                    class="search-input"
+                    placeholder="Search word...｜搜尋單字..."
+                    value="{{ search }}"
+                >
+
+                <button type="submit" class="btn btn-primary">
+                    Search｜搜尋
+                </button>
+
+                <a href="{{ url_for('word.manage_words') }}" class="btn btn-secondary">
+                    Clear｜清除
+                </a>
+            </form>
         </div>
-    {% else %}
-        <div class="empty-box">
-            {% if search %}
-                No matching words found.
-                <br>
-                找不到符合條件的單字。
-            {% else %}
-                No words in the database yet.
-                <br>
-                目前資料庫內尚未有任何單字。
-            {% endif %}
-        </div>
-    {% endif %}
+
+        {% if total_words > 0 %}
+            <div class="word-card-list">
+                {% for w in words %}
+                    <article class="word-card">
+                        <div class="word-main">
+                            <div>
+                                <div class="word-label">Word｜單字</div>
+                                <div class="word-text">{{ w.word_text }}</div>
+                            </div>
+
+                            <div class="word-badges">
+                                <span class="word-badge pos-badge">
+                                    {{ w.part_of_speech }}
+                                </span>
+
+                                <span class="word-badge cefr-badge">
+                                    {{ w.difficulty_level }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="word-detail-box">
+                            <div class="detail-title">Chinese Definition｜中文定義</div>
+                            <div class="detail-content">
+                                {{ w.definition }}
+                            </div>
+                        </div>
+
+                        <div class="word-detail-box">
+                            <div class="detail-title">Example Sentence｜英文例句</div>
+                            <div class="detail-content example-content">
+                                {{ w.example_sentences[0] if w.example_sentences else 'No example sentence｜尚無例句' }}
+                            </div>
+                        </div>
+
+                        <div class="word-actions">
+                            <button
+                                data-id="{{ w.id }}"
+                                data-word="{{ w.word_text }}"
+                                data-def="{{ w.definition }}"
+                                data-pos="{{ w.part_of_speech }}"
+                                data-diff="{{ w.difficulty_level }}"
+                                data-ex="{{ w.example_sentences[0] if w.example_sentences else '' }}"
+                                onclick="openEditModal(this)"
+                                class="btn btn-warning"
+                                type="button"
+                            >
+                                Edit｜編輯
+                            </button>
+
+                            <button
+                                onclick="deleteWord('{{ w.id }}')"
+                                class="btn btn-danger"
+                                type="button"
+                            >
+                                Delete｜刪除
+                            </button>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-box">
+                {% if search %}
+                    No matching words found.
+                    <br>
+                    找不到符合條件的單字。
+                {% else %}
+                    No words have been added to the database yet.
+                    <br>
+                    目前尚未有任何單字在資料庫內。
+                {% endif %}
+            </div>
+        {% endif %}
+    </section>
 
     <div id="editModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h3 class="modal-title">
-                        Edit Word｜編輯單字
-                    </h3>
-                    <p class="section-help" style="margin-bottom:0;">
-                        Update word details and validation rules.｜更新單字資訊與檢查規則。
+                    <h3 class="modal-title">Edit Word｜編輯單字</h3>
+                    <p class="modal-subtitle">
+                        Update word details and validation rules.
+                        <br>
+                        更新單字資訊與檢查規則。
                     </p>
                 </div>
 
@@ -711,8 +1109,10 @@
             </a>
         {% endif %}
 
-        <span class="pagination-info">
-            Page {{ page }} / {{ total_pages }}｜第 {{ page }} 頁 / 共 {{ total_pages }} 頁
+        <span class="pagination-current">
+            Page {{ page }} / {{ total_pages }}
+            <br>
+            第 {{ page }} 頁 / 共 {{ total_pages }} 頁
         </span>
 
         {% if page < total_pages %}
@@ -727,6 +1127,7 @@
             {% endif %}
 
             <span>Go to｜跳至</span>
+
             <input
                 type="number"
                 name="page"
@@ -735,10 +1136,11 @@
                 value="{{ page }}"
                 class="pagination-input"
             >
-            <span>page｜頁</span>
+
+            <span>Page｜頁</span>
 
             <button type="submit" class="btn btn-primary">
-                Go｜前往
+                Go｜跳轉
             </button>
         </form>
     </div>
@@ -746,14 +1148,18 @@
 
 <script>
     function deleteWord(id) {
-        if (confirm("Delete this word?｜確定要刪除這個單字嗎？")) {
+        if (confirm("Are you sure you want to delete this word?\n確定要刪除這個單字嗎？")) {
             fetch("/word/admin/words/" + id, {
                 method: "DELETE"
             })
             .then(response => response.json())
             .then(data => {
-                alert(data.message || data.error || "Done.");
+                alert(data.message);
                 location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Delete failed. Please try again.\n刪除失敗，請稍後再試。");
             });
         }
     }
@@ -780,42 +1186,6 @@
         }
     }
 
-    function validateWordForm(wordInput, definitionInput, exampleInput, modeText) {
-        const englishRegex = /^[a-zA-Z\- ]+$/;
-        const chineseRegex = /[\u4e00-\u9fa5]/;
-        const definitionFormatRegex = /^[\u4e00-\u9fa5a-zA-Z0-9\s，。！？、；：「」『』（）\(\)\[\]"'\.,\-]+$/;
-        const exampleFormatRegex = /^[a-zA-Z0-9\s.,:;!?"'\(\)\-\$%]+$/;
-
-        if (!englishRegex.test(wordInput)) {
-            alert("Word can only contain English letters, spaces, or hyphens.｜「單字」欄位僅能輸入英文字母、空格或連字號。");
-            return false;
-        }
-
-        if (!chineseRegex.test(definitionInput)) {
-            alert("Definition must contain Chinese characters.｜「中文定義」欄位必須包含中文字。");
-            return false;
-        }
-
-        if (!definitionFormatRegex.test(definitionInput)) {
-            alert("Definition contains invalid special characters.｜「中文定義」欄位包含不允許的特殊符號。");
-            return false;
-        }
-
-        if (exampleInput) {
-            if (!exampleFormatRegex.test(exampleInput)) {
-                alert("Example sentence can only contain English, numbers, and basic punctuation.｜「英文例句」欄位僅能包含英文、數字與基本標點符號。");
-                return false;
-            }
-
-            if (!exampleInput.toLowerCase().includes(wordInput.toLowerCase())) {
-                alert("The example sentence must include the word.｜「英文例句」中必須包含該單字。");
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     function submitEdit() {
         const id = document.getElementById("edit_id").value;
         const wordInput = document.getElementById("edit_word_text").value.trim();
@@ -824,8 +1194,36 @@
         const diffInput = document.getElementById("edit_difficulty_level").value;
         const exampleInput = document.getElementById("edit_example_sentences").value.trim();
 
-        if (!validateWordForm(wordInput, definitionInput, exampleInput, "edit")) {
+        const englishRegex = /^[a-zA-Z\- ]+$/;
+        const chineseRegex = /[\u4e00-\u9fa5]/;
+        const definitionFormatRegex = /^[\u4e00-\u9fa5a-zA-Z0-9\s，。！？、；：「」『』（）\(\)\[\]"'\.,\-]+$/;
+        const exampleFormatRegex = /^[a-zA-Z0-9\s.,:;!?"'\(\)\-\$%]+$/;
+
+        if (!englishRegex.test(wordInput)) {
+            alert("The Word field can only contain English letters.\n「單字」欄位僅能輸入英文字母。");
             return;
+        }
+
+        if (!chineseRegex.test(definitionInput)) {
+            alert("The Chinese Definition field must contain Chinese characters.\n「中文定義」欄位必須包含中文字。");
+            return;
+        }
+
+        if (!definitionFormatRegex.test(definitionInput)) {
+            alert("The Chinese Definition field contains invalid symbols.\n「中文定義」欄位包含不允許的特殊符號。");
+            return;
+        }
+
+        if (exampleInput) {
+            if (!exampleFormatRegex.test(exampleInput)) {
+                alert("The Example Sentence field can only contain English, numbers, and basic punctuation.\n「英文例句」欄位僅能包含英文、數字與基本標點符號。");
+                return;
+            }
+
+            if (!exampleInput.toLowerCase().includes(wordInput.toLowerCase())) {
+                alert("The Example Sentence must include the word you are editing.\n「英文例句」中必須包含您正在編輯的單字。");
+                return;
+            }
         }
 
         const data = {
@@ -846,15 +1244,15 @@
         .then(response => response.json())
         .then(data => {
             if (data.message === "Word updated successfully") {
-                alert("Updated successfully!｜更新成功！");
+                alert("Update successful!\n更新成功！");
                 location.reload();
             } else {
-                alert("Update failed｜更新失敗：" + (data.error || data.message));
+                alert("Update failed: " + (data.error || data.message) + "\n更新失敗。");
             }
         })
         .catch(err => {
             console.error(err);
-            alert("An error occurred. Please try again.｜發生錯誤，請稍後再試。");
+            alert("An error occurred. Please try again later.\n發生錯誤，請稍後再試。");
         });
     }
 
@@ -862,11 +1260,37 @@
 
     if (addWordForm) {
         addWordForm.addEventListener("submit", function(event) {
-            const wordInput = document.querySelector('input[name="word_text"]').value.trim();
-            const definitionInput = document.querySelector('input[name="definition"]').value.trim();
-            const exampleInput = document.querySelector('input[name="example_sentences"]').value.trim();
+            let isValid = true;
 
-            if (!validateWordForm(wordInput, definitionInput, exampleInput, "add")) {
+            const wordInput = document.querySelector('input[name="word_text"]');
+            const definitionInput = document.querySelector('input[name="definition"]');
+            const exampleInput = document.querySelector('input[name="example_sentences"]');
+
+            const englishRegex = /^[a-zA-Z\- ]+$/;
+            const chineseRegex = /[\u4e00-\u9fa5]/;
+            const definitionFormatRegex = /^[\u4e00-\u9fa5a-zA-Z0-9\s，。！？、；：「」『』（）\(\)\[\]"'\.,\-]+$/;
+            const exampleFormatRegex = /^[a-zA-Z0-9\s.,:;!?"'\(\)\-\$%]+$/;
+
+            if (!englishRegex.test(wordInput.value.trim())) {
+                alert("The Word field can only contain English letters.\n「單字」欄位僅能輸入英文字母。");
+                isValid = false;
+            } else if (!chineseRegex.test(definitionInput.value)) {
+                alert("The Chinese Definition field must contain Chinese characters.\n「中文定義」欄位必須包含中文字。");
+                isValid = false;
+            } else if (!definitionFormatRegex.test(definitionInput.value)) {
+                alert("The Chinese Definition field contains invalid symbols.\n「中文定義」欄位包含不允許的特殊符號。");
+                isValid = false;
+            } else if (exampleInput.value) {
+                if (!exampleFormatRegex.test(exampleInput.value)) {
+                    alert("The Example Sentence field can only contain English, numbers, and basic punctuation.\n「英文例句」欄位僅能包含英文、數字與基本標點符號。");
+                    isValid = false;
+                } else if (!exampleInput.value.toLowerCase().includes(wordInput.value.trim().toLowerCase())) {
+                    alert("The Example Sentence must include the word you are adding.\n「英文例句」中必須包含您正在新增的單字。");
+                    isValid = false;
+                }
+            }
+
+            if (!isValid) {
                 event.preventDefault();
             }
         });

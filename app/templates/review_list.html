@@ -971,7 +971,6 @@
 
             if (secondsLeft <= 0) {
                 element.textContent = "0 seconds｜0 秒";
-                shouldReload = true;
                 return;
             }
 
@@ -985,11 +984,14 @@
         });
 
         if (shouldReload) {
-            setTimeout(function () {
-                location.reload();
-            }, 500);
+            if (!window.isReloading) {
+                window.isReloading = true; 
+                setTimeout(function () {
+                    location.reload();
+                }, 500);
+            }
         }
-    }
+    }   
 
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".countdown").forEach(function (element) {
